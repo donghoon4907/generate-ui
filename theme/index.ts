@@ -1,137 +1,165 @@
 import {
   DefaultTheme,
   FontSize,
-  Padding,
-  Margin,
+  LineHeight,
+  FontWeight,
   BreakPoint,
   Color,
-  StatusColor,
+  LetterSpacing,
   FontFamily
 } from "styled-components";
-
-const DEFAULT_FONTSIZE = 16;
-
-const calcRem = (size: number) => `${size / DEFAULT_FONTSIZE}rem`;
 
 const mediaQuery = (maxWidth: number) =>
   `@media only screen and (max-width: ${maxWidth}px)`;
 
 const fontSize: FontSize = {
-  sm: calcRem(14),
-  md: calcRem(16),
-  lg: calcRem(18),
-  xlg: calcRem(20),
-  xxlg: calcRem(22),
-  xxxlg: calcRem(24),
-  titleSize: calcRem(50)
+  display_xlg: "88px",
+  display_lg: "57px",
+  display_md: "45px",
+  display_sm: "36px",
+  headline_lg: "32px",
+  headline_md: "28px",
+  headline_sm: "24px",
+  title_lg: "22px",
+  title_md: "16px",
+  title_sm: "14px",
+  label_lg: "14px",
+  label_md: "12px",
+  label_sm: "11px",
+  body_lg: "16px",
+  body_md: "14px",
+  body_sm: "12px",
+  code_lg: "16px",
+  code_md: "14px"
+};
+
+const lineHeight: LineHeight = {
+  display_xlg: "96px",
+  display_lg: "64px",
+  display_md: "52px",
+  display_sm: "44px",
+  headline_lg: "40px",
+  headline_md: "36px",
+  headline_sm: "32px",
+  title_lg: "30px",
+  title_md: "24px",
+  title_sm: "20px",
+  label_lg: "20px",
+  label_md: "16px",
+  label_sm: "16px",
+  body_lg: "24px",
+  body_md: "20px",
+  body_sm: "16px",
+  code_lg: "24px",
+  code_md: "20px"
+};
+
+const fontWeight: FontWeight = {
+  display_xlg: "475",
+  display_lg: "475",
+  display_md: "475",
+  display_sm: "475",
+  headline_lg: "475",
+  headline_md: "475",
+  headline_sm: "475",
+  title_lg: "400",
+  title_md: "500",
+  title_sm: "500",
+  label_lg: "500",
+  label_md: "500",
+  label_sm: "500",
+  body_lg: "400",
+  body_md: "400",
+  body_sm: "400",
+  code_lg: "400",
+  code_md: "400"
+};
+
+const letterSpacing: LetterSpacing = {
+  display_xlg: "0",
+  display_lg: "0",
+  display_md: "0",
+  display_sm: "0",
+  headline_lg: "0",
+  headline_md: "0",
+  headline_sm: "0",
+  title_lg: "0",
+  title_md: "0",
+  title_sm: "0",
+  label_lg: "0",
+  label_md: "0",
+  label_sm: "0",
+  body_lg: "0",
+  body_md: "0",
+  body_sm: ".1px",
+  code_lg: "0",
+  code_md: "0"
 };
 
 const fontFamily: FontFamily = {
-  display: '"Google Sans",sans-serif',
-  text: '"Google Sans Text",sans-serif'
-};
-
-const padding: Padding = {
-  sm: calcRem(8),
-  md: calcRem(10),
-  lg: calcRem(12),
-  xlg: calcRem(14),
-  xxlg: calcRem(16),
-  xxxlg: calcRem(18)
-};
-
-const margin: Margin = {
-  sm: calcRem(8),
-  md: calcRem(10),
-  lg: calcRem(12),
-  xlg: calcRem(14),
-  xxlg: calcRem(16),
-  xxxlg: calcRem(18)
+  display: "'Google Sans',sans-serif",
+  text: "'Google Sans Text',sans-serif",
+  mono: "'Google Sans Mono',sans-serif"
 };
 
 const breakPoint: BreakPoint = {
-  xs: mediaQuery(576),
-  sm: mediaQuery(768),
-  md: mediaQuery(992),
-  lg: mediaQuery(1200),
-  wd: mediaQuery(1500)
+  md: mediaQuery(600),
+  lg: mediaQuery(1294)
 };
 
-const color: Color = {
-  black_base: "#000",
-  black_primary: "#121212",
-  black_secondary: "#232323",
-  white_base: "#fff",
-  white_primary: "#f7f7f8",
-  white_secondary: "#e6e6e6",
-  divider: "#eaecef",
-  disabled: "#646464",
-  inactive: "#868e96",
-  success: "#28a745",
-  danger: "#dc3545",
-  warning: "#ffc107",
-  info: "#17a2b8",
-  blue: "#2e6bd8"
-};
-
-const statusColor: StatusColor = {
-  online: color.success,
-  offline: color.danger,
-  away: color.disabled,
-  busy: color.warning
-};
+const color: Color = {};
 
 export const theme = {
   fontFamily,
   fontSize,
-  padding,
-  margin,
+  lineHeight,
+  letterSpacing,
+  fontWeight,
   color,
-  statusColor,
   breakPoint,
   borderRadius: "4px"
 };
 
 export const lightTheme: DefaultTheme = {
   ...theme,
-  bgColor: color.white_primary,
-  headerBgColor: color.white_base,
-  boxBgColor: color.white_base,
-  borderColor: color.white_secondary,
-  inputBgColor: color.white_base,
-  iconColor: color.blue,
-  hoverColor: "#eee",
-  textColor: color.black_base,
-  dividerColor: color.divider,
-  primaryBtnColor: color.blue,
-  primaryBtnTextColor: color.white_base,
-  secondaryBtnColor: color.white_base,
-  secondaryBtnTextColor: color.black_base,
-  modalBgColor: color.white_base,
-  githubBgColor: color.black_base,
-  githubTextColor: color.white_base,
-  readOnlyBtnColor: color.blue,
-  readOnlyBtnTextColor: color.white_base
+  linkTextColor: "#0b57d0",
+  activeBgColor: "#c2e7ff",
+  activeTextColor: "#001d35",
+  bgColor_lv0: "#fff",
+  textColor_lv0: "#1f1f1f",
+  bgColor_lv1: "#f8fafd",
+  textColor_lv1: "",
+  bgColor_lv2: "#f3f6fc",
+  textColor_lv2: "",
+  bgColor_lv3: "#eff3fa",
+  textColor_lv3: "",
+  bgColor_lv4: "#edf2fa",
+  textColor_lv4: "",
+  bgColor_lv5: "#eaf0f9",
+  textColor_lv5: "",
+  btnBorderColor: "#747775",
+  hoverBgColor:
+    "linear-gradient(0deg, rgba(68,71,70,.08), rgba(68,71,70,.08))"
 };
 
 export const darkTheme: DefaultTheme = {
   ...theme,
-  bgColor: color.black_primary,
-  headerBgColor: color.black_primary,
-  boxBgColor: color.black_secondary,
-  borderColor: color.black_secondary,
-  inputBgColor: color.black_secondary,
-  iconColor: "#909090",
-  hoverColor: color.black_primary,
-  textColor: color.white_base,
-  dividerColor: color.black_secondary,
-  primaryBtnColor: "#f8f9fa",
-  primaryBtnTextColor: color.black_base,
-  secondaryBtnColor: "3c3c3c",
-  secondaryBtnTextColor: color.black_base,
-  modalBgColor: color.black_base,
-  githubBgColor: color.white_base,
-  githubTextColor: color.black_base,
-  readOnlyBtnColor: color.white_base,
-  readOnlyBtnTextColor: color.black_base
+  linkTextColor: "#a8c7fa",
+  activeBgColor: "#004a77",
+  activeTextColor: "#c2e7ff",
+  bgColor_lv0: "#1f1f1f",
+  textColor_lv0: "#e3e3e3",
+  bgColor_lv1: "#28292a",
+  textColor_lv1: "",
+  bgColor_lv2: "#2d2f31",
+  textColor_lv2: "#c4c7c5",
+  bgColor_lv3: "#333438",
+  textColor_lv3: "",
+  bgColor_lv4: "#34363a",
+  textColor_lv4: "",
+  bgColor_lv5: "#383a3e",
+  textColor_lv5: "",
+  btnBorderColor: "rgba(227,227,227,.08)",
+  hoverBgColor:
+    "linear-gradient(0deg, hsla(140,3%,77%,.08), hsla(140,3%,77%,.08))"
 };

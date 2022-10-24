@@ -1,80 +1,72 @@
 import "styled-components";
 
 declare module "styled-components" {
-  export interface SizeRule {
-    xs?: string;
-    sm: string;
-    md: string;
-    lg: string;
-    xlg?: string;
-    xxlg?: string;
-    xxxlg?: string;
+  export interface Rule {
+    display_xlg: string;
+    display_lg: string;
+    display_md: string;
+    display_sm: string;
+    headline_lg: string;
+    headline_md: string;
+    headline_sm: string;
+    title_lg: string;
+    title_md: string;
+    title_sm: string;
+    label_lg: string;
+    label_md: string;
+    label_sm: string;
+    body_lg: string;
+    body_md: string;
+    body_sm: string;
+    code_lg: string;
+    code_md: string;
   }
 
-  export interface FontSize extends SizeRule {
-    titleSize: string;
-  }
+  export interface FontSize extends Rule {}
 
-  export interface Padding extends SizeRule {}
+  export interface LineHeight extends Rule {}
 
-  export interface Margin extends SizeRule {}
+  export interface FontWeight extends Rule {}
+
+  export interface LetterSpacing extends Rule {}
 
   export interface FontFamily {
     display: string;
     text: string;
+    mono: string;
   }
-  export interface Color {
-    black_base: string;
-    black_primary: string;
-    black_secondary: string;
-    white_base: string;
-    white_primary: string;
-    white_secondary: string;
-    divider: string;
-    disabled: string;
-    inactive: string;
-    success: string;
-    danger: string;
-    warning: string;
-    info: string;
-    blue: string;
-  }
+  export interface Color {}
 
-  export interface StatusColor {
-    [statusCode: string]: string;
-  }
-
-  export interface BreakPoint extends SizeRule {
-    xs: string;
-    wd: string;
+  export interface BreakPoint {
+    md: string;
+    lg: string;
   }
 
   export interface DefaultTheme {
     fontFamily: FontFamily;
     fontSize: FontSize;
-    padding: Padding;
-    margin: Margin;
+    fontWeight: FontWeight;
+    lineHeight: LineHeight;
+    letterSpacing: LetterSpacing;
     color: Color;
-    statusColor: StatusColor;
     breakPoint: BreakPoint;
-    bgColor: string;
-    headerBgColor: string;
-    boxBgColor: string;
-    borderColor: string;
-    inputBgColor: string;
-    iconColor: string;
-    hoverColor: string;
-    textColor: string;
-    dividerColor: string;
-    primaryBtnColor: string;
-    primaryBtnTextColor: string;
-    secondaryBtnColor: string;
-    secondaryBtnTextColor: string;
-    modalBgColor: string;
-    githubBgColor: string;
-    githubTextColor: string;
-    borderRadius: string;
-    readOnlyBtnColor: string;
-    readOnlyBtnTextColor: string;
+
+    linkTextColor: string;
+    activeBgColor: string;
+    activeTextColor: string;
+    bgColor_lv0: string;
+    textColor_lv0: string;
+    bgColor_lv1: string;
+    textColor_lv1: string;
+    bgColor_lv2: string;
+    textColor_lv2: string;
+    bgColor_lv3: string;
+    textColor_lv3: string;
+    bgColor_lv4: string;
+    textColor_lv4: string;
+    bgColor_lv5: string;
+    textColor_lv5: string;
+    btnBorderColor: string;
+    hoverBgColor: string;
   }
 }
