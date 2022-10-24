@@ -1,18 +1,20 @@
-import { ThemeMode } from "../types/theme";
-import { Action, SET_THEME_MODE } from "./action";
+import { Lnb } from "../interfaces/lnb";
+import { Action, SET_ACTIVE_LNB } from "./action";
 
-export const initialState = {
-  themeMode: ThemeMode.LIGHT
+export interface AppState {
+  activeLnb: Lnb[];
+}
+
+export const initialState: AppState = {
+  activeLnb: []
 };
-
-export type AppState = typeof initialState;
 
 export function reducer(state: AppState, { type, payload }: Action): AppState {
   switch (type) {
-    case SET_THEME_MODE: {
+    case SET_ACTIVE_LNB: {
       return {
         ...state,
-        themeMode: payload
+        activeLnb: payload
       };
     }
 

@@ -29,3 +29,8 @@ export const mixinBgLv5 = css`
   background: ${({ theme }) => theme.bgColor_lv5};
   color: ${({ theme }) => theme.textColor_lv5};
 `;
+
+export const mixinBgActive = css`
+  background: ${({ theme }) => theme.activeBgColor};
+  color: ${({ theme }) => theme.activeTextColor};
+`;

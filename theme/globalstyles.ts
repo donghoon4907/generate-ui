@@ -41,7 +41,29 @@ body {
     box-sizing: border-box;
 }
 
-a {
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    -webkit-font-smoothing: antialiased;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: visible;
+    background: transparent;
+    vertical-align: middle;
+    appearance: none;
+    user-select: none;
+    line-height: inherit;
+    color: inherit;
     cursor: pointer;
 }
 `;

@@ -1,7 +1,7 @@
 import { useReducer, useContext, createContext, Dispatch } from "react";
 
 import { CoreProps } from "../interfaces/core";
-import { AppState } from "../reducers";
+import { AppState } from "./reducer";
 import { Action } from "./action";
 import { initialState, reducer } from "./reducer";
 
@@ -10,14 +10,11 @@ const StateContext = createContext<AppState | null>(null);
 const DispatchContext = createContext<Dispatch<Action> | null>(null);
 
 interface ContextProps extends CoreProps {
-  context: AppState;
+  context?: AppState;
 }
 
-export function ContextProvider({ children, context }: ContextProps) {
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    ...context
-  });
+export function ContextProvider({ children }: ContextProps) {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <StateContext.Provider value={state}>

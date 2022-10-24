@@ -6,6 +6,17 @@ import { Nav } from "../components/Nav";
 
 const Container = styled.div`
   display: flex;
+  position: relative;
+`;
+
+const MainContainer = styled.div`
+  padding-left: 88px;
+  width: 100%;
+`;
+
+const MainBody = styled.div`
+  display: flex;
+  height: 100%;
 `;
 
 const Home: NextPage = () => {
@@ -18,6 +29,10 @@ const Home: NextPage = () => {
       </Head>
       <Container>
         <Nav />
+
+        <MainContainer>
+          <MainBody></MainBody>
+        </MainContainer>
       </Container>
     </>
   );

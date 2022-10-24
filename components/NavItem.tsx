@@ -1,8 +1,11 @@
 import { useRouter } from "next/router";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 import { mixinLabelMd } from "../theme/mixins/label";
+import { Gnb } from "../types/gnb";
+import { useDispatch } from "../context";
+import { SET_ACTIVE_LNB } from "../context/action";
 
 const Container = styled.a`
   width: 80px;
@@ -61,28 +64,34 @@ const Label = styled.div<{ isActive: boolean }>`
     isActive ? theme.activeTextColor : "inherit"};
 `;
 
-interface Props {
-  icon: ReactNode;
-  label: string;
-  href: string;
-  // setOpenLnb: (open: boolean) => void;
+interface Props extends Gnb {
+  collapseFunc: () => void;
 }
 
 export const NavItem: FC<Props> = ({
   icon,
   label,
-  href
-  // setOpenLnb
+  href,
+  lnb,
+  collapseFunc
 }) => {
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
   const isActive = router.asPath === href;
 
+  const handleMouseEnter = () => {
+    dispatch({
+      type: SET_ACTIVE_LNB,
+      payload: lnb
+    });
+
+    collapseFunc();
+  };
+
   return (
-    <Container
-    // onMouseEnter={() => setOpenLnb(true)}
-    // onMouseLeave={() => setOpenLnb(false)}
-    >
+    <Container href={href} onMouseEnter={handleMouseEnter}>
       <IconWrap isActive={isActive}>{icon}</IconWrap>
       <Label isActive={isActive}>{label}</Label>
     </Container>
