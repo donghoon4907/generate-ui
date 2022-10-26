@@ -1,9 +1,8 @@
 import { useReducer, useContext, createContext, Dispatch } from "react";
 
 import { CoreProps } from "../interfaces/core";
-import { AppState } from "./reducer";
-import { Action } from "./action";
-import { initialState, reducer } from "./reducer";
+import type { Action } from "./action";
+import { AppState, initialState, reducer } from "./reducer";
 
 const StateContext = createContext<AppState | null>(null);
 

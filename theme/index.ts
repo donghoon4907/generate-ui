@@ -66,7 +66,7 @@ const fontWeight: FontWeight = {
   title_md: "500",
   title_sm: "500",
   label_lg: "500",
-  label_md: "500",
+  label_md: "400",
   label_sm: "500",
   body_lg: "400",
   body_md: "400",
@@ -97,9 +97,11 @@ const letterSpacing: LetterSpacing = {
 };
 
 const fontFamily: FontFamily = {
-  display: "'Google Sans',sans-serif",
-  text: "'Google Sans Text',sans-serif",
-  mono: "'Google Sans Mono',sans-serif"
+  default:
+    "Helvetica, '맑은 고딕', 'malgun gothic', 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo', 'Microsoft NeoGothic', 'Droid sans', sans-serif"
+  // display: "'Google Sans',sans-serif",
+  // text: "'Google Sans Text',sans-serif",
+  // mono: "'Google Sans Mono',sans-serif"
 };
 
 const breakPoint: BreakPoint = {
@@ -138,8 +140,9 @@ export const lightTheme: DefaultTheme = {
   bgColor_lv5: "#eaf0f9",
   textColor_lv5: "",
   btnBorderColor: "#747775",
-  hoverBgColor:
-    "linear-gradient(0deg, rgba(68,71,70,.08), rgba(68,71,70,.08))"
+  hoverBgColor: "linear-gradient(0deg, rgba(68,71,70,.08), rgba(68,71,70,.08))",
+  utilityBorderColor: "#747775",
+  dividerColor: "#e1e3e1"
 };
 
 export const darkTheme: DefaultTheme = {
@@ -161,5 +164,7 @@ export const darkTheme: DefaultTheme = {
   textColor_lv5: "",
   btnBorderColor: "rgba(227,227,227,.08)",
   hoverBgColor:
-    "linear-gradient(0deg, hsla(140,3%,77%,.08), hsla(140,3%,77%,.08))"
+    "linear-gradient(0deg, hsla(140,3%,77%,.08), hsla(140,3%,77%,.08))",
+  utilityBorderColor: "#8e918f",
+  dividerColor: "#444746"
 };

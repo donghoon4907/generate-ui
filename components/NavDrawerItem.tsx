@@ -1,8 +1,10 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { RiArrowUpSFill } from "react-icons/ri";
+
 import { ActiveLink } from "./ActiveLink";
-import { Lnb } from "../interfaces/lnb";
+import type { Lnb } from "../interfaces/lnb";
 
 const Container = styled.div`
   position: relative;
@@ -21,10 +23,6 @@ const Shape = styled.div`
   flex: 1;
   border-radius: 24px;
   padding: 10px 16px;
-
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.0892857rem;
 
   &:hover {
     background: ${({ theme }) => theme.hoverBgColor};
@@ -63,7 +61,7 @@ const DetailShape = styled(Shape)`
 
 interface Props extends Lnb {}
 
-export const DrawerItem: FC<Props> = ({ title, href, details }) => {
+export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
   const [expand, setExpand] = useState(false);
 
   const hasDetail = typeof href === "string";

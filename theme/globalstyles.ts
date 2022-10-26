@@ -28,7 +28,7 @@ html, body {
 }
 
 body {
-    font-family: ${({ theme }) => theme.fontFamily.text};
+    font-family: Helvetica, '맑은 고딕', 'malgun gothic', 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo', 'Microsoft NeoGothic', 'Droid sans', sans-serif;
     font-size: ${({ theme }) => theme.fontSize.body_lg};
     font-weight: ${({ theme }) => theme.fontWeight.body_lg};
     letter-spacing: ${({ theme }) => theme.letterSpacing.body_lg};
@@ -52,18 +52,19 @@ a:visited {
 }
 
 button {
-    -webkit-font-smoothing: antialiased;
     border: none;
     margin: 0;
     padding: 0;
     width: 100%;
-    overflow: visible;
+    overflow: hidden;
     background: transparent;
     vertical-align: middle;
     appearance: none;
     user-select: none;
-    line-height: inherit;
     color: inherit;
     cursor: pointer;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
 }
 `;

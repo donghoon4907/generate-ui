@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { FC, MouseEvent } from "react";
+import type { FC, MouseEvent } from "react";
 
-import { CoreProps } from "../interfaces/core";
+import type { CoreProps } from "../interfaces/core";
 
 interface Props extends CoreProps {
   href: string | null;

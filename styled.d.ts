@@ -31,9 +31,7 @@ declare module "styled-components" {
   export interface LetterSpacing extends Rule {}
 
   export interface FontFamily {
-    display: string;
-    text: string;
-    mono: string;
+    default: string;
   }
   export interface Color {}
 
@@ -68,5 +66,7 @@ declare module "styled-components" {
     textColor_lv5: string;
     btnBorderColor: string;
     hoverBgColor: string;
+    utilityBorderColor: string;
+    dividerColor: string;
   }
 }

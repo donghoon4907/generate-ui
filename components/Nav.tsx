@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { BiHome, BiCode } from "react-icons/bi";
 import { CgMenuGridO } from "react-icons/cg";
@@ -7,7 +8,9 @@ import { MdOutlineBook } from "react-icons/md";
 import { NavItem } from "./NavItem";
 import { mixinBgLv2 } from "../theme/mixins/background";
 import { NavDrawer } from "./NavDrawer";
-import { Gnb } from "../types/gnb";
+import type { Gnb } from "../types/gnb";
+import { ThemeMode } from "../types/theme";
+import { ToggleThemeMode } from "./ToggleThemeMode";
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +31,12 @@ const Body = styled.nav`
 
   width: 88px;
   margin-top: 20px;
+`;
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
 `;
 
 const gnb: Gnb[] = [
@@ -116,9 +125,12 @@ const gnb: Gnb[] = [
   }
 ];
 
-interface Props {}
+interface Props {
+  themeMode: ThemeMode;
+  toggle: () => void;
+}
 
-export const Nav: FC<Props> = () => {
+export const Nav: FC<Props> = ({ themeMode, toggle }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -133,6 +145,9 @@ export const Nav: FC<Props> = () => {
             />
           ))}
         </Body>
+        <Footer>
+          <ToggleThemeMode themeMode={themeMode} toggle={toggle} />
+        </Footer>
       </Container>
       <NavDrawer open={open} collapseFunc={() => setOpen(false)} />
     </>

@@ -1,5 +1,6 @@
 import { Lnb } from "../interfaces/lnb";
-import { Action, SET_ACTIVE_LNB } from "./action";
+import type { Action } from "./action";
+import { SET_ACTIVE_LNB } from "./action";
 
 export interface AppState {
   activeLnb: Lnb[];

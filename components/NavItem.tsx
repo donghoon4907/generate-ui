@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { FC } from "react";
+import type { FC } from "react";
 import styled from "styled-components";
 
 import { mixinLabelMd } from "../theme/mixins/label";
-import { Gnb } from "../types/gnb";
+import type { Gnb } from "../types/gnb";
 import { useDispatch } from "../context";
 import { SET_ACTIVE_LNB } from "../context/action";
 
@@ -13,7 +13,7 @@ const Container = styled.a`
   padding: 2px;
 `;
 
-const IconWrap = styled.span<{ isActive: boolean }>`
+const IconWrapper = styled.span<{ isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,7 +92,7 @@ export const NavItem: FC<Props> = ({
 
   return (
     <Container href={href} onMouseEnter={handleMouseEnter}>
-      <IconWrap isActive={isActive}>{icon}</IconWrap>
+      <IconWrapper isActive={isActive}>{icon}</IconWrapper>
       <Label isActive={isActive}>{label}</Label>
     </Container>
   );
