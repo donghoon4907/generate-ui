@@ -13,6 +13,13 @@ const Container = styled.div`
   position: relative;
 `;
 
+const MainContainer = styled.div`
+  padding-left: 88px;
+  width: 100%;
+
+  margin: 8px 8px 0;
+`;
+
 function MyApp({ Component, pageProps }: AppProps) {
   const { themeMode, onToggle } = useThemeMode();
 
@@ -24,8 +31,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <GlobalStyle />
         <Container>
           <Nav themeMode={themeMode} toggle={onToggle} />
+          <MainContainer>
+            <Component {...pageProps} />
+          </MainContainer>
         </Container>
-        <Component {...pageProps} />
       </ThemeProvider>
     </ContextProvider>
   );

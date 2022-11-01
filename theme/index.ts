@@ -5,6 +5,7 @@ import {
   FontWeight,
   BreakPoint,
   Color,
+  BoxShadow,
   LetterSpacing,
   FontFamily
 } from "styled-components";
@@ -109,7 +110,18 @@ const breakPoint: BreakPoint = {
   lg: mediaQuery(1294)
 };
 
-const color: Color = {};
+const color: Color = {
+  blue: "#0d6efd",
+  green: "#198754",
+  red: "#dc3545"
+};
+
+const boxShadow: BoxShadow = {
+  inputInset: "inset 0 1px 2px rgba(0, 0, 0, .075)",
+  inputFocus: `0 0 0 0.25rem rgba(13, 110, 253, 0.25)`,
+  inputInvalid: `0 0 0 0.25rem rgba(220, 53, 69, 0.25)`,
+  inputValid: `0 0 0 0.25rem rgba(25, 135, 84, 0.25)`
+};
 
 export const theme = {
   fontFamily,
@@ -118,6 +130,7 @@ export const theme = {
   letterSpacing,
   fontWeight,
   color,
+  boxShadow,
   breakPoint,
   borderRadius: "4px"
 };

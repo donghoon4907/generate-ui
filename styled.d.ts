@@ -33,7 +33,19 @@ declare module "styled-components" {
   export interface FontFamily {
     default: string;
   }
-  export interface Color {}
+
+  export interface Color {
+    blue: string;
+    green: string;
+    red: string;
+  }
+
+  export interface BoxShadow {
+    inputInset: string;
+    inputFocus: string;
+    inputInvalid: string;
+    inputValid: string;
+  }
 
   export interface BreakPoint {
     md: string;
@@ -47,6 +59,7 @@ declare module "styled-components" {
     lineHeight: LineHeight;
     letterSpacing: LetterSpacing;
     color: Color;
+    boxShadow: BoxShadow;
     breakPoint: BreakPoint;
 
     linkTextColor: string;

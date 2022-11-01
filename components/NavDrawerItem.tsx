@@ -5,6 +5,7 @@ import { RiArrowUpSFill } from "react-icons/ri";
 
 import { ActiveLink } from "./ActiveLink";
 import type { Lnb } from "../interfaces/lnb";
+import { mixinBtnDefault } from "../theme/mixins/button";
 
 const Container = styled.div`
   position: relative;
@@ -33,6 +34,8 @@ const Button = styled.button`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${mixinBtnDefault}
 `;
 
 const Label = styled.span``;

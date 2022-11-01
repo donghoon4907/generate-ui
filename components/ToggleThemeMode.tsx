@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 import { ThemeMode } from "../types/theme";
+import { mixinBtnDefault } from "../theme/mixins/button";
 
 const Container = styled.div`
   position: relative;
@@ -50,6 +51,8 @@ const IconWrapper = styled.button`
     width: 20px;
     height: 20px;
   }
+
+  ${mixinBtnDefault}
 `;
 
 interface Props {
