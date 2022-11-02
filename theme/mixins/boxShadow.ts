@@ -15,6 +15,9 @@ export const mixinBoxShadow = (...args: string[]) => {
   console.log(result);
 
   return css`
-    box-shadow: ${result};
+    box-shadow: ${props => {
+      console.log(props);
+      return "";
+    }};
   `;
 };

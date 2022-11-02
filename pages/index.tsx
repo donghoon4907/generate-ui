@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 import { mixinBgLv1, mixinBgLv2 } from "../theme/mixins/background";
-import { ValidCountingInput } from "../components/ValidCountingInput";
+import { CountingInput } from "../components/CountingInput";
 
 const StylingContainer = styled.div`
   display: flex;
@@ -133,7 +133,7 @@ const Home: NextPage = () => {
             </StylingOptionItem>
             <StylingOptionItem>
               <label>너비</label>
-              <ValidCountingInput
+              <CountingInput
                 defaultValue={100}
                 limit={250}
                 showIcon={true}
