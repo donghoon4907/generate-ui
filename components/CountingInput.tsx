@@ -5,6 +5,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 import { mixinInputDefault, mixinInputValidation } from "../theme/mixins/input";
 import { IconWrapper } from "./IconWrapper";
+import { Feedback } from "./Feedback";
 
 const Container = styled.div`
   display: flex;
@@ -44,13 +45,6 @@ const Tool = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-`;
-
-const FeedBack = styled.span<{ valid: boolean; invalid: boolean }>`
-  font-size: 12px;
-  color: ${({ theme, valid }) => (valid ? theme.color.bootstrapGreen : "")};
-  color: ${({ theme, invalid }) => (invalid ? theme.color.bootstrapRed : "")};
-  user-select: none;
 `;
 
 interface Props {
@@ -169,10 +163,9 @@ export const CountingInput: FC<Props> = ({
         )}
       </Body>
       {showFeedback && (
-        <FeedBack valid={valid} invalid={invalid}>
-          {valid && "적용되었습니다."}
-          {invalid && `${limit} 미만으로 설정해주세요.`}
-        </FeedBack>
+        <Feedback valid={valid} invalid={invalid}>
+          {`${limit} 미만으로 설정해주세요.`}
+        </Feedback>
       )}
     </Container>
   );

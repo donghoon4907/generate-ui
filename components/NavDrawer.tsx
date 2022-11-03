@@ -20,8 +20,7 @@ const Container = styled.nav<{ open: boolean }>`
   overflow: hidden;
   border-left: 1px solid ${({ theme }) => theme.dividerColor};
   border-radius: 0 16px 16px 0;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-    0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: ${({ theme }) => theme.boxShadow.nav};
 
   transition-property: transform;
   transition-duration: 500ms;

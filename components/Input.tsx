@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
 import { mixinInputDefault, mixinInputValidation } from "../theme/mixins/input";
+import { Feedback } from "./Feedback";
 
 const Container = styled.div`
   display: flex;
@@ -12,13 +13,6 @@ const Container = styled.div`
 const StyledInput = styled.input<{ valid: boolean; invalid: boolean }>`
   ${mixinInputDefault}
   ${mixinInputValidation}
-`;
-
-const FeedBack = styled.span<{ valid: boolean; invalid: boolean }>`
-  font-size: 12px;
-  color: ${({ theme, valid }) => (valid ? theme.color.bootstrapGreen : "")};
-  color: ${({ theme, invalid }) => (invalid ? theme.color.bootstrapRed : "")};
-  user-select: none;
 `;
 
 interface Props {
@@ -64,10 +58,9 @@ export const Input: FC<Props> = ({
         invalid={invalid}
       />
       {showFeedback && (
-        <FeedBack valid={valid} invalid={invalid}>
-          {valid && "적용되었습니다."}
-          {invalid && `${limit}글자 미만으로 설정해주세요.`}
-        </FeedBack>
+        <Feedback valid={valid} invalid={invalid}>
+          {`${limit}글자 미만으로 설정해주세요.`}
+        </Feedback>
       )}
     </Container>
   );

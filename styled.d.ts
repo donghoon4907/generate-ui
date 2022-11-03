@@ -18,6 +18,7 @@ declare module "styled-components" {
     inputFocus: string;
     inputInvalid: string;
     inputValid: string;
+    nav: string;
   }
 
   export interface BreakPoint {

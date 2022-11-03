@@ -34,7 +34,8 @@ const boxShadow: BoxShadow = {
   inputInset: "inset 0 1px 2px rgba(0, 0, 0, .075)",
   inputFocus: `0 0 0 0.25rem rgba(13, 110, 253, 0.25)`,
   inputInvalid: `0 0 0 0.25rem rgba(220, 53, 69, 0.25)`,
-  inputValid: `0 0 0 0.25rem rgba(25, 135, 84, 0.25)`
+  inputValid: `0 0 0 0.25rem rgba(25, 135, 84, 0.25)`,
+  nav: "0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)"
 };
 
 export const theme = {
