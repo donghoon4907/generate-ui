@@ -1,9 +1,9 @@
-import { FC, useRef } from "react";
-import { ChangeEvent, useState } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 import styled from "styled-components";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
-import { mixinInputDefault } from "../theme/mixins/input";
+import { mixinInputDefault, mixinInputValidation } from "../theme/mixins/input";
 import { IconWrapper } from "./IconWrapper";
 
 const Container = styled.div`
@@ -19,78 +19,60 @@ const Body = styled.div`
 `;
 
 const InputWrapper = styled.div`
+  position: relative;
   flex: 1;
 `;
 
-const Input = styled.input<{ valid: boolean; invalid: boolean }>`
+const StyledInput = styled.input<{ valid: boolean; invalid: boolean }>`
   text-align: right;
-
-  ${({ theme, valid }) =>
-    valid
-      ? `
-  border-color: ${theme.color.green} !important;
-  `
-      : ""}
-  ${({ theme, invalid }) =>
-    invalid
-      ? `
-  border-color:  ${theme.color.red} !important;
-  `
-      : ""}
-      
-  &:focus {
-    ${({ theme, valid }) =>
-      valid
-        ? `
-  box-shadow: ${theme.boxShadow.inputValid} !important;
-  `
-        : ""}
-
-    ${({ theme, invalid }) =>
-      invalid
-        ? `
-  box-shadow: ${theme.boxShadow.inputInvalid} !important;
-  `
-        : ""}
-  }
+  padding-right: 2rem !important;
 
   ${mixinInputDefault}
+  ${mixinInputValidation}
+`;
+
+const Unit = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate3d(0, -50%, 0);
+
+  user-select: none;
 `;
 
 const Tool = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
 `;
 
 const FeedBack = styled.span<{ valid: boolean; invalid: boolean }>`
   font-size: 12px;
-  color: ${({ theme, valid }) => (valid ? theme.color.green : "")};
-  color: ${({ theme, invalid }) => (invalid ? theme.color.red : "")};
+  color: ${({ theme, valid }) => (valid ? theme.color.bootstrapGreen : "")};
+  color: ${({ theme, invalid }) => (invalid ? theme.color.bootstrapRed : "")};
   user-select: none;
 `;
 
 interface Props {
-  defaultValue: number;
+  id: string;
+  count: number;
+  setCount: Dispatch<SetStateAction<number>>;
+  ariaLabel: string;
   limit: number;
   showIcon: boolean;
   showFeedback: boolean;
 }
 
 export const CountingInput: FC<Props> = ({
-  defaultValue,
+  id,
+  ariaLabel,
+  count,
+  setCount,
   limit,
   showIcon,
   showFeedback
 }) => {
   const intervalRef = useRef<number | null>(null);
-
-  const [count, setCount] = useState(defaultValue);
 
   const [valid, setValid] = useState(false);
 
@@ -99,13 +81,17 @@ export const CountingInput: FC<Props> = ({
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
 
-    const num = Number(value);
-
+    let num = Number(value);
+    // 0을 설정할 수 없도록 1을 최소 값으로
+    if (num === 0) {
+      num = 1;
+    }
+    // 글자 입력 방지
     if (!num) {
       return;
     }
 
-    changeCount(num);
+    changeCount(Math.abs(num));
   };
 
   const Startholding = (operator: string) => {
@@ -141,33 +127,39 @@ export const CountingInput: FC<Props> = ({
       setInvalid(false);
       setValid(true);
     }
-
-    setCount(count);
+    // 음수 혹은 limit + 2의 수는 허용하지 않음.
+    if (count > 0 && count < limit + 2) {
+      setCount(count);
+    } else {
+      stopHolding();
+    }
   };
 
   return (
     <Container>
       <Body>
         <InputWrapper>
-          <Input
+          <StyledInput
             type="text"
+            id={id}
             onChange={handleChange}
             value={count}
             valid={valid}
             invalid={invalid}
           />
+          <Unit>px</Unit>
         </InputWrapper>
         {showIcon && (
           <Tool>
             <IconWrapper
-              ariaLabel="너비 감소"
+              ariaLabel={`${ariaLabel} 감소`}
               onMouseDown={() => Startholding("-")}
               onMouseUp={() => stopHolding()}
             >
               <AiOutlineMinus />
             </IconWrapper>
             <IconWrapper
-              ariaLabel="너비 증가"
+              ariaLabel={`${ariaLabel} 증가`}
               onMouseDown={() => Startholding("+")}
               onMouseUp={() => stopHolding()}
             >

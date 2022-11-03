@@ -2,24 +2,24 @@ import { css } from "styled-components";
 
 export const mixinLabelMd = css`
   font-family: ${({ theme }) => theme.fontFamily.default};
-  font-size: ${({ theme }) => theme.fontSize.label_md};
-  font-weight: ${({ theme }) => theme.fontWeight.label_md};
-  line-height: ${({ theme }) => theme.lineHeight.label_md};
-  letter-spacing: ${({ theme }) => theme.letterSpacing.label_md};
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
 `;
 
 export const mixinTitleXlg = css`
   font-family: ${({ theme }) => theme.fontFamily.default};
-  font-size: ${({ theme }) => theme.fontSize.display_xlg};
-  font-weight: ${({ theme }) => theme.fontWeight.display_xlg};
-  line-height: ${({ theme }) => theme.lineHeight.display_xlg};
-  letter-spacing: ${({ theme }) => theme.letterSpacing.display_xlg};
+  font-size: 88px;
+  font-weight: 475;
+  line-height: 96px;
+  letter-spacing: 0;
 `;
 
 export const mixinTitlelg = css`
   font-family: ${({ theme }) => theme.fontFamily.default};
-  font-size: ${({ theme }) => theme.fontSize.title_lg};
-  font-weight: ${({ theme }) => theme.fontWeight.title_lg};
-  line-height: ${({ theme }) => theme.lineHeight.title_lg};
-  letter-spacing: ${({ theme }) => theme.letterSpacing.title_lg};
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 0;
 `;

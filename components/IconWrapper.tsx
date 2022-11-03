@@ -16,8 +16,8 @@ const Container = styled.button`
   &:before {
     position: absolute;
     content: "";
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
 
     transform: scaleX(1);
@@ -31,8 +31,8 @@ const Container = styled.button`
   }
 
   & > svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 
   ${mixinBtnDefault}

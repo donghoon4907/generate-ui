@@ -1,27 +1,42 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import styled from "styled-components";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
-import { mixinBgLv1, mixinBgLv2 } from "../theme/mixins/background";
+import { mixinBgLv1, mixinBgLv2, mixinBgLv3 } from "../theme/mixins/background";
 import { CountingInput } from "../components/CountingInput";
+import { Select } from "../components/Select";
+import { mixinInputDefault } from "../theme/mixins/input";
+import { Input } from "../components/Input";
+import { mixinTitlelg, mixinTitleXlg } from "../theme/mixins/label";
 
+const Header = styled.header`
+  padding: 2rem 1rem;
+  margin-bottom: 10px;
+
+  ${mixinBgLv3}
+`;
+const Title = styled.div`
+  margin-bottom: 10px;
+
+  ${mixinTitleXlg}
+`;
+
+const Description = styled.div`
+  ${mixinTitlelg}
+`;
 const StylingContainer = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: row;
   gap: 5px;
 
   width: 100%;
-  height: 300px;
   border: 1px solid ${({ theme }) => theme.dividerColor};
   padding: 5px;
 `;
 
 const StylingBody = styled.div`
   width: 300px;
-  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -38,6 +53,8 @@ const StylingHeader = styled.div`
 
   padding: 5px 10px;
   border-bottom: 1px solid ${({ theme }) => theme.dividerColor};
+  font-size: 18px;
+  font-weight: 500;
 
   ${mixinBgLv2}
 `;
@@ -47,13 +64,54 @@ const StylingOutput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 
-  padding: 5px;
+  padding: 5rem;
+  text-align: center;
+`;
+
+const StylingOutputBody = styled.div`
+  position: relative;
+`;
+
+const StylingOutputRangeTop = styled.div`
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  border-left: 1px solid ${({ theme }) => theme.textColor_lv0};
+  border-right: 1px solid ${({ theme }) => theme.textColor_lv0};
+  border-top: 1px dotted ${({ theme }) => theme.textColor_lv0};
+`;
+
+const StylingOutputWidth = styled.div`
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+`;
+
+const StylingOutputRangeLeft = styled.div`
+  position: absolute;
+  left: -20px;
+  top: 0;
+  height: 100%;
+  width: 20px;
+  border-top: 1px solid ${({ theme }) => theme.textColor_lv0};
+  border-left: 1px dotted ${({ theme }) => theme.textColor_lv0};
+  border-bottom: 1px solid ${({ theme }) => theme.textColor_lv0};
+`;
+
+const StylingOutputHeight = styled.div`
+  position: absolute;
+  top: 50%;
+  left: -60px;
+  transform: translate3d(0, -50%, 0);
 `;
 
 const StylingOption = styled.div`
   flex: 1;
-  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -65,39 +123,93 @@ const StylingOption = styled.div`
 
 const StylingOptionBody = styled.div`
   display: grid;
-  gap: 5px;
+  grid-column-gap: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-flow: row;
 `;
 
+const StylingOptionTitle = styled.div`
+  grid-column: span 3;
+  padding: 5px 10px 0 10px;
+  margin-bottom: 5px;
+
+  font-weight: bold;
+`;
+
+const RequireMark = styled.label`
+  position: relative;
+  display: inline-block;
+
+  &:before {
+    content: "*";
+    color: red;
+    position: absolute;
+    top: -5px;
+    right: -7px;
+  }
+`;
+
 const StylingOptionItem = styled.div`
   grid-column: span 1;
-  padding: 5px;
+  padding: 5px 10px;
 `;
 
-const StylingOptionLabel = styled.label`
-  padding-left: 10px;
-`;
-
-const StylingOptionInput = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  height: 30px;
+const StyledInput = styled.input`
+  ${mixinInputDefault}
 `;
 
 const Home: NextPage = () => {
   const [el, setEl] = useState("none");
 
+  const [width, setWidth] = useState(100);
+
+  const [height, setHeight] = useState(100);
+
+  const [label, setLabel] = useState("버튼 텍스트");
+
+  const [backgroundColor, setBackgroundColor] = useState("#000000");
+
+  const [color, setColor] = useState("#ffffff");
+
+  const [borderRadius, setBorderRadius] = useState(4);
+
+  const [borderColor, setBorderColor] = useState("#000000");
+
+  const [borderWidth, setBorderWidth] = useState(1);
+
   const handleChangeEl = (evt: ChangeEvent<HTMLSelectElement>) => {
     setEl(evt.target.value);
   };
+
+  const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBackgroundColor(evt.target.value);
+  };
+
+  const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
+    setColor(evt.target.value);
+  };
+
+  const handleChangeBorderColor = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBorderColor(evt.target.value);
+  };
+
+  const showWidth = el !== "none";
+
+  const showHeight = el !== "none";
+
+  const showLabel = el !== "none";
+
+  const showBackgroundColor = el !== "none";
+
+  const showColor = el !== "none";
+
+  const showBorderRadius = el !== "none";
+
+  const showBorderColor = el !== "none";
+
+  const showBorderWidth = el !== "none";
+
+  const showStyleTitle = showColor || showBackgroundColor || showBorderColor;
 
   return (
     <>
@@ -106,40 +218,187 @@ const Home: NextPage = () => {
         <meta name="description" content="Generated by create next app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header>
+        <Title>Components</Title>
+        <Description>
+          Select an element and style the component as desired. You can copy the
+          styling as it is and move it to your web page for use.
+        </Description>
+      </Header>
+
       <StylingContainer>
         <StylingBody>
           <StylingHeader>Output</StylingHeader>
           <StylingOutput>
-            {el === "none" && <div>먼저 스타일링할 요소를 선택하세요.</div>}
-            {el === "button" && (
+            {el === "none" && (
               <div>
-                <button style={{ width: 50, height: 50 }}>버튼</button>
+                먼저 스타일링할 <br />
+                요소를 선택하세요.
               </div>
+            )}
+            {el === "button" && (
+              <StylingOutputBody style={{ width, height }}>
+                <StylingOutputWidth>{width}px</StylingOutputWidth>
+                <StylingOutputRangeTop />
+                <StylingOutputHeight>{height}px</StylingOutputHeight>
+                <StylingOutputRangeLeft />
+                <button
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor,
+                    color,
+                    position: "absolute",
+                    left: 0,
+                    bottom: 0,
+                    borderRadius,
+                    borderColor,
+                    borderWidth
+                  }}
+                >
+                  {label}
+                </button>
+              </StylingOutputBody>
             )}
           </StylingOutput>
         </StylingBody>
         <StylingOption>
           <StylingHeader>Options</StylingHeader>
           <StylingOptionBody>
+            <StylingOptionTitle>레이아웃 설정</StylingOptionTitle>
             <StylingOptionItem>
-              <label>요소</label>
-              <Select onChange={handleChangeEl}>
-                <option value="none">선택하세요</option>
-                <option value="button">버튼</option>
-                <option value="select">셀렉트</option>
-                <option value="input">단일 입력</option>
-                <option value="checkbox">체크박스</option>
-              </Select>
-            </StylingOptionItem>
-            <StylingOptionItem>
-              <label>너비</label>
-              <CountingInput
-                defaultValue={100}
-                limit={250}
-                showIcon={true}
-                showFeedback={true}
+              <RequireMark htmlFor="setEl">요소</RequireMark>
+              <Select
+                id="setEl"
+                defaultValue={el}
+                onChange={handleChangeEl}
+                options={[
+                  {
+                    id: "elSelectOption1",
+                    label: "선택하세요",
+                    value: "none"
+                  },
+                  {
+                    id: "elSelectOption2",
+                    label: "버튼",
+                    value: "button"
+                  }
+                ]}
               />
             </StylingOptionItem>
+            {showWidth && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setWidth">너비 설정</RequireMark>
+                <CountingInput
+                  id="setWidth"
+                  ariaLabel="너비"
+                  count={width}
+                  setCount={setWidth}
+                  limit={100}
+                  showIcon={true}
+                  showFeedback={true}
+                />
+              </StylingOptionItem>
+            )}
+            {showHeight && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setHeight">높이 설정</RequireMark>
+                <CountingInput
+                  id="setHeight"
+                  ariaLabel="높이"
+                  count={height}
+                  setCount={setHeight}
+                  limit={100}
+                  showIcon={true}
+                  showFeedback={true}
+                />
+              </StylingOptionItem>
+            )}
+            {showBorderRadius && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setBorderRadius">
+                  모서리 각도 설정
+                </RequireMark>
+                <CountingInput
+                  id="setBorderRadius"
+                  ariaLabel="모서리 각도"
+                  count={borderRadius}
+                  setCount={setBorderRadius}
+                  limit={100}
+                  showIcon={true}
+                  showFeedback={true}
+                />
+              </StylingOptionItem>
+            )}
+            {showBorderWidth && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setBorderWidth">
+                  테두리 굵기 설정
+                </RequireMark>
+                <CountingInput
+                  id="setBorderWidth"
+                  ariaLabel="테두리 굵기"
+                  count={borderWidth}
+                  setCount={setBorderWidth}
+                  limit={10}
+                  showIcon={true}
+                  showFeedback={true}
+                />
+              </StylingOptionItem>
+            )}
+            {showStyleTitle && (
+              <StylingOptionTitle>스타일 설정</StylingOptionTitle>
+            )}
+            {showLabel && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setLabel">버튼 텍스트 설정</RequireMark>
+                <Input
+                  id="setLabel"
+                  value={label}
+                  setValue={setLabel}
+                  limit={10}
+                  showFeedback={true}
+                />
+              </StylingOptionItem>
+            )}
+            {showBackgroundColor && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setBackgroundColor">
+                  배경색 설정
+                </RequireMark>
+                <StyledInput
+                  id="setBackgroundColor"
+                  type="color"
+                  value={backgroundColor}
+                  onChange={handleChangeBackgroundColor}
+                />
+              </StylingOptionItem>
+            )}
+            {showColor && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setColor">글자색 설정</RequireMark>
+                <StyledInput
+                  id="setColor"
+                  type="color"
+                  value={color}
+                  onChange={handleChangeColor}
+                />
+              </StylingOptionItem>
+            )}
+
+            {showBorderColor && (
+              <StylingOptionItem>
+                <RequireMark htmlFor="setBorderColor">
+                  테두리 색 설정
+                </RequireMark>
+                <StyledInput
+                  id="setBorderColor"
+                  type="color"
+                  value={borderColor}
+                  onChange={handleChangeBorderColor}
+                />
+              </StylingOptionItem>
+            )}
           </StylingOptionBody>
         </StylingOption>
       </StylingContainer>

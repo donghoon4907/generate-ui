@@ -2,8 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { BiHome, BiCode } from "react-icons/bi";
-import { CgMenuGridO } from "react-icons/cg";
-import { MdOutlineBook } from "react-icons/md";
+import { CgComponents } from "react-icons/cg";
 
 import { NavItem } from "./NavItem";
 import { mixinBgLv2 } from "../theme/mixins/background";
@@ -43,13 +42,7 @@ const gnb: Gnb[] = [
   {
     label: "Home",
     icon: <BiHome />,
-    href: "/",
-    lnb: []
-  },
-  {
-    label: "Get started",
-    icon: <CgMenuGridO />,
-    href: "/get-started",
+    href: "/home",
     lnb: []
   },
   {
@@ -86,40 +79,19 @@ const gnb: Gnb[] = [
     ]
   },
   {
-    label: "Foundations",
-    icon: <MdOutlineBook />,
-    href: "/develop",
+    label: "Components",
+    icon: <CgComponents />,
+    href: "/",
     lnb: [
       {
-        title: "Foundations overview",
-        href: "/foundations",
+        title: "Components overview",
+        href: "/",
         details: []
       },
       {
-        title: "Accessibility",
-        href: "/foundations",
+        title: "Button",
+        href: "/",
         details: []
-      },
-      {
-        title: "Adaptive design",
-        href: null,
-        details: [
-          {
-            title: "Overview",
-            href: "/foundations",
-            details: []
-          },
-          {
-            title: "Design for large screens",
-            href: "/foundations",
-            details: []
-          },
-          {
-            title: "Canonical layouts",
-            href: "/foundations",
-            details: []
-          }
-        ]
       }
     ]
   }

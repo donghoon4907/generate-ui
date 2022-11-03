@@ -1,101 +1,13 @@
 import {
   DefaultTheme,
-  FontSize,
-  LineHeight,
-  FontWeight,
   BreakPoint,
   Color,
   BoxShadow,
-  LetterSpacing,
   FontFamily
 } from "styled-components";
 
 const mediaQuery = (maxWidth: number) =>
   `@media only screen and (max-width: ${maxWidth}px)`;
-
-const fontSize: FontSize = {
-  display_xlg: "88px",
-  display_lg: "57px",
-  display_md: "45px",
-  display_sm: "36px",
-  headline_lg: "32px",
-  headline_md: "28px",
-  headline_sm: "24px",
-  title_lg: "22px",
-  title_md: "16px",
-  title_sm: "14px",
-  label_lg: "14px",
-  label_md: "12px",
-  label_sm: "11px",
-  body_lg: "16px",
-  body_md: "14px",
-  body_sm: "12px",
-  code_lg: "16px",
-  code_md: "14px"
-};
-
-const lineHeight: LineHeight = {
-  display_xlg: "96px",
-  display_lg: "64px",
-  display_md: "52px",
-  display_sm: "44px",
-  headline_lg: "40px",
-  headline_md: "36px",
-  headline_sm: "32px",
-  title_lg: "30px",
-  title_md: "24px",
-  title_sm: "20px",
-  label_lg: "20px",
-  label_md: "16px",
-  label_sm: "16px",
-  body_lg: "24px",
-  body_md: "20px",
-  body_sm: "16px",
-  code_lg: "24px",
-  code_md: "20px"
-};
-
-const fontWeight: FontWeight = {
-  display_xlg: "475",
-  display_lg: "475",
-  display_md: "475",
-  display_sm: "475",
-  headline_lg: "475",
-  headline_md: "475",
-  headline_sm: "475",
-  title_lg: "400",
-  title_md: "500",
-  title_sm: "500",
-  label_lg: "500",
-  label_md: "400",
-  label_sm: "500",
-  body_lg: "400",
-  body_md: "400",
-  body_sm: "400",
-  code_lg: "400",
-  code_md: "400"
-};
-
-const letterSpacing: LetterSpacing = {
-  display_xlg: "0",
-  display_lg: "0",
-  display_md: "0",
-  display_sm: "0",
-  headline_lg: "0",
-  headline_md: "0",
-  headline_sm: "0",
-  title_lg: "0",
-  title_md: "0",
-  title_sm: "0",
-  label_lg: "0",
-  label_md: "0",
-  label_sm: "0",
-  body_lg: "0",
-  body_md: "0",
-  body_sm: ".1px",
-  code_lg: "0",
-  code_md: "0"
-};
 
 const fontFamily: FontFamily = {
   default:
@@ -111,9 +23,11 @@ const breakPoint: BreakPoint = {
 };
 
 const color: Color = {
-  blue: "#0d6efd",
-  green: "#198754",
-  red: "#dc3545"
+  black: "#000",
+  white: "#fff",
+  bootstrapBlue: "#0d6efd",
+  bootstrapGreen: "#198754",
+  bootstrapRed: "#dc3545"
 };
 
 const boxShadow: BoxShadow = {
@@ -125,10 +39,6 @@ const boxShadow: BoxShadow = {
 
 export const theme = {
   fontFamily,
-  fontSize,
-  lineHeight,
-  letterSpacing,
-  fontWeight,
   color,
   boxShadow,
   breakPoint,
@@ -140,7 +50,7 @@ export const lightTheme: DefaultTheme = {
   linkTextColor: "#0b57d0",
   activeBgColor: "#c2e7ff",
   activeTextColor: "#001d35",
-  bgColor_lv0: "#fff",
+  bgColor_lv0: color.white,
   textColor_lv0: "#1f1f1f",
   bgColor_lv1: "#f8fafd",
   textColor_lv1: "",

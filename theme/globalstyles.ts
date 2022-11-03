@@ -28,11 +28,11 @@ html, body {
 }
 
 body {
-    font-family: Helvetica, '맑은 고딕', 'malgun gothic', 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo', 'Microsoft NeoGothic', 'Droid sans', sans-serif;
-    font-size: ${({ theme }) => theme.fontSize.body_lg};
-    font-weight: ${({ theme }) => theme.fontWeight.body_lg};
-    letter-spacing: ${({ theme }) => theme.letterSpacing.body_lg};
-    line-height: ${({ theme }) => theme.lineHeight.body_lg};
+    font-family: ${({ theme }) => theme.fontFamily.default};
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 24px;
 
     ${mixinBgLv0}
 }
