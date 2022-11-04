@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useState } from "react";
 import styled from "styled-components";
@@ -14,7 +15,7 @@ const Container = styled.div`
   margin: 0 8px;
 `;
 
-const Shape = styled.div`
+const Shape = styled.div<{ isActive: boolean }>`
   position: relative;
   overflow: hidden;
 
@@ -24,6 +25,8 @@ const Shape = styled.div`
   flex: 1;
   border-radius: 24px;
   padding: 10px 16px;
+
+  background: ${({ theme, isActive }) => (isActive ? theme.activeBgColor : "")};
 
   &:hover {
     background: ${({ theme }) => theme.hoverBgColor};
@@ -65,7 +68,11 @@ const DetailShape = styled(Shape)`
 interface Props extends Lnb {}
 
 export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
+  const router = useRouter();
+
   const [expand, setExpand] = useState(false);
+
+  const isActive = router.asPath === href;
 
   const hasDetail = typeof href === "string";
 
@@ -75,7 +82,7 @@ export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
 
   return (
     <Container>
-      <Shape>
+      <Shape isActive={isActive}>
         {hasDetail ? (
           <ActiveLink href={href}>
             <Label>{title}</Label>
@@ -92,7 +99,7 @@ export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
 
       <Collapse expand={expand}>
         {details.map((detail, index) => (
-          <DetailShape key={index}>
+          <DetailShape key={index} isActive={isActive}>
             <ActiveLink href={detail.href}>
               <Label>{detail.title}</Label>
             </ActiveLink>

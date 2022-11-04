@@ -42,7 +42,7 @@ const gnb: Gnb[] = [
   {
     label: "Home",
     icon: <BiHome />,
-    href: "/home",
+    href: "/",
     lnb: []
   },
   {
@@ -81,16 +81,16 @@ const gnb: Gnb[] = [
   {
     label: "Components",
     icon: <CgComponents />,
-    href: "/",
+    href: "/components",
     lnb: [
       {
         title: "Components overview",
-        href: "/",
+        href: "/components",
         details: []
       },
       {
         title: "Button",
-        href: "/",
+        href: "/components/button",
         details: []
       }
     ]

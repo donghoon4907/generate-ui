@@ -79,7 +79,11 @@ export const NavItem: FC<Props> = ({
 
   const dispatch = useDispatch();
 
-  const isActive = router.asPath === href;
+  const splitSearch = router.asPath.split("/");
+
+  const splitHref = href.split("/");
+
+  const isActive = splitSearch[1] === splitHref[1];
 
   const handleMouseEnter = () => {
     dispatch({
