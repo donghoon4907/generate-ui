@@ -14,6 +14,9 @@ import { mixinInputDefault } from "../../theme/mixins/input";
 import { Input } from "../../components/Input";
 import { mixinTitlelg, mixinTitleXlg } from "../../theme/mixins/label";
 import { mixinBtnDefault } from "../../theme/mixins/button";
+import { Preview } from "../../components/Preview";
+import { Template } from "../../types/styling";
+import { StylingHeader } from "../../components/StylingHeader";
 
 const Container = styled.div`
   display: flex;
@@ -35,77 +38,6 @@ const OutputContainer = styled.div`
   gap: 5px;
 
   ${mixinBgLv1}
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  padding: 0 10px;
-  border-bottom: 1px solid ${({ theme }) => theme.dividerColor};
-  font-size: 18px;
-  font-weight: 500;
-  height: 40px;
-  user-select: none;
-
-  ${mixinBgLv2}
-`;
-
-const PreviewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid ${({ theme }) => theme.dividerColor};
-`;
-
-const PreviewBody = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-
-  height: 250px;
-  text-align: center;
-  border-bottom: 1px solid ${({ theme }) => theme.dividerColor};
-`;
-
-const Preview = styled.div`
-  position: relative;
-`;
-
-const PreviewRangeTop = styled.div`
-  position: absolute;
-  top: -10px;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  border-top: 1px dashed ${({ theme }) => theme.textColor_lv0};
-  border-radius: 50%;
-`;
-
-const PreviewWidth = styled.div`
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translate3d(-50%, 0, 0);
-`;
-
-const PreviewRangeLeft = styled.div`
-  position: absolute;
-  left: -10px;
-  top: 0;
-  height: 100%;
-  width: 20px;
-  border-left: 1px dashed ${({ theme }) => theme.textColor_lv0};
-  border-radius: 50%;
-`;
-
-const PreviewHeight = styled.div`
-  position: absolute;
-  top: 50%;
-  left: -45px;
-  transform: translate3d(0, -50%, 0);
 `;
 
 const OptionContainer = styled.div`
@@ -172,29 +104,6 @@ const CheckboxLabel = styled.label`
 
 const StyledInput = styled.input`
   ${mixinInputDefault}
-`;
-
-const PreviewFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 5px;
-  height: 40px;
-`;
-
-const StylingButtonContainer = styled.div`
-  width: 100px;
-`;
-
-const StylingButton = styled.button`
-  width: 100%;
-  height: 100%;
-  border-radius: 100px;
-  background: ${({ theme }) => theme.activeBgColor} !important;
-  line-height: 30px;
-
-  ${mixinBtnDefault}
 `;
 
 const PresetContainer = styled.div`
@@ -308,59 +217,6 @@ const Home: NextPage = () => {
     setBorderRadius(5);
   };
 
-  const handleExport = () => {
-    let result = "";
-
-    let style = `
-    width: ${width}px;
-    height: ${height}px;
-    background-color: ${backgroundColor};
-    color: ${color};
-    border-radius: ${borderRadius};
-    border: ${borderWidth}px solid ${borderColor};
-    `;
-
-    if (template === "default") {
-      result = `<button type="button" style="${style}">${label}</button>`;
-    } else if (template === "style-and-el") {
-      result = `
-      <style>
-        .generate-button {
-          ${style}
-        }
-      </style>
-      <button type="button" class="generate-button">
-        ${label}
-      </button>
-      `;
-    }
-
-    if (html) {
-      result = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body>
-          ${result}
-        </body>
-      </html>
-      `;
-    } else {
-      result = `
-      ${result}
-      `;
-    }
-
-    navigator.clipboard
-      .writeText(result)
-      .then(() => alert("Copied!"))
-      .catch(err => alert("해당 브라우저에서는 지원하지 않는 기능입니다."));
-  };
-
   return (
     <>
       <Head>
@@ -378,49 +234,20 @@ const Home: NextPage = () => {
 
       <Container>
         <OutputContainer>
-          <PreviewContainer>
-            <Header>
-              <span>Output</span>
-            </Header>
-            <PreviewBody>
-              <Preview style={{ width, height }}>
-                <PreviewWidth>{width}px</PreviewWidth>
-                <PreviewRangeTop />
-                <PreviewHeight>{height}px</PreviewHeight>
-                <PreviewRangeLeft />
-                <button
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor,
-                    color,
-                    position: "absolute",
-                    left: 0,
-                    bottom: 0,
-                    borderRadius,
-                    borderColor,
-                    borderWidth
-                  }}
-                >
-                  {label}
-                </button>
-              </Preview>
-            </PreviewBody>
-            <PreviewFooter>
-              <StylingButtonContainer>
-                {/* <StylingButton type="button" onClick={handleExport}>
-                Import
-              </StylingButton> */}
-              </StylingButtonContainer>
-              <StylingButtonContainer>
-                <StylingButton type="button" onClick={handleExport}>
-                  Export
-                </StylingButton>
-              </StylingButtonContainer>
-            </PreviewFooter>
-          </PreviewContainer>
+          <Preview
+            label={label}
+            width={width}
+            height={height}
+            backgroundColor={backgroundColor}
+            color={color}
+            borderRadius={borderRadius}
+            borderWidth={borderWidth}
+            borderColor={borderColor}
+            template={template}
+            html={html}
+          />
           <PresetContainer>
-            <Header>Preset</Header>
+            <StylingHeader>Preset</StylingHeader>
             <PresetBody>
               <PresetItem>
                 <PresetPreview>
@@ -444,9 +271,7 @@ const Home: NextPage = () => {
           </PresetContainer>
         </OutputContainer>
         <OptionContainer>
-          <Header>
-            <span>Options</span>
-          </Header>
+          <StylingHeader>Options</StylingHeader>
           <OptionBody>
             <OptionTitle>레이아웃 설정</OptionTitle>
             <OptionItem>
