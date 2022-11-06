@@ -23,8 +23,8 @@ const breakPoint: BreakPoint = {
 };
 
 const color: Color = {
-  black: "#000",
-  white: "#fff",
+  black: "#000000",
+  white: "#ffffff",
   bootstrapBlue: "#0d6efd",
   bootstrapGreen: "#198754",
   bootstrapRed: "#dc3545"

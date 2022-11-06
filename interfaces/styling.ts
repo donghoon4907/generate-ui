@@ -7,4 +7,5 @@ export interface StylingButtonProps {
   borderRadius: number;
   borderWidth: number;
   borderColor: string;
+  fontSize: number;
 }

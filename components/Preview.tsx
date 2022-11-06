@@ -2,7 +2,7 @@ import type { FC } from "react";
 import styled from "styled-components";
 
 import type { Template } from "../types/styling";
-import { PrimaryButton } from "./Button";
+import { PrimaryButton, SecondaryButton } from "./Button";
 import { StylingHeader } from "./StylingHeader";
 import { StylingButtonProps } from "../interfaces/styling";
 
@@ -52,10 +52,14 @@ const PreviewRangeLeft = styled.div`
 `;
 
 const PreviewHeight = styled.div`
+  width: 100px;
+  height: 20px;
+  overflow: hidden;
+
   position: absolute;
   top: 50%;
-  left: -45px;
-  transform: translate3d(0, -50%, 0);
+  left: -70px;
+  transform: translate3d(0, -50%, 0) rotate(270deg);
 `;
 
 const Footer = styled.div`
@@ -85,6 +89,7 @@ export const Preview: FC<Props> = ({
   borderRadius,
   borderWidth,
   borderColor,
+  fontSize,
   template,
   html
 }) => {
@@ -98,6 +103,7 @@ export const Preview: FC<Props> = ({
     color: ${color};
     border-radius: ${borderRadius};
     border: ${borderWidth}px solid ${borderColor};
+    font-size: ${fontSize}px;
     `;
 
     if (template === "default") {
@@ -161,7 +167,8 @@ export const Preview: FC<Props> = ({
               bottom: 0,
               borderRadius,
               borderColor,
-              borderWidth
+              borderWidth,
+              fontSize
             }}
           >
             {label}
@@ -169,6 +176,9 @@ export const Preview: FC<Props> = ({
         </div>
       </Body>
       <Footer>
+        <ButtonWrapper>
+          <SecondaryButton type="button">Import</SecondaryButton>
+        </ButtonWrapper>
         <ButtonWrapper>
           <PrimaryButton type="button" onClick={handleExport}>
             Export

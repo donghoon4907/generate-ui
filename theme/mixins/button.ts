@@ -8,6 +8,7 @@ export const mixinBtnDefault = css`
   overflow: hidden;
   background: transparent;
   vertical-align: middle;
+  text-align: center;
   appearance: none;
   user-select: none;
   color: inherit;

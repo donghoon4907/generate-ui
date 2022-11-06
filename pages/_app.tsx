@@ -16,8 +16,6 @@ const Container = styled.div`
 const MainContainer = styled.div`
   padding-left: 88px;
   width: 100%;
-
-  margin: 8px 8px 0;
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {

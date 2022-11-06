@@ -3,20 +3,18 @@ import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
-import {
-  mixinBgLv1,
-  mixinBgLv2,
-  mixinBgLv3
-} from "../../theme/mixins/background";
+import { mixinBgLv1 } from "../../theme/mixins/background";
 import { CountingInput } from "../../components/CountingInput";
 import { Select } from "../../components/Select";
 import { mixinInputDefault } from "../../theme/mixins/input";
 import { Input } from "../../components/Input";
-import { mixinTitlelg, mixinTitleXlg } from "../../theme/mixins/label";
-import { mixinBtnDefault } from "../../theme/mixins/button";
 import { Preview } from "../../components/Preview";
-import { Template } from "../../types/styling";
 import { StylingHeader } from "../../components/StylingHeader";
+import {
+  BootstrapOutlineButton,
+  BootstrapPrimaryButton
+} from "../../components/Button";
+import { theme } from "../../theme";
 
 const Container = styled.div`
   display: flex;
@@ -24,11 +22,12 @@ const Container = styled.div`
   gap: 5px;
 
   width: 100%;
-  border: 1px solid ${({ theme }) => theme.dividerColor};
   padding: 5px;
 `;
 
 const OutputContainer = styled.div`
+  position: sticky;
+  top: 5px;
   width: 300px;
   height: 330px;
 
@@ -135,40 +134,11 @@ const PresetPreview = styled.div`
   height: 50px;
 `;
 
-const BootstrapButton = styled.button`
-  height: 40px;
-  text-align: center;
-  background: ${({ theme }) => theme.color.bootstrapBlue} !important;
-  color: ${({ theme }) => theme.color.white} !important;
-  display: inline-block;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  border-radius: 5px;
-
-  ${mixinBtnDefault}
-`;
-
-const BootstrapOutlineButton = styled.button`
-  height: 40px;
-  text-align: center;
-  background: ${({ theme }) => theme.color.white} !important;
-  color: ${({ theme }) => theme.color.bootstrapBlue} !important;
-  border: 1px solid ${({ theme }) => theme.color.bootstrapBlue} !important;
-  display: inline-block;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  border-radius: 5px;
-
-  ${mixinBtnDefault}
-`;
-
 const PresetMeta = styled.div`
   flex: 1;
 `;
 
-const Home: NextPage = () => {
+const ComponentButton: NextPage = () => {
   const [width, setWidth] = useState(100);
 
   const [height, setHeight] = useState(100);
@@ -188,6 +158,8 @@ const Home: NextPage = () => {
   const [template, setTemplate] = useState("default");
 
   const [html, setHtml] = useState(false);
+
+  const [fontSize, setFontSize] = useState(16);
 
   const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setBackgroundColor(evt.target.value);
@@ -209,12 +181,26 @@ const Home: NextPage = () => {
     setHtml(evt.target.checked);
   };
 
-  const handlePresetButton = () => {
+  const handleClickPresetBootstrapButton = () => {
     setWidth(80);
     setHeight(40);
-    setBackgroundColor("#0d6efd");
-    setColor("#ffffff");
+    setBackgroundColor(theme.color.bootstrapBlue);
+    setColor(theme.color.white);
     setBorderRadius(5);
+    setBorderColor(theme.color.bootstrapBlue);
+    setFontSize(16);
+    setLabel("Primary");
+  };
+
+  const handleClickPresetBootstrapOutlineButton = () => {
+    setWidth(80);
+    setHeight(40);
+    setBackgroundColor(theme.color.white);
+    setColor(theme.color.bootstrapBlue);
+    setBorderRadius(5);
+    setBorderColor(theme.color.bootstrapBlue);
+    setFontSize(16);
+    setLabel("Primary");
   };
 
   return (
@@ -243,6 +229,7 @@ const Home: NextPage = () => {
             borderRadius={borderRadius}
             borderWidth={borderWidth}
             borderColor={borderColor}
+            fontSize={fontSize}
             template={template}
             html={html}
           />
@@ -251,9 +238,12 @@ const Home: NextPage = () => {
             <PresetBody>
               <PresetItem>
                 <PresetPreview>
-                  <BootstrapButton onClick={handlePresetButton}>
+                  <BootstrapPrimaryButton
+                    type="button"
+                    onClick={handleClickPresetBootstrapButton}
+                  >
                     Primary
-                  </BootstrapButton>
+                  </BootstrapPrimaryButton>
                 </PresetPreview>
                 <PresetMeta>
                   <span>Bootstrap button 1</span>
@@ -261,7 +251,12 @@ const Home: NextPage = () => {
               </PresetItem>
               <PresetItem>
                 <PresetPreview>
-                  <BootstrapOutlineButton>Primary</BootstrapOutlineButton>
+                  <BootstrapOutlineButton
+                    type="button"
+                    onClick={handleClickPresetBootstrapOutlineButton}
+                  >
+                    Primary
+                  </BootstrapOutlineButton>
                 </PresetPreview>
                 <PresetMeta>
                   <span>Bootstrap button 2</span>
@@ -294,6 +289,18 @@ const Home: NextPage = () => {
                 count={height}
                 setCount={setHeight}
                 limit={100}
+                showIcon={true}
+                showFeedback={true}
+              />
+            </OptionItem>
+            <OptionItem>
+              <RequireMark htmlFor="setFontSize">글자 크기</RequireMark>
+              <CountingInput
+                id="setFontSize"
+                ariaLabel="글자 크기"
+                count={fontSize}
+                setCount={setFontSize}
+                limit={30}
                 showIcon={true}
                 showFeedback={true}
               />
@@ -410,4 +417,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default ComponentButton;
