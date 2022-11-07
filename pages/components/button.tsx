@@ -15,6 +15,7 @@ import {
   BootstrapPrimaryButton
 } from "../../components/Button";
 import { theme } from "../../theme";
+import { BootstrapModal } from "../../components/Modal";
 
 const Container = styled.div`
   display: flex;
@@ -161,6 +162,8 @@ const ComponentButton: NextPage = () => {
 
   const [fontSize, setFontSize] = useState(16);
 
+  const [showImportModal, setShowImportModal] = useState(false);
+
   const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setBackgroundColor(evt.target.value);
   };
@@ -203,6 +206,10 @@ const ComponentButton: NextPage = () => {
     setLabel("Primary");
   };
 
+  const handleShowImportModal = () => {
+    setShowImportModal(true);
+  };
+
   return (
     <>
       <Head>
@@ -232,6 +239,7 @@ const ComponentButton: NextPage = () => {
             fontSize={fontSize}
             template={template}
             html={html}
+            onShowImportModal={handleShowImportModal}
           />
           <PresetContainer>
             <StylingHeader>Preset</StylingHeader>
@@ -413,6 +421,15 @@ const ComponentButton: NextPage = () => {
           </OptionBody>
         </OptionContainer>
       </Container>
+      <BootstrapModal
+        show={showImportModal}
+        setShow={setShowImportModal}
+        ariaLabel="importModal"
+        headerTitle="Import"
+        showHeaderCloseButton={true}
+      >
+        <div>test</div>
+      </BootstrapModal>
     </>
   );
 };

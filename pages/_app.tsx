@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
 import { useThemeMode } from "../hooks/useDarkMode";

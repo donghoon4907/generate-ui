@@ -78,6 +78,7 @@ const ButtonWrapper = styled.div`
 interface Props extends StylingButtonProps {
   template: string;
   html: boolean;
+  onShowImportModal: () => void;
 }
 
 export const Preview: FC<Props> = ({
@@ -91,7 +92,8 @@ export const Preview: FC<Props> = ({
   borderColor,
   fontSize,
   template,
-  html
+  html,
+  onShowImportModal
 }) => {
   const handleExport = () => {
     let result = "";
@@ -177,7 +179,9 @@ export const Preview: FC<Props> = ({
       </Body>
       <Footer>
         <ButtonWrapper>
-          <SecondaryButton type="button">Import</SecondaryButton>
+          <SecondaryButton type="button" onClick={onShowImportModal}>
+            Import
+          </SecondaryButton>
         </ButtonWrapper>
         <ButtonWrapper>
           <PrimaryButton type="button" onClick={handleExport}>

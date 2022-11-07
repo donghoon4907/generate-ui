@@ -38,13 +38,11 @@ const Container = styled.button`
   ${mixinBtnDefault}
 `;
 
-interface Props extends CoreProps, DOMAttributes<HTMLButtonElement> {
-  ariaLabel: string;
-}
+interface Props extends CoreProps, DOMAttributes<HTMLButtonElement> {}
 
 export const IconWrapper: FC<Props> = ({ ariaLabel, children, ...props }) => {
   return (
-    <Container type="button" aria-label={ariaLabel} {...props}>
+    <Container type="button" aria-label={ariaLabel || ""} {...props}>
       {children}
     </Container>
   );
