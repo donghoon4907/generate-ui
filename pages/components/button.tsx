@@ -16,6 +16,7 @@ import {
 } from "../../components/Button";
 import { theme } from "../../theme";
 import { BootstrapModal } from "../../components/Modal";
+import { CountNumberType } from "../../types/count";
 
 const Container = styled.div`
   display: flex;
@@ -144,9 +145,11 @@ const ComponentButton: NextPage = () => {
 
   const [height, setHeight] = useState(100);
 
-  const [label, setLabel] = useState("버튼 텍스트");
+  const [label, setLabel] = useState("버튼명");
 
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+
+  const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
 
   const [color, setColor] = useState("#000000");
 
@@ -164,7 +167,9 @@ const ComponentButton: NextPage = () => {
 
   const [showImportModal, setShowImportModal] = useState(false);
 
-  const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeBackgroundColorRgb = (
+    evt: ChangeEvent<HTMLInputElement>
+  ) => {
     setBackgroundColor(evt.target.value);
   };
 
@@ -232,6 +237,7 @@ const ComponentButton: NextPage = () => {
             width={width}
             height={height}
             backgroundColor={backgroundColor}
+            backgroundColorAlpha={backgroundColorAlpha}
             color={color}
             borderRadius={borderRadius}
             borderWidth={borderWidth}
@@ -276,6 +282,17 @@ const ComponentButton: NextPage = () => {
         <OptionContainer>
           <StylingHeader>Options</StylingHeader>
           <OptionBody>
+            <OptionTitle>기본 설정</OptionTitle>
+            <OptionItem>
+              <RequireMark htmlFor="setLabel">버튼명</RequireMark>
+              <Input
+                id="setLabel"
+                value={label}
+                setValue={setLabel}
+                limit={10}
+                showFeedback={true}
+              />
+            </OptionItem>
             <OptionTitle>레이아웃 설정</OptionTitle>
             <OptionItem>
               <RequireMark htmlFor="setWidth">너비</RequireMark>
@@ -287,6 +304,8 @@ const ComponentButton: NextPage = () => {
                 limit={100}
                 showIcon={true}
                 showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
               />
             </OptionItem>
             <OptionItem>
@@ -299,6 +318,8 @@ const ComponentButton: NextPage = () => {
                 limit={100}
                 showIcon={true}
                 showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
               />
             </OptionItem>
             <OptionItem>
@@ -311,6 +332,8 @@ const ComponentButton: NextPage = () => {
                 limit={30}
                 showIcon={true}
                 showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
               />
             </OptionItem>
             <OptionItem>
@@ -323,6 +346,8 @@ const ComponentButton: NextPage = () => {
                 limit={100}
                 showIcon={true}
                 showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
               />
             </OptionItem>
             <OptionItem>
@@ -335,30 +360,37 @@ const ComponentButton: NextPage = () => {
                 limit={10}
                 showIcon={true}
                 showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
               />
             </OptionItem>
-            <OptionTitle>스타일 설정</OptionTitle>
+            <OptionTitle>버튼 배경색 설정</OptionTitle>
             <OptionItem>
-              <RequireMark htmlFor="setLabel">버튼 텍스트</RequireMark>
-              <Input
-                id="setLabel"
-                value={label}
-                setValue={setLabel}
-                limit={10}
-                showFeedback={true}
-              />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setBackgroundColor">배경색</RequireMark>
+              <RequireMark htmlFor="setBackgroundColorRgb">RGB</RequireMark>
               <StyledInput
-                id="setBackgroundColor"
+                id="setBackgroundColorRgb"
                 type="color"
                 value={backgroundColor}
-                onChange={handleChangeBackgroundColor}
+                onChange={handleChangeBackgroundColorRgb}
               />
             </OptionItem>
             <OptionItem>
-              <RequireMark htmlFor="setColor">글자색</RequireMark>
+              <RequireMark htmlFor="setBackgroundColorAlpha">Alpha</RequireMark>
+              <CountingInput
+                id="setBackgroundColorAlpha"
+                ariaLabel="배경색 Alpha"
+                count={backgroundColorAlpha}
+                setCount={setBackgroundColorAlpha}
+                limit={1}
+                showIcon={true}
+                showFeedback={true}
+                numberType={CountNumberType.DECIMAL}
+                unit=""
+              />
+            </OptionItem>
+            <OptionTitle>글자색 설정</OptionTitle>
+            <OptionItem>
+              <RequireMark htmlFor="setColor">RGB</RequireMark>
               <StyledInput
                 id="setColor"
                 type="color"
@@ -366,9 +398,9 @@ const ComponentButton: NextPage = () => {
                 onChange={handleChangeColor}
               />
             </OptionItem>
-
+            <OptionTitle>테두리색 설정</OptionTitle>
             <OptionItem>
-              <RequireMark htmlFor="setBorderColor">테두리 색 설정</RequireMark>
+              <RequireMark htmlFor="setBorderColor">RGB</RequireMark>
               <StyledInput
                 id="setBorderColor"
                 type="color"

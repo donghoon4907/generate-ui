@@ -6,6 +6,8 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { mixinInputDefault, mixinInputValidation } from "../theme/mixins/input";
 import { IconWrapper } from "./IconWrapper";
 import { Feedback } from "./Feedback";
+import { CountNumberType } from "../types/count";
+import { minusDecimal, plusDecimal } from "../lib/calc/decimal";
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +57,8 @@ interface Props {
   limit: number;
   showIcon: boolean;
   showFeedback: boolean;
+  numberType: CountNumberType;
+  unit: string;
 }
 
 export const CountingInput: FC<Props> = ({
@@ -64,7 +68,9 @@ export const CountingInput: FC<Props> = ({
   setCount,
   limit,
   showIcon,
-  showFeedback
+  showFeedback,
+  numberType,
+  unit
 }) => {
   const intervalRef = useRef<number | null>(null);
 
@@ -76,13 +82,24 @@ export const CountingInput: FC<Props> = ({
     const { value } = evt.target;
 
     let num = Number(value);
-    // 0을 설정할 수 없도록 1을 최소 값으로
+    // 0을 설정할 수 없도록 최소값설정
     if (num === 0) {
-      num = 1;
+      if (numberType === CountNumberType.DECIMAL) {
+        num = 0.1;
+      } else if (numberType === CountNumberType.INTEGER) {
+        num = 1;
+      }
     }
     // 글자 입력 방지
     if (!num) {
       return;
+    }
+    // 소숫점 두자리가 되지 않도록 처리
+    if (numberType === CountNumberType.DECIMAL) {
+      const strNum = String(num);
+      if (strNum.length === 4) {
+        num = +strNum[strNum.length - 1] / 10;
+      }
     }
 
     changeCount(Math.abs(num));
@@ -96,9 +113,17 @@ export const CountingInput: FC<Props> = ({
     let nextVal = count;
     intervalRef.current = window.setInterval(() => {
       if (operator === "+") {
-        nextVal++;
+        if (numberType === CountNumberType.DECIMAL) {
+          nextVal = plusDecimal(nextVal, 0.1);
+        } else if (numberType === CountNumberType.INTEGER) {
+          nextVal += 1;
+        }
       } else if (operator === "-") {
-        nextVal--;
+        if (numberType === CountNumberType.DECIMAL) {
+          nextVal = minusDecimal(nextVal, 0.1);
+        } else if (numberType === CountNumberType.INTEGER) {
+          nextVal -= 1;
+        }
       }
 
       changeCount(nextVal);
@@ -141,7 +166,7 @@ export const CountingInput: FC<Props> = ({
             valid={valid}
             invalid={invalid}
           />
-          <Unit>px</Unit>
+          {unit && <Unit>{unit}</Unit>}
         </InputWrapper>
         {showIcon && (
           <Tool>

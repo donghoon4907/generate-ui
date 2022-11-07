@@ -38,6 +38,12 @@ const boxShadow: BoxShadow = {
   nav: "0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)"
 };
 
+// const zIndex = {
+//   disabled: -1,
+//   default: 0,
+//   modal: 1001
+// }
+
 export const theme = {
   fontFamily,
   color,

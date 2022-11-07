@@ -5,6 +5,7 @@ import type { Template } from "../types/styling";
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { StylingHeader } from "./StylingHeader";
 import { StylingButtonProps } from "../interfaces/styling";
+import { hexToRgb } from "../lib/calc/rgb";
 
 const Container = styled.div`
   display: flex;
@@ -86,6 +87,7 @@ export const Preview: FC<Props> = ({
   width,
   height,
   backgroundColor,
+  backgroundColorAlpha,
   color,
   borderRadius,
   borderWidth,
@@ -95,13 +97,20 @@ export const Preview: FC<Props> = ({
   html,
   onShowImportModal
 }) => {
+  const rgb = hexToRgb(backgroundColor);
+
+  let hexToRgba = "inherit";
+  if (rgb) {
+    hexToRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${backgroundColorAlpha})`;
+  }
+
   const handleExport = () => {
     let result = "";
 
     let style = `
     width: ${width}px;
     height: ${height}px;
-    background-color: ${backgroundColor};
+    background-color: ${hexToRgba};
     color: ${color};
     border-radius: ${borderRadius};
     border: ${borderWidth}px solid ${borderColor};
@@ -162,7 +171,7 @@ export const Preview: FC<Props> = ({
             style={{
               width: "100%",
               height: "100%",
-              backgroundColor,
+              backgroundColor: hexToRgba,
               color,
               position: "absolute",
               left: 0,
