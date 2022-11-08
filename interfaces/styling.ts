@@ -6,6 +6,7 @@ export interface StylingButtonProps {
   backgroundColor: string;
   backgroundColorAlpha: number;
   borderRadius: number;
+  borderStyle: string;
   borderWidth: number;
   borderColor: string;
   fontSize: number;

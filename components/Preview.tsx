@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
 
-import type { Template } from "../types/styling";
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { StylingHeader } from "./StylingHeader";
 import { StylingButtonProps } from "../interfaces/styling";
@@ -90,6 +89,7 @@ export const Preview: FC<Props> = ({
   backgroundColorAlpha,
   color,
   borderRadius,
+  borderStyle,
   borderWidth,
   borderColor,
   fontSize,
@@ -113,7 +113,7 @@ export const Preview: FC<Props> = ({
     background-color: ${hexToRgba};
     color: ${color};
     border-radius: ${borderRadius};
-    border: ${borderWidth}px solid ${borderColor};
+    border: ${borderWidth}px ${borderStyle} ${borderColor};
     font-size: ${fontSize}px;
     `;
 
@@ -179,6 +179,7 @@ export const Preview: FC<Props> = ({
               borderRadius,
               borderColor,
               borderWidth,
+              borderStyle,
               fontSize
             }}
           >
