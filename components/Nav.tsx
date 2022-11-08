@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { BiHome, BiCode } from "react-icons/bi";
@@ -105,6 +105,20 @@ interface Props {
 export const Nav: FC<Props> = ({ themeMode, toggle }) => {
   const [open, setOpen] = useState(false);
 
+  const handleMouseMove = useCallback((evt: MouseEvent) => {
+    if (evt.pageX > 350) {
+      setOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   return (
     <>
       <Container>
@@ -121,7 +135,7 @@ export const Nav: FC<Props> = ({ themeMode, toggle }) => {
           <ToggleThemeMode themeMode={themeMode} toggle={toggle} />
         </Footer>
       </Container>
-      <NavDrawer open={open} collapseFunc={() => setOpen(false)} />
+      <NavDrawer open={open} />
     </>
   );
 };

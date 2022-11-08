@@ -36,14 +36,13 @@ const Body = styled.div`
 
 interface Props {
   open: boolean;
-  collapseFunc: () => void;
 }
 
-export const NavDrawer: FC<Props> = ({ open, collapseFunc }) => {
+export const NavDrawer: FC<Props> = ({ open }) => {
   const { activeLnb } = useSelector();
 
   return (
-    <Container open={open} onMouseLeave={collapseFunc}>
+    <Container open={open}>
       <Body>
         {activeLnb.map((lnb, index) => (
           <NavDrawerItem key={`lnb${index}`} {...lnb} />
