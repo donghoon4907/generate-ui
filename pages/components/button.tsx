@@ -417,7 +417,9 @@ const ComponentButton: NextPage = () => {
               />
             </OptionItem>
             <OptionItem>
-              <RequireMark htmlFor="setBackgroundColorAlpha">Alpha</RequireMark>
+              <RequireMark htmlFor="setBackgroundColorAlpha">
+                투명도
+              </RequireMark>
               <CountingInput
                 id="setBackgroundColorAlpha"
                 ariaLabel="배경색 Alpha"

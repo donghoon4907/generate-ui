@@ -1,4 +1,4 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { RiArrowUpSLine } from "react-icons/ri";
@@ -62,13 +62,14 @@ const Icon = styled.div<{ open: boolean }>`
   }
 `;
 
-const OptionContainer = styled.div<{ open: boolean }>`
+const OptionContainer = styled.div<{ open: boolean; pos: string }>`
   position: absolute;
-  top: 40px;
   left: 0;
   width: 100%;
   max-height: ${({ open }) => (open ? "auto" : "0")};
   overflow: hidden;
+
+  ${({ pos }) => (pos === "bottom" ? "top: 40px;" : "bottom: 40px;")}
 
   border: ${({ theme, open }) =>
     open ? `1px solid ${theme.dividerColor}` : "none"};
@@ -104,10 +105,27 @@ export const CustomSelect: FC<Props> = ({
   setOption,
   options
 }) => {
+  const ulRef = useRef<HTMLUListElement>(null);
+
   const [open, setOpen] = useState(false);
+
+  const [pos, setPos] = useState("bottom");
 
   const handleClickSelect = () => {
     setOpen(!open);
+
+    if (ulRef.current) {
+      const $node = ulRef.current;
+
+      if (
+        window.innerHeight - $node.getBoundingClientRect().bottom <
+        $node.scrollHeight
+      ) {
+        setPos("top");
+      } else {
+        setPos("bottom");
+      }
+    }
   };
 
   const handleClickOption = (option: SelectOption) => {
@@ -124,8 +142,8 @@ export const CustomSelect: FC<Props> = ({
       <Icon open={open}>
         <RiArrowUpSLine />
       </Icon>
-      <OptionContainer open={open}>
-        <OptionBody>
+      <OptionContainer open={open} pos={pos}>
+        <OptionBody ref={ulRef}>
           {options.map((option, index) => (
             <OptionItem
               key={`Option${index}`}

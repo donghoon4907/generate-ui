@@ -7,15 +7,15 @@ const Continaer = styled.div`
   height: 100%;
 `;
 
-export const Solid = styled(Continaer)`
+const Solid = styled(Continaer)`
   border: 2px solid ${({ theme }) => theme.dividerColor};
 `;
 
-export const Dotted = styled(Continaer)`
+const Dotted = styled(Continaer)`
   border: 2px dotted ${({ theme }) => theme.dividerColor};
 `;
 
-export const Dashed = styled(Continaer)`
+const Dashed = styled(Continaer)`
   border: 2px dashed ${({ theme }) => theme.dividerColor};
 `;
 
