@@ -10,8 +10,14 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const StyledInput = styled.input<{ valid: boolean; invalid: boolean }>`
+export const DefaultInput = styled.input`
   ${mixinInputDefault}
+`;
+
+export const ValidInput = styled(DefaultInput)<{
+  valid: boolean;
+  invalid: boolean;
+}>`
   ${mixinInputValidation}
 `;
 
@@ -49,7 +55,7 @@ export const Input: FC<Props> = ({
 
   return (
     <Container>
-      <StyledInput
+      <ValidInput
         type="text"
         id={id}
         onChange={handleChange}

@@ -6,8 +6,7 @@ import styled from "styled-components";
 import { mixinBgLv1 } from "../../theme/mixins/background";
 import { CountingInput } from "../../components/CountingInput";
 import { Select } from "../../components/Select";
-import { mixinInputDefault } from "../../theme/mixins/input";
-import { Input } from "../../components/Input";
+import { DefaultInput, Input } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
 import {
@@ -20,6 +19,11 @@ import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/ButtonStyle";
 import type { SelectOption } from "../../types/select";
+import { hexToRgb } from "../../lib/calc/rgb";
+import * as Preset from "../../components/partial/Preset";
+import * as Option from "../../components/partial/Option";
+import { RequireLabel } from "../../components/RequireLabel";
+import { Checkbox } from "../../components/Checkbox";
 
 const Container = styled.div`
   display: flex;
@@ -42,105 +46,6 @@ const OutputContainer = styled.div`
   gap: 5px;
 
   ${mixinBgLv1}
-`;
-
-const OptionContainer = styled.div`
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-
-  border: 1px solid ${({ theme }) => theme.dividerColor};
-
-  ${mixinBgLv1}
-`;
-
-const OptionBody = styled.div`
-  display: grid;
-  grid-column-gap: 5px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-flow: row;
-`;
-
-const OptionTitle = styled.div`
-  grid-column: span 3;
-  padding: 5px 10px 0 10px;
-  margin-bottom: 5px;
-  user-select: none;
-
-  font-weight: bold;
-`;
-
-const RequireMark = styled.label`
-  position: relative;
-  display: inline-block;
-  user-select: none;
-
-  &:before {
-    content: "*";
-    color: red;
-    position: absolute;
-    top: -5px;
-    right: -7px;
-  }
-`;
-
-const OptionItem = styled.div<{ span?: number }>`
-  grid-column: span ${({ span }) => span || 1};
-  padding: 5px 10px;
-
-  & > * {
-    margin-bottom: 5px;
-  }
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 5px;
-`;
-
-const CheckboxLabel = styled.label`
-  font-size: 14px;
-  user-select: none;
-`;
-
-const StyledInput = styled.input`
-  ${mixinInputDefault}
-`;
-
-const PresetContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid ${({ theme }) => theme.dividerColor};
-`;
-
-const PresetBody = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  padding: 5px;
-`;
-
-const PresetItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-`;
-
-const PresetPreview = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 80px;
-  height: 50px;
-`;
-
-const PresetMeta = styled.div`
-  flex: 1;
 `;
 
 const ComponentButton: NextPage = () => {
@@ -228,6 +133,67 @@ const ComponentButton: NextPage = () => {
     setShowImportModal(true);
   };
 
+  const handleExport = () => {
+    let result = "";
+
+    let style = `
+    width: ${width}px;
+    height: ${height}px;
+    background-color: ${hexToRgba};
+    color: ${color};
+    border-radius: ${borderRadius};
+    border: ${borderWidth}px ${borderStyle} ${borderColor};
+    font-size: ${fontSize}px;
+    `;
+
+    if (template === "default") {
+      result = `<button type="button" style="${style}">${label}</button>`;
+    } else if (template === "style-and-el") {
+      result = `
+      <style>
+        .generate-button {
+          ${style}
+        }
+      </style>
+      <button type="button" class="generate-button">
+        ${label}
+      </button>
+      `;
+    }
+
+    if (html) {
+      result = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </head>
+        <body>
+          ${result}
+        </body>
+      </html>
+      `;
+    } else {
+      result = `
+      ${result}
+      `;
+    }
+
+    navigator.clipboard
+      .writeText(result)
+      .then(() => alert("Copied!"))
+      .catch(err => alert("해당 브라우저에서는 지원하지 않는 기능입니다."));
+  };
+
+  const rgb = hexToRgb(backgroundColor);
+
+  let hexToRgba = "inherit";
+  if (rgb) {
+    hexToRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${backgroundColorAlpha})`;
+  }
+
   return (
     <>
       <Head>
@@ -246,59 +212,68 @@ const ComponentButton: NextPage = () => {
       <Container>
         <OutputContainer>
           <Preview
-            label={label}
             width={width}
             height={height}
-            backgroundColor={backgroundColor}
-            backgroundColorAlpha={backgroundColorAlpha}
-            color={color}
-            borderRadius={borderRadius}
-            borderStyle={borderStyle.value}
-            borderWidth={borderWidth}
-            borderColor={borderColor}
-            fontSize={fontSize}
-            template={template}
-            html={html}
-            onShowImportModal={handleShowImportModal}
-          />
-          <PresetContainer>
+            onImport={handleShowImportModal}
+            onExport={handleExport}
+          >
+            <button
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: hexToRgba,
+                color,
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                borderRadius,
+                borderColor,
+                borderWidth,
+                borderStyle: borderStyle.value,
+                fontSize
+              }}
+            >
+              {label}
+            </button>
+          </Preview>
+          <Preset.Container>
             <StylingHeader>Preset</StylingHeader>
-            <PresetBody>
-              <PresetItem>
-                <PresetPreview>
+            <Preset.Body>
+              <Preset.Item>
+                <Preset.ButtonPreview>
                   <BootstrapPrimaryButton
                     type="button"
                     onClick={handleClickPresetBootstrapButton}
                   >
                     Primary
                   </BootstrapPrimaryButton>
-                </PresetPreview>
-                <PresetMeta>
+                </Preset.ButtonPreview>
+                <Preset.ButtonMeta>
                   <span>Bootstrap button 1</span>
-                </PresetMeta>
-              </PresetItem>
-              <PresetItem>
-                <PresetPreview>
+                </Preset.ButtonMeta>
+              </Preset.Item>
+              <Preset.Item>
+                <Preset.ButtonPreview>
                   <BootstrapOutlineButton
                     type="button"
                     onClick={handleClickPresetBootstrapOutlineButton}
                   >
                     Primary
                   </BootstrapOutlineButton>
-                </PresetPreview>
-                <PresetMeta>
+                </Preset.ButtonPreview>
+                <Preset.ButtonMeta>
                   <span>Bootstrap button 2</span>
-                </PresetMeta>
-              </PresetItem>
-            </PresetBody>
-          </PresetContainer>
+                </Preset.ButtonMeta>
+              </Preset.Item>
+            </Preset.Body>
+          </Preset.Container>
         </OutputContainer>
-        <OptionContainer>
+        <Option.Container>
           <StylingHeader>Options</StylingHeader>
-          <OptionBody>
-            <OptionTitle>기본 설정</OptionTitle>
-            <OptionItem>
-              <RequireMark htmlFor="setLabel">버튼명</RequireMark>
+          <Option.Body>
+            <Option.Title>기본 설정</Option.Title>
+            <Option.Item>
+              <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
               <Input
                 id="setLabel"
                 value={label}
@@ -306,19 +281,19 @@ const ComponentButton: NextPage = () => {
                 limit={10}
                 showFeedback={true}
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setColor">글자 색</RequireMark>
-              <StyledInput
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setColor">글자 색</RequireLabel>
+              <DefaultInput
                 id="setColor"
                 type="color"
                 value={color}
                 onChange={handleChangeColor}
               />
-            </OptionItem>
-            <OptionTitle>레이아웃 설정</OptionTitle>
-            <OptionItem>
-              <RequireMark htmlFor="setWidth">너비</RequireMark>
+            </Option.Item>
+            <Option.Title>레이아웃 설정</Option.Title>
+            <Option.Item>
+              <RequireLabel htmlFor="setWidth">너비</RequireLabel>
               <CountingInput
                 id="setWidth"
                 ariaLabel="너비"
@@ -330,9 +305,9 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setHeight">높이</RequireMark>
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setHeight">높이</RequireLabel>
               <CountingInput
                 id="setHeight"
                 ariaLabel="높이"
@@ -344,9 +319,9 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setFontSize">글자 크기</RequireMark>
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
               <CountingInput
                 id="setFontSize"
                 ariaLabel="글자 크기"
@@ -358,9 +333,9 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setBorderRadius">모서리 각도</RequireMark>
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setBorderRadius">모서리 각도</RequireLabel>
               <CountingInput
                 id="setBorderRadius"
                 ariaLabel="모서리 각도"
@@ -372,19 +347,19 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </OptionItem>
+            </Option.Item>
 
-            <OptionTitle>테두리 설정</OptionTitle>
-            <OptionItem>
-              <RequireMark>스타일</RequireMark>
+            <Option.Title>테두리 설정</Option.Title>
+            <Option.Item>
+              <RequireLabel>스타일</RequireLabel>
               <CustomSelect
                 activeOption={borderStyle}
                 setOption={setBorderStyle}
                 options={buttonStyleOptions}
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setBorderWidth">굵기</RequireMark>
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setBorderWidth">굵기</RequireLabel>
               <CountingInput
                 id="setBorderWidth"
                 ariaLabel="테두리 굵기"
@@ -396,30 +371,30 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setBorderColor">색</RequireMark>
-              <StyledInput
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setBorderColor">색</RequireLabel>
+              <DefaultInput
                 id="setBorderColor"
                 type="color"
                 value={borderColor}
                 onChange={handleChangeBorderColor}
               />
-            </OptionItem>
-            <OptionTitle>버튼 배경색 설정</OptionTitle>
-            <OptionItem>
-              <RequireMark htmlFor="setBackgroundColorRgb">RGB</RequireMark>
-              <StyledInput
+            </Option.Item>
+            <Option.Title>버튼 배경색 설정</Option.Title>
+            <Option.Item>
+              <RequireLabel htmlFor="setBackgroundColorRgb">RGB</RequireLabel>
+              <DefaultInput
                 id="setBackgroundColorRgb"
                 type="color"
                 value={backgroundColor}
                 onChange={handleChangeBackgroundColorRgb}
               />
-            </OptionItem>
-            <OptionItem>
-              <RequireMark htmlFor="setBackgroundColorAlpha">
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setBackgroundColorAlpha">
                 투명도
-              </RequireMark>
+              </RequireLabel>
               <CountingInput
                 id="setBackgroundColorAlpha"
                 ariaLabel="배경색 Alpha"
@@ -431,21 +406,16 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.DECIMAL}
                 unit=""
               />
-            </OptionItem>
+            </Option.Item>
 
-            <OptionTitle>추가 설정</OptionTitle>
-            <OptionItem>
-              <CheckboxContainer>
-                <input type="checkbox" id="setDisabled" />
-                <CheckboxLabel htmlFor="setDisabled">
-                  비활성 스타일 사용
-                </CheckboxLabel>
-              </CheckboxContainer>
-            </OptionItem>
+            <Option.Title>추가 설정</Option.Title>
+            <Option.Item>
+              <Checkbox id="setDisabled" label="비활성 스타일 사용" />
+            </Option.Item>
             {/* <OptionTitle>접근성 설정</OptionTitle> */}
-            <OptionTitle>환경 설정</OptionTitle>
-            <OptionItem>
-              <RequireMark htmlFor="setTemplate">템플릿</RequireMark>
+            <Option.Title>환경 설정</Option.Title>
+            <Option.Item>
+              <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
               <Select
                 id="setTemplate"
                 defaultValue={template}
@@ -463,20 +433,15 @@ const ComponentButton: NextPage = () => {
                   }
                 ]}
               />
-              <CheckboxContainer>
-                <input
-                  type="checkbox"
-                  id="setHtml"
-                  onChange={handleChangeHtml}
-                  checked={html}
-                />
-                <CheckboxLabel htmlFor="setHtml">
-                  HTML 템플릿 추가
-                </CheckboxLabel>
-              </CheckboxContainer>
-            </OptionItem>
-          </OptionBody>
-        </OptionContainer>
+              <Checkbox
+                id="setHtml"
+                onChange={handleChangeHtml}
+                checked={html}
+                label="HTML 템플릿 추가"
+              />
+            </Option.Item>
+          </Option.Body>
+        </Option.Container>
       </Container>
       <BootstrapModal
         show={showImportModal}
