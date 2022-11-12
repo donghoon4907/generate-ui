@@ -92,6 +92,11 @@ const gnb: Gnb[] = [
         title: "Button",
         href: "/components/button",
         details: []
+      },
+      {
+        title: "Input",
+        href: "/components/input",
+        details: []
       }
     ]
   }

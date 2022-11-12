@@ -31,6 +31,10 @@ const Shape = styled.div<{ isActive: boolean }>`
   &:hover {
     background: ${({ theme }) => theme.hoverBgColor};
   }
+
+  & > a{
+    width: 100%;
+  }
 `;
 
 const Button = styled.button`

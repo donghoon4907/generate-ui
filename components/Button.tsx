@@ -44,6 +44,18 @@ const BootstrapOutlineContainer = styled(PresetButtonContainer)`
   border: 1px solid ${({ theme }) => theme.color.bootstrapBlue} !important;
 `;
 
+const BootstrapLightInputContainer = styled(PresetButtonContainer)`
+  background: ${({ theme }) => theme.color.white} !important;
+  color: ${({ theme }) => theme.color.black} !important;
+  border: 1px solid ${({ theme }) => theme.dividerColor} !important;
+`;
+
+const BootstrapDarkInputContainer = styled(PresetButtonContainer)`
+  background: ${({ theme }) => theme.color.black} !important;
+  color: ${({ theme }) => theme.color.white} !important;
+  border: 1px solid ${({ theme }) => theme.dividerColor} !important;
+`;
+
 interface ButtonProps
   extends CoreProps,
     ButtonHTMLAttributes<HTMLButtonElement> {}
@@ -73,5 +85,27 @@ export const BootstrapOutlineButton: FC<ButtonProps> = ({
 }) => {
   return (
     <BootstrapOutlineContainer {...props}>{children}</BootstrapOutlineContainer>
+  );
+};
+
+export const BootstrapLightInputButton: FC<ButtonProps> = ({
+  children,
+  ...props
+}) => {
+  return (
+    <BootstrapLightInputContainer {...props}>
+      {children}
+    </BootstrapLightInputContainer>
+  );
+};
+
+export const BootstrapDarkInputButton: FC<ButtonProps> = ({
+  children,
+  ...props
+}) => {
+  return (
+    <BootstrapDarkInputContainer {...props}>
+      {children}
+    </BootstrapDarkInputContainer>
   );
 };
