@@ -1,15 +1,14 @@
-import { FC, useCallback, useEffect } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { BiHome, BiCode } from "react-icons/bi";
-import { CgComponents } from "react-icons/cg";
 
 import { NavItem } from "./NavItem";
 import { mixinBgLv2 } from "../theme/mixins/background";
 import { NavDrawer } from "./NavDrawer";
-import type { Gnb } from "../types/gnb";
 import { ThemeMode } from "../types/theme";
 import { ToggleThemeMode } from "./ToggleThemeMode";
+import { gnbOptions } from "./options/Gnb";
 
 const Container = styled.div`
   display: flex;
@@ -38,70 +37,6 @@ const Footer = styled.div`
   margin-bottom: 16px;
 `;
 
-const gnb: Gnb[] = [
-  {
-    label: "Home",
-    icon: <BiHome />,
-    href: "/",
-    lnb: []
-  },
-  {
-    label: "Develop",
-    icon: <BiCode />,
-    href: "/develop",
-    lnb: [
-      {
-        title: "Develop overview",
-        href: "/develop",
-        details: []
-      },
-      {
-        title: "Android",
-        href: null,
-        details: [
-          {
-            title: "MDC-Android",
-            href: "/develop/android/mdc-android",
-            details: []
-          },
-          {
-            title: "Jetpack Compose",
-            href: "/develop/android/jetpack-compose",
-            details: []
-          }
-        ]
-      },
-      {
-        title: "Flutter",
-        href: "/develop/flutter",
-        details: []
-      }
-    ]
-  },
-  {
-    label: "Components",
-    icon: <CgComponents />,
-    href: "/components",
-    lnb: [
-      {
-        title: "Components overview",
-        href: "/components",
-        details: []
-      },
-      {
-        title: "Button",
-        href: "/components/button",
-        details: []
-      },
-      {
-        title: "Input",
-        href: "/components/input",
-        details: []
-      }
-    ]
-  }
-];
-
 interface Props {
   themeMode: ThemeMode;
   toggle: () => void;
@@ -128,7 +63,7 @@ export const Nav: FC<Props> = ({ themeMode, toggle }) => {
     <>
       <Container>
         <Body>
-          {gnb.map((g, index) => (
+          {gnbOptions.map((g, index) => (
             <NavItem
               key={`gnb${index}`}
               {...g}

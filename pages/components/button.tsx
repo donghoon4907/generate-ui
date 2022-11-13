@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 import { mixinBgLv1 } from "../../theme/mixins/background";
 import { CountingInput } from "../../components/CountingInput";
-import { Select } from "../../components/Select";
 import { DefaultInput, Input } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
@@ -17,13 +16,14 @@ import { theme } from "../../theme";
 import { BootstrapModal } from "../../components/Modal";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
-import { buttonStyleOptions } from "../../components/ButtonStyle";
+import { buttonStyleOptions } from "../../components/options/ButtonStyle";
 import type { SelectOption } from "../../types/select";
 import { hexToRgb } from "../../lib/calc/rgb";
 import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
+import { templateOptions } from "../../components/options/Template";
 
 const Container = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ const ComponentButton: NextPage = () => {
 
   const [borderWidth, setBorderWidth] = useState(1);
 
-  const [template, setTemplate] = useState("default");
+  const [template, setTemplate] = useState<SelectOption>(templateOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
@@ -91,10 +91,6 @@ const ComponentButton: NextPage = () => {
 
   const handleChangeBorderColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setBorderColor(evt.target.value);
-  };
-
-  const handleChangeTemplate = (evt: ChangeEvent<HTMLSelectElement>) => {
-    setTemplate(evt.target.value);
   };
 
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -146,9 +142,9 @@ const ComponentButton: NextPage = () => {
     font-size: ${fontSize}px;
     `;
 
-    if (template === "default") {
+    if (template.value === "default") {
       result = `<button type="button" style="${style}">${label}</button>`;
-    } else if (template === "style-and-el") {
+    } else if (template.value === "style-and-el") {
       result = `
       <style>
         .generate-button {
@@ -408,30 +404,18 @@ const ComponentButton: NextPage = () => {
               />
             </Option.Item>
 
-            <Option.Title>추가 설정</Option.Title>
+            {/* <Option.Title>추가 설정</Option.Title>
             <Option.Item>
               <Checkbox id="setDisabled" label="비활성 스타일 사용" />
-            </Option.Item>
+            </Option.Item> */}
             {/* <OptionTitle>접근성 설정</OptionTitle> */}
             <Option.Title>환경 설정</Option.Title>
             <Option.Item>
               <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
-              <Select
-                id="setTemplate"
-                defaultValue={template}
-                onChange={handleChangeTemplate}
-                options={[
-                  {
-                    id: "templateSelectOption1",
-                    label: "요소만",
-                    value: "default"
-                  },
-                  {
-                    id: "templateSelectOption2",
-                    label: "스타일 분리",
-                    value: "style-and-el"
-                  }
-                ]}
+              <CustomSelect
+                activeOption={template}
+                setOption={setTemplate}
+                options={templateOptions}
               />
               <Checkbox
                 id="setHtml"

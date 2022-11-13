@@ -7,7 +7,15 @@ declare module "styled-components" {
 
   export interface Color {
     black: string;
+    gray_lv0: string;
+    gray_lv1: string;
+    gray_lv2: string;
+    lightBlue_lv0: string;
+    lightBlue_lv1: string;
     white: string;
+    lightDividerColor: string;
+    darkDividerColor: string;
+    darkTextColor_lv0: string;
     bootstrapBlue: string;
     bootstrapGreen: string;
     bootstrapRed: string;

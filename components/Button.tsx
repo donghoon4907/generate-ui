@@ -47,13 +47,13 @@ const BootstrapOutlineContainer = styled(PresetButtonContainer)`
 const BootstrapLightInputContainer = styled(PresetButtonContainer)`
   background: ${({ theme }) => theme.color.white} !important;
   color: ${({ theme }) => theme.color.black} !important;
-  border: 1px solid ${({ theme }) => theme.dividerColor} !important;
+  border: 1px solid ${({ theme }) => theme.color.lightDividerColor} !important;
 `;
 
 const BootstrapDarkInputContainer = styled(PresetButtonContainer)`
-  background: ${({ theme }) => theme.color.black} !important;
-  color: ${({ theme }) => theme.color.white} !important;
-  border: 1px solid ${({ theme }) => theme.dividerColor} !important;
+  background: ${({ theme }) => theme.color.gray_lv0} !important;
+  color: ${({ theme }) => theme.color.darkTextColor_lv0} !important;
+  border: 1px solid ${({ theme }) => theme.color.darkDividerColor} !important;
 `;
 
 interface ButtonProps

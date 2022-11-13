@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import type { SelectOption } from "../types/select";
+import type { SelectOption } from "../../types/select";
 
 const Continaer = styled.div`
   width: 100%;

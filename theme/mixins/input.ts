@@ -2,6 +2,14 @@ import { css } from "styled-components";
 
 import { mixinBgLv0 } from "./background";
 
+export const mixinBootstrapInputFocus = css`
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadow.inputFocus};
+    border-color: ${({ theme }) => theme.color.bootstrapBlue};
+    outline: none;
+  }
+`;
+
 export const mixinInputDefault = css`
   display: block;
   width: 100%;
@@ -14,12 +22,7 @@ export const mixinInputDefault = css`
   font-size: 1rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-  &:focus {
-    box-shadow: ${({ theme }) => theme.boxShadow.inputFocus};
-    border-color: ${({ theme }) => theme.color.bootstrapBlue};
-    outline: none;
-  }
-
+  ${mixinBootstrapInputFocus}
   ${mixinBgLv0}
 `;
 
