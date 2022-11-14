@@ -24,6 +24,7 @@ import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { templateOptions } from "../../components/options/Template";
+import { ExportToHtml } from "../../lib/export/export-html";
 
 const Container = styled.div`
   display: flex;
@@ -157,24 +158,10 @@ const ComponentButton: NextPage = () => {
       `;
     }
 
+    const exportToHtml = new ExportToHtml();
+
     if (html) {
-      result = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body>
-          ${result}
-        </body>
-      </html>
-      `;
-    } else {
-      result = `
-      ${result}
-      `;
+      result = exportToHtml.addTemplate(result);
     }
 
     navigator.clipboard
