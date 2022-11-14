@@ -24,7 +24,7 @@ import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { templateOptions } from "../../components/options/Template";
-import { ExportToHtml } from "../../lib/export/export-html";
+import { ExportToHtml, StyleProperties } from "../../lib/export/export-html";
 
 const Container = styled.div`
   display: flex;
@@ -131,43 +131,32 @@ const ComponentButton: NextPage = () => {
   };
 
   const handleExport = () => {
-    let result = "";
+    const style: StyleProperties = {
+      width,
+      height,
+      backgroundColor,
+      backgroundColorAlpha,
+      color,
+      borderRadius,
+      borderWidth,
+      borderStyle: borderStyle.value,
+      borderColor,
+      fontSize
+    };
 
-    let style = `
-    width: ${width}px;
-    height: ${height}px;
-    background-color: ${hexToRgba};
-    color: ${color};
-    border-radius: ${borderRadius};
-    border: ${borderWidth}px ${borderStyle} ${borderColor};
-    font-size: ${fontSize}px;
-    `;
+    const exportToHtml = new ExportToHtml(style);
 
     if (template.value === "default") {
-      result = `<button type="button" style="${style}">${label}</button>`;
+      exportToHtml.convertButton(label);
     } else if (template.value === "style-and-el") {
-      result = `
-      <style>
-        .generate-button {
-          ${style}
-        }
-      </style>
-      <button type="button" class="generate-button">
-        ${label}
-      </button>
-      `;
+      exportToHtml.convertButtonWithClass(label);
     }
-
-    const exportToHtml = new ExportToHtml();
 
     if (html) {
-      result = exportToHtml.addTemplate(result);
+      exportToHtml.addTemplate();
     }
 
-    navigator.clipboard
-      .writeText(result)
-      .then(() => alert("Copied!"))
-      .catch(err => alert("해당 브라우저에서는 지원하지 않는 기능입니다."));
+    exportToHtml.saveInClipboard();
   };
 
   const rgb = hexToRgb(backgroundColor);

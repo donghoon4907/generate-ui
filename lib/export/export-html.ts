@@ -1,72 +1,106 @@
+import { CSSProperties } from "react";
 import { hexToRgb } from "../calc/rgb";
+
+export interface StyleProperties extends CSSProperties {
+  backgroundColorAlpha: number;
+}
 
 export class ExportToHtml {
   private convertedHtml: string;
+  private strStyle: string;
 
-  constructor(style: Record<string, string | number>) {
+  constructor(style: StyleProperties) {
     this.convertedHtml = "";
+
+    this.strStyle = this.normalizeStyle(style);
   }
 
   get getHtml() {
     return this.convertedHtml;
   }
 
-  normalizeStyle(style: Record<string, string | number>) {
+  normalizeStyle({
+    width,
+    height,
+    backgroundColor,
+    backgroundColorAlpha,
+    borderRadius,
+    color,
+    borderWidth,
+    borderStyle,
+    borderColor,
+    fontSize
+  }: StyleProperties) {
     let result = "";
 
-    if (style.width) {
-      result += `width: ${style.width}px;`;
+    if (width) {
+      result += `width: ${width}px;`;
     }
 
-    if (style.height) {
-      result += `height: ${style.height}px;`;
+    if (height) {
+      result += `height: ${height}px;`;
     }
 
-    if (style.backgroundColor) {
-      const rgb = hexToRgb(style.backgroundColor as string);
+    if (backgroundColor) {
+      const rgb = hexToRgb(backgroundColor);
 
       if (rgb) {
-        if (style.backgroundColorAlpha) {
-          result += `background-color: rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${style.backgroundColorAlpha});`;
+        if (backgroundColorAlpha) {
+          result += `background-color: rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${backgroundColorAlpha});`;
         } else {
           result += `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b});`;
         }
       }
     }
 
-    if (style.borderRadius) {
-      result += `border-radius: ${style.borderRadius}px;`;
+    if (borderRadius) {
+      result += `border-radius: ${borderRadius}px;`;
     }
 
-    if (style.color) {
-      result += `color: ${style.color};`;
+    if (color) {
+      result += `color: ${color};`;
     }
 
-    if (style.borderWidth) {
-      result += `border-width: ${style.borderWidth}px;`;
+    if (borderWidth) {
+      result += `border-width: ${borderWidth}px;`;
     }
 
-    if (style.borderStyle) {
-      result += `border-style: ${style.borderStyle};`;
+    if (borderStyle) {
+      result += `border-style: ${borderStyle};`;
     }
 
-    if (style.borderStyle) {
-      result += `border-style: ${style.borderStyle};`;
+    if (borderColor) {
+      result += `border-color: ${borderColor};`;
     }
 
-    return `
-      width: ${style.width}px;
-      height: ${height}px;
-      background-color: ${hexToRgba};
-      color: ${color};
-      border-radius: ${borderRadius};
-      border: ${borderWidth}px ${borderStyle} ${borderColor};
-      font-size: ${fontSize}px;
-      `;
+    if (fontSize) {
+      result += `font-size: ${fontSize}px;`;
+    }
+
+    return result;
+  }
+
+  convertInput(type: string) {
+    this.convertedHtml = `<input type="${type}" style="${this.strStyle}" />`;
+
+    return this.convertedHtml;
+  }
+
+  convertInputWithClass(type: string) {
+    this.convertedHtml = `
+    <style>
+      .generate-input {
+        ${this.strStyle}
+      }
+    </style>
+    <input type="${type}" class="generate-input" />
+    `;
+
+    return this.convertedHtml;
   }
 
   convertButton(label: string) {
-    this.convertedHtml = `<button type="button" style="${this.style}">${label}</button>`;
+    this.convertedHtml = `<button type="button" style="${this.strStyle}">${label}</button>`;
 
     return this.convertedHtml;
   }
@@ -75,7 +109,7 @@ export class ExportToHtml {
     this.convertedHtml = `
     <style>
       .generate-button {
-        ${this.style}
+        ${this.strStyle}
       }
     </style>
     <button type="button" class="generate-button">
@@ -87,18 +121,27 @@ export class ExportToHtml {
   }
 
   addTemplate() {
-    return `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body>
-          ${this.convertedHtml}
-        </body>
-      </html>
-      `;
+    this.convertedHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body>
+        ${this.convertedHtml}
+      </body>
+    </html>
+    `;
+
+    return this.convertedHtml;
+  }
+
+  async saveInClipboard() {
+    return navigator.clipboard
+      .writeText(this.convertedHtml)
+      .then(() => alert("Copied!"))
+      .catch(err => alert("해당 브라우저에서는 지원하지 않는 기능입니다."));
   }
 }

@@ -25,6 +25,7 @@ import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { inputTypeOptions } from "../../components/options/InputType";
 import { templateOptions } from "../../components/options/Template";
+import { ExportToHtml, StyleProperties } from "../../lib/export/export-html";
 
 const Container = styled.div`
   display: flex;
@@ -135,55 +136,32 @@ const ComponentInput: NextPage = () => {
   };
 
   const handleExport = () => {
-    let result = "";
+    const style: StyleProperties = {
+      width,
+      height,
+      backgroundColor,
+      backgroundColorAlpha,
+      color,
+      borderRadius,
+      borderWidth,
+      borderStyle: borderStyle.value,
+      borderColor,
+      fontSize
+    };
 
-    let style = `
-    width: ${width}px;
-    height: ${height}px;
-    background-color: ${hexToRgba};
-    color: ${color};
-    border-radius: ${borderRadius};
-    border: ${borderWidth}px ${borderStyle} ${borderColor};
-    font-size: ${fontSize}px;
-    `;
+    const exportToHtml = new ExportToHtml(style);
 
     if (template.value === "default") {
-      result = `<input type="${inputType.value}" style="${style}" />`;
+      exportToHtml.convertInput(inputType.value);
     } else if (template.value === "style-and-el") {
-      result = `
-      <style>
-        .generate-input {
-          ${style}
-        }
-      </style>
-      <input type="${inputType.value}" class="generate-input" />
-      `;
+      exportToHtml.convertInputWithClass(inputType.value);
     }
 
     if (html) {
-      result = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body>
-          ${result}
-        </body>
-      </html>
-      `;
-    } else {
-      result = `
-      ${result}
-      `;
+      exportToHtml.addTemplate();
     }
 
-    navigator.clipboard
-      .writeText(result)
-      .then(() => alert("Copied!"))
-      .catch(err => alert("해당 브라우저에서는 지원하지 않는 기능입니다."));
+    exportToHtml.saveInClipboard();
   };
 
   const rgb = hexToRgb(backgroundColor);
