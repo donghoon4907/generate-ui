@@ -1,5 +1,5 @@
-import type { Dispatch, FC, SetStateAction } from "react";
-import { MouseEvent } from "react";
+import type { Dispatch, FC, SetStateAction, MouseEvent } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -9,19 +9,16 @@ import { IconWrapper } from "./IconWrapper";
 import { PrimaryButton, SecondaryButton } from "./Button";
 
 const Container = styled.div<{ show: boolean }>`
-  display: ${({ show }) => (show ? "block" : "none")};
-
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: ${({ show }) => (show ? "10" : "-1")};
+
+  opacity: ${({ show }) => (show ? "1" : "0")};
   width: 100%;
   height: 100%;
   overflow: hidden;
   outline: 0;
-
-  opacity: ${({ show }) => (show ? "1" : "0")};
-  transition: opacity 150ms linear;
 `;
 
 const Layer = styled.div`
@@ -34,25 +31,27 @@ const Layer = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-const Dialog = styled.div<{ show: boolean }>`
+const Dialog = styled.div`
   position: relative;
   z-index: 12;
-  width: auto;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1.75rem;
-  margin-bottom: 1.75rem;
 
-  max-width: 500px;
-  transform: ${({ show }) => (show ? "none" : "translate(0, -50px)")};
-  transition: transform 300ms ease-out;
+  height: 100%;
 `;
 
-const Content = styled.div`
-  position: relative;
+const Content = styled.div<{ show: boolean }>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate3d(
+    ${({ show }) => (show ? "-50%, -50%, 0" : "-300%, 300%, 0")}
+  );
+  transition: transform 500ms linear;
+
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 500px;
   pointer-events: auto;
   background-clip: padding-box;
   border-radius: 0.5rem;
@@ -109,7 +108,7 @@ interface Props extends CoreProps {
   setShow: Dispatch<SetStateAction<boolean>>;
   headerTitle?: string;
   showHeaderCloseButton?: boolean;
-  onSubmit?: (evt: MouseEvent<HTMLButtonElement>) => void;
+  onSubmit?: () => void;
 }
 
 export const BootstrapModal: FC<Props> = ({
@@ -125,6 +124,25 @@ export const BootstrapModal: FC<Props> = ({
     setShow(false);
   };
 
+  const handleKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === "Escape") {
+      handleClose();
+    }
+  };
+
+  const handleSubmit = (evt: MouseEvent) => {
+    evt.preventDefault();
+
+    onSubmit?.();
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <Container
       show={show}
@@ -134,8 +152,8 @@ export const BootstrapModal: FC<Props> = ({
       aria-labelledby={ariaLabel || ""}
       aria-hidden={!show}
     >
-      <Dialog show={show}>
-        <Content>
+      <Dialog>
+        <Content show={show}>
           {headerTitle && (
             <Header>
               <h1 id={ariaLabel || ""}>{headerTitle}</h1>
@@ -157,7 +175,7 @@ export const BootstrapModal: FC<Props> = ({
             <ButtonWrapper>
               <PrimaryButton
                 type="submit"
-                onClick={onSubmit}
+                onClick={handleSubmit}
                 disabled={!onSubmit}
               >
                 확인

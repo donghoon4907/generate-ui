@@ -25,7 +25,12 @@ import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { inputTypeOptions } from "../../components/options/InputType";
 import { templateOptions } from "../../components/options/Template";
-import { ExportToHtml, StyleProperties } from "../../lib/export/export-html";
+import {
+  StyleObjectToString,
+  StyleProperties
+} from "../../lib/style/to-string";
+import { StyleStringToObject } from "../../lib/style/to-object";
+import { DefaultTextArea } from "../../components/TextArea";
 
 const Container = styled.div`
   display: flex;
@@ -83,6 +88,8 @@ const ComponentInput: NextPage = () => {
 
   const [showImportModal, setShowImportModal] = useState(false);
 
+  const [importStrStyle, setImportStrStyle] = useState("");
+
   const handleChangePlaceholder = (evt: ChangeEvent<HTMLInputElement>) => {
     setPlaceholder(evt.target.value);
   };
@@ -103,6 +110,12 @@ const ComponentInput: NextPage = () => {
 
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
+  };
+
+  const handleChangeImportStrStyle = (
+    evt: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setImportStrStyle(evt.target.value);
   };
 
   const handleClickPresetBootstrapLightButton = () => {
@@ -135,6 +148,49 @@ const ComponentInput: NextPage = () => {
     setShowImportModal(true);
   };
 
+  const handleImport = () => {
+    const importToObj = new StyleStringToObject(importStrStyle);
+
+    const {
+      width,
+      height,
+      background,
+      backgroundAlpha,
+      backgroundColor,
+      backgroundColorAlpha,
+      borderRadius,
+      fontSize
+    } = importToObj.getObject;
+
+    console.log(importToObj.getObject);
+
+    if (width && importToObj.isPixel(width)) {
+      setWidth(importToObj.convertPixelToNumber(width));
+    }
+
+    if (height && importToObj.isPixel(height)) {
+      setHeight(importToObj.convertPixelToNumber(height));
+    }
+
+    if (background || backgroundColor) {
+      setBackgroundColor(background || backgroundColor);
+    }
+
+    if (backgroundAlpha || backgroundColorAlpha) {
+      setBackgroundColorAlpha(+backgroundAlpha || +backgroundColorAlpha);
+    }
+
+    if (borderRadius && importToObj.isPixel(borderRadius)) {
+      setBorderRadius(importToObj.convertPixelToNumber(borderRadius));
+    }
+
+    if (fontSize && importToObj.isPixel(fontSize)) {
+      setFontSize(importToObj.convertPixelToNumber(fontSize));
+    }
+
+    setShowImportModal(false);
+  };
+
   const handleExport = () => {
     const style: StyleProperties = {
       width,
@@ -149,7 +205,7 @@ const ComponentInput: NextPage = () => {
       fontSize
     };
 
-    const exportToHtml = new ExportToHtml(style);
+    const exportToHtml = new StyleObjectToString(style);
 
     if (template.value === "default") {
       exportToHtml.convertInput(inputType.value);
@@ -422,8 +478,18 @@ const ComponentInput: NextPage = () => {
         ariaLabel="importModal"
         headerTitle="Import"
         showHeaderCloseButton={true}
+        onSubmit={handleImport}
       >
-        <div>test</div>
+        <div>
+          <p>
+            가이드에 따라 불러오길 원하는 요소의 스타일을 복사하여 이곳에
+            붙여넣기 해주세요.
+          </p>
+          <DefaultTextArea
+            value={importStrStyle}
+            onChange={handleChangeImportStrStyle}
+          />
+        </div>
       </BootstrapModal>
     </>
   );

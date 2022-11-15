@@ -5,21 +5,21 @@ export interface StyleProperties extends CSSProperties {
   backgroundColorAlpha: number;
 }
 
-export class ExportToHtml {
+export class StyleObjectToString {
   private convertedHtml: string;
   private strStyle: string;
 
   constructor(style: StyleProperties) {
     this.convertedHtml = "";
 
-    this.strStyle = this.normalizeStyle(style);
+    this.strStyle = this.normalize(style);
   }
 
   get getHtml() {
     return this.convertedHtml;
   }
 
-  normalizeStyle({
+  normalize({
     width,
     height,
     backgroundColor,

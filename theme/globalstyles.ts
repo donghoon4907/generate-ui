@@ -33,6 +33,7 @@ body {
     font-weight: 400;
     letter-spacing: 0;
     line-height: 24px;
+    overflow: hidden;
 
     ${mixinBgLv0}
 }
@@ -57,6 +58,20 @@ h1 {
 
 svg {
     cursor: pointer;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+div::-webkit-scrollbar, textarea::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+div::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.dividerColor};
+    border-radius: 5px;
 }
 
 `;

@@ -17,6 +17,8 @@ const Container = styled.div`
 const MainContainer = styled.div`
   padding-left: 88px;
   width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {

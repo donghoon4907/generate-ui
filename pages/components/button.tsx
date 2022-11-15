@@ -24,7 +24,10 @@ import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { templateOptions } from "../../components/options/Template";
-import { ExportToHtml, StyleProperties } from "../../lib/export/export-html";
+import {
+  StyleObjectToString,
+  StyleProperties
+} from "../../lib/style/to-string";
 
 const Container = styled.div`
   display: flex;
@@ -144,7 +147,7 @@ const ComponentButton: NextPage = () => {
       fontSize
     };
 
-    const exportToHtml = new ExportToHtml(style);
+    const exportToHtml = new StyleObjectToString(style);
 
     if (template.value === "default") {
       exportToHtml.convertButton(label);
