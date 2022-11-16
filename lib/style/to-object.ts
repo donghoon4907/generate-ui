@@ -16,15 +16,28 @@ export class StyleStringToObject {
 
     const splitStrStyles = strStyles.split(";");
 
+    console.log(splitStrStyles);
+
     for (let i = 0; i < splitStrStyles.length; i++) {
       if (splitStrStyles[i]) {
+        // check rule
+        const semiIndex = splitStrStyles[i].indexOf(":");
+        if (semiIndex === -1) {
+          continue;
+        }
+
         const strStyle = splitStrStyles[i].replace(/\n/g, "").trim();
 
         const splitStrStyle = strStyle.split(":");
         // kebab-case => camel case
-        const styleKey = splitStrStyle[0]
+        let styleKey = splitStrStyle[0]
           .trim()
           .replace(/-[a-z]/g, char => char.slice(1).toUpperCase());
+
+        // background => backgroundColor
+        if (styleKey === "background") {
+          styleKey += "Color";
+        }
 
         const styleVal = splitStrStyle[1].trim();
         // rgba => hex + alpha

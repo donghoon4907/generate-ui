@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ChangeEvent, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import { mixinBgLv1 } from "../../theme/mixins/background";
@@ -90,6 +91,8 @@ const ComponentInput: NextPage = () => {
 
   const [importStrStyle, setImportStrStyle] = useState("");
 
+  const [importStyleFeedback, setImportStyleFeedback] = useState("");
+
   const handleChangePlaceholder = (evt: ChangeEvent<HTMLInputElement>) => {
     setPlaceholder(evt.target.value);
   };
@@ -110,12 +113,6 @@ const ComponentInput: NextPage = () => {
 
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
-  };
-
-  const handleChangeImportStrStyle = (
-    evt: ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setImportStrStyle(evt.target.value);
   };
 
   const handleClickPresetBootstrapLightButton = () => {
@@ -148,44 +145,50 @@ const ComponentInput: NextPage = () => {
     setShowImportModal(true);
   };
 
+  const handleChangeImportStrStyle = (
+    evt: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const nextVal = evt.target.value;
+
+    setImportStrStyle(nextVal);
+
+    const importToObj = new StyleStringToObject(nextVal);
+
+    let feedback = "";
+
+    const { backgroundColor, borderRadius } = importToObj.getObject;
+
+    if (backgroundColor) {
+      feedback += "배경 색 정보를 확인했습니다.";
+    }
+
+    if (borderRadius && importToObj.isPixel(borderRadius)) {
+      feedback += "모서리 각도 정보를 확인했습니다.";
+    }
+
+    if (!feedback) {
+      feedback += "스타일 형식을 확인하세요.";
+    }
+
+    setImportStyleFeedback(feedback);
+  };
+
   const handleImport = () => {
     const importToObj = new StyleStringToObject(importStrStyle);
 
-    const {
-      width,
-      height,
-      background,
-      backgroundAlpha,
-      backgroundColor,
-      backgroundColorAlpha,
-      borderRadius,
-      fontSize
-    } = importToObj.getObject;
+    const { backgroundColor, backgroundColorAlpha, borderRadius } =
+      importToObj.getObject;
 
-    console.log(importToObj.getObject);
-
-    if (width && importToObj.isPixel(width)) {
-      setWidth(importToObj.convertPixelToNumber(width));
+    if (backgroundColor) {
+      setBackgroundColor(backgroundColor);
     }
 
-    if (height && importToObj.isPixel(height)) {
-      setHeight(importToObj.convertPixelToNumber(height));
-    }
-
-    if (background || backgroundColor) {
-      setBackgroundColor(background || backgroundColor);
-    }
-
-    if (backgroundAlpha || backgroundColorAlpha) {
-      setBackgroundColorAlpha(+backgroundAlpha || +backgroundColorAlpha);
+    if (backgroundColorAlpha) {
+      setBackgroundColorAlpha(+backgroundColorAlpha);
     }
 
     if (borderRadius && importToObj.isPixel(borderRadius)) {
       setBorderRadius(importToObj.convertPixelToNumber(borderRadius));
-    }
-
-    if (fontSize && importToObj.isPixel(fontSize)) {
-      setFontSize(importToObj.convertPixelToNumber(fontSize));
     }
 
     setShowImportModal(false);
@@ -400,7 +403,7 @@ const ComponentInput: NextPage = () => {
               />
             </Option.Item>
             <Option.Item>
-              <RequireLabel htmlFor="setBorderWidth">굵기</RequireLabel>
+              <RequireLabel htmlFor="setBorderWidth">너비</RequireLabel>
               <CountingInput
                 id="setBorderWidth"
                 ariaLabel="테두리 굵기"
@@ -482,13 +485,15 @@ const ComponentInput: NextPage = () => {
       >
         <div>
           <p>
-            가이드에 따라 불러오길 원하는 요소의 스타일을 복사하여 이곳에
-            붙여넣기 해주세요.
+            * 불러오길 원하는 요소의 스타일을 복사하여 이곳에 붙여넣기 해주세요.
           </p>
           <DefaultTextArea
             value={importStrStyle}
             onChange={handleChangeImportStrStyle}
           />
+          {importStyleFeedback.split(".").map((feedback, index) => (
+            <p key={`importStyleFeedback${index}`}>{feedback}</p>
+          ))}
         </div>
       </BootstrapModal>
     </>

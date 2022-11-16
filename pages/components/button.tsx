@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { mixinBgLv1 } from "../../theme/mixins/background";
 import { CountingInput } from "../../components/CountingInput";
-import { DefaultInput, Input } from "../../components/Input";
+import { DefaultInput, FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
 import {
@@ -249,7 +249,7 @@ const ComponentButton: NextPage = () => {
             <Option.Title>기본 설정</Option.Title>
             <Option.Item>
               <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
-              <Input
+              <FeedbackInput
                 id="setLabel"
                 value={label}
                 setValue={setLabel}

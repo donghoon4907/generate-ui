@@ -29,7 +29,7 @@ interface Props {
   showFeedback: boolean;
 }
 
-export const Input: FC<Props> = ({
+export const FeedbackInput: FC<Props> = ({
   id,
   value,
   setValue,
