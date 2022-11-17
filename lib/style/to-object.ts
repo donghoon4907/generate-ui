@@ -16,8 +16,6 @@ export class StyleStringToObject {
 
     const splitStrStyles = strStyles.split(";");
 
-    console.log(splitStrStyles);
-
     for (let i = 0; i < splitStrStyles.length; i++) {
       if (splitStrStyles[i]) {
         // check rule
@@ -65,7 +63,15 @@ export class StyleStringToObject {
 
           result[`${styleKey}Alpha`] = alpha;
         } else {
-          result[styleKey] = styleVal;
+          // split border-radius
+          if (styleKey === "border-radius") {
+            result["borderTopLeftRadius"] = styleVal;
+            result["borderTopRightRadius"] = styleVal;
+            result["borderBottomLeftRadius"] = styleVal;
+            result["borderBottomRightRadius"] = styleVal;
+          } else {
+            result[styleKey] = styleVal;
+          }
         }
       } else {
         splitStrStyles.splice(i, 1);

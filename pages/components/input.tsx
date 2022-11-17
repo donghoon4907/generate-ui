@@ -32,6 +32,7 @@ import {
 } from "../../lib/style/to-string";
 import { StyleStringToObject } from "../../lib/style/to-object";
 import { DefaultTextArea } from "../../components/TextArea";
+import { Switch } from "../../components/Switch";
 
 const Container = styled.div`
   display: flex;
@@ -71,7 +72,16 @@ const ComponentInput: NextPage = () => {
 
   const [color, setColor] = useState("#000000");
 
-  const [borderRadius, setBorderRadius] = useState(4);
+  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
+
+  const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
+
+  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
+
+  const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
+
+  const [isSetDetailBorderRadius, setIsSetDetailBorderBottomRightRadius] =
+    useState(false);
 
   const [borderStyle, setBorderStyle] = useState<SelectOption>(
     buttonStyleOptions[1]
@@ -115,12 +125,20 @@ const ComponentInput: NextPage = () => {
     setHtml(evt.target.checked);
   };
 
+  const setBorderRadius = (px: number) => {
+    setBorderTopLeftRadius(px);
+    setBorderTopRightRadius(px);
+    setBorderBottomLeftRadius(px);
+    setBorderBottomRightRadius(px);
+  };
+
   const handleClickPresetBootstrapLightButton = () => {
     setWidth(80);
     setHeight(40);
     setBackgroundColor(theme.color.white);
     setColor(theme.color.white);
     setBorderRadius(5);
+    setIsSetDetailBorderBottomRightRadius(false);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
     setBorderStyle(buttonStyleOptions[1]);
@@ -134,6 +152,7 @@ const ComponentInput: NextPage = () => {
     setBackgroundColor(theme.color.gray_lv0);
     setColor(theme.color.darkTextColor_lv0);
     setBorderRadius(5);
+    setIsSetDetailBorderBottomRightRadius(false);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
     setBorderStyle(buttonStyleOptions[1]);
@@ -201,7 +220,10 @@ const ComponentInput: NextPage = () => {
       backgroundColor,
       backgroundColorAlpha,
       color,
-      borderRadius,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      borderBottomLeftRadius,
+      borderBottomRightRadius,
       borderWidth,
       borderStyle: borderStyle.value,
       borderColor,
@@ -263,7 +285,10 @@ const ComponentInput: NextPage = () => {
                 position: "absolute",
                 left: 0,
                 bottom: 0,
-                borderRadius,
+                borderTopLeftRadius,
+                borderTopRightRadius,
+                borderBottomLeftRadius,
+                borderBottomRightRadius,
                 borderColor,
                 borderWidth,
                 borderStyle: borderStyle.value,
@@ -378,20 +403,101 @@ const ComponentInput: NextPage = () => {
                 unit="px"
               />
             </Option.Item>
+
+            <Option.Title>모서리 각도 설정</Option.Title>
             <Option.Item>
-              <RequireLabel htmlFor="setBorderRadius">모서리 각도</RequireLabel>
-              <CountingInput
-                id="setBorderRadius"
-                ariaLabel="모서리 각도"
-                count={borderRadius}
-                setCount={setBorderRadius}
-                limit={100}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
+              <RequireLabel htmlFor="">디테일 설정 여부</RequireLabel>
+              <Switch
+                width={40}
+                checked={isSetDetailBorderRadius}
+                setChecked={setIsSetDetailBorderBottomRightRadius}
               />
             </Option.Item>
+            {isSetDetailBorderRadius ? (
+              <>
+                <Option.Item>
+                  <RequireLabel htmlFor="setBorderTopLeftRadius">
+                    Top-Left
+                  </RequireLabel>
+                  <CountingInput
+                    id="setBorderTopLeftRadius"
+                    ariaLabel="border-top-left-radius"
+                    count={borderTopLeftRadius}
+                    setCount={setBorderTopLeftRadius}
+                    limit={100}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+                <Option.Item>
+                  <RequireLabel htmlFor="setBorderTopRightRadius">
+                    Top-Right
+                  </RequireLabel>
+                  <CountingInput
+                    id="setBorderTopRightRadius"
+                    ariaLabel="border-top-right-radius"
+                    count={borderTopRightRadius}
+                    setCount={setBorderTopRightRadius}
+                    limit={100}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+                <Option.Item>
+                  <RequireLabel htmlFor="setBorderBottomLeftRadius">
+                    Bottom-Left
+                  </RequireLabel>
+                  <CountingInput
+                    id="setBorderBottomLeftRadius"
+                    ariaLabel="border-bottom-left-radius"
+                    count={borderBottomLeftRadius}
+                    setCount={setBorderBottomLeftRadius}
+                    limit={100}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+                <Option.Item>
+                  <RequireLabel htmlFor="setBorderBottomRightRadius">
+                    Bottom-Right
+                  </RequireLabel>
+                  <CountingInput
+                    id="setBorderBottomRightRadius"
+                    ariaLabel="border-bottom-right-radius"
+                    count={borderBottomRightRadius}
+                    setCount={setBorderBottomRightRadius}
+                    limit={100}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+              </>
+            ) : (
+              <Option.Item>
+                <RequireLabel htmlFor="setBorderRadius">
+                  모서리 각도
+                </RequireLabel>
+                <CountingInput
+                  id="setBorderRadius"
+                  ariaLabel="border-radius"
+                  count={borderTopLeftRadius}
+                  setCount={setBorderRadius}
+                  limit={100}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.INTEGER}
+                  unit="px"
+                />
+              </Option.Item>
+            )}
 
             <Option.Title>테두리 설정</Option.Title>
             <Option.Item>

@@ -52,7 +52,7 @@ const Tool = styled.div`
 interface Props {
   id: string;
   count: number;
-  setCount: Dispatch<SetStateAction<number>>;
+  setCount: Dispatch<SetStateAction<number>> | ((px: number) => void);
   ariaLabel: string;
   limit: number;
   showIcon: boolean;

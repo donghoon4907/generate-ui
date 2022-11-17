@@ -24,7 +24,10 @@ export class StyleObjectToString {
     height,
     backgroundColor,
     backgroundColorAlpha,
-    borderRadius,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
     color,
     borderWidth,
     borderStyle,
@@ -53,8 +56,20 @@ export class StyleObjectToString {
       }
     }
 
-    if (borderRadius) {
-      result += `border-radius: ${borderRadius}px;`;
+    if (borderTopLeftRadius) {
+      result += `border-top-left-radius: ${borderTopLeftRadius}px;`;
+    }
+
+    if (borderTopRightRadius) {
+      result += `border-top-right-radius: ${borderTopRightRadius}px;`;
+    }
+
+    if (borderBottomLeftRadius) {
+      result += `border-bottom-left-radius: ${borderBottomLeftRadius}px;`;
+    }
+
+    if (borderBottomRightRadius) {
+      result += `border-bottom-right-radius: ${borderBottomRightRadius}px;`;
     }
 
     if (color) {
