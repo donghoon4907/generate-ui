@@ -1,4 +1,4 @@
-import { Lnb } from "../interfaces/lnb";
+import { Lnb } from "../types/lnb";
 
 export const SET_ACTIVE_LNB = "SET_ACTIVE_LNB";
 

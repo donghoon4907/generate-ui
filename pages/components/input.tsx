@@ -14,7 +14,6 @@ import {
   BootstrapLightInputButton
 } from "../../components/Button";
 import { theme } from "../../theme";
-import { BootstrapModal } from "../../components/Modal";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/options/ButtonStyle";
@@ -29,11 +28,12 @@ import {
   StyleObjectToString,
   StyleProperties
 } from "../../lib/style/to-string";
-import { StyleStringToObject } from "../../lib/style/to-object";
-import { DefaultTextArea } from "../../components/TextArea";
 import { Switch } from "../../components/Switch";
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
+// import { BootstrapModal } from "../../components/Modal";
+// import { StyleStringToObject } from "../../lib/style/to-object";
+// import { DefaultTextArea } from "../../components/TextArea";
 
 const Container = styled.div`
   display: flex;
@@ -63,11 +63,17 @@ const ComponentInput: NextPage = () => {
 
   const [width, setWidth] = useState(100);
 
-  const [height, setHeight] = useState(40);
+  // const [height, setHeight] = useState(40);
+
+  const [lineHeight, setLineHeight] = useState(25);
+
+  const [letterSpacing, setLetterSpacing] = useState(0);
 
   const [placeholder, setPlaceholder] = useState("입력하세요");
 
-  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
+
+  const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
 
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
 
@@ -81,8 +87,17 @@ const ComponentInput: NextPage = () => {
 
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
 
-  const [isSetDetailBorderRadius, setIsSetDetailBorderBottomRightRadius] =
-    useState(false);
+  const [paddingTop, setPaddingTop] = useState(4);
+
+  const [paddingRight, setPaddingRight] = useState(4);
+
+  const [paddingBottom, setPaddingBottom] = useState(4);
+
+  const [paddingLeft, setPaddingLeft] = useState(4);
+
+  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
+
+  const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
   const [borderStyle, setBorderStyle] = useState<SelectOption>(
     buttonStyleOptions[1]
@@ -98,20 +113,25 @@ const ComponentInput: NextPage = () => {
 
   const [fontSize, setFontSize] = useState(16);
 
-  const [showImportModal, setShowImportModal] = useState(false);
+  // const [showImportModal, setShowImportModal] = useState(false);
 
-  const [importStrStyle, setImportStrStyle] = useState("");
+  // const [importStrStyle, setImportStrStyle] = useState("");
 
-  const [importStyleFeedback, setImportStyleFeedback] = useState("");
+  // const [importStyleFeedback, setImportStyleFeedback] = useState("");
 
   const handleChangePlaceholder = (evt: ChangeEvent<HTMLInputElement>) => {
     setPlaceholder(evt.target.value);
   };
 
-  const handleChangeBackgroundColorRgb = (
-    evt: ChangeEvent<HTMLInputElement>
-  ) => {
-    setBackgroundColor(evt.target.value);
+  const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
+    const rgb = hexToRgb(evt.target.value);
+
+    if (rgb !== null) {
+      console.log(rgb);
+      setBackgroundColorRgb(`${rgb.r},${rgb.g},${rgb.b}`);
+    }
+
+    setBackgroundColorHex(evt.target.value);
   };
 
   const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -133,93 +153,133 @@ const ComponentInput: NextPage = () => {
     setBorderBottomRightRadius(px);
   };
 
+  const setPadding = (px: number) => {
+    setPaddingTop(px);
+    setPaddingRight(px);
+    setPaddingBottom(px);
+    setPaddingLeft(px);
+  };
+
   const handleClickPresetBootstrapLightButton = () => {
-    setWidth(80);
-    setHeight(40);
-    setBackgroundColor(theme.color.white);
+    setWidth(100);
+    // setHeight(40);
+    setLineHeight(25);
+    setLetterSpacing(0);
+    setPaddingTop(6);
+    setPaddingRight(12);
+    setPaddingBottom(6);
+    setPaddingLeft(12);
+    setIsSetDetailPadding(true);
+    setBackgroundColorHex(theme.color.white);
+    setBackgroundColorRgb("255,255,255");
+    setBackgroundColorAlpha(1);
     setColor(theme.color.white);
     setBorderRadius(5);
-    setIsSetDetailBorderBottomRightRadius(false);
+    setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
     setBorderStyle(buttonStyleOptions[1]);
-    setBackgroundColorAlpha(1);
     setFontSize(16);
   };
 
   const handleClickPresetBootstrapDarkButton = () => {
-    setWidth(80);
-    setHeight(40);
-    setBackgroundColor(theme.color.gray_lv0);
+    setWidth(100);
+    // setHeight(40);
+    setLineHeight(25);
+    setLetterSpacing(0);
+    setPaddingTop(6);
+    setPaddingRight(12);
+    setPaddingBottom(6);
+    setPaddingLeft(12);
+    setIsSetDetailPadding(true);
+    setBackgroundColorHex(theme.color.gray_lv0);
+    setBackgroundColorRgb("31, 31, 31");
+    setBackgroundColorAlpha(1);
     setColor(theme.color.darkTextColor_lv0);
     setBorderRadius(5);
-    setIsSetDetailBorderBottomRightRadius(false);
+    setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
     setBorderStyle(buttonStyleOptions[1]);
-    setBackgroundColorAlpha(1);
     setFontSize(16);
   };
 
-  const handleShowImportModal = () => {
-    setShowImportModal(true);
-  };
+  // const handleShowImportModal = () => {
+  //   setShowImportModal(true);
+  // };
 
-  const handleChangeImportStrStyle = (
-    evt: ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const nextVal = evt.target.value;
+  // const handleChangeImportStrStyle = (
+  //   evt: ChangeEvent<HTMLTextAreaElement>
+  // ) => {
+  //   const nextVal = evt.target.value;
 
-    setImportStrStyle(nextVal);
+  //   setImportStrStyle(nextVal);
 
-    const importToObj = new StyleStringToObject(nextVal);
+  //   const importToObj = new StyleStringToObject(nextVal);
 
-    let feedback = "";
+  //   let feedback = "";
 
-    const { backgroundColor, borderRadius } = importToObj.getObject;
+  //   const {
+  //     backgroundColor,
+  //     borderRadius,
+  //     lineHeight,
+  //     letterSpacing,
+  //     padding
+  //   } = importToObj.getObject;
 
-    if (backgroundColor) {
-      feedback += "배경 색 정보를 확인했습니다.";
-    }
+  //   if (backgroundColor) {
+  //     feedback += "배경 색 정보를 확인했습니다.";
+  //   }
 
-    if (borderRadius && importToObj.isPixel(borderRadius)) {
-      feedback += "모서리 각도 정보를 확인했습니다.";
-    }
+  //   if (borderRadius && importToObj.isPixel(borderRadius)) {
+  //     feedback += "모서리 각도 정보를 확인했습니다.";
+  //   }
 
-    if (!feedback) {
-      feedback += "스타일 형식을 확인하세요.";
-    }
+  //   if (lineHeight && importToObj.isPixel(lineHeight)) {
+  //     feedback += "줄 높이 정보를 확인했습니다.";
+  //   }
 
-    setImportStyleFeedback(feedback);
-  };
+  //   if (letterSpacing && importToObj.isPixel(letterSpacing)) {
+  //     feedback += "자간 정보를 확인했습니다.";
+  //   }
 
-  const handleImport = () => {
-    const importToObj = new StyleStringToObject(importStrStyle);
+  //   if (padding && importToObj.isPixel(padding)) {
+  //     feedback += "여백 정보를 확인했습니다.";
+  //   }
 
-    const { backgroundColor, backgroundColorAlpha, borderRadius } =
-      importToObj.getObject;
+  //   if (!feedback) {
+  //     feedback += "스타일 형식을 확인하세요.";
+  //   }
 
-    if (backgroundColor) {
-      setBackgroundColor(backgroundColor);
-    }
+  //   setImportStyleFeedback(feedback);
+  // };
 
-    if (backgroundColorAlpha) {
-      setBackgroundColorAlpha(+backgroundColorAlpha);
-    }
+  // const handleImport = () => {
+  //   const importToObj = new StyleStringToObject(importStrStyle);
 
-    if (borderRadius && importToObj.isPixel(borderRadius)) {
-      setBorderRadius(importToObj.convertPixelToNumber(borderRadius));
-    }
+  //   const { backgroundColor, backgroundColorAlpha, borderRadius, lineHeight, letterSpacing, padding } =
+  //     importToObj.getObject;
 
-    setShowImportModal(false);
-  };
+  //   if (backgroundColor) {
+  //     setBackgroundColor(backgroundColor);
+  //   }
+
+  //   if (backgroundColorAlpha) {
+  //     setBackgroundColorAlpha(+backgroundColorAlpha);
+  //   }
+
+  //   if (borderRadius && importToObj.isPixel(borderRadius)) {
+  //     setBorderRadius(importToObj.convertPixelToNumber(borderRadius));
+  //   }
+
+  //   setShowImportModal(false);
+  // };
 
   const handleExport = () => {
     const style: StyleProperties = {
       width,
-      height,
-      backgroundColor,
-      backgroundColorAlpha,
+      // height,
+      backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
       color,
       borderTopLeftRadius,
       borderTopRightRadius,
@@ -228,7 +288,13 @@ const ComponentInput: NextPage = () => {
       borderWidth,
       borderStyle: borderStyle.value,
       borderColor,
-      fontSize
+      fontSize,
+      lineHeight,
+      letterSpacing,
+      paddingTop,
+      paddingRight,
+      paddingBottom,
+      paddingLeft
     };
 
     const exportToHtml = new StyleObjectToString(style);
@@ -245,13 +311,6 @@ const ComponentInput: NextPage = () => {
 
     exportToHtml.saveInClipboard();
   };
-
-  const rgb = hexToRgb(backgroundColor);
-
-  let hexToRgba = "inherit";
-  if (rgb) {
-    hexToRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${backgroundColorAlpha})`;
-  }
 
   return (
     <>
@@ -272,20 +331,17 @@ const ComponentInput: NextPage = () => {
         <OutputContainer>
           <Preview
             width={width}
-            height={height}
-            onImport={handleShowImportModal}
+            // height={height}
+            // onImport={handleShowImportModal}
             onExport={handleExport}
           >
             <input
+              type={inputType.value}
               placeholder={placeholder}
               style={{
                 width: "100%",
-                height: "100%",
-                backgroundColor: hexToRgba,
+                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
                 color,
-                position: "absolute",
-                left: 0,
-                bottom: 0,
                 borderTopLeftRadius,
                 borderTopRightRadius,
                 borderBottomLeftRadius,
@@ -293,7 +349,13 @@ const ComponentInput: NextPage = () => {
                 borderColor,
                 borderWidth,
                 borderStyle: borderStyle.value,
-                fontSize
+                fontSize,
+                lineHeight: `${lineHeight}px`,
+                letterSpacing,
+                paddingTop,
+                paddingRight,
+                paddingBottom,
+                paddingLeft
               }}
             />
           </Preview>
@@ -376,7 +438,7 @@ const ComponentInput: NextPage = () => {
                 unit="px"
               />
             </Option.Item>
-            <Option.Item>
+            {/* <Option.Item>
               <RequireLabel htmlFor="setHeight">높이</RequireLabel>
               <CountingInput
                 id="setHeight"
@@ -389,7 +451,7 @@ const ComponentInput: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </Option.Item>
+            </Option.Item> */}
             <Option.Item>
               <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
               <CountingInput
@@ -404,7 +466,115 @@ const ComponentInput: NextPage = () => {
                 unit="px"
               />
             </Option.Item>
-
+            <Option.Item>
+              <RequireLabel htmlFor="setLineHeight">줄 높이</RequireLabel>
+              <CountingInput
+                id="setLineHeight"
+                ariaLabel="줄 높이"
+                count={lineHeight}
+                setCount={setLineHeight}
+                limit={100}
+                showIcon={true}
+                showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
+              />
+            </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setLetterSpacing">자간</RequireLabel>
+              <CountingInput
+                id="setLetterSpacing"
+                ariaLabel="자간"
+                count={letterSpacing}
+                setCount={setLetterSpacing}
+                limit={5}
+                showIcon={true}
+                showFeedback={true}
+                numberType={CountNumberType.DECIMAL}
+                unit="px"
+              />
+            </Option.Item>
+            <Option.Title>여백 설정</Option.Title>
+            <Option.Item>
+              <RequireLabel
+                htmlFor={
+                  isSetDetailPadding
+                    ? "setBorderTopLeftRadius"
+                    : "setBorderRadius"
+                }
+              >
+                {isSetDetailPadding ? "Top" : "여백"}
+              </RequireLabel>
+              <CountingInput
+                id={
+                  isSetDetailPadding
+                    ? "setBorderTopLeftRadius"
+                    : "setBorderRadius"
+                }
+                ariaLabel={isSetDetailPadding ? "padding-top" : "padding"}
+                count={paddingTop}
+                setCount={isSetDetailPadding ? setPaddingTop : setPadding}
+                limit={30}
+                showIcon={true}
+                showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
+              />
+              <WithLabel id="setDetailPadding" label="디테일 설정">
+                <Switch
+                  id="setDetailPadding"
+                  width={40}
+                  checked={isSetDetailPadding}
+                  setChecked={setIsSetDetailPadding}
+                />
+              </WithLabel>
+            </Option.Item>
+            {isSetDetailPadding && (
+              <>
+                <Option.Item>
+                  <RequireLabel htmlFor="setPaddingRight">Right</RequireLabel>
+                  <CountingInput
+                    id="setPaddingRight"
+                    ariaLabel="padding-right"
+                    count={paddingRight}
+                    setCount={setPaddingRight}
+                    limit={30}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+                <Option.Item>
+                  <RequireLabel htmlFor="setPaddingBottom">Bottom</RequireLabel>
+                  <CountingInput
+                    id="setPaddingBottom"
+                    ariaLabel="padding-bottom"
+                    count={paddingBottom}
+                    setCount={setPaddingBottom}
+                    limit={30}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+                <Option.Item>
+                  <RequireLabel htmlFor="setPaddingLeft">Left</RequireLabel>
+                  <CountingInput
+                    id="setPaddingLeft"
+                    ariaLabel="padding-left"
+                    count={paddingLeft}
+                    setCount={setPaddingLeft}
+                    limit={30}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.INTEGER}
+                    unit="px"
+                  />
+                </Option.Item>
+              </>
+            )}
             <Option.Title>모서리 각 설정</Option.Title>
             <Option.Item>
               <RequireLabel
@@ -444,7 +614,7 @@ const ComponentInput: NextPage = () => {
                   id="setDetailBorderRadius"
                   width={40}
                   checked={isSetDetailBorderRadius}
-                  setChecked={setIsSetDetailBorderBottomRightRadius}
+                  setChecked={setIsSetDetailBorderRadius}
                 />
               </WithLabel>
             </Option.Item>
@@ -539,8 +709,8 @@ const ComponentInput: NextPage = () => {
               <DefaultInput
                 id="setBackgroundColorRgb"
                 type="color"
-                value={backgroundColor}
-                onChange={handleChangeBackgroundColorRgb}
+                value={backgroundColorHex}
+                onChange={handleChangeBackgroundColor}
               />
             </Option.Item>
             <Option.Item>
@@ -584,7 +754,7 @@ const ComponentInput: NextPage = () => {
           </Option.Body>
         </Option.Container>
       </Container>
-      <BootstrapModal
+      {/* <BootstrapModal
         show={showImportModal}
         setShow={setShowImportModal}
         ariaLabel="importModal"
@@ -604,7 +774,7 @@ const ComponentInput: NextPage = () => {
             <p key={`importStyleFeedback${index}`}>{feedback}</p>
           ))}
         </div>
-      </BootstrapModal>
+      </BootstrapModal> */}
     </>
   );
 };

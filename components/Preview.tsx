@@ -3,8 +3,6 @@ import styled from "styled-components";
 
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { StylingHeader } from "./StylingHeader";
-import { StylingButtonProps } from "../interfaces/styling";
-import { hexToRgb } from "../lib/calc/rgb";
 import { CoreProps } from "../interfaces/core";
 
 const Container = styled.div`
@@ -78,8 +76,8 @@ const ButtonWrapper = styled.div`
 
 interface Props extends CoreProps {
   width: number;
-  height: number;
-  onImport: () => void;
+  height?: number;
+  onImport?: () => void;
   onExport: () => void;
 }
 
@@ -97,16 +95,18 @@ export const Preview: FC<Props> = ({
         <div style={{ position: "relative", width, height }}>
           <Width>{width}px</Width>
           <RangeTop />
-          <Height>{height}px</Height>
-          <RangeLeft />
+          {height && <Height>{height}px</Height>}
+          {height && <RangeLeft />}
           {children}
         </div>
       </Body>
       <Footer>
         <ButtonWrapper>
-          <SecondaryButton type="button" onClick={onImport}>
-            Import
-          </SecondaryButton>
+          {onImport && (
+            <SecondaryButton type="button" onClick={onImport}>
+              Import
+            </SecondaryButton>
+          )}
         </ButtonWrapper>
         <ButtonWrapper>
           <PrimaryButton type="button" onClick={onExport}>

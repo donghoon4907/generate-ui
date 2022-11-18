@@ -8,6 +8,7 @@ import { IconWrapper } from "./IconWrapper";
 import { Feedback } from "./Feedback";
 import { CountNumberType } from "../types/count";
 import { minusDecimal, plusDecimal } from "../lib/calc/decimal";
+import { isNumber } from "../lib/calc/number";
 
 const Container = styled.div`
   display: flex;
@@ -58,6 +59,7 @@ interface Props {
   showIcon: boolean;
   showFeedback: boolean;
   numberType: CountNumberType;
+  // isAllowNegative: boolean;
   unit: string;
 }
 
@@ -70,6 +72,7 @@ export const CountingInput: FC<Props> = ({
   showIcon,
   showFeedback,
   numberType,
+  // isAllowNegative,
   unit
 }) => {
   const intervalRef = useRef<number | null>(null);
@@ -81,19 +84,22 @@ export const CountingInput: FC<Props> = ({
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
 
-    let num = Number(value);
-    // 0을 설정할 수 없도록 최소값설정
-    if (num === 0) {
-      if (numberType === CountNumberType.DECIMAL) {
-        num = 0.1;
-      } else if (numberType === CountNumberType.INTEGER) {
-        num = 1;
-      }
-    }
     // 글자 입력 방지
-    if (!num) {
+    if (!isNumber(value)) {
       return;
     }
+
+    let num = Number(value);
+
+    // 0을 설정할 수 없도록 최소값설정
+    // if (num === 0) {
+    //   if (numberType === CountNumberType.DECIMAL) {
+    //     num = 0.1;
+    //   } else if (numberType === CountNumberType.INTEGER) {
+    //     num = 1;
+    //   }
+    // }
+
     // 소숫점 두자리가 되지 않도록 처리
     if (numberType === CountNumberType.DECIMAL) {
       const strNum = String(num);
@@ -146,8 +152,14 @@ export const CountingInput: FC<Props> = ({
       setInvalid(false);
       setValid(true);
     }
-    // 음수 혹은 limit + 2의 수는 허용하지 않음.
-    if (count > 0 && count < limit + 2) {
+    // 음수를 허용하지 않은 경우 고려
+    let isStop = false;
+    if (count < 0) {
+      isStop = true;
+    }
+
+    // limit + 1 까지 허용.
+    if (!isStop && count < limit + 2) {
       setCount(count);
     } else {
       stopHolding();
@@ -165,6 +177,7 @@ export const CountingInput: FC<Props> = ({
             value={count}
             valid={valid}
             invalid={invalid}
+            disabled={numberType === CountNumberType.DECIMAL}
           />
           {unit && <Unit>{unit}</Unit>}
         </InputWrapper>

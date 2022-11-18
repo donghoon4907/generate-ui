@@ -1,4 +1,4 @@
-import { Lnb } from "../interfaces/lnb";
+import { Lnb } from "../types/lnb";
 import type { Action } from "./action";
 import { SET_ACTIVE_LNB } from "./action";
 

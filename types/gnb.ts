@@ -1,4 +1,4 @@
-import { Lnb } from "../interfaces/lnb";
+import { Lnb } from "./lnb";
 
 export type Gnb = {
   label: string;

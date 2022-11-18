@@ -1,9 +1,7 @@
 import { CSSProperties } from "react";
-import { hexToRgb } from "../calc/rgb";
+import { isNumber } from "../calc/number";
 
-export interface StyleProperties extends CSSProperties {
-  backgroundColorAlpha: number;
-}
+export interface StyleProperties extends CSSProperties {}
 
 export class StyleObjectToString {
   private convertedHtml: string;
@@ -19,77 +17,18 @@ export class StyleObjectToString {
     return this.convertedHtml;
   }
 
-  normalize({
-    width,
-    height,
-    backgroundColor,
-    backgroundColorAlpha,
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
-    color,
-    borderWidth,
-    borderStyle,
-    borderColor,
-    fontSize
-  }: StyleProperties) {
+  normalize(style: StyleProperties) {
     let result = "";
 
-    if (width) {
-      result += `width: ${width}px;`;
-    }
+    for (const [key, value] of Object.entries(style)) {
+      // 대문자 -> 소문자
+      let cssKey = key.replace(/[A-Z]/g, char => `-${char.toLowerCase()}`);
 
-    if (height) {
-      result += `height: ${height}px;`;
-    }
-
-    if (backgroundColor) {
-      const rgb = hexToRgb(backgroundColor);
-
-      if (rgb) {
-        if (backgroundColorAlpha) {
-          result += `background-color: rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${backgroundColorAlpha});`;
-        } else {
-          result += `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b});`;
-        }
+      if (isNumber(value)) {
+        result += `${cssKey}: ${value}px;`;
+      } else {
+        result += `${cssKey}: ${value};`;
       }
-    }
-
-    if (borderTopLeftRadius) {
-      result += `border-top-left-radius: ${borderTopLeftRadius}px;`;
-    }
-
-    if (borderTopRightRadius) {
-      result += `border-top-right-radius: ${borderTopRightRadius}px;`;
-    }
-
-    if (borderBottomLeftRadius) {
-      result += `border-bottom-left-radius: ${borderBottomLeftRadius}px;`;
-    }
-
-    if (borderBottomRightRadius) {
-      result += `border-bottom-right-radius: ${borderBottomRightRadius}px;`;
-    }
-
-    if (color) {
-      result += `color: ${color};`;
-    }
-
-    if (borderWidth) {
-      result += `border-width: ${borderWidth}px;`;
-    }
-
-    if (borderStyle) {
-      result += `border-style: ${borderStyle};`;
-    }
-
-    if (borderColor) {
-      result += `border-color: ${borderColor};`;
-    }
-
-    if (fontSize) {
-      result += `font-size: ${fontSize}px;`;
     }
 
     return result;

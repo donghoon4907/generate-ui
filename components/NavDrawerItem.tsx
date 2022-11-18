@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { RiArrowUpSFill } from "react-icons/ri";
 
 import { ActiveLink } from "./ActiveLink";
-import type { Lnb } from "../interfaces/lnb";
+import type { Lnb } from "../types/lnb";
 import { mixinBtnDefault } from "../theme/mixins/button";
 
 const Container = styled.div`
