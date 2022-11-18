@@ -406,8 +406,11 @@ const ComponentInput: NextPage = () => {
 
             <Option.Title>모서리 각도 설정</Option.Title>
             <Option.Item>
-              <RequireLabel htmlFor="">디테일 설정 여부</RequireLabel>
+              <RequireLabel htmlFor="setDetailBorderRadius">
+                디테일 설정 여부
+              </RequireLabel>
               <Switch
+                id="setDetailBorderRadius"
                 width={40}
                 checked={isSetDetailBorderRadius}
                 setChecked={setIsSetDetailBorderBottomRightRadius}

@@ -1,15 +1,14 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, FC, InputHTMLAttributes, SetStateAction } from "react";
 import styled from "styled-components";
 import { mixinBootstrapInputFocus } from "../theme/mixins/input";
 
-const Container = styled.input<{ width: number; checked: boolean }>`
+const Container = styled.input<{ width: number }>`
   position: relative;
   width: ${({ width }) => width}px;
   height: 20px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.dividerColor};
-  background: ${({ theme, checked }) =>
-    checked ? theme.color.bootstrapBlue : theme.bgColor_lv0};
+  background: ${({ theme }) => theme.bgColor_lv0};
   user-select: none;
   cursor: pointer;
   appearance: none;
@@ -23,28 +22,36 @@ const Container = styled.input<{ width: number; checked: boolean }>`
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    transform: translate3d(2px, -50%, 0);
+    transition: transform 200ms linear;
+    background: ${({ theme }) => theme.dividerColor};
+    margin: 0;
+  }
+
+  &:checked {
+    background: ${({ theme }) => theme.color.bootstrapBlue};
+  }
+
+  &:checked::before {
     transform: translate3d(
-      ${({ width, checked }) => (checked ? `${width - 16}px` : "2px")},
+      ${({ width }) => `calc(${width}px - 1rem)`},
       -50%,
       0
     );
-    transition: transform 200ms linear;
-    background: ${({ theme, checked }) =>
-      checked ? theme.color.white : theme.dividerColor};
-    margin: 0;
+    background: ${({ theme }) => theme.color.white};
   }
 
   ${mixinBootstrapInputFocus}
 `;
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   width: number;
   checked: boolean;
   setChecked: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Switch: FC<Props> = ({ width, checked, setChecked }) => {
-  const handleClick = () => {
+export const Switch: FC<Props> = ({ width, checked, setChecked, ...props }) => {
+  const handleChange = () => {
     setChecked(!checked);
   };
 
@@ -52,8 +59,9 @@ export const Switch: FC<Props> = ({ width, checked, setChecked }) => {
     <Container
       type="checkbox"
       checked={checked}
-      onChange={handleClick}
+      onChange={handleChange}
       width={width}
+      {...props}
     />
   );
 };
