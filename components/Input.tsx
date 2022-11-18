@@ -14,10 +14,11 @@ export const DefaultInput = styled.input`
   ${mixinInputDefault}
 `;
 
-export const ValidInput = styled(DefaultInput)<{
+export const ValidInput = styled.input<{
   valid: boolean;
   invalid: boolean;
 }>`
+  ${mixinInputDefault}
   ${mixinInputValidation}
 `;
 

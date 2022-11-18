@@ -23,7 +23,6 @@ import { hexToRgb } from "../../lib/calc/rgb";
 import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
-import { Checkbox } from "../../components/Checkbox";
 import { inputTypeOptions } from "../../components/options/InputType";
 import { templateOptions } from "../../components/options/Template";
 import {
@@ -33,6 +32,8 @@ import {
 import { StyleStringToObject } from "../../lib/style/to-object";
 import { DefaultTextArea } from "../../components/TextArea";
 import { Switch } from "../../components/Switch";
+import { WithLabel } from "../../components/WithLabel";
+import { Checkbox } from "../../components/Checkbox";
 
 const Container = styled.div`
   display: flex;
@@ -404,36 +405,51 @@ const ComponentInput: NextPage = () => {
               />
             </Option.Item>
 
-            <Option.Title>모서리 각도 설정</Option.Title>
+            <Option.Title>모서리 각 설정</Option.Title>
             <Option.Item>
-              <RequireLabel htmlFor="setDetailBorderRadius">
-                디테일 설정 여부
+              <RequireLabel
+                htmlFor={
+                  isSetDetailBorderRadius
+                    ? "setBorderTopLeftRadius"
+                    : "setBorderRadius"
+                }
+              >
+                {isSetDetailBorderRadius ? "Top-Left" : "모서리 각"}
               </RequireLabel>
-              <Switch
-                id="setDetailBorderRadius"
-                width={40}
-                checked={isSetDetailBorderRadius}
-                setChecked={setIsSetDetailBorderBottomRightRadius}
+              <CountingInput
+                id={
+                  isSetDetailBorderRadius
+                    ? "setBorderTopLeftRadius"
+                    : "setBorderRadius"
+                }
+                ariaLabel={
+                  isSetDetailBorderRadius
+                    ? "border-top-left-radius"
+                    : "border-radius"
+                }
+                count={borderTopLeftRadius}
+                setCount={
+                  isSetDetailBorderRadius
+                    ? setBorderTopLeftRadius
+                    : setBorderRadius
+                }
+                limit={100}
+                showIcon={true}
+                showFeedback={true}
+                numberType={CountNumberType.INTEGER}
+                unit="px"
               />
+              <WithLabel id="setDetailBorderRadius" label="디테일 설정">
+                <Switch
+                  id="setDetailBorderRadius"
+                  width={40}
+                  checked={isSetDetailBorderRadius}
+                  setChecked={setIsSetDetailBorderBottomRightRadius}
+                />
+              </WithLabel>
             </Option.Item>
-            {isSetDetailBorderRadius ? (
+            {isSetDetailBorderRadius && (
               <>
-                <Option.Item>
-                  <RequireLabel htmlFor="setBorderTopLeftRadius">
-                    Top-Left
-                  </RequireLabel>
-                  <CountingInput
-                    id="setBorderTopLeftRadius"
-                    ariaLabel="border-top-left-radius"
-                    count={borderTopLeftRadius}
-                    setCount={setBorderTopLeftRadius}
-                    limit={100}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
                 <Option.Item>
                   <RequireLabel htmlFor="setBorderTopRightRadius">
                     Top-Right
@@ -483,23 +499,6 @@ const ComponentInput: NextPage = () => {
                   />
                 </Option.Item>
               </>
-            ) : (
-              <Option.Item>
-                <RequireLabel htmlFor="setBorderRadius">
-                  모서리 각도
-                </RequireLabel>
-                <CountingInput
-                  id="setBorderRadius"
-                  ariaLabel="border-radius"
-                  count={borderTopLeftRadius}
-                  setCount={setBorderRadius}
-                  limit={100}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.INTEGER}
-                  unit="px"
-                />
-              </Option.Item>
             )}
 
             <Option.Title>테두리 설정</Option.Title>
@@ -574,12 +573,13 @@ const ComponentInput: NextPage = () => {
                 setOption={setTemplate}
                 options={templateOptions}
               />
-              <Checkbox
-                id="setHtml"
-                onChange={handleChangeHtml}
-                checked={html}
-                label="HTML 템플릿 추가"
-              />
+              <WithLabel id="setHtml" label="HTML 템플릿 추가">
+                <Checkbox
+                  id="setHtml"
+                  checked={html}
+                  onChange={handleChangeHtml}
+                />
+              </WithLabel>
             </Option.Item>
           </Option.Body>
         </Option.Container>
