@@ -8,38 +8,43 @@ export const gnbOptions: Gnb[] = [
     label: "Home",
     icon: <BiHome />,
     href: "/",
-    lnb: []
+    items: []
   },
   {
     label: "Develop",
     icon: <BiCode />,
     href: "/develop",
-    lnb: [
+    items: [
       {
-        title: "Develop overview",
+        label: "Develop overview",
+        icon: null,
         href: "/develop",
-        details: []
+        items: []
       },
       {
-        title: "Android",
-        href: null,
-        details: [
+        label: "Android",
+        icon: null,
+        href: undefined,
+        items: [
           {
-            title: "MDC-Android",
+            label: "MDC-Android",
+            icon: null,
             href: "/develop/android/mdc-android",
-            details: []
+            items: []
           },
           {
-            title: "Jetpack Compose",
+            label: "Jetpack Compose",
+            icon: null,
             href: "/develop/android/jetpack-compose",
-            details: []
+            items: []
           }
         ]
       },
       {
-        title: "Flutter",
+        label: "Flutter",
+        icon: null,
         href: "/develop/flutter",
-        details: []
+        items: []
       }
     ]
   },
@@ -47,21 +52,24 @@ export const gnbOptions: Gnb[] = [
     label: "Components",
     icon: <CgComponents />,
     href: "/components",
-    lnb: [
+    items: [
       {
-        title: "Components overview",
+        label: "Components overview",
+        icon: null,
         href: "/components",
-        details: []
+        items: []
       },
       {
-        title: "Button",
+        label: "Button",
+        icon: null,
         href: "/components/button",
-        details: []
+        items: []
       },
       {
-        title: "Input",
+        label: "Input",
+        icon: null,
         href: "/components/input",
-        details: []
+        items: []
       }
     ]
   }

@@ -18,6 +18,14 @@ export const Body = styled.div`
   grid-column-gap: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-flow: row;
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${({ theme }) => theme.breakPoint.md} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 export const Title = styled.div`
@@ -25,8 +33,15 @@ export const Title = styled.div`
   padding: 5px 10px 0 10px;
   margin-bottom: 5px;
   user-select: none;
-
   font-weight: bold;
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    grid-column: span 2;
+  }
+
+  ${({ theme }) => theme.breakPoint.md} {
+    grid-column: span 1;
+  }
 `;
 
 export const Item = styled.div<{ span?: number }>`

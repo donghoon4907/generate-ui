@@ -30,6 +30,8 @@ declare module "styled-components" {
   }
 
   export interface BreakPoint {
+    xs: string;
+    sm: string;
     md: string;
     lg: string;
   }

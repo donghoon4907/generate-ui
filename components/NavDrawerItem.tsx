@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { RiArrowUpSFill } from "react-icons/ri";
 
 import { ActiveLink } from "./ActiveLink";
-import type { Lnb } from "../types/lnb";
 import { mixinBtnDefault } from "../theme/mixins/button";
+import type { Gnb } from "../types/gnb";
 
 const Container = styled.div`
   position: relative;
@@ -69,9 +69,9 @@ const DetailShape = styled(Shape)`
   margin-left: 16px;
 `;
 
-interface Props extends Lnb {}
+interface Props extends Gnb {}
 
-export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
+export const NavDrawerItem: FC<Props> = ({ label, href, items }) => {
   const router = useRouter();
 
   const [expand, setExpand] = useState(false);
@@ -89,11 +89,11 @@ export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
       <Shape isActive={isActive}>
         {hasDetail ? (
           <ActiveLink href={href}>
-            <Label>{title}</Label>
+            <Label>{label}</Label>
           </ActiveLink>
         ) : (
           <Button type="button" onClick={handleClick}>
-            <Label>{title}</Label>
+            <Label>{label}</Label>
             <Trailing expand={expand}>
               <RiArrowUpSFill />
             </Trailing>
@@ -102,10 +102,10 @@ export const NavDrawerItem: FC<Props> = ({ title, href, details }) => {
       </Shape>
 
       <Collapse expand={expand}>
-        {details.map((detail, index) => (
-          <DetailShape key={index} isActive={isActive}>
-            <ActiveLink href={detail.href}>
-              <Label>{detail.title}</Label>
+        {items.map(({ label, href }, index) => (
+          <DetailShape key={`collapseGnb${index}`} isActive={isActive}>
+            <ActiveLink href={href}>
+              <Label>{label}</Label>
             </ActiveLink>
           </DetailShape>
         ))}

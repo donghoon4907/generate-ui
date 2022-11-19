@@ -34,12 +34,9 @@ const IconWrapper = styled.span<{ isActive: boolean }>`
     height: 100%;
     border-radius: 100px;
     background: ${({ theme, isActive }) =>
-      isActive ? theme.activeBgColor : "inherit"};
+      isActive ? theme.activeBgColor : ""};
 
-    transform: scaleX(1);
-    transition-duration: 200ms;
-    transition-property: transform, background;
-    transition-timing-function: linear;
+    transition: background 200ms linear;
   }
 
   &:hover:before {
@@ -50,8 +47,7 @@ const IconWrapper = styled.span<{ isActive: boolean }>`
   & > svg {
     width: 24px;
     height: 24px;
-    color: ${({ theme, isActive }) =>
-      isActive ? theme.activeTextColor : "inherit"};
+    color: ${({ theme, isActive }) => (isActive ? theme.activeTextColor : "")};
   }
 `;
 
@@ -60,8 +56,7 @@ const Label = styled.div<{ isActive: boolean }>`
 
   margin-bottom: 4px;
   text-align: center;
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.activeTextColor : "inherit"};
+  color: ${({ theme, isActive }) => (isActive ? theme.activeTextColor : "")};
 `;
 
 interface Props extends Gnb {
@@ -72,7 +67,7 @@ export const NavItem: FC<Props> = ({
   icon,
   label,
   href,
-  lnb,
+  items,
   collapseFunc
 }) => {
   const router = useRouter();
@@ -81,14 +76,14 @@ export const NavItem: FC<Props> = ({
 
   const splitSearch = router.asPath.split("/");
 
-  const splitHref = href.split("/");
+  const splitHref = href?.split("/");
 
-  const isActive = splitSearch[1] === splitHref[1];
+  const isActive = splitSearch[1] === splitHref?.[1];
 
   const handleMouseEnter = () => {
     dispatch({
       type: SET_ACTIVE_LNB,
-      payload: lnb
+      payload: items
     });
 
     collapseFunc();

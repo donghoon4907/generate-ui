@@ -18,8 +18,10 @@ const fontFamily: FontFamily = {
 };
 
 const breakPoint: BreakPoint = {
-  md: mediaQuery(600),
-  lg: mediaQuery(1294)
+  xs: mediaQuery(0),
+  sm: mediaQuery(576),
+  md: mediaQuery(768),
+  lg: mediaQuery(992)
 };
 
 const color: Color = {

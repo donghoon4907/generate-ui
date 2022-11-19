@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app";
-import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
 import { useThemeMode } from "../hooks/useDarkMode";
@@ -8,6 +7,7 @@ import { GlobalStyle } from "../theme/globalstyles";
 import { ThemeMode } from "../types/theme";
 import { ContextProvider } from "../context";
 import { Nav } from "../components/Nav";
+import { Header } from "../components/Header";
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +19,11 @@ const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
   overflow-y: scroll;
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    padding-left: 0;
+    margin-top: 50px;
+  }
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -31,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Container>
+          <Header />
           <Nav themeMode={themeMode} toggle={onToggle} />
           <MainContainer>
             <Component {...pageProps} />

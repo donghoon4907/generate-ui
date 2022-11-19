@@ -1,44 +1,42 @@
-import type { FC } from "react";
-import { DOMAttributes } from "react";
+import type { ButtonHTMLAttributes, FC } from "react";
 import styled from "styled-components";
 
 import { mixinBtnDefault } from "../theme/mixins/button";
 import { CoreProps } from "../interfaces/core";
 
-const Container = styled.button`
+const Container = styled.button<{ iconSize?: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: ${({ iconSize }) => (iconSize ? iconSize + 4 : 24)}px !important;
+  height: ${({ iconSize }) => (iconSize ? iconSize + 4 : 24)}px;
 
   position: relative;
-  border-radius: 16px;
 
   &:before {
     position: absolute;
     content: "";
-    width: 24px;
-    height: 24px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-
-    transform: scaleX(1);
-    transition-duration: 200ms;
-    transition-property: transform, background;
-    transition-timing-function: linear;
+    transition: background 200ms linear;
   }
 
-  &:hover:before {
+  &:hover::before {
     background: ${({ theme }) => theme.hoverBgColor};
   }
 
   & > svg {
-    width: 20px;
-    height: 20px;
+    width: ${({ iconSize }) => (iconSize ? iconSize : 20)}px;
+    height: ${({ iconSize }) => (iconSize ? iconSize : 20)}px;
   }
 
   ${mixinBtnDefault}
 `;
 
-interface Props extends CoreProps, DOMAttributes<HTMLButtonElement> {}
+interface Props extends CoreProps, ButtonHTMLAttributes<HTMLButtonElement> {
+  iconSize?: number;
+}
 
 export const IconWrapper: FC<Props> = ({ ariaLabel, children, ...props }) => {
   return (

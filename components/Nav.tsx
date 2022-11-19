@@ -21,6 +21,10 @@ const Container = styled.div`
   overflow-y: auto;
 
   ${mixinBgLv2}
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    display: none;
+  }
 `;
 
 const Body = styled.nav`
@@ -67,7 +71,7 @@ export const Nav: FC<Props> = ({ themeMode, toggle }) => {
             <NavItem
               key={`gnb${index}`}
               {...g}
-              collapseFunc={() => setOpen(g.lnb.length > 0)}
+              collapseFunc={() => setOpen(g.items.length > 0)}
             />
           ))}
         </Body>

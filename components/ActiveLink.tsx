@@ -4,7 +4,7 @@ import type { FC, MouseEvent } from "react";
 import type { CoreProps } from "../interfaces/core";
 
 interface Props extends CoreProps {
-  href: string | null;
+  href: string | undefined;
   ariaLabel?: string;
   tabIndex?: string;
 }
