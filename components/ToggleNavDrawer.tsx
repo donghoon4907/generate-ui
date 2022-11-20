@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -12,6 +13,7 @@ import {
 import { ThemeMode } from "../types/theme";
 import { ToggleThemeMode } from "./ToggleThemeMode";
 import { SET_ACTIVE_MDMENU } from "../context/action";
+import { getCurrentLevelGnbMenus, getParentGnbMenus } from "../lib/calc/tree";
 
 const Container = styled.nav<{ open: boolean }>`
   display: flex;
@@ -58,29 +60,42 @@ export const ToggleNavDrawer: FC<Props> = ({
   themeMode,
   toggle
 }) => {
+  const router = useRouter();
+
   const dispatch = useDispatch();
 
   const { activeMdMenu } = useSelector();
 
-  const hasLnb = activeMdMenu.length > 0;
-
   const handleBack = () => {
-    if (hasLnb) {
-      dispatch({
-        type: SET_ACTIVE_LNB,
-        payload: []
-      });
-    } else {
+    const isRoot = activeMdMenu[0].id === gnbOptions[0].id;
+
+    const parentMenus = getParentGnbMenus(
+      gnbOptions,
+      gnbOptions,
+      activeMdMenu[0].id
+    );
+
+    if (isRoot) {
       setOpen(false);
+    } else {
+      dispatch({
+        type: SET_ACTIVE_MDMENU,
+        payload: parentMenus
+      });
     }
   };
 
   useEffect(() => {
+    const currentLevelMenus = getCurrentLevelGnbMenus(
+      gnbOptions,
+      router.asPath
+    );
+
     dispatch({
       type: SET_ACTIVE_MDMENU,
-      payload: gnbOptions
+      payload: currentLevelMenus
     });
-  }, []);
+  }, [router.asPath]);
 
   return (
     <Container open={open}>

@@ -28,7 +28,7 @@ export const gnbOptions: Gnb[] = [
         id: "2-2",
         label: "Android",
         icon: null,
-        href: undefined,
+        href: "/develop/android/",
         items: [
           {
             id: "2-2-1",

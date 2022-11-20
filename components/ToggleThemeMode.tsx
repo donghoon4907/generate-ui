@@ -13,7 +13,7 @@ const Container = styled.button<{ showLabel: boolean }>`
   cursor: pointer;
   user-select: none;
   overflow: hidden;
-  width: ${({ showLabel }) => (showLabel ? "100%" : "48px")};
+  width: ${({ showLabel }) => (showLabel ? "100%" : "48px")} !important;
   height: 48px;
 
   border: 1px solid ${({ theme }) => theme.utilityBorderColor} !important;

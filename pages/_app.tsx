@@ -22,7 +22,7 @@ const MainContainer = styled.div`
 
   ${({ theme }) => theme.breakPoint.lg} {
     padding-left: 0;
-    margin-top: 50px;
+    padding-top: 50px;
   }
 `;
 

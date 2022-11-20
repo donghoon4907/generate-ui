@@ -78,7 +78,7 @@ export const NavDrawerItem: FC<Props> = ({ label, href, items }) => {
 
   const isActive = router.asPath === href;
 
-  const hasDetail = typeof href === "string";
+  const hasDetail = items.length > 0;
 
   const handleClick = () => {
     setExpand(!expand);
@@ -88,16 +88,16 @@ export const NavDrawerItem: FC<Props> = ({ label, href, items }) => {
     <Container>
       <Shape isActive={isActive}>
         {hasDetail ? (
-          <ActiveLink href={href}>
-            <Label>{label}</Label>
-          </ActiveLink>
-        ) : (
           <Button type="button" onClick={handleClick}>
             <Label>{label}</Label>
             <Trailing expand={expand}>
               <RiArrowUpSFill />
             </Trailing>
           </Button>
+        ) : (
+          <ActiveLink href={href}>
+            <Label>{label}</Label>
+          </ActiveLink>
         )}
       </Shape>
 

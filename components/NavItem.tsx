@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { mixinLabelMd } from "../theme/mixins/label";
 import type { Gnb } from "../types/gnb";
 import { useDispatch } from "../context";
-import { SET_ACTIVE_LNB } from "../context/action";
+import { SET_ACTIVE_WDMENU } from "../context/action";
 
 const Container = styled.a`
   width: 80px;
@@ -82,7 +82,7 @@ export const NavItem: FC<Props> = ({
 
   const handleMouseEnter = () => {
     dispatch({
-      type: SET_ACTIVE_LNB,
+      type: SET_ACTIVE_WDMENU,
       payload: items
     });
 
