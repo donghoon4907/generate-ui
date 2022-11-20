@@ -5,34 +5,40 @@ import type { Gnb } from "../../types/gnb";
 
 export const gnbOptions: Gnb[] = [
   {
+    id: "1",
     label: "Home",
     icon: <BiHome />,
     href: "/",
     items: []
   },
   {
+    id: "2",
     label: "Develop",
     icon: <BiCode />,
     href: "/develop",
     items: [
       {
+        id: "2-1",
         label: "Develop overview",
         icon: null,
-        href: "/develop",
+        href: "/develop/index",
         items: []
       },
       {
+        id: "2-2",
         label: "Android",
         icon: null,
         href: undefined,
         items: [
           {
+            id: "2-2-1",
             label: "MDC-Android",
             icon: null,
             href: "/develop/android/mdc-android",
             items: []
           },
           {
+            id: "2-2-2",
             label: "Jetpack Compose",
             icon: null,
             href: "/develop/android/jetpack-compose",
@@ -41,6 +47,7 @@ export const gnbOptions: Gnb[] = [
         ]
       },
       {
+        id: "2-3",
         label: "Flutter",
         icon: null,
         href: "/develop/flutter",
@@ -49,23 +56,27 @@ export const gnbOptions: Gnb[] = [
     ]
   },
   {
+    id: "3",
     label: "Components",
     icon: <CgComponents />,
     href: "/components",
     items: [
       {
+        id: "3-1",
         label: "Components overview",
         icon: null,
-        href: "/components",
+        href: "/components/index",
         items: []
       },
       {
+        id: "3-2",
         label: "Button",
         icon: null,
         href: "/components/button",
         items: []
       },
       {
+        id: "3-3",
         label: "Input",
         icon: null,
         href: "/components/input",

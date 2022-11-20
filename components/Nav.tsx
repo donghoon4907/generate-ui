@@ -76,7 +76,11 @@ export const Nav: FC<Props> = ({ themeMode, toggle }) => {
           ))}
         </Body>
         <Footer>
-          <ToggleThemeMode themeMode={themeMode} toggle={toggle} />
+          <ToggleThemeMode
+            themeMode={themeMode}
+            toggle={toggle}
+            showLabel={false}
+          />
         </Footer>
       </Container>
       <NavDrawer open={open} />

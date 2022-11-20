@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 import styled from "styled-components";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
-import { ActiveLink } from "./ActiveLink";
 import { Gnb } from "../types/gnb";
 import { IconWrapper } from "./IconWrapper";
+import { useDispatch } from "../context";
+import { SET_ACTIVE_MDMENU } from "../context/action";
 
-const Container = styled.div<{ isActive: boolean }>`
+const Container = styled.li<{ isActive: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,13 +20,13 @@ const Container = styled.div<{ isActive: boolean }>`
 
   background: ${({ theme, isActive }) =>
     isActive ? `${theme.activeBgColor} !important` : ""};
-`;
 
-const ToggleNavDrawerContainer = styled(Container)`
-  cursor: pointer;
+  &:not(:first-child) {
+    cursor: pointer;
 
-  &:hover {
-    background: ${({ theme }) => theme.hoverBgColor};
+    &:hover {
+      background: ${({ theme }) => theme.hoverBgColor};
+    }
   }
 `;
 
@@ -56,6 +57,8 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
 }) => {
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
   let isActive = false;
   if (href) {
     if (href.length === 1) {
@@ -64,46 +67,42 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
       isActive = router.asPath.includes(href);
     }
   }
+  const hasLnb = items.length > 0;
+
+  const handleClick = () => {
+    if (hasLnb) {
+      dispatch({
+        type: SET_ACTIVE_MDMENU,
+        payload: items
+      });
+    } else {
+      router.push(href!);
+    }
+  };
 
   return (
-    <>
-      {items.length === 0 ? (
-        <ActiveLink ariaLabel={label} href={href}>
-          <ToggleNavDrawerContainer isActive={isActive}>
-            <Icon isActive={isActive}>{icon && icon}</Icon>
-            <Label isActive={isActive}>{label}</Label>
-            <Icon isActive={isActive}>
-              {items.length > 0 && <BsArrowRight />}
-            </Icon>
-          </ToggleNavDrawerContainer>
-        </ActiveLink>
-      ) : (
-        <ToggleNavDrawerContainer isActive={isActive}>
-          <Icon isActive={isActive}>{icon && icon}</Icon>
-          <Label isActive={isActive}>{label}</Label>
-          <Icon isActive={isActive}>
-            {items.length > 0 && <BsArrowRight />}
-          </Icon>
-        </ToggleNavDrawerContainer>
-      )}
-    </>
+    <Container
+      isActive={isActive}
+      role={hasLnb ? "list-item" : "link"}
+      onClick={handleClick}
+    >
+      <Icon isActive={isActive}>{icon && icon}</Icon>
+      <Label isActive={isActive}>{label}</Label>
+      <Icon isActive={isActive}>{hasLnb && <BsArrowRight />}</Icon>
+    </Container>
   );
 };
 
 interface ToggleNavDrawerCollapseItemProps {
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  onClick: () => void;
 }
 
 export const ToggleNavDrawerCollapseItem: FC<
   ToggleNavDrawerCollapseItemProps
-> = ({ setOpen }) => {
-  const handleClickIcon = () => {
-    setOpen(false);
-  };
-
+> = ({ onClick }) => {
   return (
     <Container isActive={false}>
-      <IconWrapper onClick={handleClickIcon} iconSize={30}>
+      <IconWrapper onClick={onClick} iconSize={30}>
         <BsArrowLeft />
       </IconWrapper>
       <Label isActive={false}></Label>

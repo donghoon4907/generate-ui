@@ -1,5 +1,7 @@
-import { Lnb } from "../types/lnb";
+import { Gnb } from "../types/gnb";
+// wd
+export const SET_ACTIVE_WDMENU = "SET_ACTIVE_WDMENU";
+// md
+export const SET_ACTIVE_MDMENU = "SET_ACTIVE_WDMENU";
 
-export const SET_ACTIVE_LNB = "SET_ACTIVE_LNB";
-
-export type Action = { type: typeof SET_ACTIVE_LNB; payload: Lnb[] };
+export type Action = { type: string; payload: Gnb[] };

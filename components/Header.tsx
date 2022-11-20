@@ -6,6 +6,7 @@ import { BsList } from "react-icons/bs";
 import { mixinBgLv2 } from "../theme/mixins/background";
 import { IconWrapper } from "./IconWrapper";
 import { ToggleNavDrawer } from "./ToggleNavDrawer";
+import { ThemeMode } from "../types/theme";
 
 const Container = styled.div`
   display: flex;
@@ -30,9 +31,12 @@ const Container = styled.div`
   }
 `;
 
-interface Props {}
+interface Props {
+  themeMode: ThemeMode;
+  toggle: () => void;
+}
 
-export const Header: FC<Props> = () => {
+export const Header: FC<Props> = ({ themeMode, toggle }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickListIcon = () => {
@@ -46,7 +50,12 @@ export const Header: FC<Props> = () => {
           <BsList />
         </IconWrapper>
       </Container>
-      <ToggleNavDrawer open={open} setOpen={setOpen} />
+      <ToggleNavDrawer
+        open={open}
+        setOpen={setOpen}
+        themeMode={themeMode}
+        toggle={toggle}
+      />
     </>
   );
 };

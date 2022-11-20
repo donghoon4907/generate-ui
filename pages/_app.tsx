@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Container>
-          <Header />
+          <Header themeMode={themeMode} toggle={onToggle} />
           <Nav themeMode={themeMode} toggle={onToggle} />
           <MainContainer>
             <Component {...pageProps} />

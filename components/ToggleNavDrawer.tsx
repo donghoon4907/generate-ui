@@ -1,16 +1,22 @@
 import type { Dispatch, FC, SetStateAction } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 import { mixinBgLv2 } from "../theme/mixins/background";
 import { gnbOptions } from "./options/Gnb";
+import { useDispatch, useSelector } from "../context";
 import {
   ToggleNavDrawerCollapseItem,
   ToggleNavDrawerItem
 } from "./ToggleNavDrawerItem";
+import { ThemeMode } from "../types/theme";
+import { ToggleThemeMode } from "./ToggleThemeMode";
+import { SET_ACTIVE_MDMENU } from "../context/action";
 
 const Container = styled.nav<{ open: boolean }>`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   flex-shrink: 0;
 
   position: absolute;
@@ -31,24 +37,66 @@ const Container = styled.nav<{ open: boolean }>`
   ${mixinBgLv2}
 `;
 
-const Body = styled.div`
+const Body = styled.ul`
+  padding: 5px;
+`;
+
+const Footer = styled.div`
   padding: 5px;
 `;
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  themeMode: ThemeMode;
+  toggle: () => void;
 }
 
-export const ToggleNavDrawer: FC<Props> = ({ open, setOpen }) => {
+export const ToggleNavDrawer: FC<Props> = ({
+  open,
+  setOpen,
+  themeMode,
+  toggle
+}) => {
+  const dispatch = useDispatch();
+
+  const { activeMdMenu } = useSelector();
+
+  const hasLnb = activeMdMenu.length > 0;
+
+  const handleBack = () => {
+    if (hasLnb) {
+      dispatch({
+        type: SET_ACTIVE_LNB,
+        payload: []
+      });
+    } else {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: SET_ACTIVE_MDMENU,
+      payload: gnbOptions
+    });
+  }, []);
+
   return (
     <Container open={open}>
       <Body>
-        <ToggleNavDrawerCollapseItem setOpen={setOpen} />
-        {gnbOptions.map((g, index) => (
-          <ToggleNavDrawerItem key={`gnb${index}`} {...g} />
+        <ToggleNavDrawerCollapseItem onClick={handleBack} />
+        {activeMdMenu.map((g, index) => (
+          <ToggleNavDrawerItem key={`mdMenu${index}`} {...g} />
         ))}
       </Body>
+      <Footer>
+        <ToggleThemeMode
+          themeMode={themeMode}
+          toggle={toggle}
+          showLabel={true}
+        />
+      </Footer>
     </Container>
   );
 };

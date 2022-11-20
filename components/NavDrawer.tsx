@@ -39,13 +39,13 @@ interface Props {
 }
 
 export const NavDrawer: FC<Props> = ({ open }) => {
-  const { activeLnb } = useSelector();
+  const { activeWdMenu } = useSelector();
 
   return (
     <Container open={open}>
       <Body>
-        {activeLnb.map((lnb, index) => (
-          <NavDrawerItem key={`lnb${index}`} {...lnb} />
+        {activeWdMenu.map((menu, index) => (
+          <NavDrawerItem key={`wdMenu${index}`} {...menu} />
         ))}
       </Body>
     </Container>

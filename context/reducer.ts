@@ -1,21 +1,28 @@
-import { Lnb } from "../types/lnb";
-import type { Action } from "./action";
-import { SET_ACTIVE_LNB } from "./action";
+import { Gnb } from "../types/gnb";
+import { Action, SET_ACTIVE_MDMENU, SET_ACTIVE_WDMENU } from "./action";
 
 export interface AppState {
-  activeLnb: Lnb[];
+  activeWdMenu: Gnb[];
+  activeMdMenu: Gnb[];
 }
 
 export const initialState: AppState = {
-  activeLnb: []
+  activeWdMenu: [],
+  activeMdMenu: []
 };
 
 export function reducer(state: AppState, { type, payload }: Action): AppState {
   switch (type) {
-    case SET_ACTIVE_LNB: {
+    case SET_ACTIVE_WDMENU: {
       return {
         ...state,
-        activeLnb: payload
+        activeWdMenu: payload
+      };
+    }
+    case SET_ACTIVE_MDMENU: {
+      return {
+        ...state,
+        activeMdMenu: payload
       };
     }
 
