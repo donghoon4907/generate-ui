@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import type { FC } from "react";
+import type { FC, MouseEvent } from "react";
 import styled from "styled-components";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
@@ -9,59 +9,54 @@ import { useDispatch } from "../context";
 import { SET_ACTIVE_MDMENU } from "../context/action";
 import { css } from "styled-components";
 
-const mixinToggleNavDrawerItemContainer = css`
+const mixinToggleNavDrawerItemContainer = (
+  isActive: boolean,
+  hasIcon: boolean,
+  isGnb: boolean
+) => css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: 50px;
   padding: 5px 5px 5px 10px;
   border-radius: 24px;
   user-select: none;
-`;
 
-const Container = styled.div<{
-  isActive: boolean;
-  showIcon: boolean;
-  isBack: boolean;
-}>`
-  background: ${({ theme, isActive }) =>
-    isActive ? `${theme.activeBgColor} !important` : ""};
+  ${!hasIcon ? "margin-left: 34px; padding-left:15px !important;" : ""}
 
-  ${({ theme, isBack }) =>
-    !isBack
+  ${({ theme }) =>
+    isActive ? `background: ${theme.activeBgColor} !important;` : ""}
+
+  ${({ theme }) =>
+    isGnb
       ? `
-  cursor: pointer;
+    cursor: pointer;
 
   &:hover {
     background: ${theme.hoverBgColor};
   }
-  `
+    `
       : ""}
+`;
 
-  ${mixinToggleNavDrawerItemContainer}
+const NextContainer = styled.div<{
+  isActive: boolean;
+  hasIcon: boolean;
+}>`
+  ${({ isActive, hasIcon }) =>
+    mixinToggleNavDrawerItemContainer(isActive, hasIcon, true)}
 `;
 
 const LinkContainer = styled.a<{
   isActive: boolean;
-  showIcon: boolean;
-  isBack: boolean;
+  hasIcon: boolean;
 }>`
-  background: ${({ theme, isActive }) =>
-    isActive ? `${theme.activeBgColor} !important` : ""};
+  ${({ isActive, hasIcon }) =>
+    mixinToggleNavDrawerItemContainer(isActive, hasIcon, true)}
+`;
 
-  ${({ theme, isBack }) =>
-    !isBack
-      ? `
-  cursor: pointer;
-
-  &:hover {
-    background: ${theme.hoverBgColor};
-  }
-  `
-      : ""}
-
-  ${mixinToggleNavDrawerItemContainer}
+const PreviousContainer = styled.div`
+  ${mixinToggleNavDrawerItemContainer(false, true, false)}
 `;
 
 const Icon = styled.div<{ isActive: boolean }>`
@@ -75,7 +70,7 @@ const Icon = styled.div<{ isActive: boolean }>`
   }
 `;
 
-const Label = styled.div<{ isActive: boolean }>`
+const Label = styled.div<{ isActive?: boolean }>`
   flex: 1;
 
   color: ${({ theme, isActive }) => (isActive ? theme.activeTextColor : "")};
@@ -103,7 +98,9 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
   }
   const hasLnb = items.length > 0;
 
-  const handleClick = () => {
+  const handleClick = (evt: MouseEvent) => {
+    evt.preventDefault();
+
     if (hasLnb) {
       dispatch({
         type: SET_ACTIVE_MDMENU,
@@ -115,26 +112,25 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
   };
 
   return hasLnb ? (
-    <Container
+    <NextContainer
       isActive={isActive}
+      hasIcon={!!icon}
       onClick={handleClick}
-      showIcon={!!icon}
-      isBack={false}
+      tabIndex={isActive ? 0 : -1}
     >
-      <Icon isActive={isActive}>{icon && icon}</Icon>
+      {icon && <Icon isActive={isActive}>{icon}</Icon>}
       <Label isActive={isActive}>{label}</Label>
       <Icon isActive={isActive}>{hasLnb && <BsArrowRight />}</Icon>
-    </Container>
+    </NextContainer>
   ) : (
     <LinkContainer
       isActive={isActive}
+      hasIcon={!!icon}
       onClick={handleClick}
-      showIcon={!!icon}
-      isBack={false}
-      tabIndex={-1}
+      tabIndex={isActive ? 0 : -1}
       href={href}
     >
-      <Icon isActive={isActive}>{icon && icon}</Icon>
+      {icon && <Icon isActive={isActive}>{icon}</Icon>}
       <Label isActive={isActive}>{label}</Label>
       <Icon isActive={isActive}>{hasLnb && <BsArrowRight />}</Icon>
     </LinkContainer>
@@ -149,11 +145,10 @@ export const ToggleNavDrawerCollapseItem: FC<
   ToggleNavDrawerCollapseItemProps
 > = ({ onClick }) => {
   return (
-    <Container isActive={false} showIcon={true} isBack={true}>
-      <IconWrapper onClick={onClick} iconSize={30}>
+    <PreviousContainer>
+      <IconWrapper onClick={onClick} iconSize={30} ariaLabel="close menu">
         <BsArrowLeft />
       </IconWrapper>
-      <Label isActive={false}></Label>
-    </Container>
+    </PreviousContainer>
   );
 };

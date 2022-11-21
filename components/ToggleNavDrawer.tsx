@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { mixinBgLv2 } from "../theme/mixins/background";
@@ -85,6 +85,12 @@ export const ToggleNavDrawer: FC<Props> = ({
     }
   };
 
+  const handleClickWindow = useCallback((evt: MouseEvent) => {
+    if (evt.pageX > 256) {
+      setOpen(false);
+    }
+  }, []);
+
   useEffect(() => {
     const currentLevelMenus = getCurrentLevelGnbMenus(
       gnbOptions,
@@ -96,6 +102,14 @@ export const ToggleNavDrawer: FC<Props> = ({
       payload: currentLevelMenus
     });
   }, [router.asPath]);
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickWindow);
+
+    return () => {
+      window.removeEventListener("click", handleClickWindow);
+    };
+  }, []);
 
   return (
     <Container open={open}>

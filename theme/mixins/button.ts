@@ -16,5 +16,4 @@ export const mixinBtnDefault = css`
   font-size: inherit;
   font-weight: inherit;
   font-family: inherit;
-  outline: none;
 `;

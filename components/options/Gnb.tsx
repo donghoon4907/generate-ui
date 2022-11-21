@@ -63,7 +63,7 @@ export const gnbOptions: Gnb[] = [
     items: [
       {
         id: "3-1",
-        label: "Components overview",
+        label: "Overview",
         icon: null,
         href: "/components/index",
         items: []

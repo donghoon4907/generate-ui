@@ -28,6 +28,10 @@ const Container = styled.nav<{ open: boolean }>`
   transform: translate3d(${({ open }) => (open ? "344px" : "0")}, 0, 0);
 
   ${mixinBgLv2}
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    display: none;
+  }
 `;
 
 const Body = styled.div`
