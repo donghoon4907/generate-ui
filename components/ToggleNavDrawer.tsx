@@ -39,7 +39,7 @@ const Container = styled.nav<{ open: boolean }>`
   ${mixinBgLv2}
 `;
 
-const Body = styled.ul`
+const Body = styled.div`
   padding: 5px;
 `;
 

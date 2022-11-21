@@ -24,7 +24,12 @@ export const ActiveLink: FC<Props> = ({
   };
 
   return (
-    <a onClick={handleClick} aria-label={ariaLabel} tab-index={tabIndex}>
+    <a
+      href={href}
+      onClick={handleClick}
+      aria-label={ariaLabel}
+      tab-index={tabIndex}
+    >
       {children}
     </a>
   );

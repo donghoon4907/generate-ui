@@ -7,8 +7,9 @@ import { Gnb } from "../types/gnb";
 import { IconWrapper } from "./IconWrapper";
 import { useDispatch } from "../context";
 import { SET_ACTIVE_MDMENU } from "../context/action";
+import { css } from "styled-components";
 
-const Container = styled.li<{ isActive: boolean }>`
+const mixinToggleNavDrawerItemContainer = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,17 +18,50 @@ const Container = styled.li<{ isActive: boolean }>`
   padding: 5px 5px 5px 10px;
   border-radius: 24px;
   user-select: none;
+`;
 
+const Container = styled.div<{
+  isActive: boolean;
+  showIcon: boolean;
+  isBack: boolean;
+}>`
   background: ${({ theme, isActive }) =>
     isActive ? `${theme.activeBgColor} !important` : ""};
 
-  &:not(:first-child) {
-    cursor: pointer;
+  ${({ theme, isBack }) =>
+    !isBack
+      ? `
+  cursor: pointer;
 
-    &:hover {
-      background: ${({ theme }) => theme.hoverBgColor};
-    }
+  &:hover {
+    background: ${theme.hoverBgColor};
   }
+  `
+      : ""}
+
+  ${mixinToggleNavDrawerItemContainer}
+`;
+
+const LinkContainer = styled.a<{
+  isActive: boolean;
+  showIcon: boolean;
+  isBack: boolean;
+}>`
+  background: ${({ theme, isActive }) =>
+    isActive ? `${theme.activeBgColor} !important` : ""};
+
+  ${({ theme, isBack }) =>
+    !isBack
+      ? `
+  cursor: pointer;
+
+  &:hover {
+    background: ${theme.hoverBgColor};
+  }
+  `
+      : ""}
+
+  ${mixinToggleNavDrawerItemContainer}
 `;
 
 const Icon = styled.div<{ isActive: boolean }>`
@@ -80,16 +114,30 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
     }
   };
 
-  return (
+  return hasLnb ? (
     <Container
       isActive={isActive}
-      role={hasLnb ? "list-item" : "link"}
       onClick={handleClick}
+      showIcon={!!icon}
+      isBack={false}
     >
       <Icon isActive={isActive}>{icon && icon}</Icon>
       <Label isActive={isActive}>{label}</Label>
       <Icon isActive={isActive}>{hasLnb && <BsArrowRight />}</Icon>
     </Container>
+  ) : (
+    <LinkContainer
+      isActive={isActive}
+      onClick={handleClick}
+      showIcon={!!icon}
+      isBack={false}
+      tabIndex={-1}
+      href={href}
+    >
+      <Icon isActive={isActive}>{icon && icon}</Icon>
+      <Label isActive={isActive}>{label}</Label>
+      <Icon isActive={isActive}>{hasLnb && <BsArrowRight />}</Icon>
+    </LinkContainer>
   );
 };
 
@@ -101,7 +149,7 @@ export const ToggleNavDrawerCollapseItem: FC<
   ToggleNavDrawerCollapseItemProps
 > = ({ onClick }) => {
   return (
-    <Container isActive={false}>
+    <Container isActive={false} showIcon={true} isBack={true}>
       <IconWrapper onClick={onClick} iconSize={30}>
         <BsArrowLeft />
       </IconWrapper>
