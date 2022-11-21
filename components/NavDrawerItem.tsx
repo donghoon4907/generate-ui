@@ -1,12 +1,17 @@
 import { useRouter } from "next/router";
-import type { FC } from "react";
+import type { FC, MouseEvent } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { RiArrowUpSFill } from "react-icons/ri";
 
-import { ActiveLink } from "./ActiveLink";
 import { mixinBtnDefault } from "../theme/mixins/button";
 import type { Gnb } from "../types/gnb";
+import {
+  mixinNavDrawerItemActive,
+  mixinNavDrawerItemHover,
+  mixinNavDrawerItemLabel,
+  mixinNavDrawerItemShape
+} from "../theme/mixins/nav";
 
 const Container = styled.div`
   position: relative;
@@ -15,37 +20,29 @@ const Container = styled.div`
   margin: 0 8px;
 `;
 
-const Shape = styled.div<{ isActive: boolean }>`
-  position: relative;
-  overflow: hidden;
-
-  display: flex;
-  justify-content;
-  align-items: center;
-  flex: 1;
-  border-radius: 24px;
-  padding: 10px 16px;
-
-  background: ${({ theme, isActive }) => (isActive ? theme.activeBgColor : "")};
-
-  &:hover {
-    background: ${({ theme }) => theme.hoverBgColor};
-  }
-
-  & > a{
-    width: 100%;
-  }
-`;
-
-const Button = styled.button`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
+const ButtonTypeShape = styled.button<{
+  isActive: boolean;
+}>`
+  ${mixinNavDrawerItemShape(true)}
+  ${({ isActive }) => (isActive ? mixinNavDrawerItemActive : "")}
+  ${mixinNavDrawerItemHover}
   ${mixinBtnDefault}
 `;
 
-const Label = styled.span``;
+const LinkTypeShape = styled.a<{
+  isActive: boolean;
+  hasIcon: boolean;
+}>`
+  ${({ hasIcon }) => mixinNavDrawerItemShape(hasIcon)}
+  ${({ isActive }) => (isActive ? mixinNavDrawerItemActive : "")}
+  ${mixinNavDrawerItemHover}
+`;
+
+const Label = styled.span<{
+  isActive: boolean;
+}>`
+  ${({ isActive }) => mixinNavDrawerItemLabel(isActive)}
+`;
 
 const Trailing = styled.span<{ expand: boolean }>`
   display: flex;
@@ -65,10 +62,6 @@ const Collapse = styled.div<{ expand: boolean }>`
   transition: max-height 0.5s ease;
 `;
 
-const DetailShape = styled(Shape)`
-  margin-left: 16px;
-`;
-
 interface Props extends Gnb {}
 
 export const NavDrawerItem: FC<Props> = ({ label, href, items }) => {
@@ -76,7 +69,7 @@ export const NavDrawerItem: FC<Props> = ({ label, href, items }) => {
 
   const [expand, setExpand] = useState(false);
 
-  const isActive = router.asPath === href;
+  let isActive = router.asPath === href;
 
   const hasDetail = items.length > 0;
 
@@ -84,31 +77,57 @@ export const NavDrawerItem: FC<Props> = ({ label, href, items }) => {
     setExpand(!expand);
   };
 
+  const handleClickLink = (evt: MouseEvent, href: string) => {
+    evt.preventDefault();
+
+    router.push(href);
+  };
+
   return (
     <Container>
-      <Shape isActive={isActive}>
-        {hasDetail ? (
-          <Button type="button" onClick={handleClick}>
-            <Label>{label}</Label>
-            <Trailing expand={expand}>
-              <RiArrowUpSFill />
-            </Trailing>
-          </Button>
-        ) : (
-          <ActiveLink href={href}>
-            <Label>{label}</Label>
-          </ActiveLink>
-        )}
-      </Shape>
+      {hasDetail ? (
+        <ButtonTypeShape
+          type="button"
+          onClick={handleClick}
+          isActive={isActive}
+          tabIndex={isActive ? 0 : -1}
+        >
+          <Label isActive={isActive}>{label}</Label>
+          <Trailing expand={expand}>
+            <RiArrowUpSFill />
+          </Trailing>
+        </ButtonTypeShape>
+      ) : (
+        <LinkTypeShape
+          href={href}
+          onClick={evt => handleClickLink(evt, href)}
+          aria-label={`${label} 페이지 이동`}
+          tabIndex={isActive ? 0 : -1}
+          isActive={isActive}
+          hasIcon={true}
+        >
+          <Label isActive={isActive}>{label}</Label>
+        </LinkTypeShape>
+      )}
 
       <Collapse expand={expand}>
-        {items.map(({ label, href }, index) => (
-          <DetailShape key={`collapseGnb${index}`} isActive={isActive}>
-            <ActiveLink href={href}>
-              <Label>{label}</Label>
-            </ActiveLink>
-          </DetailShape>
-        ))}
+        {items.map(({ label, href }, index) => {
+          const isActive = router.asPath === href;
+
+          return (
+            <LinkTypeShape
+              key={`collapseGnb${index}`}
+              href={href}
+              onClick={evt => handleClickLink(evt, href)}
+              aria-label={`${label} 페이지 이동`}
+              tabIndex={isActive ? 0 : -1}
+              isActive={isActive}
+              hasIcon={false}
+            >
+              <Label isActive={isActive}>{label}</Label>
+            </LinkTypeShape>
+          );
+        })}
       </Collapse>
     </Container>
   );

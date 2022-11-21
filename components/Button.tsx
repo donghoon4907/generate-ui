@@ -6,6 +6,7 @@ import { CoreProps } from "../interfaces/core";
 import { mixinBtnDefault } from "../theme/mixins/button";
 
 const Container = styled.button`
+  width: 100%;
   height: 100%;
   border-radius: 100px;
   line-height: 30px;
@@ -15,6 +16,7 @@ const Container = styled.button`
 
 const PresetButtonContainer = styled.button`
   display: inline-block;
+  width: 100%;
   height: 40px;
   font-size: 16px;
   font-weight: 400;

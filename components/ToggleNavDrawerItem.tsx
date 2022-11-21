@@ -7,73 +7,44 @@ import { Gnb } from "../types/gnb";
 import { IconWrapper } from "./IconWrapper";
 import { useDispatch } from "../context";
 import { SET_ACTIVE_MDMENU } from "../context/action";
-import { css } from "styled-components";
+import {
+  mixinNavDrawerItemActive,
+  mixinNavDrawerItemHover,
+  mixinNavDrawerItemIcon,
+  mixinNavDrawerItemLabel,
+  mixinNavDrawerItemShape
+} from "../theme/mixins/nav";
+import { mixinBtnDefault } from "../theme/mixins/button";
 
-const mixinToggleNavDrawerItemContainer = (
-  isActive: boolean,
-  hasIcon: boolean,
-  isGnb: boolean
-) => css`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  padding: 5px 5px 5px 10px;
-  border-radius: 24px;
-  user-select: none;
-
-  ${!hasIcon ? "margin-left: 34px; padding-left:15px !important;" : ""}
-
-  ${({ theme }) =>
-    isActive ? `background: ${theme.activeBgColor} !important;` : ""}
-
-  ${({ theme }) =>
-    isGnb
-      ? `
-    cursor: pointer;
-
-  &:hover {
-    background: ${theme.hoverBgColor};
-  }
-    `
-      : ""}
-`;
-
-const NextContainer = styled.div<{
+const NextContainer = styled.button<{
   isActive: boolean;
   hasIcon: boolean;
 }>`
-  ${({ isActive, hasIcon }) =>
-    mixinToggleNavDrawerItemContainer(isActive, hasIcon, true)}
+  ${({ hasIcon }) => mixinNavDrawerItemShape(hasIcon)}
+  ${({ isActive }) => (isActive ? mixinNavDrawerItemActive : "")}
+  ${mixinNavDrawerItemHover}
+  ${mixinBtnDefault}
 `;
 
 const LinkContainer = styled.a<{
   isActive: boolean;
   hasIcon: boolean;
 }>`
-  ${({ isActive, hasIcon }) =>
-    mixinToggleNavDrawerItemContainer(isActive, hasIcon, true)}
+  ${({ hasIcon }) => mixinNavDrawerItemShape(hasIcon)}
+  ${({ isActive }) => (isActive ? mixinNavDrawerItemActive : "")}
+  ${mixinNavDrawerItemHover}
 `;
 
 const PreviousContainer = styled.div`
-  ${mixinToggleNavDrawerItemContainer(false, true, false)}
+  ${mixinNavDrawerItemShape(true)}
 `;
 
 const Icon = styled.div<{ isActive: boolean }>`
-  width: 34px;
-  height: 34px;
-
-  & > svg {
-    width: 30px;
-    height: 30px;
-    color: ${({ theme, isActive }) => (isActive ? theme.activeTextColor : "")};
-  }
+  ${({ isActive }) => mixinNavDrawerItemIcon(isActive)}
 `;
 
-const Label = styled.div<{ isActive?: boolean }>`
-  flex: 1;
-
-  color: ${({ theme, isActive }) => (isActive ? theme.activeTextColor : "")};
+const Label = styled.span<{ isActive: boolean }>`
+  ${({ isActive }) => mixinNavDrawerItemLabel(isActive)}
 `;
 
 interface ToggleNavDrawerItemProps extends Gnb {}
@@ -96,26 +67,30 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
       isActive = router.asPath.includes(href);
     }
   }
+
   const hasLnb = items.length > 0;
 
-  const handleClick = (evt: MouseEvent) => {
+  const hasIcon = !!icon;
+
+  const handleClickButton = () => {
+    dispatch({
+      type: SET_ACTIVE_MDMENU,
+      payload: items
+    });
+  };
+
+  const handleClickLink = (evt: MouseEvent) => {
     evt.preventDefault();
 
-    if (hasLnb) {
-      dispatch({
-        type: SET_ACTIVE_MDMENU,
-        payload: items
-      });
-    } else {
-      router.push(href!);
-    }
+    router.push(href!);
   };
 
   return hasLnb ? (
     <NextContainer
+      type="button"
+      onClick={handleClickButton}
       isActive={isActive}
-      hasIcon={!!icon}
-      onClick={handleClick}
+      hasIcon={hasIcon}
       tabIndex={isActive ? 0 : -1}
     >
       {icon && <Icon isActive={isActive}>{icon}</Icon>}
@@ -124,11 +99,12 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
     </NextContainer>
   ) : (
     <LinkContainer
-      isActive={isActive}
-      hasIcon={!!icon}
-      onClick={handleClick}
-      tabIndex={isActive ? 0 : -1}
       href={href}
+      onClick={handleClickLink}
+      aria-label={`${label} 페이지 이동`}
+      isActive={isActive}
+      hasIcon={hasIcon}
+      tabIndex={isActive ? 0 : -1}
     >
       {icon && <Icon isActive={isActive}>{icon}</Icon>}
       <Label isActive={isActive}>{label}</Label>

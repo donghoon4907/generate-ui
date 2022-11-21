@@ -3,7 +3,6 @@ import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 
-import { mixinBgLv2 } from "../theme/mixins/background";
 import { gnbOptions } from "./options/Gnb";
 import { useDispatch, useSelector } from "../context";
 import {
@@ -14,32 +13,23 @@ import { ThemeMode } from "../types/theme";
 import { ToggleThemeMode } from "./ToggleThemeMode";
 import { SET_ACTIVE_MDMENU } from "../context/action";
 import { getCurrentLevelGnbMenus, getParentGnbMenus } from "../lib/calc/tree";
+import { mixinNavDrawerShape } from "../theme/mixins/nav";
 
 const Container = styled.nav<{ open: boolean }>`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -256px;
-  z-index: 9;
-  width: 256px;
-  height: 100vh;
-  overflow: hidden;
-  border-left: 1px solid ${({ theme }) => theme.dividerColor};
-  border-radius: 0 16px 16px 0;
-  box-shadow: ${({ theme }) => theme.boxShadow.nav};
-
-  transition: transform 500ms ease-in-out;
+  display: none;
   transform: translate3d(${({ open }) => (open ? "256px" : "0")}, 0, 0);
+  z-index: 9;
 
-  ${mixinBgLv2}
+  ${mixinNavDrawerShape}
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    display: flex;
+  }
 `;
 
 const Body = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 5px;
 `;
 
