@@ -1,9 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
-import styled from "styled-components";
 
-import { mixinBgLv1 } from "../../theme/mixins/background";
 import { CountingInput } from "../../components/CountingInput";
 import { DefaultInput, FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
@@ -13,12 +11,13 @@ import {
   BootstrapPrimaryButton
 } from "../../components/Button";
 import { theme } from "../../theme";
-import { BootstrapModal } from "../../components/Modal";
+// import { BootstrapModal } from "../../components/Modal";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/options/ButtonStyle";
 import type { SelectOption } from "../../types/select";
 import { hexToRgb } from "../../lib/calc/rgb";
+import * as Component from "../../components/partial/Component";
 import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
@@ -28,44 +27,48 @@ import {
   StyleObjectToString,
   StyleProperties
 } from "../../lib/style/to-string";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-
-  width: 100%;
-  padding: 5px;
-`;
-
-const OutputContainer = styled.div`
-  position: sticky;
-  top: 5px;
-  width: 300px;
-  height: 330px;
-
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 5px;
-
-  ${mixinBgLv1}
-`;
+import { WithLabel } from "../../components/WithLabel";
+import { PaddingOption } from "../../components/partial/PaddingOption";
+import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 
 const ComponentButton: NextPage = () => {
   const [width, setWidth] = useState(100);
 
-  const [height, setHeight] = useState(40);
+  // const [height, setHeight] = useState(40);
+
+  const [lineHeight, setLineHeight] = useState(25);
+
+  const [letterSpacing, setLetterSpacing] = useState(0);
 
   const [label, setLabel] = useState("버튼명");
 
-  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
+
+  const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
 
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
 
   const [color, setColor] = useState("#000000");
 
-  const [borderRadius, setBorderRadius] = useState(4);
+  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
+
+  const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
+
+  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
+
+  const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
+
+  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
+
+  const [paddingTop, setPaddingTop] = useState(4);
+
+  const [paddingRight, setPaddingRight] = useState(4);
+
+  const [paddingBottom, setPaddingBottom] = useState(4);
+
+  const [paddingLeft, setPaddingLeft] = useState(4);
+
+  const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
   const [borderStyle, setBorderStyle] = useState<SelectOption>(
     buttonStyleOptions[1]
@@ -81,12 +84,16 @@ const ComponentButton: NextPage = () => {
 
   const [fontSize, setFontSize] = useState(16);
 
-  const [showImportModal, setShowImportModal] = useState(false);
+  // const [showImportModal, setShowImportModal] = useState(false);
 
-  const handleChangeBackgroundColorRgb = (
-    evt: ChangeEvent<HTMLInputElement>
-  ) => {
-    setBackgroundColor(evt.target.value);
+  const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
+    const rgb = hexToRgb(evt.target.value);
+
+    if (rgb !== null) {
+      setBackgroundColorRgb(`${rgb.r},${rgb.g},${rgb.b}`);
+    }
+
+    setBackgroundColorHex(evt.target.value);
   };
 
   const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -103,10 +110,22 @@ const ComponentButton: NextPage = () => {
 
   const handleClickPresetBootstrapButton = () => {
     setWidth(80);
-    setHeight(40);
-    setBackgroundColor(theme.color.bootstrapBlue);
+    // setHeight(40);
+    setLineHeight(25);
+    setLetterSpacing(0);
+    setPaddingTop(6);
+    setPaddingRight(6);
+    setPaddingBottom(6);
+    setPaddingLeft(6);
+    setBackgroundColorHex(theme.color.bootstrapBlue);
+    setBackgroundColorRgb("13,110,253");
+    setBackgroundColorAlpha(1);
     setColor(theme.color.white);
-    setBorderRadius(5);
+    setBorderTopLeftRadius(5);
+    setBorderTopRightRadius(5);
+    setBorderBottomLeftRadius(5);
+    setBorderBottomRightRadius(5);
+    setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(buttonStyleOptions[1]);
@@ -117,10 +136,22 @@ const ComponentButton: NextPage = () => {
 
   const handleClickPresetBootstrapOutlineButton = () => {
     setWidth(80);
-    setHeight(40);
-    setBackgroundColor(theme.color.white);
+    // setHeight(40);
+    setLineHeight(25);
+    setLetterSpacing(0);
+    setPaddingTop(6);
+    setPaddingRight(6);
+    setPaddingBottom(6);
+    setPaddingLeft(6);
+    setBackgroundColorHex(theme.color.white);
+    setBackgroundColorRgb("255,255,255");
+    setBackgroundColorAlpha(1);
     setColor(theme.color.bootstrapBlue);
-    setBorderRadius(5);
+    setBorderTopLeftRadius(5);
+    setBorderTopRightRadius(5);
+    setBorderBottomLeftRadius(5);
+    setBorderBottomRightRadius(5);
+    setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(buttonStyleOptions[1]);
@@ -129,22 +160,30 @@ const ComponentButton: NextPage = () => {
     setLabel("Primary");
   };
 
-  const handleShowImportModal = () => {
-    setShowImportModal(true);
-  };
+  // const handleShowImportModal = () => {
+  //   setShowImportModal(true);
+  // };
 
   const handleExport = () => {
     const style: StyleProperties = {
       width,
-      height,
-      backgroundColor,
-      backgroundColorAlpha,
+      // height,
+      backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
       color,
-      borderRadius,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      borderBottomLeftRadius,
+      borderBottomRightRadius,
       borderWidth,
       borderStyle: borderStyle.value,
       borderColor,
-      fontSize
+      fontSize,
+      lineHeight,
+      letterSpacing,
+      paddingTop,
+      paddingRight,
+      paddingBottom,
+      paddingLeft
     };
 
     const exportToHtml = new StyleObjectToString(style);
@@ -162,13 +201,6 @@ const ComponentButton: NextPage = () => {
     exportToHtml.saveInClipboard();
   };
 
-  const rgb = hexToRgb(backgroundColor);
-
-  let hexToRgba = "inherit";
-  if (rgb) {
-    hexToRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${backgroundColorAlpha})`;
-  }
-
   return (
     <>
       <Head>
@@ -184,28 +216,34 @@ const ComponentButton: NextPage = () => {
         </Description>
       </Header> */}
 
-      <Container>
-        <OutputContainer>
+      <Component.Container>
+        <Component.Aside>
           <Preview
             width={width}
-            height={height}
-            onImport={handleShowImportModal}
+            // height={height}
+            // onImport={handleShowImportModal}
             onExport={handleExport}
           >
             <button
               style={{
                 width: "100%",
                 height: "100%",
-                backgroundColor: hexToRgba,
+                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
                 color,
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                borderRadius,
+                borderTopLeftRadius,
+                borderTopRightRadius,
+                borderBottomLeftRadius,
+                borderBottomRightRadius,
                 borderColor,
                 borderWidth,
                 borderStyle: borderStyle.value,
-                fontSize
+                fontSize,
+                lineHeight: `${lineHeight}px`,
+                letterSpacing,
+                paddingTop,
+                paddingRight,
+                paddingBottom,
+                paddingLeft
               }}
             >
               {label}
@@ -242,7 +280,7 @@ const ComponentButton: NextPage = () => {
               </Preset.Item>
             </Preset.Body>
           </Preset.Container>
-        </OutputContainer>
+        </Component.Aside>
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
@@ -281,7 +319,7 @@ const ComponentButton: NextPage = () => {
                 unit="px"
               />
             </Option.Item>
-            <Option.Item>
+            {/* <Option.Item>
               <RequireLabel htmlFor="setHeight">높이</RequireLabel>
               <CountingInput
                 id="setHeight"
@@ -294,7 +332,7 @@ const ComponentButton: NextPage = () => {
                 numberType={CountNumberType.INTEGER}
                 unit="px"
               />
-            </Option.Item>
+            </Option.Item> */}
             <Option.Item>
               <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
               <CountingInput
@@ -310,12 +348,12 @@ const ComponentButton: NextPage = () => {
               />
             </Option.Item>
             <Option.Item>
-              <RequireLabel htmlFor="setBorderRadius">모서리 각도</RequireLabel>
+              <RequireLabel htmlFor="setLineHeight">줄 높이</RequireLabel>
               <CountingInput
-                id="setBorderRadius"
-                ariaLabel="모서리 각도"
-                count={borderRadius}
-                setCount={setBorderRadius}
+                id="setLineHeight"
+                ariaLabel="줄 높이"
+                count={lineHeight}
+                setCount={setLineHeight}
                 limit={100}
                 showIcon={true}
                 showFeedback={true}
@@ -323,6 +361,44 @@ const ComponentButton: NextPage = () => {
                 unit="px"
               />
             </Option.Item>
+            <Option.Item>
+              <RequireLabel htmlFor="setLetterSpacing">자간</RequireLabel>
+              <CountingInput
+                id="setLetterSpacing"
+                ariaLabel="자간"
+                count={letterSpacing}
+                setCount={setLetterSpacing}
+                limit={5}
+                showIcon={true}
+                showFeedback={true}
+                numberType={CountNumberType.DECIMAL}
+                unit="px"
+              />
+            </Option.Item>
+            <PaddingOption
+              paddingTop={paddingTop}
+              setPaddingTop={setPaddingTop}
+              paddingRight={paddingRight}
+              setPaddingRight={setPaddingRight}
+              paddingBottom={paddingBottom}
+              setPaddingBottom={setPaddingBottom}
+              paddingLeft={paddingLeft}
+              setPaddingLeft={setPaddingLeft}
+              isSetDetailPadding={isSetDetailPadding}
+              setIsSetDetailPadding={setIsSetDetailPadding}
+            />
+            <BorderRadiusOption
+              borderTopLeftRadius={borderTopLeftRadius}
+              setBorderTopLeftRadius={setBorderTopLeftRadius}
+              borderTopRightRadius={borderTopRightRadius}
+              setBorderTopRightRadius={setBorderTopRightRadius}
+              borderBottomLeftRadius={borderBottomLeftRadius}
+              setBorderBottomLeftRadius={setBorderBottomLeftRadius}
+              borderBottomRightRadius={borderBottomRightRadius}
+              setBorderBottomRightRadius={setBorderBottomRightRadius}
+              isSetDetailBorderRadius={isSetDetailBorderRadius}
+              setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
+            />
 
             <Option.Title>테두리 설정</Option.Title>
             <Option.Item>
@@ -334,7 +410,7 @@ const ComponentButton: NextPage = () => {
               />
             </Option.Item>
             <Option.Item>
-              <RequireLabel htmlFor="setBorderWidth">굵기</RequireLabel>
+              <RequireLabel htmlFor="setBorderWidth">너비</RequireLabel>
               <CountingInput
                 id="setBorderWidth"
                 ariaLabel="테두리 굵기"
@@ -356,14 +432,14 @@ const ComponentButton: NextPage = () => {
                 onChange={handleChangeBorderColor}
               />
             </Option.Item>
-            <Option.Title>버튼 배경색 설정</Option.Title>
+            <Option.Title>배경색 설정</Option.Title>
             <Option.Item>
               <RequireLabel htmlFor="setBackgroundColorRgb">RGB</RequireLabel>
               <DefaultInput
                 id="setBackgroundColorRgb"
                 type="color"
-                value={backgroundColor}
-                onChange={handleChangeBackgroundColorRgb}
+                value={backgroundColorHex}
+                onChange={handleChangeBackgroundColor}
               />
             </Option.Item>
             <Option.Item>
@@ -396,25 +472,17 @@ const ComponentButton: NextPage = () => {
                 setOption={setTemplate}
                 options={templateOptions}
               />
-              <Checkbox
-                id="setHtml"
-                onChange={handleChangeHtml}
-                checked={html}
-                label="HTML 템플릿 추가"
-              />
+              <WithLabel id="setHtml" label="HTML 템플릿 추가">
+                <Checkbox
+                  id="setHtml"
+                  checked={html}
+                  onChange={handleChangeHtml}
+                />
+              </WithLabel>
             </Option.Item>
           </Option.Body>
         </Option.Container>
-      </Container>
-      <BootstrapModal
-        show={showImportModal}
-        setShow={setShowImportModal}
-        ariaLabel="importModal"
-        headerTitle="Import"
-        showHeaderCloseButton={true}
-      >
-        <div>test</div>
-      </BootstrapModal>
+      </Component.Container>
     </>
   );
 };

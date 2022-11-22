@@ -17,12 +17,20 @@ const Container = styled.div`
 const MainContainer = styled.div`
   padding-left: 88px;
   width: 100%;
-  height: 100vh;
-  overflow-y: scroll;
 
   ${({ theme }) => theme.breakPoint.lg} {
     padding-left: 0;
     padding-top: 50px;
+  }
+`;
+
+const MainBody = styled.main`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  ${({ theme }) => theme.breakPoint.lg} {
+    height: calc(100vh - 50px);
   }
 `;
 
@@ -39,7 +47,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Header themeMode={themeMode} toggle={onToggle} />
           <Nav themeMode={themeMode} toggle={onToggle} />
           <MainContainer>
-            <Component {...pageProps} />
+            <MainBody>
+              <Component {...pageProps} />
+            </MainBody>
           </MainContainer>
         </Container>
       </ThemeProvider>

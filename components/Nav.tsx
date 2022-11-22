@@ -10,7 +10,7 @@ import { ThemeMode } from "../types/theme";
 import { ToggleThemeMode } from "./ToggleThemeMode";
 import { gnbOptions } from "./options/Gnb";
 
-const Container = styled.div`
+const Container = styled.aside`
   display: flex;
   justify-content: space-between;
   flex-direction: column;

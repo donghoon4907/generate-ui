@@ -8,6 +8,7 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-shrink: 0;
 
   padding: 0 10px;
   border-bottom: 1px solid ${({ theme }) => theme.dividerColor};

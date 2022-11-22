@@ -8,7 +8,7 @@ import { IconWrapper } from "./IconWrapper";
 import { ToggleNavDrawer } from "./ToggleNavDrawer";
 import { ThemeMode } from "../types/theme";
 
-const Container = styled.div`
+const Container = styled.header`
   display: flex;
   justify-content: flex-start;
   align-items: center;

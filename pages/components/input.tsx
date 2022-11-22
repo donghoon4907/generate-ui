@@ -2,9 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
-import styled from "styled-components";
 
-import { mixinBgLv1 } from "../../theme/mixins/background";
 import { CountingInput } from "../../components/CountingInput";
 import { DefaultInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
@@ -19,6 +17,7 @@ import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/options/ButtonStyle";
 import type { SelectOption } from "../../types/select";
 import { hexToRgb } from "../../lib/calc/rgb";
+import * as Component from "../../components/partial/Component";
 import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
@@ -28,35 +27,13 @@ import {
   StyleObjectToString,
   StyleProperties
 } from "../../lib/style/to-string";
-import { Switch } from "../../components/Switch";
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
+import { PaddingOption } from "../../components/partial/PaddingOption";
+import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 // import { BootstrapModal } from "../../components/Modal";
 // import { StyleStringToObject } from "../../lib/style/to-object";
 // import { DefaultTextArea } from "../../components/TextArea";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-
-  width: 100%;
-  padding: 5px;
-`;
-
-const OutputContainer = styled.div`
-  position: sticky;
-  top: 5px;
-  width: 300px;
-  height: 330px;
-
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 5px;
-
-  ${mixinBgLv1}
-`;
 
 const ComponentInput: NextPage = () => {
   const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
@@ -87,6 +64,8 @@ const ComponentInput: NextPage = () => {
 
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
 
+  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
+
   const [paddingTop, setPaddingTop] = useState(4);
 
   const [paddingRight, setPaddingRight] = useState(4);
@@ -94,8 +73,6 @@ const ComponentInput: NextPage = () => {
   const [paddingBottom, setPaddingBottom] = useState(4);
 
   const [paddingLeft, setPaddingLeft] = useState(4);
-
-  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
 
   const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
@@ -127,7 +104,6 @@ const ComponentInput: NextPage = () => {
     const rgb = hexToRgb(evt.target.value);
 
     if (rgb !== null) {
-      console.log(rgb);
       setBackgroundColorRgb(`${rgb.r},${rgb.g},${rgb.b}`);
     }
 
@@ -146,20 +122,6 @@ const ComponentInput: NextPage = () => {
     setHtml(evt.target.checked);
   };
 
-  const setBorderRadius = (px: number) => {
-    setBorderTopLeftRadius(px);
-    setBorderTopRightRadius(px);
-    setBorderBottomLeftRadius(px);
-    setBorderBottomRightRadius(px);
-  };
-
-  const setPadding = (px: number) => {
-    setPaddingTop(px);
-    setPaddingRight(px);
-    setPaddingBottom(px);
-    setPaddingLeft(px);
-  };
-
   const handleClickPresetBootstrapLightButton = () => {
     setWidth(100);
     // setHeight(40);
@@ -174,7 +136,10 @@ const ComponentInput: NextPage = () => {
     setBackgroundColorRgb("255,255,255");
     setBackgroundColorAlpha(1);
     setColor(theme.color.white);
-    setBorderRadius(5);
+    setBorderTopLeftRadius(5);
+    setBorderTopRightRadius(5);
+    setBorderBottomLeftRadius(5);
+    setBorderBottomRightRadius(5);
     setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
@@ -196,7 +161,10 @@ const ComponentInput: NextPage = () => {
     setBackgroundColorRgb("31, 31, 31");
     setBackgroundColorAlpha(1);
     setColor(theme.color.darkTextColor_lv0);
-    setBorderRadius(5);
+    setBorderTopLeftRadius(5);
+    setBorderTopRightRadius(5);
+    setBorderBottomLeftRadius(5);
+    setBorderBottomRightRadius(5);
     setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
@@ -327,8 +295,8 @@ const ComponentInput: NextPage = () => {
         </Description>
       </Header> */}
 
-      <Container>
-        <OutputContainer>
+      <Component.Container>
+        <Component.Aside>
           <Preview
             width={width}
             // height={height}
@@ -390,7 +358,7 @@ const ComponentInput: NextPage = () => {
               </Preset.Item>
             </Preset.Body>
           </Preset.Container>
-        </OutputContainer>
+        </Component.Aside>
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
@@ -494,182 +462,30 @@ const ComponentInput: NextPage = () => {
                 unit="px"
               />
             </Option.Item>
-            <Option.Title>여백 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel
-                htmlFor={
-                  isSetDetailPadding
-                    ? "setBorderTopLeftRadius"
-                    : "setBorderRadius"
-                }
-              >
-                {isSetDetailPadding ? "Top" : "여백"}
-              </RequireLabel>
-              <CountingInput
-                id={
-                  isSetDetailPadding
-                    ? "setBorderTopLeftRadius"
-                    : "setBorderRadius"
-                }
-                ariaLabel={isSetDetailPadding ? "padding-top" : "padding"}
-                count={paddingTop}
-                setCount={isSetDetailPadding ? setPaddingTop : setPadding}
-                limit={30}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
-              />
-              <WithLabel id="setDetailPadding" label="디테일 설정">
-                <Switch
-                  id="setDetailPadding"
-                  width={40}
-                  checked={isSetDetailPadding}
-                  setChecked={setIsSetDetailPadding}
-                />
-              </WithLabel>
-            </Option.Item>
-            {isSetDetailPadding && (
-              <>
-                <Option.Item>
-                  <RequireLabel htmlFor="setPaddingRight">Right</RequireLabel>
-                  <CountingInput
-                    id="setPaddingRight"
-                    ariaLabel="padding-right"
-                    count={paddingRight}
-                    setCount={setPaddingRight}
-                    limit={30}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
-                <Option.Item>
-                  <RequireLabel htmlFor="setPaddingBottom">Bottom</RequireLabel>
-                  <CountingInput
-                    id="setPaddingBottom"
-                    ariaLabel="padding-bottom"
-                    count={paddingBottom}
-                    setCount={setPaddingBottom}
-                    limit={30}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
-                <Option.Item>
-                  <RequireLabel htmlFor="setPaddingLeft">Left</RequireLabel>
-                  <CountingInput
-                    id="setPaddingLeft"
-                    ariaLabel="padding-left"
-                    count={paddingLeft}
-                    setCount={setPaddingLeft}
-                    limit={30}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
-              </>
-            )}
-            <Option.Title>모서리 각 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel
-                htmlFor={
-                  isSetDetailBorderRadius
-                    ? "setBorderTopLeftRadius"
-                    : "setBorderRadius"
-                }
-              >
-                {isSetDetailBorderRadius ? "Top-Left" : "모서리 각"}
-              </RequireLabel>
-              <CountingInput
-                id={
-                  isSetDetailBorderRadius
-                    ? "setBorderTopLeftRadius"
-                    : "setBorderRadius"
-                }
-                ariaLabel={
-                  isSetDetailBorderRadius
-                    ? "border-top-left-radius"
-                    : "border-radius"
-                }
-                count={borderTopLeftRadius}
-                setCount={
-                  isSetDetailBorderRadius
-                    ? setBorderTopLeftRadius
-                    : setBorderRadius
-                }
-                limit={100}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
-              />
-              <WithLabel id="setDetailBorderRadius" label="디테일 설정">
-                <Switch
-                  id="setDetailBorderRadius"
-                  width={40}
-                  checked={isSetDetailBorderRadius}
-                  setChecked={setIsSetDetailBorderRadius}
-                />
-              </WithLabel>
-            </Option.Item>
-            {isSetDetailBorderRadius && (
-              <>
-                <Option.Item>
-                  <RequireLabel htmlFor="setBorderTopRightRadius">
-                    Top-Right
-                  </RequireLabel>
-                  <CountingInput
-                    id="setBorderTopRightRadius"
-                    ariaLabel="border-top-right-radius"
-                    count={borderTopRightRadius}
-                    setCount={setBorderTopRightRadius}
-                    limit={100}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
-                <Option.Item>
-                  <RequireLabel htmlFor="setBorderBottomLeftRadius">
-                    Bottom-Left
-                  </RequireLabel>
-                  <CountingInput
-                    id="setBorderBottomLeftRadius"
-                    ariaLabel="border-bottom-left-radius"
-                    count={borderBottomLeftRadius}
-                    setCount={setBorderBottomLeftRadius}
-                    limit={100}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
-                <Option.Item>
-                  <RequireLabel htmlFor="setBorderBottomRightRadius">
-                    Bottom-Right
-                  </RequireLabel>
-                  <CountingInput
-                    id="setBorderBottomRightRadius"
-                    ariaLabel="border-bottom-right-radius"
-                    count={borderBottomRightRadius}
-                    setCount={setBorderBottomRightRadius}
-                    limit={100}
-                    showIcon={true}
-                    showFeedback={true}
-                    numberType={CountNumberType.INTEGER}
-                    unit="px"
-                  />
-                </Option.Item>
-              </>
-            )}
+            <PaddingOption
+              paddingTop={paddingTop}
+              setPaddingTop={setPaddingTop}
+              paddingRight={paddingRight}
+              setPaddingRight={setPaddingRight}
+              paddingBottom={paddingBottom}
+              setPaddingBottom={setPaddingBottom}
+              paddingLeft={paddingLeft}
+              setPaddingLeft={setPaddingLeft}
+              isSetDetailPadding={isSetDetailPadding}
+              setIsSetDetailPadding={setIsSetDetailPadding}
+            />
+            <BorderRadiusOption
+              borderTopLeftRadius={borderTopLeftRadius}
+              setBorderTopLeftRadius={setBorderTopLeftRadius}
+              borderTopRightRadius={borderTopRightRadius}
+              setBorderTopRightRadius={setBorderTopRightRadius}
+              borderBottomLeftRadius={borderBottomLeftRadius}
+              setBorderBottomLeftRadius={setBorderBottomLeftRadius}
+              borderBottomRightRadius={borderBottomRightRadius}
+              setBorderBottomRightRadius={setBorderBottomRightRadius}
+              isSetDetailBorderRadius={isSetDetailBorderRadius}
+              setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
+            />
 
             <Option.Title>테두리 설정</Option.Title>
             <Option.Item>
@@ -753,7 +569,7 @@ const ComponentInput: NextPage = () => {
             </Option.Item>
           </Option.Body>
         </Option.Container>
-      </Container>
+      </Component.Container>
       {/* <BootstrapModal
         show={showImportModal}
         setShow={setShowImportModal}

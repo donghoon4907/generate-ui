@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 import { mixinBgLv1 } from "../../theme/mixins/background";
 
-export const Container = styled.div`
+export const Container = styled.section`
   flex: 1;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -18,6 +19,12 @@ export const Body = styled.div`
   grid-column-gap: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-flow: row;
+  height: 100%;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   ${({ theme }) => theme.breakPoint.lg} {
     grid-template-columns: repeat(2, 1fr);
