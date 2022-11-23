@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import { PrimaryButton, SecondaryButton } from "./Button";
@@ -88,11 +89,20 @@ export const Preview: FC<Props> = ({
   onImport,
   onExport
 }) => {
+  const [scale, setScale] = useState(1);
+
+  const handleWheel = (evt: MouseEvent) => {
+    console.log(evt.nativeEvent.wheelDelta);
+  };
+
   return (
     <Container>
       <StylingHeader>Output</StylingHeader>
       <Body>
-        <div style={{ position: "relative", width, height }}>
+        <div
+          style={{ position: "relative", width, height }}
+          onWheel={handleWheel}
+        >
           <Width>{width}px</Width>
           <RangeTop />
           {height && <Height>{height}px</Height>}
