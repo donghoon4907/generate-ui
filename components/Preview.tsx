@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { useState } from "react";
 import styled from "styled-components";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { StylingHeader } from "./StylingHeader";
@@ -19,9 +19,14 @@ const Body = styled.div`
   overflow: hidden;
   position: relative;
 
+  width: 300px;
   height: 250px;
   text-align: center;
-  border-bottom: 1px solid ${({ theme }) => theme.dividerColor};
+
+  &:active,
+  & button:active {
+    cursor: move;
+  }
 `;
 
 const RangeTop = styled.div`
@@ -69,6 +74,7 @@ const Footer = styled.div`
 
   padding: 5px;
   height: 40px;
+  border-top: 1px solid ${({ theme }) => theme.dividerColor};
 `;
 
 const ButtonWrapper = styled.div`
@@ -89,27 +95,29 @@ export const Preview: FC<Props> = ({
   onImport,
   onExport
 }) => {
-  const [scale, setScale] = useState(1);
-
-  const handleWheel = (evt: MouseEvent) => {
-    console.log(evt.nativeEvent.wheelDelta);
-  };
-
   return (
     <Container>
       <StylingHeader>Output</StylingHeader>
-      <Body>
-        <div
-          style={{ position: "relative", width, height }}
-          onWheel={handleWheel}
-        >
-          <Width>{width}px</Width>
-          <RangeTop />
-          {height && <Height>{height}px</Height>}
-          {height && <RangeLeft />}
-          {children}
-        </div>
-      </Body>
+      <TransformWrapper>
+        <TransformComponent>
+          <Body>
+            <div
+              style={{
+                position: "relative",
+                width,
+                height
+              }}
+            >
+              <Width>{width}px</Width>
+              <RangeTop />
+              {height && <Height>{height}px</Height>}
+              {height && <RangeLeft />}
+              {children}
+            </div>
+          </Body>
+        </TransformComponent>
+      </TransformWrapper>
+
       <Footer>
         <ButtonWrapper>
           {onImport && (

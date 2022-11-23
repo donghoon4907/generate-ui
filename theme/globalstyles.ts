@@ -64,6 +64,10 @@ p {
     margin-bottom: 5px;
 }
 
+button {
+    cursor: pointer;
+}
+
 div::-webkit-scrollbar, textarea::-webkit-scrollbar {
     width: 8px;
     height: 8px;
