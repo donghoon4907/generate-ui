@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { BsPencil } from "react-icons/bs";
+import { BsPencil, BsSearch } from "react-icons/bs";
 import { MdPassword } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 
 import type { SelectOption } from "../../types/select";
+import { InputType } from "../../types/input";
 
 const Continaer = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const Continaer = styled.div`
 export const inputTypeOptions: SelectOption[] = [
   {
     label: "텍스트",
-    value: "text",
+    value: InputType.TEXT,
     preview: (
       <Continaer>
         <BsPencil />
@@ -25,7 +26,7 @@ export const inputTypeOptions: SelectOption[] = [
   },
   {
     label: "암호",
-    value: "password",
+    value: InputType.PASSWORD,
     preview: (
       <Continaer>
         <MdPassword />
@@ -34,10 +35,19 @@ export const inputTypeOptions: SelectOption[] = [
   },
   {
     label: "이메일",
-    value: "email",
+    value: InputType.EMAIL,
     preview: (
       <Continaer>
         <AiOutlineMail />
+      </Continaer>
+    )
+  },
+  {
+    label: "검색",
+    value: InputType.SEARCH,
+    preview: (
+      <Continaer>
+        <BsSearch />
       </Continaer>
     )
   }

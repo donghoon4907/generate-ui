@@ -18,6 +18,7 @@ interface Props {
   setPaddingLeft: Dispatch<SetStateAction<number>>;
   isSetDetailPadding: boolean;
   setIsSetDetailPadding: Dispatch<SetStateAction<boolean>>;
+  isDisabledPaddingLeft?: boolean;
 }
 
 export const PaddingOption: FC<Props> = ({
@@ -30,13 +31,17 @@ export const PaddingOption: FC<Props> = ({
   paddingLeft,
   setPaddingLeft,
   isSetDetailPadding,
-  setIsSetDetailPadding
+  setIsSetDetailPadding,
+  isDisabledPaddingLeft
 }) => {
   const setPadding = (px: number) => {
     setPaddingTop(px);
     setPaddingRight(px);
     setPaddingBottom(px);
-    setPaddingLeft(px);
+
+    if (!isDisabledPaddingLeft) {
+      setPaddingLeft(px);
+    }
   };
 
   return (
@@ -108,10 +113,11 @@ export const PaddingOption: FC<Props> = ({
               count={paddingLeft}
               setCount={setPaddingLeft}
               limit={30}
-              showIcon={true}
+              showIcon={!isDisabledPaddingLeft}
               showFeedback={true}
               numberType={CountNumberType.INTEGER}
               unit="px"
+              disabled={isDisabledPaddingLeft}
             />
           </Option.Item>
         </>

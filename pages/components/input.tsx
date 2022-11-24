@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
+import styled from "styled-components";
 
 import { CountingInput } from "../../components/CountingInput";
 import { DefaultInput } from "../../components/Input";
@@ -31,9 +32,27 @@ import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
+import { InputType } from "../../types/input";
+import { BsSearch } from "react-icons/bs";
 // import { BootstrapModal } from "../../components/Modal";
 // import { StyleStringToObject } from "../../lib/style/to-object";
 // import { DefaultTextArea } from "../../components/TextArea";
+
+const SearchIconWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: black;
+  transform: translate3d(0, -50%, 0);
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 const ComponentInput: NextPage = () => {
   const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
@@ -90,6 +109,9 @@ const ComponentInput: NextPage = () => {
 
   const [fontSize, setFontSize] = useState(16);
 
+  // search icon 추가 여부
+  const [showIcon, setShowIcon] = useState(false);
+
   // const [showImportModal, setShowImportModal] = useState(false);
 
   // const [importStrStyle, setImportStrStyle] = useState("");
@@ -120,6 +142,16 @@ const ComponentInput: NextPage = () => {
 
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
+  };
+
+  const handleChangeShowIcon = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = evt.target;
+
+    setShowIcon(checked);
+
+    if (checked) {
+      setPaddingLeft(25);
+    }
   };
 
   const handleClickPresetBootstrapLightButton = () => {
@@ -268,9 +300,9 @@ const ComponentInput: NextPage = () => {
     const exportToHtml = new StyleObjectToString(style);
 
     if (template.value === "default") {
-      exportToHtml.convertInput(inputType.value);
+      exportToHtml.convertInput(inputType.value, { showIcon });
     } else if (template.value === "style-and-el") {
-      exportToHtml.convertInputWithClass(inputType.value);
+      exportToHtml.convertInputWithClass(inputType.value, { showIcon });
     }
 
     if (html) {
@@ -326,6 +358,11 @@ const ComponentInput: NextPage = () => {
                 paddingLeft
               }}
             />
+            {showIcon && (
+              <SearchIconWrapper>
+                <BsSearch />
+              </SearchIconWrapper>
+            )}
           </Preview>
           <Preset.Container>
             <StylingHeader>Preset</StylingHeader>
@@ -370,6 +407,15 @@ const ComponentInput: NextPage = () => {
                 setOption={setInputType}
                 options={inputTypeOptions}
               />
+              {inputType.value === InputType.SEARCH && (
+                <WithLabel id="setHasIcon" label="검색 아이콘 추가">
+                  <Checkbox
+                    id="setHasIcon"
+                    checked={showIcon}
+                    onChange={handleChangeShowIcon}
+                  />
+                </WithLabel>
+              )}
             </Option.Item>
             <Option.Item>
               <RequireLabel htmlFor="setColor">글자 색</RequireLabel>
@@ -399,7 +445,7 @@ const ComponentInput: NextPage = () => {
                 ariaLabel="너비"
                 count={width}
                 setCount={setWidth}
-                limit={100}
+                limit={200}
                 showIcon={true}
                 showFeedback={true}
                 numberType={CountNumberType.INTEGER}
@@ -473,6 +519,7 @@ const ComponentInput: NextPage = () => {
               setPaddingLeft={setPaddingLeft}
               isSetDetailPadding={isSetDetailPadding}
               setIsSetDetailPadding={setIsSetDetailPadding}
+              isDisabledPaddingLeft={showIcon}
             />
             <BorderRadiusOption
               borderTopLeftRadius={borderTopLeftRadius}

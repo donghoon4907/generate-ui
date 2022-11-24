@@ -1,4 +1,4 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, FC, InputHTMLAttributes, SetStateAction } from "react";
 import { ChangeEvent, useState, useRef } from "react";
 import styled from "styled-components";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
@@ -50,13 +50,12 @@ const Tool = styled.div`
   align-items: center;
 `;
 
-interface Props {
-  id: string;
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   count: number;
   setCount: Dispatch<SetStateAction<number>> | ((px: number) => void);
   ariaLabel: string;
   limit: number;
-  showIcon: boolean;
+  showIcon?: boolean;
   showFeedback: boolean;
   numberType: CountNumberType;
   // isAllowNegative: boolean;
@@ -64,7 +63,6 @@ interface Props {
 }
 
 export const CountingInput: FC<Props> = ({
-  id,
   ariaLabel,
   count,
   setCount,
@@ -73,7 +71,9 @@ export const CountingInput: FC<Props> = ({
   showFeedback,
   numberType,
   // isAllowNegative,
-  unit
+  unit,
+  disabled,
+  ...inputProps
 }) => {
   const intervalRef = useRef<number | null>(null);
 
@@ -172,12 +172,12 @@ export const CountingInput: FC<Props> = ({
         <InputWrapper>
           <StyledInput
             type="text"
-            id={id}
+            {...inputProps}
             onChange={handleChange}
             value={count}
             valid={valid}
             invalid={invalid}
-            disabled={numberType === CountNumberType.DECIMAL}
+            disabled={disabled || numberType === CountNumberType.DECIMAL}
           />
           {unit && <Unit>{unit}</Unit>}
         </InputWrapper>

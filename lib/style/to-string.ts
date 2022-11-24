@@ -3,9 +3,15 @@ import { isNumber } from "../calc/number";
 
 export interface StyleProperties extends CSSProperties {}
 
+export interface ConvertInputOptions {
+  showIcon?: boolean;
+}
+
 export class StyleObjectToString {
   private convertedHtml: string;
   private strStyle: string;
+  private strSearchIcon = `<svg width="20" height="20" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg>`;
+  private strSearchIconWrapper = `width: 20px;height: 20px;position: absolute;top: 50%;left: 5px;color: black;transform: translate3d(0, -50%, 0);`;
 
   constructor(style: StyleProperties) {
     this.convertedHtml = "";
@@ -34,20 +40,62 @@ export class StyleObjectToString {
     return result;
   }
 
-  convertInput(type: string) {
-    this.convertedHtml = `<input type="${type}" style="${this.strStyle}" />`;
+  convertInput(type: string, options: ConvertInputOptions = {}) {
+    const { showIcon } = options;
+
+    this.convertedHtml = `
+    <div style="position:relative;">
+      <input type="${type}" style="${this.strStyle}" />
+    ${
+      showIcon
+        ? `
+    <div style="${this.strSearchIconWrapper}">
+      ${this.strSearchIcon}
+    </div>
+    `
+        : ""
+    }
+    </div>
+    `;
 
     return this.convertedHtml;
   }
 
-  convertInputWithClass(type: string) {
+  convertInputWithClass(type: string, options: ConvertInputOptions = {}) {
+    const { showIcon } = options;
+
     this.convertedHtml = `
     <style>
+      .generate-input__container {
+        position: relative;
+      }
       .generate-input {
         ${this.strStyle}
       }
+      ${
+        showIcon
+          ? `
+      .generate-input__icon {
+        ${this.strSearchIconWrapper}
+      }
+      `
+          : ""
+      }
+      
     </style>
-    <input type="${type}" class="generate-input" />
+    <div class="generate-input__container">
+      <input type="${type}" class="generate-input" />
+      ${
+        showIcon
+          ? `
+        <div class="generate-input__icon">
+          ${this.strSearchIcon}
+        </div>
+        `
+          : ""
+      }
+      
+    </div>
     `;
 
     return this.convertedHtml;
