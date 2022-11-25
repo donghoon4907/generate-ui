@@ -15,16 +15,15 @@ export const Container = styled.section`
 `;
 
 export const Body = styled.div`
-  display: grid;
-  grid-column-gap: 5px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-flow: row;
   height: 100%;
   overflow-y: scroll;
+`;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+export const Grid = styled.div`
+  display: grid;
+  grid-column-gap: 5px;
+  grid-template-columns: repeat(3, minmax(82px, 1fr));
+  grid-auto-flow: row;
 
   ${({ theme }) => theme.breakPoint.lg} {
     grid-template-columns: repeat(2, 1fr);

@@ -32,13 +32,20 @@ const Body = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+`;
+
 const Tool = styled.div`
   position: absolute;
   bottom: 40px;
   left: 0;
   width: 100%;
   height: 40px;
-  border-top: 1px solid ${({ theme }) => theme.dividerColor};
 
   display: flex;
   justify-content: flex-start;
@@ -100,7 +107,7 @@ const ButtonWrapper = styled.div`
 `;
 
 interface Props extends CoreProps {
-  width: number;
+  width?: number;
   height?: number;
   onImport?: () => void;
   onExport: () => void;
@@ -121,19 +128,18 @@ export const Preview: FC<Props> = ({
           <>
             <TransformComponent>
               <Body>
-                <div
+                <Wrapper
                   style={{
-                    position: "relative",
                     width,
                     height
                   }}
                 >
-                  <Width>{width}px</Width>
-                  <RangeTop />
+                  {width && <Width>{width}px</Width>}
+                  {width && <RangeTop />}
                   {height && <Height>{height}px</Height>}
                   {height && <RangeLeft />}
                   {children}
-                </div>
+                </Wrapper>
               </Body>
             </TransformComponent>
             <Tool>

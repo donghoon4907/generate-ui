@@ -399,60 +399,62 @@ const ComponentInput: NextPage = () => {
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
-            <Option.Title>기본 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel>타입</RequireLabel>
-              <CustomSelect
-                activeOption={inputType}
-                setOption={setInputType}
-                options={inputTypeOptions}
-              />
-              {inputType.value === InputType.SEARCH && (
-                <WithLabel id="setHasIcon" label="검색 아이콘 추가">
-                  <Checkbox
-                    id="setHasIcon"
-                    checked={showIcon}
-                    onChange={handleChangeShowIcon}
-                  />
-                </WithLabel>
-              )}
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setColor">글자 색</RequireLabel>
-              <DefaultInput
-                id="setColor"
-                type="color"
-                value={color}
-                onChange={handleChangeColor}
-              />
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setPlaceholder">
-                입력 가이드 문구
-              </RequireLabel>
-              <DefaultInput
-                id="setPlaceholder"
-                value={placeholder}
-                onChange={handleChangePlaceholder}
-              />
-            </Option.Item>
+            <Option.Grid>
+              <Option.Title>기본 설정</Option.Title>
+              <Option.Item>
+                <RequireLabel>타입</RequireLabel>
+                <CustomSelect
+                  activeOption={inputType}
+                  setOption={setInputType}
+                  options={inputTypeOptions}
+                />
+                {inputType.value === InputType.SEARCH && (
+                  <WithLabel id="setHasIcon" label="검색 아이콘 추가">
+                    <Checkbox
+                      id="setHasIcon"
+                      checked={showIcon}
+                      onChange={handleChangeShowIcon}
+                    />
+                  </WithLabel>
+                )}
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setColor">글자 색</RequireLabel>
+                <DefaultInput
+                  id="setColor"
+                  type="color"
+                  value={color}
+                  onChange={handleChangeColor}
+                />
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setPlaceholder">
+                  입력 가이드 문구
+                </RequireLabel>
+                <DefaultInput
+                  id="setPlaceholder"
+                  value={placeholder}
+                  onChange={handleChangePlaceholder}
+                  autoComplete="off"
+                />
+              </Option.Item>
 
-            <Option.Title>레이아웃 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel htmlFor="setWidth">너비</RequireLabel>
-              <CountingInput
-                id="setWidth"
-                ariaLabel="너비"
-                count={width}
-                setCount={setWidth}
-                limit={200}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
-              />
-            </Option.Item>
-            {/* <Option.Item>
+              <Option.Title>레이아웃 설정</Option.Title>
+              <Option.Item>
+                <RequireLabel htmlFor="setWidth">너비</RequireLabel>
+                <CountingInput
+                  id="setWidth"
+                  ariaLabel="너비"
+                  count={width}
+                  setCount={setWidth}
+                  limit={200}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.INTEGER}
+                  unit="px"
+                />
+              </Option.Item>
+              {/* <Option.Item>
               <RequireLabel htmlFor="setHeight">높이</RequireLabel>
               <CountingInput
                 id="setHeight"
@@ -466,154 +468,155 @@ const ComponentInput: NextPage = () => {
                 unit="px"
               />
             </Option.Item> */}
-            <Option.Item>
-              <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
-              <CountingInput
-                id="setFontSize"
-                ariaLabel="글자 크기"
-                count={fontSize}
-                setCount={setFontSize}
-                limit={30}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
+              <Option.Item>
+                <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
+                <CountingInput
+                  id="setFontSize"
+                  ariaLabel="글자 크기"
+                  count={fontSize}
+                  setCount={setFontSize}
+                  limit={30}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.INTEGER}
+                  unit="px"
+                />
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setLineHeight">줄 높이</RequireLabel>
+                <CountingInput
+                  id="setLineHeight"
+                  ariaLabel="줄 높이"
+                  count={lineHeight}
+                  setCount={setLineHeight}
+                  limit={100}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.INTEGER}
+                  unit="px"
+                />
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setLetterSpacing">자간</RequireLabel>
+                <CountingInput
+                  id="setLetterSpacing"
+                  ariaLabel="자간"
+                  count={letterSpacing}
+                  setCount={setLetterSpacing}
+                  limit={5}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.DECIMAL}
+                  unit="px"
+                />
+              </Option.Item>
+              <PaddingOption
+                paddingTop={paddingTop}
+                setPaddingTop={setPaddingTop}
+                paddingRight={paddingRight}
+                setPaddingRight={setPaddingRight}
+                paddingBottom={paddingBottom}
+                setPaddingBottom={setPaddingBottom}
+                paddingLeft={paddingLeft}
+                setPaddingLeft={setPaddingLeft}
+                isSetDetailPadding={isSetDetailPadding}
+                setIsSetDetailPadding={setIsSetDetailPadding}
+                isDisabledPaddingLeft={showIcon}
               />
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setLineHeight">줄 높이</RequireLabel>
-              <CountingInput
-                id="setLineHeight"
-                ariaLabel="줄 높이"
-                count={lineHeight}
-                setCount={setLineHeight}
-                limit={100}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
+              <BorderRadiusOption
+                borderTopLeftRadius={borderTopLeftRadius}
+                setBorderTopLeftRadius={setBorderTopLeftRadius}
+                borderTopRightRadius={borderTopRightRadius}
+                setBorderTopRightRadius={setBorderTopRightRadius}
+                borderBottomLeftRadius={borderBottomLeftRadius}
+                setBorderBottomLeftRadius={setBorderBottomLeftRadius}
+                borderBottomRightRadius={borderBottomRightRadius}
+                setBorderBottomRightRadius={setBorderBottomRightRadius}
+                isSetDetailBorderRadius={isSetDetailBorderRadius}
+                setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
               />
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setLetterSpacing">자간</RequireLabel>
-              <CountingInput
-                id="setLetterSpacing"
-                ariaLabel="자간"
-                count={letterSpacing}
-                setCount={setLetterSpacing}
-                limit={5}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.DECIMAL}
-                unit="px"
-              />
-            </Option.Item>
-            <PaddingOption
-              paddingTop={paddingTop}
-              setPaddingTop={setPaddingTop}
-              paddingRight={paddingRight}
-              setPaddingRight={setPaddingRight}
-              paddingBottom={paddingBottom}
-              setPaddingBottom={setPaddingBottom}
-              paddingLeft={paddingLeft}
-              setPaddingLeft={setPaddingLeft}
-              isSetDetailPadding={isSetDetailPadding}
-              setIsSetDetailPadding={setIsSetDetailPadding}
-              isDisabledPaddingLeft={showIcon}
-            />
-            <BorderRadiusOption
-              borderTopLeftRadius={borderTopLeftRadius}
-              setBorderTopLeftRadius={setBorderTopLeftRadius}
-              borderTopRightRadius={borderTopRightRadius}
-              setBorderTopRightRadius={setBorderTopRightRadius}
-              borderBottomLeftRadius={borderBottomLeftRadius}
-              setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-              borderBottomRightRadius={borderBottomRightRadius}
-              setBorderBottomRightRadius={setBorderBottomRightRadius}
-              isSetDetailBorderRadius={isSetDetailBorderRadius}
-              setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
-            />
 
-            <Option.Title>테두리 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel>스타일</RequireLabel>
-              <CustomSelect
-                activeOption={borderStyle}
-                setOption={setBorderStyle}
-                options={buttonStyleOptions}
-              />
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setBorderWidth">너비</RequireLabel>
-              <CountingInput
-                id="setBorderWidth"
-                ariaLabel="테두리 굵기"
-                count={borderWidth}
-                setCount={setBorderWidth}
-                limit={10}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
-              />
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setBorderColor">색</RequireLabel>
-              <DefaultInput
-                id="setBorderColor"
-                type="color"
-                value={borderColor}
-                onChange={handleChangeBorderColor}
-              />
-            </Option.Item>
-            <Option.Title>배경색 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel htmlFor="setBackgroundColorRgb">RGB</RequireLabel>
-              <DefaultInput
-                id="setBackgroundColorRgb"
-                type="color"
-                value={backgroundColorHex}
-                onChange={handleChangeBackgroundColor}
-              />
-            </Option.Item>
-            <Option.Item>
-              <RequireLabel htmlFor="setBackgroundColorAlpha">
-                투명도
-              </RequireLabel>
-              <CountingInput
-                id="setBackgroundColorAlpha"
-                ariaLabel="배경색 Alpha"
-                count={backgroundColorAlpha}
-                setCount={setBackgroundColorAlpha}
-                limit={1}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.DECIMAL}
-                unit=""
-              />
-            </Option.Item>
+              <Option.Title>테두리 설정</Option.Title>
+              <Option.Item>
+                <RequireLabel>스타일</RequireLabel>
+                <CustomSelect
+                  activeOption={borderStyle}
+                  setOption={setBorderStyle}
+                  options={buttonStyleOptions}
+                />
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setBorderWidth">너비</RequireLabel>
+                <CountingInput
+                  id="setBorderWidth"
+                  ariaLabel="테두리 굵기"
+                  count={borderWidth}
+                  setCount={setBorderWidth}
+                  limit={10}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.INTEGER}
+                  unit="px"
+                />
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setBorderColor">색</RequireLabel>
+                <DefaultInput
+                  id="setBorderColor"
+                  type="color"
+                  value={borderColor}
+                  onChange={handleChangeBorderColor}
+                />
+              </Option.Item>
+              <Option.Title>배경색 설정</Option.Title>
+              <Option.Item>
+                <RequireLabel htmlFor="setBackgroundColorRgb">RGB</RequireLabel>
+                <DefaultInput
+                  id="setBackgroundColorRgb"
+                  type="color"
+                  value={backgroundColorHex}
+                  onChange={handleChangeBackgroundColor}
+                />
+              </Option.Item>
+              <Option.Item>
+                <RequireLabel htmlFor="setBackgroundColorAlpha">
+                  투명도
+                </RequireLabel>
+                <CountingInput
+                  id="setBackgroundColorAlpha"
+                  ariaLabel="배경색 Alpha"
+                  count={backgroundColorAlpha}
+                  setCount={setBackgroundColorAlpha}
+                  limit={1}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.DECIMAL}
+                  unit=""
+                />
+              </Option.Item>
 
-            {/* <Option.Title>추가 설정</Option.Title>
+              {/* <Option.Title>추가 설정</Option.Title>
             <Option.Item>
               <Checkbox id="setDisabled" label="비활성 스타일 사용" />
             </Option.Item> */}
-            {/* <OptionTitle>접근성 설정</OptionTitle> */}
-            <Option.Title>환경 설정</Option.Title>
-            <Option.Item>
-              <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
-              <CustomSelect
-                activeOption={template}
-                setOption={setTemplate}
-                options={templateOptions}
-              />
-              <WithLabel id="setHtml" label="HTML 템플릿 추가">
-                <Checkbox
-                  id="setHtml"
-                  checked={html}
-                  onChange={handleChangeHtml}
+              {/* <OptionTitle>접근성 설정</OptionTitle> */}
+              <Option.Title>환경 설정</Option.Title>
+              <Option.Item>
+                <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
+                <CustomSelect
+                  activeOption={template}
+                  setOption={setTemplate}
+                  options={templateOptions}
                 />
-              </WithLabel>
-            </Option.Item>
+                <WithLabel id="setHtml" label="HTML 템플릿 추가">
+                  <Checkbox
+                    id="setHtml"
+                    checked={html}
+                    onChange={handleChangeHtml}
+                  />
+                </WithLabel>
+              </Option.Item>
+            </Option.Grid>
           </Option.Body>
         </Option.Container>
       </Component.Container>

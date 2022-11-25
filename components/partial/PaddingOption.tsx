@@ -49,14 +49,12 @@ export const PaddingOption: FC<Props> = ({
       <Option.Title>여백 설정</Option.Title>
       <Option.Item>
         <RequireLabel
-          htmlFor={
-            isSetDetailPadding ? "setBorderTopLeftRadius" : "setBorderRadius"
-          }
+          htmlFor={isSetDetailPadding ? "setPaddingTop" : "setPadding"}
         >
           {isSetDetailPadding ? "Top" : "여백"}
         </RequireLabel>
         <CountingInput
-          id={isSetDetailPadding ? "setBorderTopLeftRadius" : "setBorderRadius"}
+          id={isSetDetailPadding ? "setPaddingTop" : "setPadding"}
           ariaLabel={isSetDetailPadding ? "padding-top" : "padding"}
           count={paddingTop}
           setCount={isSetDetailPadding ? setPaddingTop : setPadding}
