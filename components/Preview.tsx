@@ -1,10 +1,13 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { BiRefresh } from "react-icons/bi";
 
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { StylingHeader } from "./StylingHeader";
 import { CoreProps } from "../interfaces/core";
+import { IconWrapper } from "./IconWrapper";
 
 const Container = styled.div`
   display: flex;
@@ -27,6 +30,21 @@ const Body = styled.div`
   & button:active {
     cursor: move;
   }
+`;
+
+const Tool = styled.div`
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  border-top: 1px solid ${({ theme }) => theme.dividerColor};
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  padding: 0 5px;
 `;
 
 const RangeTop = styled.div`
@@ -99,25 +117,39 @@ export const Preview: FC<Props> = ({
     <Container>
       <StylingHeader>Output</StylingHeader>
       <TransformWrapper>
-        <TransformComponent>
-          <Body>
-            <div
-              style={{
-                position: "relative",
-                width,
-                height
-              }}
-            >
-              <Width>{width}px</Width>
-              <RangeTop />
-              {height && <Height>{height}px</Height>}
-              {height && <RangeLeft />}
-              {children}
-            </div>
-          </Body>
-        </TransformComponent>
+        {({ zoomIn, zoomOut, resetTransform }) => (
+          <>
+            <TransformComponent>
+              <Body>
+                <div
+                  style={{
+                    position: "relative",
+                    width,
+                    height
+                  }}
+                >
+                  <Width>{width}px</Width>
+                  <RangeTop />
+                  {height && <Height>{height}px</Height>}
+                  {height && <RangeLeft />}
+                  {children}
+                </div>
+              </Body>
+            </TransformComponent>
+            <Tool>
+              <IconWrapper onClick={() => zoomOut()} ariaLabel="zoom out">
+                <AiOutlineMinus />
+              </IconWrapper>
+              <IconWrapper onClick={() => zoomIn()} ariaLabel="zoom in">
+                <AiOutlinePlus />
+              </IconWrapper>
+              <IconWrapper onClick={() => resetTransform()} ariaLabel="reset">
+                <BiRefresh />
+              </IconWrapper>
+            </Tool>
+          </>
+        )}
       </TransformWrapper>
-
       <Footer>
         <ButtonWrapper>
           {onImport && (
