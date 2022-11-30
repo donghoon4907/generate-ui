@@ -88,6 +88,13 @@ export const gnbOptions: Gnb[] = [
         icon: null,
         href: "/components/checkbox",
         items: []
+      },
+      {
+        id: "3-5",
+        label: "Select",
+        icon: null,
+        href: "/components/select",
+        items: []
       }
     ]
   }
