@@ -5,15 +5,14 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { CountingInput } from "../../components/CountingInput";
-import { DefaultInput } from "../../components/Input";
+import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
-import { theme } from "../../theme";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import type { SelectOption } from "../../types/select";
 import * as Component from "../../components/partial/Component";
-import * as Preset from "../../components/partial/Preset";
+// import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { templateOptions } from "../../components/options/Template";
@@ -24,6 +23,7 @@ import {
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { mixinEllipsisText } from "../../theme/mixins/text";
+import { FontOption } from "../../components/partial/FontOption";
 
 const StyledInput = styled.input<{
   label: string;
@@ -61,14 +61,6 @@ const ComponentCheckbox: NextPage = () => {
   const [html, setHtml] = useState(false);
 
   const [fontSize, setFontSize] = useState(16);
-
-  const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
-    setLabel(evt.target.value);
-  };
-
-  const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
-    setColor(evt.target.value);
-  };
 
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
@@ -141,26 +133,6 @@ const ComponentCheckbox: NextPage = () => {
 
           <Option.Body>
             <Option.Grid>
-              <Option.Title>기본 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setLabel">설명</RequireLabel>
-                <DefaultInput
-                  id="setLabel"
-                  value={label}
-                  onChange={handleChangeLabel}
-                  autoComplete="off"
-                />
-              </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setColor">글자 색</RequireLabel>
-                <DefaultInput
-                  id="setColor"
-                  type="color"
-                  value={color}
-                  onChange={handleChangeColor}
-                />
-              </Option.Item>
-
               <Option.Title>레이아웃 설정</Option.Title>
               <Option.Item>
                 <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
@@ -176,21 +148,24 @@ const ComponentCheckbox: NextPage = () => {
                   unit=""
                 />
               </Option.Item>
-
+              <Option.Title>텍스트 설정</Option.Title>
               <Option.Item>
-                <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
-                <CountingInput
-                  id="setFontSize"
-                  ariaLabel="글자 크기"
-                  count={fontSize}
-                  setCount={setFontSize}
-                  limit={30}
-                  showIcon={true}
+                <RequireLabel htmlFor="setLabel">설명</RequireLabel>
+                <FeedbackInput
+                  id="setLabel"
+                  value={label}
+                  setValue={setLabel}
+                  limit={10}
                   showFeedback={true}
-                  numberType={CountNumberType.INTEGER}
-                  unit="px"
                 />
               </Option.Item>
+              <FontOption
+                id="Checkbox"
+                color={color}
+                setColor={setColor}
+                fontSize={fontSize}
+                setFontSize={setFontSize}
+              />
 
               <Option.Title>환경 설정</Option.Title>
               <Option.Item>

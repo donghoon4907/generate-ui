@@ -8,6 +8,7 @@ import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
 
 interface Props {
+  id: string | number;
   borderTopLeftRadius: number;
   setBorderTopLeftRadius: Dispatch<SetStateAction<number>>;
   borderTopRightRadius: number;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const BorderRadiusOption: FC<Props> = ({
+  id,
   borderTopLeftRadius,
   setBorderTopLeftRadius,
   borderTopRightRadius,
@@ -41,22 +43,21 @@ export const BorderRadiusOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Title>모서리 각 설정</Option.Title>
       <Option.Item>
         <RequireLabel
           htmlFor={
             isSetDetailBorderRadius
-              ? "setBorderTopLeftRadius"
-              : "setBorderRadius"
+              ? `setBorderTopLeftRadius${id}`
+              : `setBorderRadius${id}`
           }
         >
-          {isSetDetailBorderRadius ? "Top-Left" : "모서리 각"}
+          {`모서리 각 ${isSetDetailBorderRadius ? "Top-Left" : ""}`}
         </RequireLabel>
         <CountingInput
           id={
             isSetDetailBorderRadius
-              ? "setBorderTopLeftRadius"
-              : "setBorderRadius"
+              ? `setBorderTopLeftRadius${id}`
+              : `setBorderRadius${id}`
           }
           ariaLabel={
             isSetDetailBorderRadius ? "border-top-left-radius" : "border-radius"
@@ -71,9 +72,9 @@ export const BorderRadiusOption: FC<Props> = ({
           numberType={CountNumberType.INTEGER}
           unit="px"
         />
-        <WithLabel id="setDetailBorderRadius" label="디테일 설정">
+        <WithLabel id={`setDetailBorderRadius${id}`} label="디테일 설정">
           <Switch
-            id="setDetailBorderRadius"
+            id={`setDetailBorderRadius${id}`}
             width={40}
             checked={isSetDetailBorderRadius}
             setChecked={setIsSetDetailBorderRadius}
@@ -83,11 +84,11 @@ export const BorderRadiusOption: FC<Props> = ({
       {isSetDetailBorderRadius && (
         <>
           <Option.Item>
-            <RequireLabel htmlFor="setBorderTopRightRadius">
-              Top-Right
+            <RequireLabel htmlFor={`setBorderTopRightRadius${id}`}>
+              모서리 각 Top-Right
             </RequireLabel>
             <CountingInput
-              id="setBorderTopRightRadius"
+              id={`setBorderTopRightRadius${id}`}
               ariaLabel="border-top-right-radius"
               count={borderTopRightRadius}
               setCount={setBorderTopRightRadius}
@@ -99,11 +100,11 @@ export const BorderRadiusOption: FC<Props> = ({
             />
           </Option.Item>
           <Option.Item>
-            <RequireLabel htmlFor="setBorderBottomLeftRadius">
-              Bottom-Left
+            <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
+              모서리 각 Bottom-Left
             </RequireLabel>
             <CountingInput
-              id="setBorderBottomLeftRadius"
+              id={`setBorderBottompRightRadius${id}`}
               ariaLabel="border-bottom-left-radius"
               count={borderBottomLeftRadius}
               setCount={setBorderBottomLeftRadius}
@@ -115,11 +116,11 @@ export const BorderRadiusOption: FC<Props> = ({
             />
           </Option.Item>
           <Option.Item>
-            <RequireLabel htmlFor="setBorderBottomRightRadius">
-              Bottom-Right
+            <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
+              모서리 각 Bottom-Right
             </RequireLabel>
             <CountingInput
-              id="setBorderBottomRightRadius"
+              id={`setBorderBottomRightRadius${id}`}
               ariaLabel="border-bottom-right-radius"
               count={borderBottomRightRadius}
               setCount={setBorderBottomRightRadius}

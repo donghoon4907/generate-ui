@@ -8,6 +8,7 @@ import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
 
 interface Props {
+  id: string | number;
   paddingTop: number;
   setPaddingTop: Dispatch<SetStateAction<number>>;
   paddingRight: number;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const PaddingOption: FC<Props> = ({
+  id,
   paddingTop,
   setPaddingTop,
   paddingRight,
@@ -46,15 +48,16 @@ export const PaddingOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Title>여백 설정</Option.Title>
       <Option.Item>
         <RequireLabel
-          htmlFor={isSetDetailPadding ? "setPaddingTop" : "setPadding"}
+          htmlFor={
+            isSetDetailPadding ? `setPaddingTop${id}` : `setPadding${id}`
+          }
         >
-          {isSetDetailPadding ? "Top" : "여백"}
+          {`여백 ${isSetDetailPadding ? "Top" : ""}`}
         </RequireLabel>
         <CountingInput
-          id={isSetDetailPadding ? "setPaddingTop" : "setPadding"}
+          id={isSetDetailPadding ? `setPaddingTop${id}` : `setPadding${id}`}
           ariaLabel={isSetDetailPadding ? "padding-top" : "padding"}
           count={paddingTop}
           setCount={isSetDetailPadding ? setPaddingTop : setPadding}
@@ -64,9 +67,9 @@ export const PaddingOption: FC<Props> = ({
           numberType={CountNumberType.INTEGER}
           unit="px"
         />
-        <WithLabel id="setDetailPadding" label="디테일 설정">
+        <WithLabel id={`setDetailPadding${id}`} label="디테일 설정">
           <Switch
-            id="setDetailPadding"
+            id={`setDetailPadding${id}`}
             width={40}
             checked={isSetDetailPadding}
             setChecked={setIsSetDetailPadding}
@@ -76,9 +79,9 @@ export const PaddingOption: FC<Props> = ({
       {isSetDetailPadding && (
         <>
           <Option.Item>
-            <RequireLabel htmlFor="setPaddingRight">Right</RequireLabel>
+            <RequireLabel htmlFor="setPaddingRight">여백 Right</RequireLabel>
             <CountingInput
-              id="setPaddingRight"
+              id={`setPaddingRight${id}`}
               ariaLabel="padding-right"
               count={paddingRight}
               setCount={setPaddingRight}
@@ -90,9 +93,11 @@ export const PaddingOption: FC<Props> = ({
             />
           </Option.Item>
           <Option.Item>
-            <RequireLabel htmlFor="setPaddingBottom">Bottom</RequireLabel>
+            <RequireLabel htmlFor={`setPaddingBottom${id}`}>
+              여백 Bottom
+            </RequireLabel>
             <CountingInput
-              id="setPaddingBottom"
+              id={`setPaddingBottom${id}`}
               ariaLabel="padding-bottom"
               count={paddingBottom}
               setCount={setPaddingBottom}
@@ -104,9 +109,11 @@ export const PaddingOption: FC<Props> = ({
             />
           </Option.Item>
           <Option.Item>
-            <RequireLabel htmlFor="setPaddingLeft">Left</RequireLabel>
+            <RequireLabel htmlFor={`setPaddingLeft${id}`}>
+              여백 Left
+            </RequireLabel>
             <CountingInput
-              id="setPaddingLeft"
+              id={`setPaddingLeft${id}`}
               ariaLabel="padding-left"
               count={paddingLeft}
               setCount={setPaddingLeft}

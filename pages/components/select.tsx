@@ -5,22 +5,15 @@ import styled from "styled-components";
 import { RiArrowUpSLine } from "react-icons/ri";
 
 import { CountingInput } from "../../components/CountingInput";
-import { DefaultInput, FeedbackInput } from "../../components/Input";
+import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
-import {
-  BootstrapOutlineButton,
-  BootstrapPrimaryButton
-} from "../../components/Button";
-import { theme } from "../../theme";
-// import { BootstrapModal } from "../../components/Modal";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/options/ButtonStyle";
 import type { SelectOption } from "../../types/select";
-import { hexToRgb } from "../../lib/calc/rgb";
 import * as Component from "../../components/partial/Component";
-import * as Preset from "../../components/partial/Preset";
+// import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
@@ -32,6 +25,10 @@ import {
 import { WithLabel } from "../../components/WithLabel";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
+import { BorderOption } from "../../components/partial/BorderOption";
+import { textAlignOptions } from "../../components/options/TextAlign";
+import { FontOption } from "../../components/partial/FontOption";
+import { RgbaOption } from "../../components/partial/RgbaOption";
 
 const IconWrapper = styled.div`
   display: flex;
@@ -41,15 +38,15 @@ const IconWrapper = styled.div`
 `;
 
 const ComponentSelect: NextPage = () => {
-  const [width, setWidth] = useState(100);
+  const [width, setWidth] = useState(200);
 
-  // const [height, setHeight] = useState(40);
+  const [borderStyle, setBorderStyle] = useState<SelectOption>(
+    buttonStyleOptions[1]
+  );
 
-  const [lineHeight, setLineHeight] = useState(25);
+  const [borderWidth, setBorderWidth] = useState(1);
 
-  const [letterSpacing, setLetterSpacing] = useState(0);
-
-  const [label, setLabel] = useState("제목");
+  const [borderColor, setBorderColor] = useState("#000000");
 
   const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
 
@@ -57,7 +54,31 @@ const ComponentSelect: NextPage = () => {
 
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
 
-  const [color, setColor] = useState("#000000");
+  const [label, setLabel] = useState("제목");
+
+  const [selectColor, setSelectColor] = useState("#000000");
+
+  const [optionColor, setOptionColor] = useState("#000000");
+
+  const [selectTextAlign, setSelectTextAlign] = useState<SelectOption>(
+    textAlignOptions[0]
+  );
+
+  const [optionTextAlign, setOptionTextAlign] = useState<SelectOption>(
+    textAlignOptions[0]
+  );
+
+  const [selectFontSize, setSelectFontSize] = useState(16);
+
+  const [optionFontSize, setOptionFontSize] = useState(16);
+
+  const [selectLineHeight, setSelectLineHeight] = useState(25);
+
+  const [optionLineHeight, setOptionLineHeight] = useState(25);
+
+  const [selectLetterSpacing, setSelectLetterSpacing] = useState(0);
+
+  const [optionLetterSpacing, setOptionLetterSpacing] = useState(0);
 
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
 
@@ -69,130 +90,59 @@ const ComponentSelect: NextPage = () => {
 
   const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
 
-  const [paddingTop, setPaddingTop] = useState(4);
+  const [selectPaddingTop, setSelectPaddingTop] = useState(4);
 
-  const [paddingRight, setPaddingRight] = useState(4);
+  const [selectPaddingRight, setSelectPaddingRight] = useState(4);
 
-  const [paddingBottom, setPaddingBottom] = useState(4);
+  const [selectPaddingBottom, setSelectPaddingBottom] = useState(4);
 
-  const [paddingLeft, setPaddingLeft] = useState(4);
+  const [selectPaddingLeft, setSelectPaddingLeft] = useState(4);
 
-  const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
+  const [optionPaddingTop, setOptionPaddingTop] = useState(4);
 
-  const [borderStyle, setBorderStyle] = useState<SelectOption>(
-    buttonStyleOptions[1]
-  );
+  const [optionPaddingRight, setOptionPaddingRight] = useState(4);
 
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [optionPaddingBottom, setOptionPaddingBottom] = useState(4);
 
-  const [borderWidth, setBorderWidth] = useState(1);
+  const [optionPaddingLeft, setOptionPaddingLeft] = useState(4);
+
+  const [isSetDetailSelectPadding, setIsSetDetailSelectPadding] =
+    useState(false);
+
+  const [isSetDetailOptionPadding, setIsSetDetailOptionPadding] =
+    useState(false);
 
   const [template, setTemplate] = useState<SelectOption>(templateOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
-  const [fontSize, setFontSize] = useState(16);
-
-  // const [showImportModal, setShowImportModal] = useState(false);
-
-  const handleChangeBackgroundColor = (evt: ChangeEvent<HTMLInputElement>) => {
-    const rgb = hexToRgb(evt.target.value);
-
-    if (rgb !== null) {
-      setBackgroundColorRgb(`${rgb.r},${rgb.g},${rgb.b}`);
-    }
-
-    setBackgroundColorHex(evt.target.value);
-  };
-
-  const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
-    setColor(evt.target.value);
-  };
-
-  const handleChangeBorderColor = (evt: ChangeEvent<HTMLInputElement>) => {
-    setBorderColor(evt.target.value);
-  };
-
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
   };
 
-  const handleClickPresetBootstrapButton = () => {
-    setWidth(80);
-    // setHeight(40);
-    setLineHeight(25);
-    setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(6);
-    setPaddingBottom(6);
-    setPaddingLeft(6);
-    setBackgroundColorHex(theme.color.bootstrapBlue);
-    setBackgroundColorRgb("13,110,253");
-    setBackgroundColorAlpha(1);
-    setColor(theme.color.white);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setIsSetDetailBorderRadius(false);
-    setBorderColor(theme.color.bootstrapBlue);
-    setBorderWidth(1);
-    setBorderStyle(buttonStyleOptions[1]);
-    setBackgroundColorAlpha(1);
-    setFontSize(16);
-    setLabel("Primary");
-  };
+  const handleClickPresetBootstrapButton = () => {};
 
-  const handleClickPresetBootstrapOutlineButton = () => {
-    setWidth(80);
-    // setHeight(40);
-    setLineHeight(25);
-    setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(6);
-    setPaddingBottom(6);
-    setPaddingLeft(6);
-    setBackgroundColorHex(theme.color.white);
-    setBackgroundColorRgb("255,255,255");
-    setBackgroundColorAlpha(1);
-    setColor(theme.color.bootstrapBlue);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setIsSetDetailBorderRadius(false);
-    setBorderColor(theme.color.bootstrapBlue);
-    setBorderWidth(1);
-    setBorderStyle(buttonStyleOptions[1]);
-    setBackgroundColorAlpha(1);
-    setFontSize(16);
-    setLabel("Primary");
-  };
-
-  // const handleShowImportModal = () => {
-  //   setShowImportModal(true);
-  // };
+  const handleClickPresetBootstrapOutlineButton = () => {};
 
   const handleExport = () => {
     const style: StyleProperties = {
       width,
-      // height,
       backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-      color,
+      // color,
       borderTopLeftRadius,
       borderTopRightRadius,
       borderBottomLeftRadius,
       borderBottomRightRadius,
       borderWidth,
       borderStyle: borderStyle.value,
-      borderColor,
-      fontSize,
-      lineHeight,
-      letterSpacing,
-      paddingTop,
-      paddingRight,
-      paddingBottom,
-      paddingLeft
+      borderColor
+      // fontSize,
+      // lineHeight,
+      // letterSpacing,
+      // paddingTop,
+      // paddingRight,
+      // paddingBottom,
+      // paddingLeft
     };
 
     const exportToHtml = new StyleObjectToString(style);
@@ -217,13 +167,6 @@ const ComponentSelect: NextPage = () => {
         <meta name="description" content="Generated by create next app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <Header>
-        <Title>Components</Title>
-        <Description>
-          Select an element and style the component as desired. You can copy the
-          styling as it is and move it to your web page for use.
-        </Description>
-      </Header> */}
 
       <Component.Container>
         <Component.Aside>
@@ -242,7 +185,6 @@ const ComponentSelect: NextPage = () => {
                 width: "100%",
                 height: "100%",
                 backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-                color,
                 borderTopLeftRadius,
                 borderTopRightRadius,
                 borderBottomLeftRadius,
@@ -250,22 +192,55 @@ const ComponentSelect: NextPage = () => {
                 borderColor,
                 borderWidth,
                 borderStyle: borderStyle.value,
-                fontSize,
-                lineHeight: `${lineHeight}px`,
-                letterSpacing,
-                paddingTop,
-                paddingRight,
-                paddingBottom,
-                paddingLeft
+                paddingTop: selectPaddingTop,
+                paddingRight: selectPaddingRight,
+                paddingBottom: selectPaddingBottom,
+                paddingLeft: selectPaddingLeft
               }}
             >
-              <div>{label}</div>
+              <div
+                style={{
+                  width: "100%",
+                  color: selectColor,
+                  fontSize: selectFontSize,
+                  lineHeight: `${selectLineHeight}px`,
+                  letterSpacing: selectLetterSpacing,
+                  textAlign: selectTextAlign.value as any
+                }}
+              >
+                {label}
+              </div>
               <IconWrapper>
                 <RiArrowUpSLine />
               </IconWrapper>
             </div>
+            <div
+              style={{
+                width: "100%",
+                color: optionColor,
+                fontSize: optionFontSize,
+                lineHeight: `${optionLineHeight}px`,
+                letterSpacing: optionLetterSpacing,
+                textAlign: optionTextAlign.value as any,
+                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+                borderColor,
+                borderWidth,
+                borderStyle: borderStyle.value
+              }}
+            >
+              <div
+                style={{
+                  paddingTop: optionPaddingTop,
+                  paddingRight: optionPaddingRight,
+                  paddingBottom: optionPaddingBottom,
+                  paddingLeft: optionPaddingLeft
+                }}
+              >
+                Option 1...
+              </div>
+            </div>
           </Preview>
-          <Preset.Container>
+          {/* <Preset.Container>
             <StylingHeader>Preset</StylingHeader>
             <Preset.Body>
               <Preset.Item>
@@ -295,13 +270,48 @@ const ComponentSelect: NextPage = () => {
                 </Preset.ButtonMeta>
               </Preset.Item>
             </Preset.Body>
-          </Preset.Container>
+          </Preset.Container> */}
         </Component.Aside>
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
             <Option.Grid>
-              <Option.Title>기본 설정</Option.Title>
+              <Option.Title>레이아웃 설정</Option.Title>
+              <Option.Item>
+                <RequireLabel htmlFor="setWidth">너비</RequireLabel>
+                <CountingInput
+                  id="setWidth"
+                  ariaLabel="너비"
+                  count={width}
+                  setCount={setWidth}
+                  limit={200}
+                  showIcon={true}
+                  showFeedback={true}
+                  numberType={CountNumberType.INTEGER}
+                  unit="px"
+                />
+              </Option.Item>
+              <Option.Title>테두리 설정</Option.Title>
+              <BorderOption
+                id="Select"
+                borderStyle={borderStyle}
+                setBorderStyle={setBorderStyle}
+                borderWidth={borderWidth}
+                setBorderWidth={setBorderWidth}
+                borderColor={borderColor}
+                setBorderColor={setBorderColor}
+              />
+              <Option.Title>배경색 설정</Option.Title>
+              <RgbaOption
+                id="Select"
+                hex={backgroundColorHex}
+                setRgb={setBackgroundColorRgb}
+                setHex={setBackgroundColorHex}
+                alpha={backgroundColorAlpha}
+                setAlpha={setBackgroundColorAlpha}
+              />
+              <Option.Title>셀렉트 설정</Option.Title>
+
               <Option.Item>
                 <RequireLabel htmlFor="setLabel">제목</RequireLabel>
                 <FeedbackInput
@@ -312,99 +322,36 @@ const ComponentSelect: NextPage = () => {
                   showFeedback={true}
                 />
               </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setColor">글자 색</RequireLabel>
-                <DefaultInput
-                  id="setColor"
-                  type="color"
-                  value={color}
-                  onChange={handleChangeColor}
-                />
-              </Option.Item>
-              <Option.Title>레이아웃 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setWidth">너비</RequireLabel>
-                <CountingInput
-                  id="setWidth"
-                  ariaLabel="너비"
-                  count={width}
-                  setCount={setWidth}
-                  limit={100}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.INTEGER}
-                  unit="px"
-                />
-              </Option.Item>
-              {/* <Option.Item>
-              <RequireLabel htmlFor="setHeight">높이</RequireLabel>
-              <CountingInput
-                id="setHeight"
-                ariaLabel="높이"
-                count={height}
-                setCount={setHeight}
-                limit={100}
-                showIcon={true}
-                showFeedback={true}
-                numberType={CountNumberType.INTEGER}
-                unit="px"
+
+              <FontOption
+                id="Select"
+                color={selectColor}
+                setColor={setSelectColor}
+                fontSize={selectFontSize}
+                setFontSize={setSelectFontSize}
+                lineHeight={selectLineHeight}
+                setLineHeight={setSelectLineHeight}
+                letterSpacing={selectLetterSpacing}
+                setLetterSpacing={setSelectLetterSpacing}
+                textAlign={selectTextAlign}
+                setTextAlign={setSelectTextAlign}
               />
-            </Option.Item> */}
-              <Option.Item>
-                <RequireLabel htmlFor="setFontSize">글자 크기</RequireLabel>
-                <CountingInput
-                  id="setFontSize"
-                  ariaLabel="글자 크기"
-                  count={fontSize}
-                  setCount={setFontSize}
-                  limit={30}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.INTEGER}
-                  unit="px"
-                />
-              </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setLineHeight">줄 높이</RequireLabel>
-                <CountingInput
-                  id="setLineHeight"
-                  ariaLabel="줄 높이"
-                  count={lineHeight}
-                  setCount={setLineHeight}
-                  limit={100}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.INTEGER}
-                  unit="px"
-                />
-              </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setLetterSpacing">자간</RequireLabel>
-                <CountingInput
-                  id="setLetterSpacing"
-                  ariaLabel="자간"
-                  count={letterSpacing}
-                  setCount={setLetterSpacing}
-                  limit={5}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.DECIMAL}
-                  unit="px"
-                />
-              </Option.Item>
+
               <PaddingOption
-                paddingTop={paddingTop}
-                setPaddingTop={setPaddingTop}
-                paddingRight={paddingRight}
-                setPaddingRight={setPaddingRight}
-                paddingBottom={paddingBottom}
-                setPaddingBottom={setPaddingBottom}
-                paddingLeft={paddingLeft}
-                setPaddingLeft={setPaddingLeft}
-                isSetDetailPadding={isSetDetailPadding}
-                setIsSetDetailPadding={setIsSetDetailPadding}
+                id="Select"
+                paddingTop={selectPaddingTop}
+                setPaddingTop={setSelectPaddingTop}
+                paddingRight={selectPaddingRight}
+                setPaddingRight={setSelectPaddingRight}
+                paddingBottom={selectPaddingBottom}
+                setPaddingBottom={setSelectPaddingBottom}
+                paddingLeft={selectPaddingLeft}
+                setPaddingLeft={setSelectPaddingLeft}
+                isSetDetailPadding={isSetDetailSelectPadding}
+                setIsSetDetailPadding={setIsSetDetailSelectPadding}
               />
               <BorderRadiusOption
+                id="Select"
                 borderTopLeftRadius={borderTopLeftRadius}
                 setBorderTopLeftRadius={setBorderTopLeftRadius}
                 borderTopRightRadius={borderTopRightRadius}
@@ -416,71 +363,33 @@ const ComponentSelect: NextPage = () => {
                 isSetDetailBorderRadius={isSetDetailBorderRadius}
                 setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
               />
-
-              <Option.Title>테두리 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel>스타일</RequireLabel>
-                <CustomSelect
-                  activeOption={borderStyle}
-                  setOption={setBorderStyle}
-                  options={buttonStyleOptions}
-                />
-              </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setBorderWidth">너비</RequireLabel>
-                <CountingInput
-                  id="setBorderWidth"
-                  ariaLabel="테두리 굵기"
-                  count={borderWidth}
-                  setCount={setBorderWidth}
-                  limit={10}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.INTEGER}
-                  unit="px"
-                />
-              </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setBorderColor">색</RequireLabel>
-                <DefaultInput
-                  id="setBorderColor"
-                  type="color"
-                  value={borderColor}
-                  onChange={handleChangeBorderColor}
-                />
-              </Option.Item>
-              <Option.Title>배경색 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setBackgroundColorRgb">RGB</RequireLabel>
-                <DefaultInput
-                  id="setBackgroundColorRgb"
-                  type="color"
-                  value={backgroundColorHex}
-                  onChange={handleChangeBackgroundColor}
-                />
-              </Option.Item>
-              <Option.Item>
-                <RequireLabel htmlFor="setBackgroundColorAlpha">
-                  투명도
-                </RequireLabel>
-                <CountingInput
-                  id="setBackgroundColorAlpha"
-                  ariaLabel="배경색 Alpha"
-                  count={backgroundColorAlpha}
-                  setCount={setBackgroundColorAlpha}
-                  limit={1}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.DECIMAL}
-                  unit=""
-                />
-              </Option.Item>
-
-              {/* <Option.Title>추가 설정</Option.Title>
-            <Option.Item>
-              <Checkbox id="setDisabled" label="비활성 스타일 사용" />
-            </Option.Item> */}
-              {/* <OptionTitle>접근성 설정</OptionTitle> */}
+              <Option.Title>옵션 설정</Option.Title>
+              <FontOption
+                id="Option"
+                color={optionColor}
+                setColor={setOptionColor}
+                fontSize={optionFontSize}
+                setFontSize={setOptionFontSize}
+                lineHeight={optionLineHeight}
+                setLineHeight={setOptionLineHeight}
+                letterSpacing={optionLetterSpacing}
+                setLetterSpacing={setOptionLetterSpacing}
+                textAlign={optionTextAlign}
+                setTextAlign={setOptionTextAlign}
+              />
+              <PaddingOption
+                id="Option"
+                paddingTop={optionPaddingTop}
+                setPaddingTop={setOptionPaddingTop}
+                paddingRight={optionPaddingRight}
+                setPaddingRight={setOptionPaddingRight}
+                paddingBottom={optionPaddingBottom}
+                setPaddingBottom={setOptionPaddingBottom}
+                paddingLeft={optionPaddingLeft}
+                setPaddingLeft={setOptionPaddingLeft}
+                isSetDetailPadding={isSetDetailOptionPadding}
+                setIsSetDetailPadding={setIsSetDetailOptionPadding}
+              />
               <Option.Title>환경 설정</Option.Title>
               <Option.Item>
                 <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
