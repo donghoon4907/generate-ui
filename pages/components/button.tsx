@@ -1,17 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ChangeEvent, useState } from "react";
+import type { ChangeEvent, CSSProperties } from "react";
+import { useState } from "react";
 
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
-import {
-  BootstrapOutlineButton,
-  BootstrapPrimaryButton
-} from "../../components/Button";
 import { theme } from "../../theme";
-// import { BootstrapModal } from "../../components/Modal";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/options/ButtonStyle";
@@ -22,10 +18,6 @@ import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { templateOptions } from "../../components/options/Template";
-import {
-  StyleObjectToString,
-  StyleProperties
-} from "../../lib/style/to-string";
 import { WithLabel } from "../../components/WithLabel";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
@@ -33,11 +25,15 @@ import { BorderOption } from "../../components/partial/BorderOption";
 import { RgbaOption } from "../../components/partial/RgbaOption";
 import { FontOption } from "../../components/partial/FontOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
+import { ConvertButton } from "../../lib/style/button";
+import {
+  BootstrapOutlineButton,
+  BootstrapPrimaryButton
+} from "../../components/Button";
+import { copyToClipboard } from "../../lib/copy/clipboard";
 
 const ComponentButton: NextPage = () => {
   const [width, setWidth] = useState(100);
-
-  // const [height, setHeight] = useState(40);
 
   const [lineHeight, setLineHeight] = useState(25);
 
@@ -89,15 +85,12 @@ const ComponentButton: NextPage = () => {
 
   const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
 
-  // const [showImportModal, setShowImportModal] = useState(false);
-
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
   };
 
   const handleClickPresetBootstrapButton = () => {
     setWidth(80);
-    // setHeight(40);
     setLineHeight(25);
     setLetterSpacing(0);
     setPaddingTop(6);
@@ -123,7 +116,6 @@ const ComponentButton: NextPage = () => {
 
   const handleClickPresetBootstrapOutlineButton = () => {
     setWidth(80);
-    // setHeight(40);
     setLineHeight(25);
     setLetterSpacing(0);
     setPaddingTop(6);
@@ -147,45 +139,38 @@ const ComponentButton: NextPage = () => {
     setLabel("Primary");
   };
 
-  // const handleShowImportModal = () => {
-  //   setShowImportModal(true);
-  // };
+  const buttonStyle: CSSProperties = {
+    width,
+    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    color,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    borderColor,
+    borderWidth,
+    borderStyle: borderStyle.value,
+    fontSize,
+    lineHeight: `${lineHeight}px`,
+    letterSpacing,
+    paddingTop,
+    paddingRight,
+    paddingBottom,
+    paddingLeft
+  };
 
   const handleExport = () => {
-    const style: StyleProperties = {
-      width,
-      // height,
-      backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-      color,
-      borderTopLeftRadius,
-      borderTopRightRadius,
-      borderBottomLeftRadius,
-      borderBottomRightRadius,
-      borderWidth,
-      borderStyle: borderStyle.value,
-      borderColor,
-      fontSize,
-      lineHeight,
-      letterSpacing,
-      paddingTop,
-      paddingRight,
-      paddingBottom,
-      paddingLeft
-    };
-
-    const exportToHtml = new StyleObjectToString(style);
+    const exportToButton = new ConvertButton(buttonStyle);
 
     if (template.value === "default") {
-      exportToHtml.convertButton(label);
-    } else if (template.value === "style-and-el") {
-      exportToHtml.convertButtonWithClass(label);
+      exportToButton.generateButton(label);
     }
 
     if (html) {
-      exportToHtml.addTemplate();
+      exportToButton.addTemplate();
     }
 
-    exportToHtml.saveInClipboard();
+    copyToClipboard(exportToButton.getHtml);
   };
 
   return (
@@ -198,16 +183,10 @@ const ComponentButton: NextPage = () => {
 
       <Component.Container>
         <Component.Aside>
-          <Preview
-            width={width}
-            // height={height}
-            // onImport={handleShowImportModal}
-            onExport={handleExport}
-          >
+          <Preview width={width} onExport={handleExport}>
             <button
               style={{
-                width: "100%",
-                height: "100%",
+                width,
                 backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
                 color,
                 borderTopLeftRadius,
@@ -316,8 +295,8 @@ const ComponentButton: NextPage = () => {
                 setPaddingBottom={setPaddingBottom}
                 paddingLeft={paddingLeft}
                 setPaddingLeft={setPaddingLeft}
-                isSetDetailPadding={isSetDetailPadding}
-                setIsSetDetailPadding={setIsSetDetailPadding}
+                isShowAllOption={isSetDetailPadding}
+                setIsShowAllOption={setIsSetDetailPadding}
               />
               <Option.Title>모서리 각 설정</Option.Title>
               <BorderRadiusOption
@@ -330,8 +309,8 @@ const ComponentButton: NextPage = () => {
                 setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                 borderBottomRightRadius={borderBottomRightRadius}
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
-                isSetDetailBorderRadius={isSetDetailBorderRadius}
-                setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
+                isShowAllOption={isSetDetailBorderRadius}
+                setIsShowAllOption={setIsSetDetailBorderRadius}
               />
 
               <Option.Title>테두리 설정</Option.Title>

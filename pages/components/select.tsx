@@ -2,8 +2,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import type { ChangeEvent, CSSProperties } from "react";
 import { useState } from "react";
-import styled from "styled-components";
-import { RiArrowUpSLine } from "react-icons/ri";
 
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
@@ -25,20 +23,12 @@ import { BorderOption } from "../../components/partial/BorderOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { FontOption } from "../../components/partial/FontOption";
 import { RgbaOption } from "../../components/partial/RgbaOption";
+import { copyToClipboard } from "../../lib/copy/clipboard";
 import {
   ChildOption,
   ConvertSelect,
   ParentOption
 } from "../../lib/style/select";
-import { copyToClipboard } from "../../lib/copy/clipboard";
-
-const IconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: rotate(180deg);
-  color: #000;
-`;
 
 const ComponentSelect: NextPage = () => {
   const [width, setWidth] = useState(200);
@@ -123,12 +113,8 @@ const ComponentSelect: NextPage = () => {
     setHtml(evt.target.checked);
   };
 
-  const selectStyle: CSSProperties = {
+  const selectWrapperStyle: CSSProperties = {
     width,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
     borderTopLeftRadius,
     borderTopRightRadius,
     borderBottomLeftRadius,
@@ -136,10 +122,12 @@ const ComponentSelect: NextPage = () => {
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
-    paddingTop: selectPaddingTop,
-    paddingRight: selectPaddingRight,
-    paddingBottom: selectPaddingBottom,
-    paddingLeft: selectPaddingLeft
+    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundImage: `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'%3E%3C/path%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'%3E%3C/path%3E%3C/svg%3E")`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 5px center",
+    backgroundSize: "16px 16px",
+    paddingRight: 20
   };
 
   const selectLabelStyle: CSSProperties = {
@@ -148,19 +136,18 @@ const ComponentSelect: NextPage = () => {
     fontSize: selectFontSize,
     lineHeight: `${selectLineHeight}px`,
     letterSpacing: selectLetterSpacing,
-    textAlign: selectTextAlign.value as any
-  };
-
-  const selectIconStyle: CSSProperties = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    transform: "rotate(180deg)",
-    color: "#000"
+    textAlign: selectTextAlign.value as any,
+    background: "transparent",
+    outline: "none",
+    border: "none",
+    paddingTop: selectPaddingTop,
+    paddingRight: selectPaddingRight,
+    paddingBottom: selectPaddingBottom,
+    paddingLeft: selectPaddingLeft
   };
 
   const optionWrapperStyle: CSSProperties = {
-    width: "100%",
+    width,
     color: optionColor,
     fontSize: optionFontSize,
     lineHeight: `${optionLineHeight}px`,
@@ -173,7 +160,6 @@ const ComponentSelect: NextPage = () => {
   };
 
   const optionLabelStyle: CSSProperties = {
-    width: "100%",
     paddingTop: optionPaddingTop,
     paddingRight: optionPaddingRight,
     paddingBottom: optionPaddingBottom,
@@ -182,9 +168,8 @@ const ComponentSelect: NextPage = () => {
 
   const handleExport = () => {
     const parentOption: ParentOption = {
-      wrapperStyle: selectStyle,
-      labelStyle: selectLabelStyle,
-      iconStyle: selectIconStyle
+      wrapperStyle: selectWrapperStyle,
+      labelStyle: selectLabelStyle
     };
 
     const childOption: ChildOption = {
@@ -216,37 +201,14 @@ const ComponentSelect: NextPage = () => {
       <Component.Container>
         <Component.Aside>
           <Preview width={width} onExport={handleExport}>
-            <div style={selectStyle}>
-              <div style={selectLabelStyle}>{label}</div>
-              <div style={selectIconStyle}>
-                <RiArrowUpSLine />
-              </div>
+            <div style={selectWrapperStyle}>
+              <button type="button" style={selectLabelStyle}>
+                {label}
+              </button>
             </div>
-            <div
-              style={{
-                width: "100%",
-                color: optionColor,
-                fontSize: optionFontSize,
-                lineHeight: `${optionLineHeight}px`,
-                letterSpacing: optionLetterSpacing,
-                textAlign: optionTextAlign.value as any,
-                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-                borderStyle: borderStyle.value,
-                borderWidth,
-                borderColor
-              }}
-            >
-              <div
-                style={{
-                  paddingTop: optionPaddingTop,
-                  paddingRight: optionPaddingRight,
-                  paddingBottom: optionPaddingBottom,
-                  paddingLeft: optionPaddingLeft
-                }}
-              >
-                Option 1...
-              </div>
-            </div>
+            <ul style={optionWrapperStyle}>
+              <li style={optionLabelStyle}>Option 1...</li>
+            </ul>
           </Preview>
         </Component.Aside>
         <Option.Container>
@@ -324,8 +286,8 @@ const ComponentSelect: NextPage = () => {
                 setPaddingBottom={setSelectPaddingBottom}
                 paddingLeft={selectPaddingLeft}
                 setPaddingLeft={setSelectPaddingLeft}
-                isSetDetailPadding={isSetDetailSelectPadding}
-                setIsSetDetailPadding={setIsSetDetailSelectPadding}
+                isShowAllOption={isSetDetailSelectPadding}
+                setIsShowAllOption={setIsSetDetailSelectPadding}
               />
               <BorderRadiusOption
                 id="Select"
@@ -337,8 +299,8 @@ const ComponentSelect: NextPage = () => {
                 setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                 borderBottomRightRadius={borderBottomRightRadius}
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
-                isSetDetailBorderRadius={isSetDetailBorderRadius}
-                setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
+                isShowAllOption={isSetDetailBorderRadius}
+                setIsShowAllOption={setIsSetDetailBorderRadius}
               />
               <Option.Title>옵션 설정</Option.Title>
               <FontOption
@@ -364,8 +326,8 @@ const ComponentSelect: NextPage = () => {
                 setPaddingBottom={setOptionPaddingBottom}
                 paddingLeft={optionPaddingLeft}
                 setPaddingLeft={setOptionPaddingLeft}
-                isSetDetailPadding={isSetDetailOptionPadding}
-                setIsSetDetailPadding={setIsSetDetailOptionPadding}
+                isShowAllOption={isSetDetailOptionPadding}
+                setIsShowAllOption={setIsSetDetailOptionPadding}
               />
               <Option.Title>환경 설정</Option.Title>
               <Option.Item>

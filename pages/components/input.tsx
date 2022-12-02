@@ -1,17 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, CSSProperties } from "react";
 import { useState } from "react";
-import styled from "styled-components";
 
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
-import {
-  BootstrapDarkInputButton,
-  BootstrapLightInputButton
-} from "../../components/Button";
 import { theme } from "../../theme";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
@@ -23,44 +18,29 @@ import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { inputTypeOptions } from "../../components/options/InputType";
 import { templateOptions } from "../../components/options/Template";
-import {
-  StyleObjectToString,
-  StyleProperties
-} from "../../lib/style/to-string";
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 import { InputType } from "../../types/input";
-import { BsSearch } from "react-icons/bs";
 import { FontOption } from "../../components/partial/FontOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { BorderOption } from "../../components/partial/BorderOption";
 import { RgbaOption } from "../../components/partial/RgbaOption";
+import { ConvertInput } from "../../lib/style/input";
+import { copyToClipboard } from "../../lib/copy/clipboard";
+import {
+  BootstrapDarkInputButton,
+  BootstrapLightInputButton
+} from "../../components/Button";
 // import { BootstrapModal } from "../../components/Modal";
 // import { StyleStringToObject } from "../../lib/style/to-object";
 // import { DefaultTextArea } from "../../components/TextArea";
 
-const SearchIconWrapper = styled.div`
-  width: 20px;
-  height: 20px;
-
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  color: black;
-  transform: translate3d(0, -50%, 0);
-
-  & > svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
 const ComponentInput: NextPage = () => {
   const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
 
-  const [width, setWidth] = useState(100);
+  const [width, setWidth] = useState(200);
 
   const [lineHeight, setLineHeight] = useState(25);
 
@@ -129,10 +109,6 @@ const ComponentInput: NextPage = () => {
     const { checked } = evt.target;
 
     setShowIcon(checked);
-
-    if (checked) {
-      setPaddingLeft(25);
-    }
   };
 
   const handleClickPresetBootstrapLightButton = () => {
@@ -254,41 +230,57 @@ const ComponentInput: NextPage = () => {
   //   setShowImportModal(false);
   // };
 
-  const handleExport = () => {
-    const style: StyleProperties = {
-      width,
-      backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-      color,
-      borderTopLeftRadius,
-      borderTopRightRadius,
-      borderBottomLeftRadius,
-      borderBottomRightRadius,
-      borderWidth,
-      borderStyle: borderStyle.value,
-      borderColor,
-      fontSize,
-      lineHeight,
-      letterSpacing,
-      paddingTop,
-      paddingRight,
-      paddingBottom,
-      paddingLeft,
-      textAlign: textAlign.value as any
-    };
+  const inputWrapperStyle: CSSProperties = {
+    width,
+    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundImage: showIcon
+      ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")`
+      : "none",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 5px center",
+    backgroundSize: "16px 16px",
+    paddingRight: showIcon ? 25 : 0,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    borderStyle: borderStyle.value,
+    borderWidth,
+    borderColor,
+    overflow: "hidden"
+  };
 
-    const exportToHtml = new StyleObjectToString(style);
+  const inputStyle: CSSProperties = {
+    width: "100%",
+    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    color,
+    fontSize,
+    lineHeight: `${lineHeight}px`,
+    letterSpacing,
+    paddingTop,
+    paddingRight,
+    paddingBottom,
+    paddingLeft,
+    textAlign: textAlign.value as any,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    border: "none"
+  };
+
+  const handleExport = () => {
+    const exportToInput = new ConvertInput(inputWrapperStyle, inputStyle);
 
     if (template.value === "default") {
-      exportToHtml.convertInput(inputType.value, { showIcon });
-    } else if (template.value === "style-and-el") {
-      exportToHtml.convertInputWithClass(inputType.value, { showIcon });
+      exportToInput.generateInput(inputType.value);
     }
 
     if (html) {
-      exportToHtml.addTemplate();
+      exportToInput.addTemplate();
     }
 
-    exportToHtml.saveInClipboard();
+    copyToClipboard(exportToInput.getHtml);
   };
 
   return (
@@ -305,35 +297,13 @@ const ComponentInput: NextPage = () => {
             // onImport={handleShowImportModal}
             onExport={handleExport}
           >
-            <input
-              type={inputType.value}
-              placeholder={placeholder}
-              style={{
-                width: "100%",
-                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-                color,
-                borderTopLeftRadius,
-                borderTopRightRadius,
-                borderBottomLeftRadius,
-                borderBottomRightRadius,
-                borderColor,
-                borderWidth,
-                borderStyle: borderStyle.value,
-                fontSize,
-                lineHeight: `${lineHeight}px`,
-                letterSpacing,
-                paddingTop,
-                paddingRight,
-                paddingBottom,
-                paddingLeft,
-                textAlign: textAlign.value as any
-              }}
-            />
-            {showIcon && (
-              <SearchIconWrapper>
-                <BsSearch />
-              </SearchIconWrapper>
-            )}
+            <div style={inputWrapperStyle}>
+              <input
+                type={inputType.value}
+                placeholder={placeholder}
+                style={inputStyle}
+              />
+            </div>
           </Preview>
           <Preset.Container>
             <StylingHeader>Preset</StylingHeader>
@@ -441,9 +411,8 @@ const ComponentInput: NextPage = () => {
                 setPaddingBottom={setPaddingBottom}
                 paddingLeft={paddingLeft}
                 setPaddingLeft={setPaddingLeft}
-                isSetDetailPadding={isSetDetailPadding}
-                setIsSetDetailPadding={setIsSetDetailPadding}
-                isDisabledPaddingLeft={showIcon}
+                isShowAllOption={isSetDetailPadding}
+                setIsShowAllOption={setIsSetDetailPadding}
               />
               <Option.Title>테두리 설정</Option.Title>
               <BorderRadiusOption
@@ -456,8 +425,8 @@ const ComponentInput: NextPage = () => {
                 setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                 borderBottomRightRadius={borderBottomRightRadius}
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
-                isSetDetailBorderRadius={isSetDetailBorderRadius}
-                setIsSetDetailBorderRadius={setIsSetDetailBorderRadius}
+                isShowAllOption={isSetDetailBorderRadius}
+                setIsShowAllOption={setIsSetDetailBorderRadius}
               />
 
               <Option.Title>테두리 설정</Option.Title>

@@ -17,9 +17,8 @@ interface Props {
   setPaddingBottom: Dispatch<SetStateAction<number>>;
   paddingLeft: number;
   setPaddingLeft: Dispatch<SetStateAction<number>>;
-  isSetDetailPadding: boolean;
-  setIsSetDetailPadding: Dispatch<SetStateAction<boolean>>;
-  isDisabledPaddingLeft?: boolean;
+  isShowAllOption: boolean;
+  setIsShowAllOption: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PaddingOption: FC<Props> = ({
@@ -32,35 +31,29 @@ export const PaddingOption: FC<Props> = ({
   setPaddingBottom,
   paddingLeft,
   setPaddingLeft,
-  isSetDetailPadding,
-  setIsSetDetailPadding,
-  isDisabledPaddingLeft
+  isShowAllOption,
+  setIsShowAllOption
 }) => {
   const setPadding = (px: number) => {
     setPaddingTop(px);
     setPaddingRight(px);
     setPaddingBottom(px);
-
-    if (!isDisabledPaddingLeft) {
-      setPaddingLeft(px);
-    }
+    setPaddingLeft(px);
   };
 
   return (
     <>
       <Option.Item>
         <RequireLabel
-          htmlFor={
-            isSetDetailPadding ? `setPaddingTop${id}` : `setPadding${id}`
-          }
+          htmlFor={isShowAllOption ? `setPaddingTop${id}` : `setPadding${id}`}
         >
-          {`여백 ${isSetDetailPadding ? "Top" : ""}`}
+          {`여백 ${isShowAllOption ? "Top" : ""}`}
         </RequireLabel>
         <CountingInput
-          id={isSetDetailPadding ? `setPaddingTop${id}` : `setPadding${id}`}
-          ariaLabel={isSetDetailPadding ? "padding-top" : "padding"}
+          id={isShowAllOption ? `setPaddingTop${id}` : `setPadding${id}`}
+          ariaLabel={isShowAllOption ? "padding-top" : "padding"}
           count={paddingTop}
-          setCount={isSetDetailPadding ? setPaddingTop : setPadding}
+          setCount={isShowAllOption ? setPaddingTop : setPadding}
           limit={30}
           showIcon={true}
           showFeedback={true}
@@ -71,12 +64,12 @@ export const PaddingOption: FC<Props> = ({
           <Switch
             id={`setDetailPadding${id}`}
             width={40}
-            checked={isSetDetailPadding}
-            setChecked={setIsSetDetailPadding}
+            checked={isShowAllOption}
+            setChecked={setIsShowAllOption}
           />
         </WithLabel>
       </Option.Item>
-      {isSetDetailPadding && (
+      {isShowAllOption && (
         <>
           <Option.Item>
             <RequireLabel htmlFor="setPaddingRight">여백 Right</RequireLabel>
@@ -118,11 +111,10 @@ export const PaddingOption: FC<Props> = ({
               count={paddingLeft}
               setCount={setPaddingLeft}
               limit={30}
-              showIcon={!isDisabledPaddingLeft}
+              showIcon={true}
               showFeedback={true}
               numberType={CountNumberType.INTEGER}
               unit="px"
-              disabled={isDisabledPaddingLeft}
             />
           </Option.Item>
         </>

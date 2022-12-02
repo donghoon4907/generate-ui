@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 
 import { styleToString } from "./to-string";
+import { ConvertElement } from "./core";
 
 export interface ParentOption {
   wrapperStyle: CSSProperties;
@@ -12,17 +13,15 @@ export interface ChildOption {
   labelStyle: CSSProperties;
 }
 
-export class ConvertSelect {
-  private convertedHtml: string = "";
+export class ConvertSelect extends ConvertElement {
   private strSelectStyle: string;
   private strSelectLabelStyle: string;
   private strOptionStyle: string;
   private strOptionLabelStyle: string;
 
-  private readonly strSelectIcon = `<svg width="20" height="20" stroke="currentColor" fill="#000" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z"></path></g></svg>`;
-  private readonly strSelectIconWrapperStyle = `display: flex;justify-content: center;align-items: center;transform: rotate(180deg);`;
-
   constructor(parentOption: ParentOption, childOption: ChildOption) {
+    super();
+
     this.strSelectStyle = styleToString(parentOption.wrapperStyle);
 
     this.strSelectLabelStyle = styleToString(parentOption.labelStyle);
@@ -32,28 +31,25 @@ export class ConvertSelect {
     this.strOptionLabelStyle = styleToString(childOption.labelStyle);
   }
 
-  get getHtml() {
-    return this.convertedHtml;
-  }
-
-  generateClass() {
+  private generateClass() {
     return `
     <style>
+      .generate-select__container {
+        position: relative;
+      }
       .generate-select {
         ${this.strSelectStyle}
       }
       .generate-select__label {
-        width: 100%;
         ${this.strSelectLabelStyle}
-      }
-      .generate-select__icon {
-        ${this.strSelectIconWrapperStyle}
       }
       .generate-option {
         display: none;
         position: absolute;
-        top: calc(100% + 5px);
-        width: 100%;
+        top: calc(100% + 2px);
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
         ${this.strOptionStyle}
       }
       .generate-option__label {
@@ -63,65 +59,51 @@ export class ConvertSelect {
     `;
   }
 
-  generateEvent() {
+  private generateEvent() {
     return `
     <script>
-        window.addEventListener("click", function (evt) {
-          if(evt.target.id == "generateSelect") {
-            var option = document.getElementById("generateOption");
+      var select = document.querySelector(".generate-select");
 
-            if(option.style.display == "none") {
-              option.style.display = "block";
-            } else {
-              option.style.display = "none";
-            }
-          }
-        })
+      var option = document.querySelector(".generate-option")
+      
+      select.onclick = function(evt) {
+        if(select.classList.contains("active")) {
+          option.style.display = "none";
+          select.classList.remove("active");
+        } else {
+          option.style.display = "block";
+          select.classList.add("active");
+        }
+      }
+    
       </script>
     `;
   }
 
-  generateParent(label: string) {
+  private generateParent(label: string) {
     return `
-    <div class="generate-select" id="generateSelect">
-      <div class="generate-select__label">${label}</div>
-      <div class="generate-select__icon">${this.strSelectIcon}</div>
+    <div class="generate-select">
+      <button type="button" class="generate-select__label">${label}</button>
     </div>
     `;
   }
 
-  generateChild() {
+  private generateChild() {
     return `
-    <div class="generate-option" id="generateOption">
-      <div class="generate-option__label">Example Option 1...</div>
-    </div>
+    <ul class="generate-option">
+      <li class="generate-option__label">Example Option 1...</li>
+    </ul>
     `;
   }
 
-  generateSelect(label: string) {
-    return `
+  public generateSelect(label: string) {
+    this.convertedHtml = `
     ${this.generateClass()}
-    <div style="position: relative;">
+    <div class="generate-select__container">
       ${this.generateParent(label)}
       ${this.generateChild()}
     </div>
     ${this.generateEvent()}
-    `;
-  }
-
-  addTemplate() {
-    this.convertedHtml = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body>
-        ${this.convertedHtml}
-      </body>
-    </html>
     `;
 
     return this.convertedHtml;

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, CSSProperties } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -12,14 +12,9 @@ import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import type { SelectOption } from "../../types/select";
 import * as Component from "../../components/partial/Component";
-// import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { templateOptions } from "../../components/options/Template";
-import {
-  StyleObjectToString,
-  StyleProperties
-} from "../../lib/style/to-string";
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { mixinEllipsisText } from "../../theme/mixins/text";
@@ -67,24 +62,10 @@ const ComponentCheckbox: NextPage = () => {
   };
 
   const handleExport = () => {
-    const style: StyleProperties = {
+    const style: CSSProperties = {
       color,
       fontSize
     };
-
-    const exportToHtml = new StyleObjectToString(style);
-
-    if (template.value === "default") {
-      exportToHtml.convertInput("checkbox");
-    } else if (template.value === "style-and-el") {
-      exportToHtml.convertInputWithClass("checkbox");
-    }
-
-    if (html) {
-      exportToHtml.addTemplate();
-    }
-
-    exportToHtml.saveInClipboard();
   };
 
   return (
@@ -109,24 +90,6 @@ const ComponentCheckbox: NextPage = () => {
               scale={scale}
             />
           </Preview>
-          {/* <Preset.Container>
-            <StylingHeader>Preset</StylingHeader>
-            <Preset.Body>
-              <Preset.Item>
-                <Preset.ButtonPreview>
-                  <BootstrapLightInputButton
-                    type="button"
-                    onClick={handleClickPresetBootstrapLightButton}
-                  >
-                    Light
-                  </BootstrapLightInputButton>
-                </Preset.ButtonPreview>
-                <Preset.ButtonMeta>
-                  <span>Bootstrap Light</span>
-                </Preset.ButtonMeta>
-              </Preset.Item>
-            </Preset.Body>
-          </Preset.Container> */}
         </Component.Aside>
         <Option.Container>
           <StylingHeader>Options</StylingHeader>

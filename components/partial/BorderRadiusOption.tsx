@@ -17,8 +17,8 @@ interface Props {
   setBorderBottomLeftRadius: Dispatch<SetStateAction<number>>;
   borderBottomRightRadius: number;
   setBorderBottomRightRadius: Dispatch<SetStateAction<number>>;
-  isSetDetailBorderRadius: boolean;
-  setIsSetDetailBorderRadius: Dispatch<SetStateAction<boolean>>;
+  isShowAllOption: boolean;
+  setIsShowAllOption: Dispatch<SetStateAction<boolean>>;
 }
 
 export const BorderRadiusOption: FC<Props> = ({
@@ -31,8 +31,8 @@ export const BorderRadiusOption: FC<Props> = ({
   setBorderBottomLeftRadius,
   borderBottomRightRadius,
   setBorderBottomRightRadius,
-  isSetDetailBorderRadius,
-  setIsSetDetailBorderRadius
+  isShowAllOption,
+  setIsShowAllOption
 }) => {
   const setBorderRadius = (px: number) => {
     setBorderTopLeftRadius(px);
@@ -46,26 +46,24 @@ export const BorderRadiusOption: FC<Props> = ({
       <Option.Item>
         <RequireLabel
           htmlFor={
-            isSetDetailBorderRadius
+            isShowAllOption
               ? `setBorderTopLeftRadius${id}`
               : `setBorderRadius${id}`
           }
         >
-          {`모서리 각 ${isSetDetailBorderRadius ? "Top-Left" : ""}`}
+          {`모서리 각 ${isShowAllOption ? "Top-Left" : ""}`}
         </RequireLabel>
         <CountingInput
           id={
-            isSetDetailBorderRadius
+            isShowAllOption
               ? `setBorderTopLeftRadius${id}`
               : `setBorderRadius${id}`
           }
           ariaLabel={
-            isSetDetailBorderRadius ? "border-top-left-radius" : "border-radius"
+            isShowAllOption ? "border-top-left-radius" : "border-radius"
           }
           count={borderTopLeftRadius}
-          setCount={
-            isSetDetailBorderRadius ? setBorderTopLeftRadius : setBorderRadius
-          }
+          setCount={isShowAllOption ? setBorderTopLeftRadius : setBorderRadius}
           limit={100}
           showIcon={true}
           showFeedback={true}
@@ -76,12 +74,12 @@ export const BorderRadiusOption: FC<Props> = ({
           <Switch
             id={`setDetailBorderRadius${id}`}
             width={40}
-            checked={isSetDetailBorderRadius}
-            setChecked={setIsSetDetailBorderRadius}
+            checked={isShowAllOption}
+            setChecked={setIsShowAllOption}
           />
         </WithLabel>
       </Option.Item>
-      {isSetDetailBorderRadius && (
+      {isShowAllOption && (
         <>
           <Option.Item>
             <RequireLabel htmlFor={`setBorderTopRightRadius${id}`}>
