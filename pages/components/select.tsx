@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ChangeEvent, useState } from "react";
+import type { ChangeEvent, CSSProperties } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { RiArrowUpSLine } from "react-icons/ri";
 
@@ -13,15 +14,10 @@ import { CustomSelect } from "../../components/CustomSelect";
 import { buttonStyleOptions } from "../../components/options/ButtonStyle";
 import type { SelectOption } from "../../types/select";
 import * as Component from "../../components/partial/Component";
-// import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { templateOptions } from "../../components/options/Template";
-import {
-  StyleObjectToString,
-  StyleProperties
-} from "../../lib/style/to-string";
 import { WithLabel } from "../../components/WithLabel";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
@@ -29,12 +25,19 @@ import { BorderOption } from "../../components/partial/BorderOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { FontOption } from "../../components/partial/FontOption";
 import { RgbaOption } from "../../components/partial/RgbaOption";
+import {
+  ChildOption,
+  ConvertSelect,
+  ParentOption
+} from "../../lib/style/select";
+import { copyToClipboard } from "../../lib/copy/clipboard";
 
 const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   transform: rotate(180deg);
+  color: #000;
 `;
 
 const ComponentSelect: NextPage = () => {
@@ -120,44 +123,86 @@ const ComponentSelect: NextPage = () => {
     setHtml(evt.target.checked);
   };
 
-  const handleClickPresetBootstrapButton = () => {};
+  const selectStyle: CSSProperties = {
+    width,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    borderStyle: borderStyle.value,
+    borderWidth,
+    borderColor,
+    paddingTop: selectPaddingTop,
+    paddingRight: selectPaddingRight,
+    paddingBottom: selectPaddingBottom,
+    paddingLeft: selectPaddingLeft
+  };
 
-  const handleClickPresetBootstrapOutlineButton = () => {};
+  const selectLabelStyle: CSSProperties = {
+    width: "100%",
+    color: selectColor,
+    fontSize: selectFontSize,
+    lineHeight: `${selectLineHeight}px`,
+    letterSpacing: selectLetterSpacing,
+    textAlign: selectTextAlign.value as any
+  };
+
+  const selectIconStyle: CSSProperties = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    transform: "rotate(180deg)",
+    color: "#000"
+  };
+
+  const optionWrapperStyle: CSSProperties = {
+    width: "100%",
+    color: optionColor,
+    fontSize: optionFontSize,
+    lineHeight: `${optionLineHeight}px`,
+    letterSpacing: optionLetterSpacing,
+    textAlign: optionTextAlign.value as any,
+    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    borderStyle: borderStyle.value,
+    borderWidth,
+    borderColor
+  };
+
+  const optionLabelStyle: CSSProperties = {
+    width: "100%",
+    paddingTop: optionPaddingTop,
+    paddingRight: optionPaddingRight,
+    paddingBottom: optionPaddingBottom,
+    paddingLeft: optionPaddingLeft
+  };
 
   const handleExport = () => {
-    const style: StyleProperties = {
-      width,
-      backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-      // color,
-      borderTopLeftRadius,
-      borderTopRightRadius,
-      borderBottomLeftRadius,
-      borderBottomRightRadius,
-      borderWidth,
-      borderStyle: borderStyle.value,
-      borderColor
-      // fontSize,
-      // lineHeight,
-      // letterSpacing,
-      // paddingTop,
-      // paddingRight,
-      // paddingBottom,
-      // paddingLeft
+    const parentOption: ParentOption = {
+      wrapperStyle: selectStyle,
+      labelStyle: selectLabelStyle,
+      iconStyle: selectIconStyle
     };
 
-    const exportToHtml = new StyleObjectToString(style);
+    const childOption: ChildOption = {
+      wrapperStyle: optionWrapperStyle,
+      labelStyle: optionLabelStyle
+    };
+
+    const exportToSelect = new ConvertSelect(parentOption, childOption);
 
     if (template.value === "default") {
-      exportToHtml.convertButton(label);
-    } else if (template.value === "style-and-el") {
-      exportToHtml.convertButtonWithClass(label);
+      exportToSelect.generateSelect(label);
     }
 
     if (html) {
-      exportToHtml.addTemplate();
+      exportToSelect.addTemplate();
     }
 
-    exportToHtml.saveInClipboard();
+    copyToClipboard(exportToSelect.getHtml);
   };
 
   return (
@@ -170,49 +215,12 @@ const ComponentSelect: NextPage = () => {
 
       <Component.Container>
         <Component.Aside>
-          <Preview
-            width={width}
-            // height={height}
-            // onImport={handleShowImportModal}
-            onExport={handleExport}
-          >
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-                borderTopLeftRadius,
-                borderTopRightRadius,
-                borderBottomLeftRadius,
-                borderBottomRightRadius,
-                borderColor,
-                borderWidth,
-                borderStyle: borderStyle.value,
-                paddingTop: selectPaddingTop,
-                paddingRight: selectPaddingRight,
-                paddingBottom: selectPaddingBottom,
-                paddingLeft: selectPaddingLeft
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  color: selectColor,
-                  fontSize: selectFontSize,
-                  lineHeight: `${selectLineHeight}px`,
-                  letterSpacing: selectLetterSpacing,
-                  textAlign: selectTextAlign.value as any
-                }}
-              >
-                {label}
-              </div>
-              <IconWrapper>
+          <Preview width={width} onExport={handleExport}>
+            <div style={selectStyle}>
+              <div style={selectLabelStyle}>{label}</div>
+              <div style={selectIconStyle}>
                 <RiArrowUpSLine />
-              </IconWrapper>
+              </div>
             </div>
             <div
               style={{
@@ -223,9 +231,9 @@ const ComponentSelect: NextPage = () => {
                 letterSpacing: optionLetterSpacing,
                 textAlign: optionTextAlign.value as any,
                 backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-                borderColor,
+                borderStyle: borderStyle.value,
                 borderWidth,
-                borderStyle: borderStyle.value
+                borderColor
               }}
             >
               <div
@@ -240,37 +248,6 @@ const ComponentSelect: NextPage = () => {
               </div>
             </div>
           </Preview>
-          {/* <Preset.Container>
-            <StylingHeader>Preset</StylingHeader>
-            <Preset.Body>
-              <Preset.Item>
-                <Preset.ButtonPreview>
-                  <BootstrapPrimaryButton
-                    type="button"
-                    onClick={handleClickPresetBootstrapButton}
-                  >
-                    Primary
-                  </BootstrapPrimaryButton>
-                </Preset.ButtonPreview>
-                <Preset.ButtonMeta>
-                  <span>Bootstrap button 1</span>
-                </Preset.ButtonMeta>
-              </Preset.Item>
-              <Preset.Item>
-                <Preset.ButtonPreview>
-                  <BootstrapOutlineButton
-                    type="button"
-                    onClick={handleClickPresetBootstrapOutlineButton}
-                  >
-                    Primary
-                  </BootstrapOutlineButton>
-                </Preset.ButtonPreview>
-                <Preset.ButtonMeta>
-                  <span>Bootstrap button 2</span>
-                </Preset.ButtonMeta>
-              </Preset.Item>
-            </Preset.Body>
-          </Preset.Container> */}
         </Component.Aside>
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
