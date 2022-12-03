@@ -1,5 +1,12 @@
+import { v4 as uuidv4 } from "uuid";
+
 export class ConvertElement {
+  protected id: string;
   protected convertedHtml: string = "";
+
+  constructor() {
+    this.id = uuidv4();
+  }
 
   public get getHtml() {
     return this.convertedHtml;
