@@ -30,6 +30,7 @@ import type {
   SelectListOption
 } from "../../lib/style/select";
 import { ConvertSelect } from "../../lib/style/select";
+import { textOverflowOptions } from "../../components/options/TextOverflow";
 
 const OptionItem = styled.li`
   &:hover {
@@ -116,6 +117,14 @@ const ComponentSelect: NextPage = () => {
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
+  const [selectTextOverflow, setSelectTextOverflow] = useState(
+    textOverflowOptions[0]
+  );
+
+  const [optionTextOverflow, setOptionTextOverflow] = useState(
+    textOverflowOptions[0]
+  );
+
   const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
     setHtml(evt.target.checked);
   };
@@ -136,7 +145,12 @@ const ComponentSelect: NextPage = () => {
     backgroundSize: "16px 16px",
     padding: "0 20px 0 0",
     userSelect: "none",
-    outline: "none"
+    outline: "none",
+    minHeight:
+      selectPaddingTop +
+      selectPaddingBottom +
+      selectLineHeight +
+      borderWidth * 2
   };
 
   const selectLabelStyle: CSSProperties = {
@@ -150,7 +164,11 @@ const ComponentSelect: NextPage = () => {
     paddingTop: selectPaddingTop,
     paddingRight: selectPaddingRight,
     paddingBottom: selectPaddingBottom,
-    paddingLeft: selectPaddingLeft
+    paddingLeft: selectPaddingLeft,
+    textOverflow: selectTextOverflow.value,
+    wordBreak: selectTextOverflow.value === "clip" ? "break-all" : "normal",
+    whiteSpace: selectTextOverflow.value === "ellipsis" ? "nowrap" : "normal",
+    overflow: "hidden"
   };
 
   const optionWrapperStyle: CSSProperties = {
@@ -171,7 +189,11 @@ const ComponentSelect: NextPage = () => {
     paddingTop: optionPaddingTop,
     paddingRight: optionPaddingRight,
     paddingBottom: optionPaddingBottom,
-    paddingLeft: optionPaddingLeft
+    paddingLeft: optionPaddingLeft,
+    textOverflow: optionTextOverflow.value,
+    wordBreak: optionTextOverflow.value === "default" ? "break-all" : "normal",
+    whiteSpace: optionTextOverflow.value === "ellipsis" ? "nowrap" : "normal",
+    overflow: "hidden"
   };
 
   const handleExport = () => {
@@ -213,8 +235,10 @@ const ComponentSelect: NextPage = () => {
               <span style={selectLabelStyle}>{label}</span>
             </button>
             <ul style={optionWrapperStyle}>
-              <OptionItem style={optionLabelStyle}>None</OptionItem>
-              <OptionItem style={optionLabelStyle}>Option 1...</OptionItem>
+              <OptionItem style={optionLabelStyle}>none</OptionItem>
+              <OptionItem style={optionLabelStyle}>
+                option 1 - Long text example
+              </OptionItem>
             </ul>
           </Preview>
         </Component.Aside>
@@ -264,7 +288,7 @@ const ComponentSelect: NextPage = () => {
                   id="setLabel"
                   value={label}
                   setValue={setLabel}
-                  limit={10}
+                  limit={50}
                   showFeedback={true}
                 />
               </Option.Item>
@@ -281,6 +305,8 @@ const ComponentSelect: NextPage = () => {
                 setLetterSpacing={setSelectLetterSpacing}
                 textAlign={selectTextAlign}
                 setTextAlign={setSelectTextAlign}
+                textOverflow={selectTextOverflow}
+                setTextOverflow={setSelectTextOverflow}
               />
 
               <PaddingOption
@@ -322,6 +348,8 @@ const ComponentSelect: NextPage = () => {
                 setLetterSpacing={setOptionLetterSpacing}
                 textAlign={optionTextAlign}
                 setTextAlign={setOptionTextAlign}
+                textOverflow={optionTextOverflow}
+                setTextOverflow={setOptionTextOverflow}
               />
               <PaddingOption
                 id="Option"

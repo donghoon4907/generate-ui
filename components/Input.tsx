@@ -44,7 +44,7 @@ export const FeedbackInput: FC<Props> = ({
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
 
-    if (value.length < 10) {
+    if (value.length < limit) {
       setValid(true);
       setInvalid(false);
       setValue(value);

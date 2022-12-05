@@ -62,12 +62,14 @@ const Icon = styled.div<{ open: boolean }>`
   }
 `;
 
-const OptionContainer = styled.div<{ open: boolean; pos: string }>`
+const OptionContainer = styled.ul<{ open: boolean; pos: string }>`
   position: absolute;
   left: 0;
   width: 100%;
-  max-height: ${({ open }) => (open ? "auto" : "0")};
   overflow: hidden;
+  z-index: 6;
+
+  ${({ open }) => (open ? "" : "max-height: 0;")}
 
   ${({ pos }) => (pos === "bottom" ? "top: 40px;" : "bottom: 40px;")}
 
@@ -77,7 +79,7 @@ const OptionContainer = styled.div<{ open: boolean; pos: string }>`
 
 const OptionBody = styled.ul`
   position: relative;
-  z-index: 6;
+
   ${mixinBgLv0};
 `;
 

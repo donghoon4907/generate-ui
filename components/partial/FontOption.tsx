@@ -9,6 +9,7 @@ import { DefaultInput } from "../Input";
 import { SelectOption } from "../../types/select";
 import { textAlignOptions } from "../options/TextAlign";
 import { isNumber } from "../../lib/calc/number";
+import { textOverflowOptions } from "../options/TextOverflow";
 
 interface Props {
   id: string | number;
@@ -22,6 +23,8 @@ interface Props {
   setLetterSpacing?: Dispatch<SetStateAction<number>>;
   textAlign?: SelectOption;
   setTextAlign?: Dispatch<SetStateAction<SelectOption>>;
+  textOverflow?: SelectOption;
+  setTextOverflow?: Dispatch<SetStateAction<SelectOption>>;
 }
 
 export const FontOption: FC<Props> = ({
@@ -35,7 +38,9 @@ export const FontOption: FC<Props> = ({
   letterSpacing,
   setLetterSpacing,
   textAlign,
-  setTextAlign
+  setTextAlign,
+  textOverflow,
+  setTextOverflow
 }) => {
   const isShowColor = color && setColor;
 
@@ -46,6 +51,8 @@ export const FontOption: FC<Props> = ({
   const isShowLetterSpacing = isNumber(letterSpacing) && setLetterSpacing;
 
   const isShowTextAlign = textAlign && setTextAlign;
+
+  const isShowTextOverflow = textOverflow && setTextOverflow;
 
   const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setColor?.(evt.target.value);
@@ -123,6 +130,18 @@ export const FontOption: FC<Props> = ({
             showFeedback={true}
             numberType={CountNumberType.DECIMAL}
             unit="px"
+          />
+        </Option.Item>
+      )}
+      {isShowTextOverflow && (
+        <Option.Item>
+          <RequireLabel htmlFor={`setTextOverflow${id}`}>
+            텍스트 줄바꿈
+          </RequireLabel>
+          <CustomSelect
+            activeOption={textOverflow}
+            setOption={setTextOverflow}
+            options={textOverflowOptions}
           />
         </Option.Item>
       )}
