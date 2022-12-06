@@ -1,5 +1,7 @@
+import type { FC } from "react";
 import styled from "styled-components";
 
+import type { CoreProps } from "../../interfaces/core";
 import { mixinBgLv1 } from "../../theme/mixins/background";
 
 export const Container = styled.section`
@@ -40,6 +42,10 @@ export const Title = styled.div`
   margin-bottom: 5px;
   user-select: none;
   font-weight: bold;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 
   ${({ theme }) => theme.breakPoint.lg} {
     grid-column: span 2;
@@ -48,7 +54,29 @@ export const Title = styled.div`
   ${({ theme }) => theme.breakPoint.md} {
     grid-column: span 1;
   }
+
+  & > span {
+    cursor: pointer;
+  }
 `;
+
+export const UnSelectedTitle = styled.span`
+  font-weight: 400;
+  opacity: 0.8;
+`;
+
+interface TabProps extends CoreProps {
+  active: boolean;
+  onClick: () => void;
+}
+
+export const Tab: FC<TabProps> = ({ children, active, onClick }) => {
+  return active ? (
+    <span onClick={onClick}>{children}</span>
+  ) : (
+    <UnSelectedTitle onClick={onClick}>{children}</UnSelectedTitle>
+  );
+};
 
 export const Item = styled.div<{ span?: number }>`
   grid-column: span ${({ span }) => span || 1};

@@ -33,6 +33,10 @@ import {
   BootstrapDarkInputButton,
   BootstrapLightInputButton
 } from "../../components/Button";
+import { InputSearchTabType } from "../../types/tab";
+import { IconPosType } from "../../types/icon";
+import { iconPosOptions } from "../../components/options/IconPos";
+import { IconOption } from "../../components/partial/IconOption";
 // import { BootstrapModal } from "../../components/Modal";
 // import { StyleStringToObject } from "../../lib/style/to-object";
 // import { DefaultTextArea } from "../../components/TextArea";
@@ -92,8 +96,18 @@ const ComponentInput: NextPage = () => {
 
   // search icon 추가 여부
   const [showIcon, setShowIcon] = useState(false);
-
+  // option text 정렬
   const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
+  // 탭 활성화 관리
+  const [activeSearchTab, setActiveSearchTab] = useState<InputSearchTabType>(
+    InputSearchTabType.DEFAULT
+  );
+  // 아이콘 사이즈
+  const [iconSize, setIconSize] = useState(16);
+  // 아이콘 위치
+  const [iconPos, setIconPos] = useState<SelectOption>(iconPosOptions[0]);
+  // 아이콘 색
+  const [iconColor, setIconColor] = useState("#000000");
 
   // const [showImportModal, setShowImportModal] = useState(false);
 
@@ -234,12 +248,15 @@ const ComponentInput: NextPage = () => {
     width,
     backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
     backgroundImage: showIcon
-      ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")`
+      ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='${encodeURIComponent(
+          iconColor
+        )}' stroke-width='0' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")`
       : "none",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "right 5px center",
-    backgroundSize: "16px 16px",
-    paddingRight: showIcon ? 25 : 0,
+    backgroundPosition: `${iconPos.value} 5px center`,
+    backgroundSize: iconSize,
+    paddingRight: showIcon && iconPos.value === IconPosType.RIGHT ? 25 : 0,
+    paddingLeft: showIcon && iconPos.value === IconPosType.LEFT ? 25 : 0,
     borderTopLeftRadius,
     borderTopRightRadius,
     borderBottomLeftRadius,
@@ -281,6 +298,10 @@ const ComponentInput: NextPage = () => {
     }
 
     copyToClipboard(exportToInput.getHtml);
+  };
+
+  const handleClickSearchTab = (activeTab: InputSearchTabType) => {
+    setActiveSearchTab(activeTab);
   };
 
   return (
@@ -341,24 +362,62 @@ const ComponentInput: NextPage = () => {
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
             <Option.Grid>
-              <Option.Title>기본 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel>타입</RequireLabel>
-                <CustomSelect
-                  activeOption={inputType}
-                  setOption={setInputType}
-                  options={inputTypeOptions}
-                />
-                {inputType.value === InputType.SEARCH && (
-                  <WithLabel id="setHasIcon" label="검색 아이콘 추가">
-                    <Checkbox
-                      id="setHasIcon"
-                      checked={showIcon}
-                      onChange={handleChangeShowIcon}
-                    />
-                  </WithLabel>
+              <Option.Title>
+                {showIcon ? (
+                  <Option.Tab
+                    active={activeSearchTab === InputSearchTabType.DEFAULT}
+                    onClick={() =>
+                      handleClickSearchTab(InputSearchTabType.DEFAULT)
+                    }
+                  >
+                    기본 설정
+                  </Option.Tab>
+                ) : (
+                  "기본 설정"
                 )}
-              </Option.Item>
+
+                {showIcon && (
+                  <Option.Tab
+                    active={activeSearchTab === InputSearchTabType.ICON}
+                    onClick={() =>
+                      handleClickSearchTab(InputSearchTabType.ICON)
+                    }
+                  >
+                    아이콘 설정
+                  </Option.Tab>
+                )}
+              </Option.Title>
+              {activeSearchTab === InputSearchTabType.DEFAULT && (
+                <Option.Item>
+                  <RequireLabel>타입</RequireLabel>
+                  <CustomSelect
+                    activeOption={inputType}
+                    setOption={setInputType}
+                    options={inputTypeOptions}
+                  />
+                  {inputType.value === InputType.SEARCH && (
+                    <WithLabel id="setHasIcon" label="검색 아이콘 추가">
+                      <Checkbox
+                        id="setHasIcon"
+                        checked={showIcon}
+                        onChange={handleChangeShowIcon}
+                      />
+                    </WithLabel>
+                  )}
+                </Option.Item>
+              )}
+              {activeSearchTab === InputSearchTabType.ICON && (
+                <IconOption
+                  id="Input"
+                  iconPos={iconPos}
+                  setIconPos={setIconPos}
+                  iconSize={iconSize}
+                  setIconSize={setIconSize}
+                  iconColor={iconColor}
+                  setIconColor={setIconColor}
+                />
+              )}
+
               <Option.Title>레이아웃 설정</Option.Title>
               <Option.Item>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>

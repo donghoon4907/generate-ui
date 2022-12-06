@@ -82,7 +82,8 @@ export const lightTheme: DefaultTheme = {
   btnBorderColor: "#747775",
   hoverBgColor: "linear-gradient(0deg, rgba(68,71,70,.08), rgba(68,71,70,.08))",
   utilityBorderColor: "#747775",
-  dividerColor: color.lightDividerColor
+  dividerColor: color.lightDividerColor,
+  disableColor: color.lightDividerColor
 };
 
 export const darkTheme: DefaultTheme = {
@@ -106,5 +107,6 @@ export const darkTheme: DefaultTheme = {
   hoverBgColor:
     "linear-gradient(0deg, hsla(140,3%,77%,.08), hsla(140,3%,77%,.08))",
   utilityBorderColor: "#8e918f",
-  dividerColor: color.darkDividerColor
+  dividerColor: color.darkDividerColor,
+  disableColor: color.darkDividerColor
 };

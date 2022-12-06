@@ -61,5 +61,6 @@ declare module "styled-components" {
     hoverBgColor: string;
     utilityBorderColor: string;
     dividerColor: string;
+    disableColor: string;
   }
 }

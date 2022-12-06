@@ -18,6 +18,14 @@ export class ConvertInput extends ConvertElement {
   generateClass() {
     return `
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      input {
+        outline: none;
+      }
+
       .generate-input__container {
         ${this.strWrapperStyle}
       }
