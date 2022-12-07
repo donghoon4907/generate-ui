@@ -6,13 +6,15 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
 import { DefaultInput } from "../Input";
-import { SelectOption } from "../../types/select";
-import { iconPosOptions } from "../options/IconPos";
+
+import type { SelectOption } from "../../interfaces/select";
+import { iconAlignOptions } from "../options/IconAlign";
+import { IconAlignOption } from "../../types/select-option";
 
 interface Props {
   id: string | number;
-  iconPos: SelectOption;
-  setIconPos: Dispatch<SetStateAction<SelectOption>>;
+  iconAlign: SelectOption<IconAlignOption>;
+  setIconAlign: Dispatch<SetStateAction<SelectOption<IconAlignOption>>>;
   iconSize: number;
   setIconSize: Dispatch<SetStateAction<number>>;
   iconColor: string;
@@ -21,8 +23,8 @@ interface Props {
 
 export const IconOption: FC<Props> = ({
   id,
-  iconPos,
-  setIconPos,
+  iconAlign,
+  setIconAlign,
   iconSize,
   setIconSize,
   iconColor,
@@ -49,11 +51,11 @@ export const IconOption: FC<Props> = ({
         />
       </Option.Item>
       <Option.Item>
-        <RequireLabel>위치</RequireLabel>
+        <RequireLabel>정렬</RequireLabel>
         <CustomSelect
-          activeOption={iconPos}
-          setOption={setIconPos}
-          options={iconPosOptions}
+          activeOption={iconAlign}
+          setOption={setIconAlign}
+          options={iconAlignOptions}
         />
       </Option.Item>
 

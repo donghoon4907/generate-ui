@@ -10,19 +10,24 @@ import { StylingHeader } from "../../components/StylingHeader";
 import { theme } from "../../theme";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
-import { buttonStyleOptions } from "../../components/options/ButtonStyle";
-import type { SelectOption } from "../../types/select";
+import { borderStyleOptions } from "../../components/options/BorderStyle";
+import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
 import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
 import { inputTypeOptions } from "../../components/options/InputType";
-import { templateOptions } from "../../components/options/Template";
+import { langOptions } from "../../components/options/Template";
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
-import { InputType } from "../../types/input";
+import {
+  BorderStyleOption,
+  InputTypeOption,
+  LangOption,
+  TextAlignOption
+} from "../../types/select-option";
 import { FontOption } from "../../components/partial/FontOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { BorderOption } from "../../components/partial/BorderOption";
@@ -34,15 +39,18 @@ import {
   BootstrapLightInputButton
 } from "../../components/Button";
 import { InputSearchTabType } from "../../types/tab";
-import { IconPosType } from "../../types/icon";
-import { iconPosOptions } from "../../components/options/IconPos";
+import { IconAlignOption } from "../../types/select-option";
+import { iconAlignOptions } from "../../components/options/IconAlign";
 import { IconOption } from "../../components/partial/IconOption";
+import { PreferenceOption } from "../../components/partial/PreferenceOption";
 // import { BootstrapModal } from "../../components/Modal";
 // import { StyleStringToObject } from "../../lib/style/to-object";
 // import { DefaultTextArea } from "../../components/TextArea";
 
 const ComponentInput: NextPage = () => {
-  const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
+  const [inputType, setInputType] = useState<SelectOption<InputTypeOption>>(
+    inputTypeOptions[0]
+  );
 
   const [width, setWidth] = useState(200);
 
@@ -80,15 +88,15 @@ const ComponentInput: NextPage = () => {
 
   const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
-  const [borderStyle, setBorderStyle] = useState<SelectOption>(
-    buttonStyleOptions[1]
-  );
+  const [borderStyle, setBorderStyle] = useState<
+    SelectOption<BorderStyleOption>
+  >(borderStyleOptions[1]);
 
   const [borderColor, setBorderColor] = useState("#000000");
 
   const [borderWidth, setBorderWidth] = useState(1);
 
-  const [template, setTemplate] = useState<SelectOption>(templateOptions[0]);
+  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
@@ -97,15 +105,19 @@ const ComponentInput: NextPage = () => {
   // search icon 추가 여부
   const [showIcon, setShowIcon] = useState(false);
   // option text 정렬
-  const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
+  const [textAlign, setTextAlign] = useState<SelectOption<TextAlignOption>>(
+    textAlignOptions[0]
+  );
   // 탭 활성화 관리
   const [activeSearchTab, setActiveSearchTab] = useState<InputSearchTabType>(
     InputSearchTabType.DEFAULT
   );
   // 아이콘 사이즈
   const [iconSize, setIconSize] = useState(16);
-  // 아이콘 위치
-  const [iconPos, setIconPos] = useState<SelectOption>(iconPosOptions[0]);
+  // 아이콘 정렬
+  const [iconAlign, setIconAlign] = useState<SelectOption<IconAlignOption>>(
+    iconAlignOptions[0]
+  );
   // 아이콘 색
   const [iconColor, setIconColor] = useState("#000000");
 
@@ -114,10 +126,6 @@ const ComponentInput: NextPage = () => {
   // const [importStrStyle, setImportStrStyle] = useState("");
 
   // const [importStyleFeedback, setImportStyleFeedback] = useState("");
-
-  const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
-    setHtml(evt.target.checked);
-  };
 
   const handleChangeShowIcon = (evt: ChangeEvent<HTMLInputElement>) => {
     const { checked } = evt.target;
@@ -145,7 +153,7 @@ const ComponentInput: NextPage = () => {
     setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
-    setBorderStyle(buttonStyleOptions[1]);
+    setBorderStyle(borderStyleOptions[1]);
     setFontSize(16);
   };
 
@@ -169,7 +177,7 @@ const ComponentInput: NextPage = () => {
     setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
-    setBorderStyle(buttonStyleOptions[1]);
+    setBorderStyle(borderStyleOptions[1]);
     setFontSize(16);
   };
 
@@ -253,10 +261,11 @@ const ComponentInput: NextPage = () => {
         )}' stroke-width='0' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")`
       : "none",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: `${iconPos.value} 5px center`,
+    backgroundPosition: `${iconAlign.value} 5px center`,
     backgroundSize: iconSize,
-    paddingRight: showIcon && iconPos.value === IconPosType.RIGHT ? 25 : 0,
-    paddingLeft: showIcon && iconPos.value === IconPosType.LEFT ? 25 : 0,
+    paddingRight:
+      showIcon && iconAlign.value === IconAlignOption.RIGHT ? 25 : 0,
+    paddingLeft: showIcon && iconAlign.value === IconAlignOption.LEFT ? 25 : 0,
     borderTopLeftRadius,
     borderTopRightRadius,
     borderBottomLeftRadius,
@@ -289,7 +298,7 @@ const ComponentInput: NextPage = () => {
   const handleExport = () => {
     const exportToInput = new ConvertInput(inputWrapperStyle, inputStyle);
 
-    if (template.value === "default") {
+    if (lang.value === LangOption.JS) {
       exportToInput.generateInput(inputType.value);
     }
 
@@ -395,7 +404,7 @@ const ComponentInput: NextPage = () => {
                     setOption={setInputType}
                     options={inputTypeOptions}
                   />
-                  {inputType.value === InputType.SEARCH && (
+                  {inputType.value === InputTypeOption.SEARCH && (
                     <WithLabel id="setHasIcon" label="검색 아이콘 추가">
                       <Checkbox
                         id="setHasIcon"
@@ -409,8 +418,8 @@ const ComponentInput: NextPage = () => {
               {activeSearchTab === InputSearchTabType.ICON && (
                 <IconOption
                   id="Input"
-                  iconPos={iconPos}
-                  setIconPos={setIconPos}
+                  iconAlign={iconAlign}
+                  setIconAlign={setIconAlign}
                   iconSize={iconSize}
                   setIconSize={setIconSize}
                   iconColor={iconColor}
@@ -514,21 +523,12 @@ const ComponentInput: NextPage = () => {
             </Option.Item> */}
               {/* <OptionTitle>접근성 설정</OptionTitle> */}
               <Option.Title>환경 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
-                <CustomSelect
-                  activeOption={template}
-                  setOption={setTemplate}
-                  options={templateOptions}
-                />
-                <WithLabel id="setHtml" label="HTML 템플릿 추가">
-                  <Checkbox
-                    id="setHtml"
-                    checked={html}
-                    onChange={handleChangeHtml}
-                  />
-                </WithLabel>
-              </Option.Item>
+              <PreferenceOption
+                lang={lang}
+                setLang={setLang}
+                html={html}
+                setHtml={setHtml}
+              />
             </Option.Grid>
           </Option.Body>
         </Option.Container>

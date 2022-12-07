@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent, CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -9,16 +9,15 @@ import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
 import { CountNumberType } from "../../types/count";
-import { CustomSelect } from "../../components/CustomSelect";
-import type { SelectOption } from "../../types/select";
+import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
-import { templateOptions } from "../../components/options/Template";
-import { WithLabel } from "../../components/WithLabel";
-import { Checkbox } from "../../components/Checkbox";
+import { langOptions } from "../../components/options/Template";
 import { mixinEllipsisText } from "../../theme/mixins/text";
 import { FontOption } from "../../components/partial/FontOption";
+import { LangOption } from "../../types/select-option";
+import { PreferenceOption } from "../../components/partial/PreferenceOption";
 
 const StyledInput = styled.input<{
   label: string;
@@ -51,15 +50,11 @@ const ComponentCheckbox: NextPage = () => {
 
   const [color, setColor] = useState("#000000");
 
-  const [template, setTemplate] = useState<SelectOption>(templateOptions[0]);
+  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
   const [fontSize, setFontSize] = useState(16);
-
-  const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
-    setHtml(evt.target.checked);
-  };
 
   const handleExport = () => {
     const style: CSSProperties = {
@@ -131,21 +126,12 @@ const ComponentCheckbox: NextPage = () => {
               />
 
               <Option.Title>환경 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
-                <CustomSelect
-                  activeOption={template}
-                  setOption={setTemplate}
-                  options={templateOptions}
-                />
-                <WithLabel id="setHtml" label="HTML 템플릿 추가">
-                  <Checkbox
-                    id="setHtml"
-                    checked={html}
-                    onChange={handleChangeHtml}
-                  />
-                </WithLabel>
-              </Option.Item>
+              <PreferenceOption
+                lang={lang}
+                setLang={setLang}
+                html={html}
+                setHtml={setHtml}
+              />
             </Option.Grid>
           </Option.Body>
         </Option.Container>

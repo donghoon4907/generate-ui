@@ -1,19 +1,20 @@
-import { SelectOption } from "../../types/select";
+import type { SelectOption } from "../../interfaces/select";
+import { TextAlignOption } from "../../types/select-option";
 
-export const textAlignOptions: SelectOption[] = [
+export const textAlignOptions: SelectOption<TextAlignOption>[] = [
   {
     label: "왼쪽",
-    value: "left",
+    value: TextAlignOption.LEFT,
     preview: null
   },
   {
-    label: "중앙",
-    value: "center",
+    label: "가운데",
+    value: TextAlignOption.CENTER,
     preview: null
   },
   {
     label: "오른쪽",
-    value: "right",
+    value: TextAlignOption.RIGHT,
     preview: null
   }
 ];

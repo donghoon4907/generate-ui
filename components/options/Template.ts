@@ -1,9 +1,10 @@
-import { SelectOption } from "../../types/select";
+import type { SelectOption } from "../../interfaces/select";
+import { LangOption } from "../../types/select-option";
 
-export const templateOptions: SelectOption[] = [
+export const langOptions: SelectOption<LangOption>[] = [
   {
     label: "Javascript",
-    value: "default",
+    value: LangOption.JS,
     preview: null
   }
 ];

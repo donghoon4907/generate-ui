@@ -5,14 +5,15 @@ import { CountNumberType } from "../../types/count";
 import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
-import { buttonStyleOptions } from "../options/ButtonStyle";
+import { borderStyleOptions } from "../options/BorderStyle";
 import { DefaultInput } from "../Input";
-import { SelectOption } from "../../types/select";
+import type { SelectOption } from "../../interfaces/select";
+import { BorderStyleOption } from "../../types/select-option";
 
 interface Props {
   id: string | number;
-  borderStyle: SelectOption;
-  setBorderStyle: Dispatch<SetStateAction<SelectOption>>;
+  borderStyle: SelectOption<BorderStyleOption>;
+  setBorderStyle: Dispatch<SetStateAction<SelectOption<BorderStyleOption>>>;
   borderWidth: number;
   setBorderWidth: Dispatch<SetStateAction<number>>;
   borderColor: string;
@@ -39,7 +40,7 @@ export const BorderOption: FC<Props> = ({
         <CustomSelect
           activeOption={borderStyle}
           setOption={setBorderStyle}
-          options={buttonStyleOptions}
+          options={borderStyleOptions}
         />
       </Option.Item>
       <Option.Item>

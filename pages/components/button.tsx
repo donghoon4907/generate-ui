@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent, CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { useState } from "react";
 
 import { CountingInput } from "../../components/CountingInput";
@@ -9,16 +9,13 @@ import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
 import { theme } from "../../theme";
 import { CountNumberType } from "../../types/count";
-import { CustomSelect } from "../../components/CustomSelect";
-import { buttonStyleOptions } from "../../components/options/ButtonStyle";
-import type { SelectOption } from "../../types/select";
+import { borderStyleOptions } from "../../components/options/BorderStyle";
+import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
 import * as Preset from "../../components/partial/Preset";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
-import { Checkbox } from "../../components/Checkbox";
-import { templateOptions } from "../../components/options/Template";
-import { WithLabel } from "../../components/WithLabel";
+import { langOptions } from "../../components/options/Template";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 import { BorderOption } from "../../components/partial/BorderOption";
@@ -31,6 +28,14 @@ import {
   BootstrapPrimaryButton
 } from "../../components/Button";
 import { copyToClipboard } from "../../lib/copy/clipboard";
+import { textOverflowOptions } from "../../components/options/TextOverflow";
+import {
+  BorderStyleOption,
+  LangOption,
+  TextAlignOption,
+  TextOverflowOption
+} from "../../types/select-option";
+import { PreferenceOption } from "../../components/partial/PreferenceOption";
 
 const ComponentButton: NextPage = () => {
   const [width, setWidth] = useState(100);
@@ -69,25 +74,27 @@ const ComponentButton: NextPage = () => {
 
   const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
-  const [borderStyle, setBorderStyle] = useState<SelectOption>(
-    buttonStyleOptions[1]
-  );
+  const [borderStyle, setBorderStyle] = useState<
+    SelectOption<BorderStyleOption>
+  >(borderStyleOptions[1]);
 
   const [borderColor, setBorderColor] = useState("#000000");
 
   const [borderWidth, setBorderWidth] = useState(1);
-
-  const [template, setTemplate] = useState<SelectOption>(templateOptions[0]);
+  // 언어
+  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
   const [fontSize, setFontSize] = useState(16);
-
-  const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
-
-  const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
-    setHtml(evt.target.checked);
-  };
+  // 텍스트 정렬 기본값: 가운데 정렬
+  const [textAlign, setTextAlign] = useState<SelectOption<TextAlignOption>>(
+    textAlignOptions[1]
+  );
+  // 텍스트 줄바꿈 기본값: 줄바꿈 허용
+  const [textOverflow, setTextOverflow] = useState<
+    SelectOption<TextOverflowOption>
+  >(textOverflowOptions[0]);
 
   const handleClickPresetBootstrapButton = () => {
     setWidth(80);
@@ -108,7 +115,7 @@ const ComponentButton: NextPage = () => {
     setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
-    setBorderStyle(buttonStyleOptions[1]);
+    setBorderStyle(borderStyleOptions[1]);
     setBackgroundColorAlpha(1);
     setFontSize(16);
     setLabel("Primary");
@@ -133,7 +140,7 @@ const ComponentButton: NextPage = () => {
     setIsSetDetailBorderRadius(false);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
-    setBorderStyle(buttonStyleOptions[1]);
+    setBorderStyle(borderStyleOptions[1]);
     setBackgroundColorAlpha(1);
     setFontSize(16);
     setLabel("Primary");
@@ -156,13 +163,20 @@ const ComponentButton: NextPage = () => {
     paddingTop,
     paddingRight,
     paddingBottom,
-    paddingLeft
+    paddingLeft,
+    textAlign: textAlign.value as any,
+    textOverflow: textOverflow.value,
+    wordBreak:
+      textOverflow.value === TextOverflowOption.CLIP ? "break-all" : "normal",
+    whiteSpace:
+      textOverflow.value === TextOverflowOption.ELLIPSIS ? "nowrap" : "normal",
+    overflow: "hidden"
   };
 
   const handleExport = () => {
     const exportToButton = new ConvertButton(buttonStyle);
 
-    if (template.value === "default") {
+    if (lang.value === LangOption.JS) {
       exportToButton.generateButton(label);
     }
 
@@ -184,29 +198,7 @@ const ComponentButton: NextPage = () => {
       <Component.Container>
         <Component.Aside>
           <Preview width={width} onExport={handleExport}>
-            <button
-              style={{
-                width,
-                backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-                color,
-                borderTopLeftRadius,
-                borderTopRightRadius,
-                borderBottomLeftRadius,
-                borderBottomRightRadius,
-                borderColor,
-                borderWidth,
-                borderStyle: borderStyle.value,
-                fontSize,
-                lineHeight: `${lineHeight}px`,
-                letterSpacing,
-                paddingTop,
-                paddingRight,
-                paddingBottom,
-                paddingLeft
-              }}
-            >
-              {label}
-            </button>
+            <button style={buttonStyle}>{label}</button>
           </Preview>
           <Preset.Container>
             <StylingHeader>Preset</StylingHeader>
@@ -282,6 +274,8 @@ const ComponentButton: NextPage = () => {
                 setLetterSpacing={setLetterSpacing}
                 textAlign={textAlign}
                 setTextAlign={setTextAlign}
+                textOverflow={textOverflow}
+                setTextOverflow={setTextOverflow}
               />
 
               <Option.Title>여백 설정</Option.Title>
@@ -339,21 +333,12 @@ const ComponentButton: NextPage = () => {
             </Option.Item> */}
               {/* <OptionTitle>접근성 설정</OptionTitle> */}
               <Option.Title>환경 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
-                <CustomSelect
-                  activeOption={template}
-                  setOption={setTemplate}
-                  options={templateOptions}
-                />
-                <WithLabel id="setHtml" label="HTML 템플릿 추가">
-                  <Checkbox
-                    id="setHtml"
-                    checked={html}
-                    onChange={handleChangeHtml}
-                  />
-                </WithLabel>
-              </Option.Item>
+              <PreferenceOption
+                lang={lang}
+                setLang={setLang}
+                html={html}
+                setHtml={setHtml}
+              />
             </Option.Grid>
           </Option.Body>
         </Option.Container>

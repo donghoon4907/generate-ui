@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent, CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -9,15 +9,12 @@ import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { StylingHeader } from "../../components/StylingHeader";
 import { CountNumberType } from "../../types/count";
-import { CustomSelect } from "../../components/CustomSelect";
-import { buttonStyleOptions } from "../../components/options/ButtonStyle";
-import type { SelectOption } from "../../types/select";
+import { borderStyleOptions } from "../../components/options/BorderStyle";
+import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
 import * as Option from "../../components/partial/Option";
 import { RequireLabel } from "../../components/RequireLabel";
-import { Checkbox } from "../../components/Checkbox";
-import { templateOptions } from "../../components/options/Template";
-import { WithLabel } from "../../components/WithLabel";
+import { langOptions } from "../../components/options/Template";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 import { BorderOption } from "../../components/partial/BorderOption";
@@ -31,6 +28,13 @@ import type {
 } from "../../lib/style/select";
 import { ConvertSelect } from "../../lib/style/select";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
+import {
+  BorderStyleOption,
+  LangOption,
+  TextAlignOption,
+  TextOverflowOption
+} from "../../types/select-option";
+import { PreferenceOption } from "../../components/partial/PreferenceOption";
 
 const OptionItem = styled.li`
   &:hover {
@@ -41,9 +45,9 @@ const OptionItem = styled.li`
 const ComponentSelect: NextPage = () => {
   const [width, setWidth] = useState(200);
 
-  const [borderStyle, setBorderStyle] = useState<SelectOption>(
-    buttonStyleOptions[1]
-  );
+  const [borderStyle, setBorderStyle] = useState<
+    SelectOption<BorderStyleOption>
+  >(borderStyleOptions[1]);
 
   const [borderWidth, setBorderWidth] = useState(1);
 
@@ -61,13 +65,13 @@ const ComponentSelect: NextPage = () => {
 
   const [optionColor, setOptionColor] = useState("#000000");
 
-  const [selectTextAlign, setSelectTextAlign] = useState<SelectOption>(
-    textAlignOptions[0]
-  );
+  const [selectTextAlign, setSelectTextAlign] = useState<
+    SelectOption<TextAlignOption>
+  >(textAlignOptions[0]);
 
-  const [optionTextAlign, setOptionTextAlign] = useState<SelectOption>(
-    textAlignOptions[0]
-  );
+  const [optionTextAlign, setOptionTextAlign] = useState<
+    SelectOption<TextAlignOption>
+  >(textAlignOptions[0]);
 
   const [selectFontSize, setSelectFontSize] = useState(16);
 
@@ -113,7 +117,7 @@ const ComponentSelect: NextPage = () => {
   const [isSetDetailOptionPadding, setIsSetDetailOptionPadding] =
     useState(false);
 
-  const [template, setTemplate] = useState<SelectOption>(templateOptions[0]);
+  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
@@ -124,10 +128,6 @@ const ComponentSelect: NextPage = () => {
   const [optionTextOverflow, setOptionTextOverflow] = useState(
     textOverflowOptions[0]
   );
-
-  const handleChangeHtml = (evt: ChangeEvent<HTMLInputElement>) => {
-    setHtml(evt.target.checked);
-  };
 
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
@@ -166,8 +166,14 @@ const ComponentSelect: NextPage = () => {
     paddingBottom: selectPaddingBottom,
     paddingLeft: selectPaddingLeft,
     textOverflow: selectTextOverflow.value,
-    wordBreak: selectTextOverflow.value === "clip" ? "break-all" : "normal",
-    whiteSpace: selectTextOverflow.value === "ellipsis" ? "nowrap" : "normal",
+    wordBreak:
+      selectTextOverflow.value === TextOverflowOption.CLIP
+        ? "break-all"
+        : "normal",
+    whiteSpace:
+      selectTextOverflow.value === TextOverflowOption.ELLIPSIS
+        ? "nowrap"
+        : "normal",
     overflow: "hidden"
   };
 
@@ -191,8 +197,14 @@ const ComponentSelect: NextPage = () => {
     paddingBottom: optionPaddingBottom,
     paddingLeft: optionPaddingLeft,
     textOverflow: optionTextOverflow.value,
-    wordBreak: optionTextOverflow.value === "default" ? "break-all" : "normal",
-    whiteSpace: optionTextOverflow.value === "ellipsis" ? "nowrap" : "normal",
+    wordBreak:
+      optionTextOverflow.value === TextOverflowOption.CLIP
+        ? "break-all"
+        : "normal",
+    whiteSpace:
+      optionTextOverflow.value === TextOverflowOption.ELLIPSIS
+        ? "nowrap"
+        : "normal",
     overflow: "hidden"
   };
 
@@ -209,7 +221,7 @@ const ComponentSelect: NextPage = () => {
 
     const exportToSelect = new ConvertSelect(width, buttonOption, listOption);
 
-    if (template.value === "default") {
+    if (lang.value === LangOption.JS) {
       exportToSelect.generateSelect(label);
     }
 
@@ -365,21 +377,12 @@ const ComponentSelect: NextPage = () => {
                 setIsShowAllOption={setIsSetDetailOptionPadding}
               />
               <Option.Title>환경 설정</Option.Title>
-              <Option.Item>
-                <RequireLabel htmlFor="setTemplate">템플릿</RequireLabel>
-                <CustomSelect
-                  activeOption={template}
-                  setOption={setTemplate}
-                  options={templateOptions}
-                />
-                <WithLabel id="setHtml" label="HTML 템플릿 추가">
-                  <Checkbox
-                    id="setHtml"
-                    checked={html}
-                    onChange={handleChangeHtml}
-                  />
-                </WithLabel>
-              </Option.Item>
+              <PreferenceOption
+                lang={lang}
+                setLang={setLang}
+                html={html}
+                setHtml={setHtml}
+              />
             </Option.Grid>
           </Option.Body>
         </Option.Container>

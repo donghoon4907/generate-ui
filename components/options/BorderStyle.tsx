@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-import type { SelectOption } from "../../types/select";
+import type { SelectOption } from "../../interfaces/select";
+import { BorderStyleOption } from "../../types/select-option";
 
 const Continaer = styled.div`
   width: 100%;
@@ -19,25 +20,25 @@ const Dashed = styled(Continaer)`
   border: 2px dashed ${({ theme }) => theme.dividerColor};
 `;
 
-export const buttonStyleOptions: SelectOption[] = [
+export const borderStyleOptions: SelectOption<BorderStyleOption>[] = [
   {
     label: "없음",
-    value: "none",
+    value: BorderStyleOption.NONE,
     preview: null
   },
   {
     label: "실선",
-    value: "solid",
+    value: BorderStyleOption.SOLID,
     preview: <Solid />
   },
   {
     label: "점선",
-    value: "dotted",
+    value: BorderStyleOption.DOTTED,
     preview: <Dotted />
   },
   {
     label: "파선",
-    value: "dashed",
+    value: BorderStyleOption.DASHED,
     preview: <Dashed />
   }
 ];
