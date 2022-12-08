@@ -18,6 +18,8 @@ import { mixinEllipsisText } from "../../theme/mixins/text";
 import { FontOption } from "../../components/partial/FontOption";
 import { LangOption } from "../../types/select-option";
 import { PreferenceOption } from "../../components/partial/PreferenceOption";
+import { ConvertCheckbox } from "../../lib/style/checkbox";
+import { copyToClipboard } from "../../lib/copy/clipboard";
 
 const StyledInput = styled.input<{
   label: string;
@@ -56,11 +58,28 @@ const ComponentCheckbox: NextPage = () => {
 
   const [fontSize, setFontSize] = useState(16);
 
+  const checkboxStyle: CSSProperties = {
+    position: "relative",
+    transform: `scale(${scale})`
+  };
+
+  const labelStyle: CSSProperties = {
+    color,
+    fontSize
+  };
+
   const handleExport = () => {
-    const style: CSSProperties = {
-      color,
-      fontSize
-    };
+    const exportToInput = new ConvertCheckbox(checkboxStyle, labelStyle);
+
+    if (lang.value === LangOption.JS) {
+      exportToInput.generateCheckbox(label);
+    }
+
+    if (html) {
+      exportToInput.addTemplate();
+    }
+
+    copyToClipboard(exportToInput.getHtml);
   };
 
   return (
