@@ -8,12 +8,11 @@ import { CustomSelect } from "../CustomSelect";
 import { borderStyleOptions } from "../options/BorderStyle";
 import { DefaultInput } from "../Input";
 import type { SelectOption } from "../../interfaces/select";
-import { BorderStyleOption } from "../../types/select-option";
 
 interface Props {
   id: string | number;
-  borderStyle: SelectOption<BorderStyleOption>;
-  setBorderStyle: Dispatch<SetStateAction<SelectOption<BorderStyleOption>>>;
+  borderStyle: SelectOption;
+  setBorderStyle: Dispatch<SetStateAction<SelectOption>>;
   borderWidth: number;
   setBorderWidth: Dispatch<SetStateAction<number>>;
   borderColor: string;

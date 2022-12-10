@@ -28,12 +28,7 @@ import type {
 } from "../../lib/style/select";
 import { ConvertSelect } from "../../lib/style/select";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
-import {
-  BorderStyleOption,
-  LangOption,
-  TextAlignOption,
-  TextOverflowOption
-} from "../../types/select-option";
+import { LangOption, TextOverflowOption } from "../../types/select-option";
 import { PreferenceOption } from "../../components/partial/PreferenceOption";
 
 const OptionItem = styled.li`
@@ -45,9 +40,9 @@ const OptionItem = styled.li`
 const ComponentSelect: NextPage = () => {
   const [width, setWidth] = useState(200);
 
-  const [borderStyle, setBorderStyle] = useState<
-    SelectOption<BorderStyleOption>
-  >(borderStyleOptions[1]);
+  const [borderStyle, setBorderStyle] = useState<SelectOption>(
+    borderStyleOptions[1]
+  );
 
   const [borderWidth, setBorderWidth] = useState(1);
 
@@ -65,13 +60,13 @@ const ComponentSelect: NextPage = () => {
 
   const [optionColor, setOptionColor] = useState("#000000");
 
-  const [selectTextAlign, setSelectTextAlign] = useState<
-    SelectOption<TextAlignOption>
-  >(textAlignOptions[0]);
+  const [selectTextAlign, setSelectTextAlign] = useState<SelectOption>(
+    textAlignOptions[0]
+  );
 
-  const [optionTextAlign, setOptionTextAlign] = useState<
-    SelectOption<TextAlignOption>
-  >(textAlignOptions[0]);
+  const [optionTextAlign, setOptionTextAlign] = useState<SelectOption>(
+    textAlignOptions[0]
+  );
 
   const [selectFontSize, setSelectFontSize] = useState(16);
 
@@ -117,7 +112,7 @@ const ComponentSelect: NextPage = () => {
   const [isSetDetailOptionPadding, setIsSetDetailOptionPadding] =
     useState(false);
 
-  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
+  const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 

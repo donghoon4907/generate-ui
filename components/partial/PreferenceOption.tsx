@@ -10,8 +10,8 @@ import { WithLabel } from "../WithLabel";
 import { Checkbox } from "../Checkbox";
 
 interface Props {
-  lang?: SelectOption<LangOption>;
-  setLang?: Dispatch<SetStateAction<SelectOption<LangOption>>>;
+  lang?: SelectOption;
+  setLang?: Dispatch<SetStateAction<SelectOption>>;
   html?: boolean;
   setHtml?: Dispatch<SetStateAction<boolean>>;
 }
@@ -37,7 +37,7 @@ export const PreferenceOption: FC<Props> = ({
           <RequireLabel htmlFor="setLang">언어</RequireLabel>
           <CustomSelect
             activeOption={lang}
-            setOption={setLang}
+            setOption={setLang!}
             options={langOptions}
           />
           {isShowHtml && (

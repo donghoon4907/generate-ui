@@ -1,7 +1,7 @@
 import type { SelectOption } from "../../interfaces/select";
 import { TextAlignOption } from "../../types/select-option";
 
-export const textAlignOptions: SelectOption<TextAlignOption>[] = [
+export const textAlignOptions: SelectOption[] = [
   {
     label: "왼쪽",
     value: TextAlignOption.LEFT,

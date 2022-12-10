@@ -1,5 +1,6 @@
-import type { AppProps } from "next/app";
+import type { AppProps, AppContext } from "next/app";
 import styled, { ThemeProvider } from "styled-components";
+import { getCookie } from "cookies-next";
 
 import { useThemeMode } from "../hooks/useDarkMode";
 import { darkTheme, lightTheme } from "../theme";
@@ -8,6 +9,7 @@ import { ThemeMode } from "../types/theme";
 import { ContextProvider } from "../context";
 import { Nav } from "../components/Nav";
 import { Header } from "../components/Header";
+import { COOKIE_THEME_KEY } from "../lib/cookies-next/key";
 
 const Container = styled.div`
   display: flex;
@@ -35,7 +37,9 @@ const MainBody = styled.main`
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { themeMode, onToggle } = useThemeMode();
+  const { loadedTheme } = pageProps as { loadedTheme: ThemeMode };
+
+  const { themeMode, onToggle } = useThemeMode(loadedTheme);
 
   const theme = themeMode === ThemeMode.LIGHT ? lightTheme : darkTheme;
 
@@ -56,5 +60,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ContextProvider>
   );
 }
+
+MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+
+  const { req, res } = ctx;
+
+  const loadedTheme = getCookie(COOKIE_THEME_KEY, { req, res });
+
+  pageProps = { ...pageProps, loadedTheme };
+
+  return {
+    pageProps
+  };
+};
 
 export default MyApp;

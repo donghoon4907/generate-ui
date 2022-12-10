@@ -17,7 +17,7 @@ export const mixinSelectDefault = css`
 
   &:focus {
     box-shadow: ${({ theme }) => theme.boxShadow.inputFocus};
-    border-color: ${({ theme }) => theme.color.blue};
+    border-color: ${({ theme }) => theme.color.bootstrapBlue};
     outline: none;
   }
 

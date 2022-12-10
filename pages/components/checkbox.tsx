@@ -52,7 +52,7 @@ const ComponentCheckbox: NextPage = () => {
 
   const [color, setColor] = useState("#000000");
 
-  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
+  const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 

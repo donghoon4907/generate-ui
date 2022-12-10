@@ -1,7 +1,7 @@
 import type { SelectOption } from "../../interfaces/select";
 import { TextOverflowOption } from "../../types/select-option";
 
-export const textOverflowOptions: SelectOption<TextOverflowOption>[] = [
+export const textOverflowOptions: SelectOption[] = [
   {
     label: "허용",
     value: TextOverflowOption.CLIP,

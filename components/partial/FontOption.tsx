@@ -6,7 +6,7 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
 import { DefaultInput } from "../Input";
-import { SelectOption } from "../../types/select";
+import { SelectOption } from "../../interfaces/select";
 import { textAlignOptions } from "../options/TextAlign";
 import { isNumber } from "../../lib/calc/number";
 import { textOverflowOptions } from "../options/TextOverflow";

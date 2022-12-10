@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { RiArrowUpSLine } from "react-icons/ri";
 
 import { mixinBgLv0 } from "../theme/mixins/background";
-import type { SelectOption } from "../types/select";
+import type { SelectOption } from "../interfaces/select";
 
 const Container = styled.div<{ open: boolean }>`
   position: relative;

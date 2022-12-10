@@ -20,7 +20,7 @@ const Dashed = styled(Continaer)`
   border: 2px dashed ${({ theme }) => theme.dividerColor};
 `;
 
-export const borderStyleOptions: SelectOption<BorderStyleOption>[] = [
+export const borderStyleOptions: SelectOption[] = [
   {
     label: "없음",
     value: BorderStyleOption.NONE,

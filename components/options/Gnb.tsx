@@ -11,50 +11,50 @@ export const gnbOptions: Gnb[] = [
     href: "/",
     items: []
   },
-  {
-    id: "2",
-    label: "Develop",
-    icon: <BiCode />,
-    href: "/develop",
-    items: [
-      {
-        id: "2-1",
-        label: "Develop overview",
-        icon: null,
-        href: "/develop/index",
-        items: []
-      },
-      {
-        id: "2-2",
-        label: "Android",
-        icon: null,
-        href: "/develop/android/",
-        items: [
-          {
-            id: "2-2-1",
-            label: "MDC-Android",
-            icon: null,
-            href: "/develop/android/mdc-android",
-            items: []
-          },
-          {
-            id: "2-2-2",
-            label: "Jetpack Compose",
-            icon: null,
-            href: "/develop/android/jetpack-compose",
-            items: []
-          }
-        ]
-      },
-      {
-        id: "2-3",
-        label: "Flutter",
-        icon: null,
-        href: "/develop/flutter",
-        items: []
-      }
-    ]
-  },
+  // {
+  //   id: "2",
+  //   label: "Develop",
+  //   icon: <BiCode />,
+  //   href: "/develop",
+  //   items: [
+  //     {
+  //       id: "2-1",
+  //       label: "Develop overview",
+  //       icon: null,
+  //       href: "/develop/index",
+  //       items: []
+  //     },
+  //     {
+  //       id: "2-2",
+  //       label: "Android",
+  //       icon: null,
+  //       href: "/develop/android/",
+  //       items: [
+  //         {
+  //           id: "2-2-1",
+  //           label: "MDC-Android",
+  //           icon: null,
+  //           href: "/develop/android/mdc-android",
+  //           items: []
+  //         },
+  //         {
+  //           id: "2-2-2",
+  //           label: "Jetpack Compose",
+  //           icon: null,
+  //           href: "/develop/android/jetpack-compose",
+  //           items: []
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       id: "2-3",
+  //       label: "Flutter",
+  //       icon: null,
+  //       href: "/develop/flutter",
+  //       items: []
+  //     }
+  //   ]
+  // },
   {
     id: "3",
     label: "Components",

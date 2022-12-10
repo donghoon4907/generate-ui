@@ -13,8 +13,8 @@ import { IconAlignOption } from "../../types/select-option";
 
 interface Props {
   id: string | number;
-  iconAlign: SelectOption<IconAlignOption>;
-  setIconAlign: Dispatch<SetStateAction<SelectOption<IconAlignOption>>>;
+  iconAlign: SelectOption;
+  setIconAlign: Dispatch<SetStateAction<SelectOption>>;
   iconSize: number;
   setIconSize: Dispatch<SetStateAction<number>>;
   iconColor: string;

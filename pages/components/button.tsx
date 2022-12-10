@@ -29,12 +29,7 @@ import {
 } from "../../components/Button";
 import { copyToClipboard } from "../../lib/copy/clipboard";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
-import {
-  BorderStyleOption,
-  LangOption,
-  TextAlignOption,
-  TextOverflowOption
-} from "../../types/select-option";
+import { LangOption, TextOverflowOption } from "../../types/select-option";
 import { PreferenceOption } from "../../components/partial/PreferenceOption";
 
 const ComponentButton: NextPage = () => {
@@ -74,27 +69,25 @@ const ComponentButton: NextPage = () => {
 
   const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
-  const [borderStyle, setBorderStyle] = useState<
-    SelectOption<BorderStyleOption>
-  >(borderStyleOptions[1]);
+  const [borderStyle, setBorderStyle] = useState<SelectOption>(
+    borderStyleOptions[1]
+  );
 
   const [borderColor, setBorderColor] = useState("#000000");
 
   const [borderWidth, setBorderWidth] = useState(1);
   // 언어
-  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
+  const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
   const [fontSize, setFontSize] = useState(16);
   // 텍스트 정렬 기본값: 가운데 정렬
-  const [textAlign, setTextAlign] = useState<SelectOption<TextAlignOption>>(
-    textAlignOptions[1]
-  );
+  const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[1]);
   // 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const [textOverflow, setTextOverflow] = useState<
-    SelectOption<TextOverflowOption>
-  >(textOverflowOptions[0]);
+  const [textOverflow, setTextOverflow] = useState<SelectOption>(
+    textOverflowOptions[0]
+  );
 
   const handleClickPresetBootstrapButton = () => {
     setWidth(80);

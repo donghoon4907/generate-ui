@@ -48,9 +48,7 @@ import { PreferenceOption } from "../../components/partial/PreferenceOption";
 // import { DefaultTextArea } from "../../components/TextArea";
 
 const ComponentInput: NextPage = () => {
-  const [inputType, setInputType] = useState<SelectOption<InputTypeOption>>(
-    inputTypeOptions[0]
-  );
+  const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
 
   const [width, setWidth] = useState(200);
 
@@ -88,15 +86,15 @@ const ComponentInput: NextPage = () => {
 
   const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
 
-  const [borderStyle, setBorderStyle] = useState<
-    SelectOption<BorderStyleOption>
-  >(borderStyleOptions[1]);
+  const [borderStyle, setBorderStyle] = useState<SelectOption>(
+    borderStyleOptions[1]
+  );
 
   const [borderColor, setBorderColor] = useState("#000000");
 
   const [borderWidth, setBorderWidth] = useState(1);
 
-  const [lang, setLang] = useState<SelectOption<LangOption>>(langOptions[0]);
+  const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
 
@@ -105,9 +103,7 @@ const ComponentInput: NextPage = () => {
   // search icon 추가 여부
   const [showIcon, setShowIcon] = useState(false);
   // option text 정렬
-  const [textAlign, setTextAlign] = useState<SelectOption<TextAlignOption>>(
-    textAlignOptions[0]
-  );
+  const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
   // 탭 활성화 관리
   const [activeSearchTab, setActiveSearchTab] = useState<InputSearchTabType>(
     InputSearchTabType.DEFAULT
@@ -115,9 +111,7 @@ const ComponentInput: NextPage = () => {
   // 아이콘 사이즈
   const [iconSize, setIconSize] = useState(16);
   // 아이콘 정렬
-  const [iconAlign, setIconAlign] = useState<SelectOption<IconAlignOption>>(
-    iconAlignOptions[0]
-  );
+  const [iconAlign, setIconAlign] = useState<SelectOption>(iconAlignOptions[0]);
   // 아이콘 색
   const [iconColor, setIconColor] = useState("#000000");
 

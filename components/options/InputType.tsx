@@ -14,7 +14,7 @@ const Continaer = styled.div`
   height: 100%;
 `;
 
-export const inputTypeOptions: SelectOption<InputTypeOption>[] = [
+export const inputTypeOptions: SelectOption[] = [
   {
     label: "텍스트",
     value: InputTypeOption.TEXT,
