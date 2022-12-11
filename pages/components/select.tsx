@@ -105,17 +105,15 @@ const ComponentSelect: NextPage = () => {
   const [optionPaddingBottom, setOptionPaddingBottom] = useState(4);
 
   const [optionPaddingLeft, setOptionPaddingLeft] = useState(4);
+  // 모든 여백 설정 보이기 여부
+  const [showSelectAllPading, setShowSelectAllPadding] = useState(false);
 
-  const [isSetDetailSelectPadding, setIsSetDetailSelectPadding] =
-    useState(false);
-
-  const [isSetDetailOptionPadding, setIsSetDetailOptionPadding] =
-    useState(false);
-
+  const [showOptionAllPadding, setShowOptionAllPadding] = useState(false);
+  // 언어
   const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-
+  // 줄바꿈
   const [selectTextOverflow, setSelectTextOverflow] = useState(
     textOverflowOptions[0]
   );
@@ -123,6 +121,22 @@ const ComponentSelect: NextPage = () => {
   const [optionTextOverflow, setOptionTextOverflow] = useState(
     textOverflowOptions[0]
   );
+  // layout 설정 보이기
+  const [showLayout, setShowLayout] = useState(true);
+  // 테두리 설정 보이기
+  const [showBorder, setShowBorder] = useState(true);
+  // 배경색 설정 보이기
+  const [showBackgroundColor, setShowBackgroundColor] = useState(true);
+  // 셀렉트 설정 보이기
+  const [showSelect, setShowSelect] = useState(true);
+  // 옵션 설정 보이기
+  const [showOption, setShowOption] = useState(true);
+  // 환경 설정 보이기
+  const [showPreference, setShowPreference] = useState(true);
+
+  // select height
+  const minHeight =
+    selectPaddingTop + selectPaddingBottom + selectLineHeight + borderWidth * 2;
 
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
@@ -141,11 +155,7 @@ const ComponentSelect: NextPage = () => {
     padding: "0 20px 0 0",
     userSelect: "none",
     outline: "none",
-    minHeight:
-      selectPaddingTop +
-      selectPaddingBottom +
-      selectLineHeight +
-      borderWidth * 2
+    minHeight
   };
 
   const selectLabelStyle: CSSProperties = {
@@ -253,8 +263,12 @@ const ComponentSelect: NextPage = () => {
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
             <Option.Grid>
-              <Option.Title>레이아웃 설정</Option.Title>
-              <Option.Item>
+              <Option.FoldableTitle
+                fold={showLayout}
+                setFold={setShowLayout}
+                label="레이아웃 설정"
+              />
+              <Option.Item span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                 <CountingInput
                   id="setWidth"
@@ -268,7 +282,11 @@ const ComponentSelect: NextPage = () => {
                   unit="px"
                 />
               </Option.Item>
-              <Option.Title>테두리 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showBorder}
+                setFold={setShowBorder}
+                label="테두리 설정"
+              />
               <BorderOption
                 id="Select"
                 borderStyle={borderStyle}
@@ -277,8 +295,13 @@ const ComponentSelect: NextPage = () => {
                 setBorderWidth={setBorderWidth}
                 borderColor={borderColor}
                 setBorderColor={setBorderColor}
+                span={showBorder ? 1 : 0}
               />
-              <Option.Title>배경색 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showBackgroundColor}
+                setFold={setShowBackgroundColor}
+                label="배경색 설정"
+              />
               <RgbaOption
                 id="Select"
                 hex={backgroundColorHex}
@@ -286,10 +309,14 @@ const ComponentSelect: NextPage = () => {
                 setHex={setBackgroundColorHex}
                 alpha={backgroundColorAlpha}
                 setAlpha={setBackgroundColorAlpha}
+                span={showBackgroundColor ? 1 : 0}
               />
-              <Option.Title>셀렉트 설정</Option.Title>
-
-              <Option.Item>
+              <Option.FoldableTitle
+                fold={showSelect}
+                setFold={setShowSelect}
+                label="셀렉트 설정"
+              />
+              <Option.Item span={showSelect ? 1 : 0}>
                 <RequireLabel htmlFor="setLabel">제목</RequireLabel>
                 <FeedbackInput
                   id="setLabel"
@@ -314,6 +341,7 @@ const ComponentSelect: NextPage = () => {
                 setTextAlign={setSelectTextAlign}
                 textOverflow={selectTextOverflow}
                 setTextOverflow={setSelectTextOverflow}
+                span={showSelect ? 1 : 0}
               />
 
               <PaddingOption
@@ -326,8 +354,9 @@ const ComponentSelect: NextPage = () => {
                 setPaddingBottom={setSelectPaddingBottom}
                 paddingLeft={selectPaddingLeft}
                 setPaddingLeft={setSelectPaddingLeft}
-                isShowAllOption={isSetDetailSelectPadding}
-                setIsShowAllOption={setIsSetDetailSelectPadding}
+                isShowAllOption={showSelectAllPading}
+                setIsShowAllOption={setShowSelectAllPadding}
+                span={showSelect ? 1 : 0}
               />
               <BorderRadiusOption
                 id="Select"
@@ -341,8 +370,13 @@ const ComponentSelect: NextPage = () => {
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
                 isShowAllOption={isSetDetailBorderRadius}
                 setIsShowAllOption={setIsSetDetailBorderRadius}
+                span={showSelect ? 1 : 0}
               />
-              <Option.Title>옵션 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showOption}
+                setFold={setShowOption}
+                label="옵션 설정"
+              />
               <FontOption
                 id="Option"
                 color={optionColor}
@@ -357,6 +391,7 @@ const ComponentSelect: NextPage = () => {
                 setTextAlign={setOptionTextAlign}
                 textOverflow={optionTextOverflow}
                 setTextOverflow={setOptionTextOverflow}
+                span={showOption ? 1 : 0}
               />
               <PaddingOption
                 id="Option"
@@ -368,15 +403,21 @@ const ComponentSelect: NextPage = () => {
                 setPaddingBottom={setOptionPaddingBottom}
                 paddingLeft={optionPaddingLeft}
                 setPaddingLeft={setOptionPaddingLeft}
-                isShowAllOption={isSetDetailOptionPadding}
-                setIsShowAllOption={setIsSetDetailOptionPadding}
+                isShowAllOption={showOptionAllPadding}
+                setIsShowAllOption={setShowOptionAllPadding}
+                span={showOption ? 1 : 0}
               />
-              <Option.Title>환경 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showPreference}
+                setFold={setShowPreference}
+                label="환경 설정"
+              />
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
                 html={html}
                 setHtml={setHtml}
+                span={showPreference ? 1 : 0}
               />
             </Option.Grid>
           </Option.Body>

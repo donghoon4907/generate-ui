@@ -6,8 +6,9 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
+import type { GridItemOption } from "../../interfaces/grid";
 
-interface Props {
+interface Props extends GridItemOption {
   id: string | number;
   borderTopLeftRadius: number;
   setBorderTopLeftRadius: Dispatch<SetStateAction<number>>;
@@ -32,7 +33,8 @@ export const BorderRadiusOption: FC<Props> = ({
   borderBottomRightRadius,
   setBorderBottomRightRadius,
   isShowAllOption,
-  setIsShowAllOption
+  setIsShowAllOption,
+  span
 }) => {
   const setBorderRadius = (px: number) => {
     setBorderTopLeftRadius(px);
@@ -43,7 +45,7 @@ export const BorderRadiusOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel
           htmlFor={
             isShowAllOption
@@ -81,7 +83,7 @@ export const BorderRadiusOption: FC<Props> = ({
       </Option.Item>
       {isShowAllOption && (
         <>
-          <Option.Item>
+          <Option.Item span={span}>
             <RequireLabel htmlFor={`setBorderTopRightRadius${id}`}>
               모서리 각 Top-Right
             </RequireLabel>
@@ -97,7 +99,7 @@ export const BorderRadiusOption: FC<Props> = ({
               unit="px"
             />
           </Option.Item>
-          <Option.Item>
+          <Option.Item span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
               모서리 각 Bottom-Left
             </RequireLabel>
@@ -113,7 +115,7 @@ export const BorderRadiusOption: FC<Props> = ({
               unit="px"
             />
           </Option.Item>
-          <Option.Item>
+          <Option.Item span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
               모서리 각 Bottom-Right
             </RequireLabel>

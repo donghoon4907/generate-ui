@@ -6,12 +6,13 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
 import { DefaultInput } from "../Input";
-import { SelectOption } from "../../interfaces/select";
+import type { SelectOption } from "../../interfaces/select";
 import { textAlignOptions } from "../options/TextAlign";
 import { isNumber } from "../../lib/calc/number";
 import { textOverflowOptions } from "../options/TextOverflow";
+import type { GridItemOption } from "../../interfaces/grid";
 
-interface Props {
+interface Props extends GridItemOption {
   id: string | number;
   color?: string;
   setColor?: Dispatch<SetStateAction<string>>;
@@ -40,7 +41,8 @@ export const FontOption: FC<Props> = ({
   textAlign,
   setTextAlign,
   textOverflow,
-  setTextOverflow
+  setTextOverflow,
+  span
 }) => {
   const isShowColor = color && setColor;
 
@@ -61,7 +63,7 @@ export const FontOption: FC<Props> = ({
   return (
     <>
       {isShowColor && (
-        <Option.Item>
+        <Option.Item span={span}>
           <RequireLabel htmlFor={`setColor${id}`}>텍스트 색</RequireLabel>
           <DefaultInput
             type="color"
@@ -72,7 +74,7 @@ export const FontOption: FC<Props> = ({
         </Option.Item>
       )}
       {isShowTextAlign && (
-        <Option.Item>
+        <Option.Item span={span}>
           <RequireLabel htmlFor={`setTextAlign${id}`}>텍스트 정렬</RequireLabel>
           <CustomSelect
             activeOption={textAlign}
@@ -82,7 +84,7 @@ export const FontOption: FC<Props> = ({
         </Option.Item>
       )}
       {isShowFontSize && (
-        <Option.Item>
+        <Option.Item span={span}>
           <RequireLabel htmlFor={`setFontSize${id}`}>텍스트 크기</RequireLabel>
           <CountingInput
             id={`setFontSize${id}`}
@@ -98,7 +100,7 @@ export const FontOption: FC<Props> = ({
         </Option.Item>
       )}
       {isShowLineHeight && (
-        <Option.Item>
+        <Option.Item span={span}>
           <RequireLabel htmlFor={`setLineHeight${id}`}>
             텍스트 높이
           </RequireLabel>
@@ -116,7 +118,7 @@ export const FontOption: FC<Props> = ({
         </Option.Item>
       )}
       {isShowLetterSpacing && (
-        <Option.Item>
+        <Option.Item span={span}>
           <RequireLabel htmlFor={`setLetterSpacing${id}`}>
             텍스트 간격
           </RequireLabel>
@@ -134,7 +136,7 @@ export const FontOption: FC<Props> = ({
         </Option.Item>
       )}
       {isShowTextOverflow && (
-        <Option.Item>
+        <Option.Item span={span}>
           <RequireLabel htmlFor={`setTextOverflow${id}`}>
             텍스트 줄바꿈
           </RequireLabel>

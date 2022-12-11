@@ -9,9 +9,9 @@ import { DefaultInput } from "../Input";
 
 import type { SelectOption } from "../../interfaces/select";
 import { iconAlignOptions } from "../options/IconAlign";
-import { IconAlignOption } from "../../types/select-option";
+import type { GridItemOption } from "../../interfaces/grid";
 
-interface Props {
+interface Props extends GridItemOption {
   id: string | number;
   iconAlign: SelectOption;
   setIconAlign: Dispatch<SetStateAction<SelectOption>>;
@@ -28,7 +28,8 @@ export const IconOption: FC<Props> = ({
   iconSize,
   setIconSize,
   iconColor,
-  setIconColor
+  setIconColor,
+  span
 }) => {
   const handleChangeIconColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setIconColor(evt.target.value);
@@ -36,7 +37,7 @@ export const IconOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel htmlFor={`setIconSize${id}`}>크기</RequireLabel>
         <CountingInput
           id={`setIconSize${id}`}
@@ -50,7 +51,7 @@ export const IconOption: FC<Props> = ({
           unit="px"
         />
       </Option.Item>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel>정렬</RequireLabel>
         <CustomSelect
           activeOption={iconAlign}
@@ -59,7 +60,7 @@ export const IconOption: FC<Props> = ({
         />
       </Option.Item>
 
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel htmlFor={`setIconColor${id}`}>색</RequireLabel>
         <DefaultInput
           type="color"

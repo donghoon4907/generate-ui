@@ -1,8 +1,10 @@
-import type { FC } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";
 import styled from "styled-components";
 
 import type { CoreProps } from "../../interfaces/core";
 import { mixinBgLv1 } from "../../theme/mixins/background";
+import { IconWrapper } from "../IconWrapper";
 
 export const Container = styled.section`
   flex: 1;
@@ -36,7 +38,7 @@ export const Grid = styled.div`
   }
 `;
 
-export const Title = styled.div`
+const TitleWrapper = styled.div`
   grid-column: span 3;
   padding: 5px 10px 0 10px;
   margin-bottom: 5px;
@@ -45,7 +47,7 @@ export const Title = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 
   ${({ theme }) => theme.breakPoint.lg} {
     grid-column: span 2;
@@ -65,6 +67,29 @@ export const UnSelectedTitle = styled.span`
   opacity: 0.8;
 `;
 
+interface TitleProps {
+  fold: boolean;
+  setFold: Dispatch<SetStateAction<boolean>>;
+  label: string;
+}
+
+export const FoldableTitle: FC<TitleProps> = ({ fold, setFold, label }) => {
+  const handleToggleFold = () => {
+    setFold(!fold);
+  };
+
+  return (
+    <TitleWrapper>
+      {typeof fold === "boolean" && (
+        <IconWrapper iconSize={15} onClick={handleToggleFold}>
+          {fold ? <AiOutlineMinusSquare /> : <AiOutlinePlusSquare />}
+        </IconWrapper>
+      )}
+      {label && <span>{label}</span>}
+    </TitleWrapper>
+  );
+};
+
 interface TabProps extends CoreProps {
   active: boolean;
   onClick: () => void;
@@ -78,8 +103,9 @@ export const Tab: FC<TabProps> = ({ children, active, onClick }) => {
   );
 };
 
-export const Item = styled.div<{ span?: number }>`
-  grid-column: span ${({ span }) => span || 1};
+export const Item = styled.div<{ span: number }>`
+  display: ${({ span }) => (span === 0 ? `none` : "block")};
+  grid-column: span ${({ span }) => span};
   padding: 5px 10px;
 
   & > * {

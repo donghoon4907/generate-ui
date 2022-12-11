@@ -6,8 +6,9 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { DefaultInput } from "../Input";
 import { hexToRgb } from "../../lib/calc/rgb";
+import type { GridItemOption } from "../../interfaces/grid";
 
-interface Props {
+interface Props extends GridItemOption {
   id: string | number;
   hex: string;
   setRgb: Dispatch<SetStateAction<string>>;
@@ -22,7 +23,8 @@ export const RgbaOption: FC<Props> = ({
   setRgb,
   setHex,
   alpha,
-  setAlpha
+  setAlpha,
+  span
 }) => {
   const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
     const rgb = hexToRgb(evt.target.value);
@@ -36,7 +38,7 @@ export const RgbaOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel htmlFor={`setHex${id}`}>RGB</RequireLabel>
         <DefaultInput
           type="color"
@@ -45,7 +47,7 @@ export const RgbaOption: FC<Props> = ({
           onChange={handleChangeColor}
         />
       </Option.Item>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel htmlFor={`setAlpha${id}`}>투명도</RequireLabel>
         <CountingInput
           id={`setAlpha${id}`}

@@ -8,8 +8,9 @@ import { CustomSelect } from "../CustomSelect";
 import { borderStyleOptions } from "../options/BorderStyle";
 import { DefaultInput } from "../Input";
 import type { SelectOption } from "../../interfaces/select";
+import type { GridItemOption } from "../../interfaces/grid";
 
-interface Props {
+interface Props extends GridItemOption {
   id: string | number;
   borderStyle: SelectOption;
   setBorderStyle: Dispatch<SetStateAction<SelectOption>>;
@@ -26,7 +27,8 @@ export const BorderOption: FC<Props> = ({
   borderWidth,
   setBorderWidth,
   borderColor,
-  setBorderColor
+  setBorderColor,
+  span
 }) => {
   const handleChangeBorderColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setBorderColor(evt.target.value);
@@ -34,7 +36,7 @@ export const BorderOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel>스타일</RequireLabel>
         <CustomSelect
           activeOption={borderStyle}
@@ -42,7 +44,7 @@ export const BorderOption: FC<Props> = ({
           options={borderStyleOptions}
         />
       </Option.Item>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel htmlFor={`setBorderWidth${id}`}>너비</RequireLabel>
         <CountingInput
           id={`setBorderWidth${id}`}
@@ -56,7 +58,7 @@ export const BorderOption: FC<Props> = ({
           unit="px"
         />
       </Option.Item>
-      <Option.Item>
+      <Option.Item span={span}>
         <RequireLabel htmlFor={`setBorderColor${id}`}>색</RequireLabel>
         <DefaultInput
           type="color"
