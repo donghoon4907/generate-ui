@@ -6,9 +6,9 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
-import type { GridItemOption } from "../../interfaces/grid";
+import type { GridColumnOption } from "../../interfaces/grid";
 
-interface Props extends GridItemOption {
+interface Props extends GridColumnOption {
   id: string | number;
   borderTopLeftRadius: number;
   setBorderTopLeftRadius: Dispatch<SetStateAction<number>>;
@@ -45,7 +45,7 @@ export const BorderRadiusOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Item span={span}>
+      <Option.GridColumn span={span}>
         <RequireLabel
           htmlFor={
             isShowAllOption
@@ -80,10 +80,10 @@ export const BorderRadiusOption: FC<Props> = ({
             setChecked={setIsShowAllOption}
           />
         </WithLabel>
-      </Option.Item>
+      </Option.GridColumn>
       {isShowAllOption && (
         <>
-          <Option.Item span={span}>
+          <Option.GridColumn span={span}>
             <RequireLabel htmlFor={`setBorderTopRightRadius${id}`}>
               모서리 각 Top-Right
             </RequireLabel>
@@ -98,8 +98,8 @@ export const BorderRadiusOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.Item>
-          <Option.Item span={span}>
+          </Option.GridColumn>
+          <Option.GridColumn span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
               모서리 각 Bottom-Left
             </RequireLabel>
@@ -114,8 +114,8 @@ export const BorderRadiusOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.Item>
-          <Option.Item span={span}>
+          </Option.GridColumn>
+          <Option.GridColumn span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
               모서리 각 Bottom-Right
             </RequireLabel>
@@ -130,7 +130,7 @@ export const BorderRadiusOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.Item>
+          </Option.GridColumn>
         </>
       )}
     </>

@@ -10,9 +10,9 @@ import type { SelectOption } from "../../interfaces/select";
 import { textAlignOptions } from "../options/TextAlign";
 import { isNumber } from "../../lib/calc/number";
 import { textOverflowOptions } from "../options/TextOverflow";
-import type { GridItemOption } from "../../interfaces/grid";
+import type { GridColumnOption } from "../../interfaces/grid";
 
-interface Props extends GridItemOption {
+interface Props extends GridColumnOption {
   id: string | number;
   color?: string;
   setColor?: Dispatch<SetStateAction<string>>;
@@ -63,7 +63,7 @@ export const FontOption: FC<Props> = ({
   return (
     <>
       {isShowColor && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor={`setColor${id}`}>텍스트 색</RequireLabel>
           <DefaultInput
             type="color"
@@ -71,20 +71,20 @@ export const FontOption: FC<Props> = ({
             value={color}
             onChange={handleChangeColor}
           />
-        </Option.Item>
+        </Option.GridColumn>
       )}
       {isShowTextAlign && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor={`setTextAlign${id}`}>텍스트 정렬</RequireLabel>
           <CustomSelect
             activeOption={textAlign}
             setOption={setTextAlign}
             options={textAlignOptions}
           />
-        </Option.Item>
+        </Option.GridColumn>
       )}
       {isShowFontSize && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor={`setFontSize${id}`}>텍스트 크기</RequireLabel>
           <CountingInput
             id={`setFontSize${id}`}
@@ -97,10 +97,10 @@ export const FontOption: FC<Props> = ({
             numberType={CountNumberType.INTEGER}
             unit="px"
           />
-        </Option.Item>
+        </Option.GridColumn>
       )}
       {isShowLineHeight && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor={`setLineHeight${id}`}>
             텍스트 높이
           </RequireLabel>
@@ -115,10 +115,10 @@ export const FontOption: FC<Props> = ({
             numberType={CountNumberType.INTEGER}
             unit="px"
           />
-        </Option.Item>
+        </Option.GridColumn>
       )}
       {isShowLetterSpacing && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor={`setLetterSpacing${id}`}>
             텍스트 간격
           </RequireLabel>
@@ -133,10 +133,10 @@ export const FontOption: FC<Props> = ({
             numberType={CountNumberType.DECIMAL}
             unit="px"
           />
-        </Option.Item>
+        </Option.GridColumn>
       )}
       {isShowTextOverflow && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor={`setTextOverflow${id}`}>
             텍스트 줄바꿈
           </RequireLabel>
@@ -145,7 +145,7 @@ export const FontOption: FC<Props> = ({
             setOption={setTextOverflow}
             options={textOverflowOptions}
           />
-        </Option.Item>
+        </Option.GridColumn>
       )}
     </>
   );

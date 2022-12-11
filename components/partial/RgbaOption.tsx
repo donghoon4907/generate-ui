@@ -6,9 +6,9 @@ import * as Option from "./Option";
 import { RequireLabel } from "../RequireLabel";
 import { DefaultInput } from "../Input";
 import { hexToRgb } from "../../lib/calc/rgb";
-import type { GridItemOption } from "../../interfaces/grid";
+import type { GridColumnOption } from "../../interfaces/grid";
 
-interface Props extends GridItemOption {
+interface Props extends GridColumnOption {
   id: string | number;
   hex: string;
   setRgb: Dispatch<SetStateAction<string>>;
@@ -38,7 +38,7 @@ export const RgbaOption: FC<Props> = ({
 
   return (
     <>
-      <Option.Item span={span}>
+      <Option.GridColumn span={span}>
         <RequireLabel htmlFor={`setHex${id}`}>RGB</RequireLabel>
         <DefaultInput
           type="color"
@@ -46,8 +46,8 @@ export const RgbaOption: FC<Props> = ({
           value={hex}
           onChange={handleChangeColor}
         />
-      </Option.Item>
-      <Option.Item span={span}>
+      </Option.GridColumn>
+      <Option.GridColumn span={span}>
         <RequireLabel htmlFor={`setAlpha${id}`}>투명도</RequireLabel>
         <CountingInput
           id={`setAlpha${id}`}
@@ -60,7 +60,7 @@ export const RgbaOption: FC<Props> = ({
           numberType={CountNumberType.DECIMAL}
           unit=""
         />
-      </Option.Item>
+      </Option.GridColumn>
     </>
   );
 };

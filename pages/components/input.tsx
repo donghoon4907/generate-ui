@@ -114,7 +114,22 @@ const ComponentInput: NextPage = () => {
   const [iconAlign, setIconAlign] = useState<SelectOption>(iconAlignOptions[0]);
   // 아이콘 색
   const [iconColor, setIconColor] = useState("#000000");
-
+  // 기본 설정 보이기
+  const [showDefault, setShowDefault] = useState(true);
+  // layout 설정 보이기
+  const [showLayout, setShowLayout] = useState(true);
+  // text 설정 보이기
+  const [showText, setShowText] = useState(true);
+  // 모서리 각 설정 보이기
+  const [showBorderRadius, setShowBorderRadius] = useState(true);
+  // border 설정 보이기
+  const [showBorder, setShowBorder] = useState(true);
+  // padding 설정 보이기
+  const [showPadding, setShowPadding] = useState(true);
+  // 배경색 설정 보이기
+  const [showBackgroundColor, setShowBackgroundColor] = useState(true);
+  // 환경 설정 보이기
+  const [showPreference, setShowPreference] = useState(true);
   // const [showImportModal, setShowImportModal] = useState(false);
 
   // const [importStrStyle, setImportStrStyle] = useState("");
@@ -364,8 +379,8 @@ const ComponentInput: NextPage = () => {
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
-            <Option.Grid>
-              <Option.Title>
+            <Option.GridContainer>
+              <Option.FoldableTitle fold={showDefault} setFold={setShowDefault}>
                 {showIcon ? (
                   <Option.Tab
                     active={activeSearchTab === InputSearchTabType.DEFAULT}
@@ -376,7 +391,7 @@ const ComponentInput: NextPage = () => {
                     기본 설정
                   </Option.Tab>
                 ) : (
-                  "기본 설정"
+                  <span>기본 설정</span>
                 )}
 
                 {showIcon && (
@@ -389,9 +404,9 @@ const ComponentInput: NextPage = () => {
                     아이콘 설정
                   </Option.Tab>
                 )}
-              </Option.Title>
+              </Option.FoldableTitle>
               {activeSearchTab === InputSearchTabType.DEFAULT && (
-                <Option.Item>
+                <Option.GridColumn span={showDefault ? 1 : 0}>
                   <RequireLabel>타입</RequireLabel>
                   <CustomSelect
                     activeOption={inputType}
@@ -407,7 +422,7 @@ const ComponentInput: NextPage = () => {
                       />
                     </WithLabel>
                   )}
-                </Option.Item>
+                </Option.GridColumn>
               )}
               {activeSearchTab === InputSearchTabType.ICON && (
                 <IconOption
@@ -418,11 +433,14 @@ const ComponentInput: NextPage = () => {
                   setIconSize={setIconSize}
                   iconColor={iconColor}
                   setIconColor={setIconColor}
+                  span={showDefault ? 1 : 0}
                 />
               )}
 
-              <Option.Title>레이아웃 설정</Option.Title>
-              <Option.Item>
+              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+                <span>레이아웃 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                 <CountingInput
                   id="setWidth"
@@ -435,9 +453,11 @@ const ComponentInput: NextPage = () => {
                   numberType={CountNumberType.INTEGER}
                   unit="px"
                 />
-              </Option.Item>
-              <Option.Title>텍스트 설정</Option.Title>
-              <Option.Item>
+              </Option.GridColumn>
+              <Option.FoldableTitle fold={showText} setFold={setShowText}>
+                <span>텍스트 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showText ? 1 : 0}>
                 <RequireLabel htmlFor="setPlaceholder">
                   입력 가이드 문구
                 </RequireLabel>
@@ -448,7 +468,7 @@ const ComponentInput: NextPage = () => {
                   limit={10}
                   showFeedback={true}
                 />
-              </Option.Item>
+              </Option.GridColumn>
               <FontOption
                 id="Input"
                 color={color}
@@ -461,8 +481,11 @@ const ComponentInput: NextPage = () => {
                 setLetterSpacing={setLetterSpacing}
                 textAlign={textAlign}
                 setTextAlign={setTextAlign}
+                span={showText ? 1 : 0}
               />
-              <Option.Title>여백 설정</Option.Title>
+              <Option.FoldableTitle fold={showPadding} setFold={setShowPadding}>
+                <span>여백 설정</span>
+              </Option.FoldableTitle>
               <PaddingOption
                 id="Input"
                 paddingTop={paddingTop}
@@ -475,8 +498,14 @@ const ComponentInput: NextPage = () => {
                 setPaddingLeft={setPaddingLeft}
                 isShowAllOption={isSetDetailPadding}
                 setIsShowAllOption={setIsSetDetailPadding}
+                span={showPadding ? 1 : 0}
               />
-              <Option.Title>테두리 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showBorderRadius}
+                setFold={setShowBorderRadius}
+              >
+                <span>모서리각 설정</span>
+              </Option.FoldableTitle>
               <BorderRadiusOption
                 id="Input"
                 borderTopLeftRadius={borderTopLeftRadius}
@@ -489,9 +518,12 @@ const ComponentInput: NextPage = () => {
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
                 isShowAllOption={isSetDetailBorderRadius}
                 setIsShowAllOption={setIsSetDetailBorderRadius}
+                span={showBorderRadius ? 1 : 0}
               />
 
-              <Option.Title>테두리 설정</Option.Title>
+              <Option.FoldableTitle fold={showBorder} setFold={setShowBorder}>
+                <span>테두리 설정</span>
+              </Option.FoldableTitle>
               <BorderOption
                 id="Input"
                 borderStyle={borderStyle}
@@ -500,8 +532,14 @@ const ComponentInput: NextPage = () => {
                 setBorderWidth={setBorderWidth}
                 borderColor={borderColor}
                 setBorderColor={setBorderColor}
+                span={showBorder ? 1 : 0}
               />
-              <Option.Title>배경색 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showBackgroundColor}
+                setFold={setShowBackgroundColor}
+              >
+                <span>배경색 설정</span>
+              </Option.FoldableTitle>
               <RgbaOption
                 id="Input"
                 hex={backgroundColorHex}
@@ -509,6 +547,7 @@ const ComponentInput: NextPage = () => {
                 setHex={setBackgroundColorHex}
                 alpha={backgroundColorAlpha}
                 setAlpha={setBackgroundColorAlpha}
+                span={showBackgroundColor ? 1 : 0}
               />
 
               {/* <Option.Title>추가 설정</Option.Title>
@@ -516,14 +555,21 @@ const ComponentInput: NextPage = () => {
               <Checkbox id="setDisabled" label="비활성 스타일 사용" />
             </Option.Item> */}
               {/* <OptionTitle>접근성 설정</OptionTitle> */}
-              <Option.Title>환경 설정</Option.Title>
+
+              <Option.FoldableTitle
+                fold={showPreference}
+                setFold={setShowPreference}
+              >
+                <span>환경 설정</span>
+              </Option.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
                 html={html}
                 setHtml={setHtml}
+                span={showPreference ? 1 : 0}
               />
-            </Option.Grid>
+            </Option.GridContainer>
           </Option.Body>
         </Option.Container>
       </Component.Container>

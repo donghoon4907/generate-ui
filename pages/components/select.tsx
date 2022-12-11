@@ -262,13 +262,11 @@ const ComponentSelect: NextPage = () => {
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
-            <Option.Grid>
-              <Option.FoldableTitle
-                fold={showLayout}
-                setFold={setShowLayout}
-                label="레이아웃 설정"
-              />
-              <Option.Item span={showLayout ? 1 : 0}>
+            <Option.GridContainer>
+              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+                <span>레이아웃 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                 <CountingInput
                   id="setWidth"
@@ -281,12 +279,10 @@ const ComponentSelect: NextPage = () => {
                   numberType={CountNumberType.INTEGER}
                   unit="px"
                 />
-              </Option.Item>
-              <Option.FoldableTitle
-                fold={showBorder}
-                setFold={setShowBorder}
-                label="테두리 설정"
-              />
+              </Option.GridColumn>
+              <Option.FoldableTitle fold={showBorder} setFold={setShowBorder}>
+                <span>테두리 설정</span>
+              </Option.FoldableTitle>
               <BorderOption
                 id="Select"
                 borderStyle={borderStyle}
@@ -300,8 +296,9 @@ const ComponentSelect: NextPage = () => {
               <Option.FoldableTitle
                 fold={showBackgroundColor}
                 setFold={setShowBackgroundColor}
-                label="배경색 설정"
-              />
+              >
+                <span>배경색 설정</span>
+              </Option.FoldableTitle>
               <RgbaOption
                 id="Select"
                 hex={backgroundColorHex}
@@ -311,12 +308,10 @@ const ComponentSelect: NextPage = () => {
                 setAlpha={setBackgroundColorAlpha}
                 span={showBackgroundColor ? 1 : 0}
               />
-              <Option.FoldableTitle
-                fold={showSelect}
-                setFold={setShowSelect}
-                label="셀렉트 설정"
-              />
-              <Option.Item span={showSelect ? 1 : 0}>
+              <Option.FoldableTitle fold={showSelect} setFold={setShowSelect}>
+                <span>셀렉트 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showSelect ? 1 : 0}>
                 <RequireLabel htmlFor="setLabel">제목</RequireLabel>
                 <FeedbackInput
                   id="setLabel"
@@ -325,7 +320,7 @@ const ComponentSelect: NextPage = () => {
                   limit={50}
                   showFeedback={true}
                 />
-              </Option.Item>
+              </Option.GridColumn>
 
               <FontOption
                 id="Select"
@@ -372,11 +367,9 @@ const ComponentSelect: NextPage = () => {
                 setIsShowAllOption={setIsSetDetailBorderRadius}
                 span={showSelect ? 1 : 0}
               />
-              <Option.FoldableTitle
-                fold={showOption}
-                setFold={setShowOption}
-                label="옵션 설정"
-              />
+              <Option.FoldableTitle fold={showOption} setFold={setShowOption}>
+                <span>옵션 설정</span>
+              </Option.FoldableTitle>
               <FontOption
                 id="Option"
                 color={optionColor}
@@ -410,8 +403,9 @@ const ComponentSelect: NextPage = () => {
               <Option.FoldableTitle
                 fold={showPreference}
                 setFold={setShowPreference}
-                label="환경 설정"
-              />
+              >
+                <span>환경 설정</span>
+              </Option.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
@@ -419,7 +413,7 @@ const ComponentSelect: NextPage = () => {
                 setHtml={setHtml}
                 span={showPreference ? 1 : 0}
               />
-            </Option.Grid>
+            </Option.GridContainer>
           </Option.Body>
         </Option.Container>
       </Component.Container>

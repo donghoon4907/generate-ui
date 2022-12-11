@@ -7,9 +7,9 @@ import type { SelectOption } from "../../interfaces/select";
 import { langOptions } from "../options/Template";
 import { WithLabel } from "../WithLabel";
 import { Checkbox } from "../Checkbox";
-import type { GridItemOption } from "../../interfaces/grid";
+import type { GridColumnOption } from "../../interfaces/grid";
 
-interface Props extends GridItemOption {
+interface Props extends GridColumnOption {
   lang?: SelectOption;
   setLang?: Dispatch<SetStateAction<SelectOption>>;
   html?: boolean;
@@ -34,7 +34,7 @@ export const PreferenceOption: FC<Props> = ({
   return (
     <>
       {isShowLang && (
-        <Option.Item span={span}>
+        <Option.GridColumn span={span}>
           <RequireLabel htmlFor="setLang">언어</RequireLabel>
           <CustomSelect
             activeOption={lang}
@@ -50,7 +50,7 @@ export const PreferenceOption: FC<Props> = ({
               />
             </WithLabel>
           )}
-        </Option.Item>
+        </Option.GridColumn>
       )}
     </>
   );

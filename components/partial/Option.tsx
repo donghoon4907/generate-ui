@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import type { CoreProps } from "../../interfaces/core";
 import { mixinBgLv1 } from "../../theme/mixins/background";
+import { mixinBtnDefault } from "../../theme/mixins/button";
 import { IconWrapper } from "../IconWrapper";
 
 export const Container = styled.section`
@@ -23,7 +24,7 @@ export const Body = styled.div`
   overflow-y: scroll;
 `;
 
-export const Grid = styled.div`
+export const GridContainer = styled.div`
   display: grid;
   grid-column-gap: 5px;
   grid-template-columns: repeat(3, minmax(82px, 1fr));
@@ -38,7 +39,7 @@ export const Grid = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+export const GridRow = styled.div`
   grid-column: span 3;
   padding: 5px 10px 0 10px;
   margin-bottom: 5px;
@@ -62,31 +63,40 @@ const TitleWrapper = styled.div`
   }
 `;
 
-export const UnSelectedTitle = styled.span`
-  font-weight: 400;
-  opacity: 0.8;
+const TabWrapper = styled.button<{ active: boolean }>`
+  font-weight: ${({ active }) => (active ? "" : "400")};
+  opacity: ${({ active }) => (active ? "1" : "0.8")};
+
+  ${mixinBtnDefault}
 `;
 
-interface TitleProps {
+interface TitleProps extends CoreProps {}
+
+export const Title: FC<TitleProps> = ({ children }) => {
+  return <GridRow>{children}</GridRow>;
+};
+
+interface FoldableTitleProps extends TitleProps {
   fold: boolean;
   setFold: Dispatch<SetStateAction<boolean>>;
-  label: string;
 }
 
-export const FoldableTitle: FC<TitleProps> = ({ fold, setFold, label }) => {
+export const FoldableTitle: FC<FoldableTitleProps> = ({
+  children,
+  fold,
+  setFold
+}) => {
   const handleToggleFold = () => {
     setFold(!fold);
   };
 
   return (
-    <TitleWrapper>
-      {typeof fold === "boolean" && (
-        <IconWrapper iconSize={15} onClick={handleToggleFold}>
-          {fold ? <AiOutlineMinusSquare /> : <AiOutlinePlusSquare />}
-        </IconWrapper>
-      )}
-      {label && <span>{label}</span>}
-    </TitleWrapper>
+    <GridRow>
+      <IconWrapper iconSize={15} onClick={handleToggleFold}>
+        {fold ? <AiOutlineMinusSquare /> : <AiOutlinePlusSquare />}
+      </IconWrapper>
+      {children}
+    </GridRow>
   );
 };
 
@@ -95,18 +105,18 @@ interface TabProps extends CoreProps {
   onClick: () => void;
 }
 
-export const Tab: FC<TabProps> = ({ children, active, onClick }) => {
-  return active ? (
-    <span onClick={onClick}>{children}</span>
-  ) : (
-    <UnSelectedTitle onClick={onClick}>{children}</UnSelectedTitle>
-  );
-};
+export const Tab: FC<TabProps> = ({ children, active, onClick }) => (
+  <TabWrapper type="button" active={active} onClick={onClick}>
+    {children}
+  </TabWrapper>
+);
 
-export const Item = styled.div<{ span: number }>`
-  display: ${({ span }) => (span === 0 ? `none` : "block")};
-  grid-column: span ${({ span }) => span};
-  padding: 5px 10px;
+export const GridColumn = styled.div<{ span: number }>`
+  max-height: ${({ span }) => (span === 0 ? 0 : "")};
+  padding: ${({ span }) => (span === 0 ? 0 : "5px 10px")};
+  display: ${({ span }) => (span === 0 ? "none" : "block")};
+
+  ${({ span }) => (span > 0 ? `grid-column: span ${span}` : "")};
 
   & > * {
     margin-bottom: 5px;

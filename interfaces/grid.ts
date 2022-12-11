@@ -1,3 +1,3 @@
-export interface GridItemOption {
+export interface GridColumnOption {
   span: number;
 }
