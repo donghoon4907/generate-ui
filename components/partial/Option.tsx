@@ -57,10 +57,6 @@ export const GridRow = styled.div`
   ${({ theme }) => theme.breakPoint.md} {
     grid-column: span 1;
   }
-
-  & > span {
-    cursor: pointer;
-  }
 `;
 
 const TabWrapper = styled.button<{ active: boolean }>`
