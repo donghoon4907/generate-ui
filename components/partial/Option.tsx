@@ -57,11 +57,16 @@ export const GridRow = styled.div`
   ${({ theme }) => theme.breakPoint.md} {
     grid-column: span 1;
   }
+
+  & > span {
+    line-height: 1;
+  }
 `;
 
 const TabWrapper = styled.button<{ active: boolean }>`
   font-weight: ${({ active }) => (active ? "" : "400")};
-  opacity: ${({ active }) => (active ? "1" : "0.8")};
+  opacity: ${({ active }) => (active ? "1" : "0.5")};
+  line-height: 1;
 
   ${mixinBtnDefault}
 `;

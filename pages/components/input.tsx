@@ -22,12 +22,7 @@ import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
-import {
-  BorderStyleOption,
-  InputTypeOption,
-  LangOption,
-  TextAlignOption
-} from "../../types/select-option";
+import { InputTypeOption, LangOption } from "../../types/select-option";
 import { FontOption } from "../../components/partial/FontOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { BorderOption } from "../../components/partial/BorderOption";
@@ -381,28 +376,27 @@ const ComponentInput: NextPage = () => {
           <Option.Body>
             <Option.GridContainer>
               <Option.FoldableTitle fold={showDefault} setFold={setShowDefault}>
-                {showIcon ? (
-                  <Option.Tab
-                    active={activeSearchTab === InputSearchTabType.DEFAULT}
-                    onClick={() =>
-                      handleClickSearchTab(InputSearchTabType.DEFAULT)
-                    }
-                  >
-                    기본 설정
-                  </Option.Tab>
+                {showIcon && inputType.value === InputTypeOption.SEARCH ? (
+                  <>
+                    <Option.Tab
+                      active={activeSearchTab === InputSearchTabType.DEFAULT}
+                      onClick={() =>
+                        handleClickSearchTab(InputSearchTabType.DEFAULT)
+                      }
+                    >
+                      기본 설정
+                    </Option.Tab>
+                    <Option.Tab
+                      active={activeSearchTab === InputSearchTabType.ICON}
+                      onClick={() =>
+                        handleClickSearchTab(InputSearchTabType.ICON)
+                      }
+                    >
+                      아이콘 설정
+                    </Option.Tab>
+                  </>
                 ) : (
                   <span>기본 설정</span>
-                )}
-
-                {showIcon && (
-                  <Option.Tab
-                    active={activeSearchTab === InputSearchTabType.ICON}
-                    onClick={() =>
-                      handleClickSearchTab(InputSearchTabType.ICON)
-                    }
-                  >
-                    아이콘 설정
-                  </Option.Tab>
                 )}
               </Option.FoldableTitle>
               {activeSearchTab === InputSearchTabType.DEFAULT && (
