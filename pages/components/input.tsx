@@ -96,7 +96,7 @@ const ComponentInput: NextPage = () => {
   const [fontSize, setFontSize] = useState(16);
 
   // search icon 추가 여부
-  const [showIcon, setShowIcon] = useState(false);
+  const [checkSearchIcon, setCheckSearchIcon] = useState(false);
   // option text 정렬
   const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
   // 탭 활성화 관리
@@ -131,10 +131,10 @@ const ComponentInput: NextPage = () => {
 
   // const [importStyleFeedback, setImportStyleFeedback] = useState("");
 
-  const handleChangeShowIcon = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleCheckSearchIcon = (evt: ChangeEvent<HTMLInputElement>) => {
     const { checked } = evt.target;
 
-    setShowIcon(checked);
+    setCheckSearchIcon(checked);
   };
 
   const handleClickPresetBootstrapLightButton = () => {
@@ -255,6 +255,10 @@ const ComponentInput: NextPage = () => {
 
   //   setShowImportModal(false);
   // };
+  // 타입-검색 설정 여부
+  const isSearchType = inputType.value === InputTypeOption.SEARCH;
+  // 아이콘 보이기 조건
+  const showIcon = checkSearchIcon && isSearchType;
 
   const inputWrapperStyle: CSSProperties = {
     width,
@@ -376,7 +380,7 @@ const ComponentInput: NextPage = () => {
           <Option.Body>
             <Option.GridContainer>
               <Option.FoldableTitle fold={showDefault} setFold={setShowDefault}>
-                {showIcon && inputType.value === InputTypeOption.SEARCH ? (
+                {showIcon ? (
                   <>
                     <Option.Tab
                       active={activeSearchTab === InputSearchTabType.DEFAULT}
@@ -407,12 +411,12 @@ const ComponentInput: NextPage = () => {
                     setOption={setInputType}
                     options={inputTypeOptions}
                   />
-                  {inputType.value === InputTypeOption.SEARCH && (
-                    <WithLabel id="setHasIcon" label="검색 아이콘 추가">
+                  {isSearchType && (
+                    <WithLabel id="setCheckSearchIcon" label="검색 아이콘 추가">
                       <Checkbox
-                        id="setHasIcon"
-                        checked={showIcon}
-                        onChange={handleChangeShowIcon}
+                        id="setCheckSearchIcon"
+                        checked={checkSearchIcon}
+                        onChange={handleCheckSearchIcon}
                       />
                     </WithLabel>
                   )}
