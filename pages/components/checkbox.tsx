@@ -58,6 +58,13 @@ const ComponentCheckbox: NextPage = () => {
 
   const [fontSize, setFontSize] = useState(16);
 
+  // layout 설정 보이기
+  const [showLayout, setShowLayout] = useState(true);
+  // text 설정 보이기
+  const [showText, setShowText] = useState(true);
+  // 환경 설정 보이기
+  const [showPreference, setShowPreference] = useState(true);
+
   const checkboxStyle: CSSProperties = {
     position: "relative",
     transform: `scale(${scale})`
@@ -109,9 +116,11 @@ const ComponentCheckbox: NextPage = () => {
           <StylingHeader>Options</StylingHeader>
 
           <Option.Body>
-            <Option.Grid>
-              <Option.Title>레이아웃 설정</Option.Title>
-              <Option.Item>
+            <Option.GridContainer>
+              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+                <span>레이아웃 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
                 <CountingInput
                   id="setScale"
@@ -124,9 +133,11 @@ const ComponentCheckbox: NextPage = () => {
                   numberType={CountNumberType.DECIMAL}
                   unit=""
                 />
-              </Option.Item>
-              <Option.Title>텍스트 설정</Option.Title>
-              <Option.Item>
+              </Option.GridColumn>
+              <Option.FoldableTitle fold={showText} setFold={setShowText}>
+                <span>텍스트 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showText ? 1 : 0}>
                 <RequireLabel htmlFor="setLabel">설명</RequireLabel>
                 <FeedbackInput
                   id="setLabel"
@@ -135,23 +146,30 @@ const ComponentCheckbox: NextPage = () => {
                   limit={10}
                   showFeedback={true}
                 />
-              </Option.Item>
+              </Option.GridColumn>
               <FontOption
                 id="Checkbox"
                 color={color}
                 setColor={setColor}
                 fontSize={fontSize}
                 setFontSize={setFontSize}
+                span={showText ? 1 : 0}
               />
 
-              <Option.Title>환경 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showPreference}
+                setFold={setShowPreference}
+              >
+                <span>환경 설정</span>
+              </Option.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
                 html={html}
                 setHtml={setHtml}
+                span={showPreference ? 1 : 0}
               />
-            </Option.Grid>
+            </Option.GridContainer>
           </Option.Body>
         </Option.Container>
       </Component.Container>

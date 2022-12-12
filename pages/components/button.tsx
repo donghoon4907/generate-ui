@@ -88,6 +88,20 @@ const ComponentButton: NextPage = () => {
   const [textOverflow, setTextOverflow] = useState<SelectOption>(
     textOverflowOptions[0]
   );
+  // layout 설정 보이기
+  const [showLayout, setShowLayout] = useState(true);
+  // text 설정 보이기
+  const [showText, setShowText] = useState(true);
+  // 모서리 각 설정 보이기
+  const [showBorderRadius, setShowBorderRadius] = useState(true);
+  // border 설정 보이기
+  const [showBorder, setShowBorder] = useState(true);
+  // padding 설정 보이기
+  const [showPadding, setShowPadding] = useState(true);
+  // 배경색 설정 보이기
+  const [showBackgroundColor, setShowBackgroundColor] = useState(true);
+  // 환경 설정 보이기
+  const [showPreference, setShowPreference] = useState(true);
 
   const handleClickPresetBootstrapButton = () => {
     setWidth(80);
@@ -228,9 +242,11 @@ const ComponentButton: NextPage = () => {
         <Option.Container>
           <StylingHeader>Options</StylingHeader>
           <Option.Body>
-            <Option.Grid>
-              <Option.Title>레이아웃 설정</Option.Title>
-              <Option.Item>
+            <Option.GridContainer>
+              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+                <span>레이아웃 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                 <CountingInput
                   id="setWidth"
@@ -243,9 +259,11 @@ const ComponentButton: NextPage = () => {
                   numberType={CountNumberType.INTEGER}
                   unit="px"
                 />
-              </Option.Item>
-              <Option.Title>텍스트 설정</Option.Title>
-              <Option.Item>
+              </Option.GridColumn>
+              <Option.FoldableTitle fold={showText} setFold={setShowText}>
+                <span>텍스트 설정</span>
+              </Option.FoldableTitle>
+              <Option.GridColumn span={showText ? 1 : 0}>
                 <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
                 <FeedbackInput
                   id="setLabel"
@@ -254,7 +272,7 @@ const ComponentButton: NextPage = () => {
                   limit={10}
                   showFeedback={true}
                 />
-              </Option.Item>
+              </Option.GridColumn>
               <FontOption
                 id="Button"
                 color={color}
@@ -269,9 +287,12 @@ const ComponentButton: NextPage = () => {
                 setTextAlign={setTextAlign}
                 textOverflow={textOverflow}
                 setTextOverflow={setTextOverflow}
+                span={showText ? 1 : 0}
               />
 
-              <Option.Title>여백 설정</Option.Title>
+              <Option.FoldableTitle fold={showPadding} setFold={setShowPadding}>
+                <span>여백 설정</span>
+              </Option.FoldableTitle>
               <PaddingOption
                 id="Button"
                 paddingTop={paddingTop}
@@ -284,8 +305,14 @@ const ComponentButton: NextPage = () => {
                 setPaddingLeft={setPaddingLeft}
                 isShowAllOption={isSetDetailPadding}
                 setIsShowAllOption={setIsSetDetailPadding}
+                span={showPadding ? 1 : 0}
               />
-              <Option.Title>모서리 각 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showBorderRadius}
+                setFold={setShowBorderRadius}
+              >
+                <span>모서리각 설정</span>
+              </Option.FoldableTitle>
               <BorderRadiusOption
                 id="Button"
                 borderTopLeftRadius={borderTopLeftRadius}
@@ -298,9 +325,12 @@ const ComponentButton: NextPage = () => {
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
                 isShowAllOption={isSetDetailBorderRadius}
                 setIsShowAllOption={setIsSetDetailBorderRadius}
+                span={showBorderRadius ? 1 : 0}
               />
 
-              <Option.Title>테두리 설정</Option.Title>
+              <Option.FoldableTitle fold={showBorder} setFold={setShowBorder}>
+                <span>테두리 설정</span>
+              </Option.FoldableTitle>
               <BorderOption
                 id="Button"
                 borderStyle={borderStyle}
@@ -309,8 +339,14 @@ const ComponentButton: NextPage = () => {
                 setBorderWidth={setBorderWidth}
                 borderColor={borderColor}
                 setBorderColor={setBorderColor}
+                span={showBorder ? 1 : 0}
               />
-              <Option.Title>배경색 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showBackgroundColor}
+                setFold={setShowBackgroundColor}
+              >
+                <span>배경색 설정</span>
+              </Option.FoldableTitle>
               <RgbaOption
                 id="Button"
                 hex={backgroundColorHex}
@@ -318,6 +354,7 @@ const ComponentButton: NextPage = () => {
                 setHex={setBackgroundColorHex}
                 alpha={backgroundColorAlpha}
                 setAlpha={setBackgroundColorAlpha}
+                span={showBackgroundColor ? 1 : 0}
               />
 
               {/* <Option.Title>추가 설정</Option.Title>
@@ -325,14 +362,20 @@ const ComponentButton: NextPage = () => {
               <Checkbox id="setDisabled" label="비활성 스타일 사용" />
             </Option.Item> */}
               {/* <OptionTitle>접근성 설정</OptionTitle> */}
-              <Option.Title>환경 설정</Option.Title>
+              <Option.FoldableTitle
+                fold={showPreference}
+                setFold={setShowPreference}
+              >
+                <span>환경 설정</span>
+              </Option.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
                 html={html}
                 setHtml={setHtml}
+                span={showPreference ? 1 : 0}
               />
-            </Option.Grid>
+            </Option.GridContainer>
           </Option.Body>
         </Option.Container>
       </Component.Container>
