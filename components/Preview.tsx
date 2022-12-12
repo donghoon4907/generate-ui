@@ -22,7 +22,7 @@ const Body = styled.div`
   overflow: hidden;
   position: relative;
 
-  width: 300px;
+  width: 100%;
   height: 250px;
   text-align: center;
 
@@ -127,7 +127,10 @@ export const Preview: FC<Props> = ({
       <TransformWrapper>
         {({ zoomIn, zoomOut, resetTransform }) => (
           <>
-            <TransformComponent>
+            <TransformComponent
+              wrapperStyle={{ width: "100%" }}
+              contentStyle={{ width: "100%" }}
+            >
               <Body>
                 <Wrapper
                   style={{
@@ -157,6 +160,7 @@ export const Preview: FC<Props> = ({
           </>
         )}
       </TransformWrapper>
+
       <Footer>
         <ButtonWrapper>
           {onImport && (

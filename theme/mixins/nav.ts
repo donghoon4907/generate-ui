@@ -9,7 +9,7 @@ export const mixinNavDrawerShape = css`
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -256px;
+  left: -260px;
   width: 256px;
   height: 100vh;
   overflow: hidden;

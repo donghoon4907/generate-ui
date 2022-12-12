@@ -17,7 +17,7 @@ import { mixinNavDrawerShape } from "../theme/mixins/nav";
 
 const Container = styled.nav<{ open: boolean }>`
   display: none;
-  transform: translate3d(${({ open }) => (open ? "256px" : "0")}, 0, 0);
+  transform: translate3d(${({ open }) => (open ? "260px" : "0")}, 0, 0);
   z-index: 9;
 
   ${mixinNavDrawerShape}
