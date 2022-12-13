@@ -6,7 +6,6 @@ import { useState } from "react";
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
-import { StylingHeader } from "../../components/StylingHeader";
 import { theme } from "../../theme";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
@@ -14,7 +13,7 @@ import { borderStyleOptions } from "../../components/options/BorderStyle";
 import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
 import * as Preset from "../../components/partial/Preset";
-import * as Option from "../../components/partial/Option";
+import * as Grid from "../../components/partial/Grid";
 import { RequireLabel } from "../../components/RequireLabel";
 import { inputTypeOptions } from "../../components/options/InputType";
 import { langOptions } from "../../components/options/Template";
@@ -38,29 +37,28 @@ import { IconAlignOption } from "../../types/select-option";
 import { iconAlignOptions } from "../../components/options/IconAlign";
 import { IconOption } from "../../components/partial/IconOption";
 import { PreferenceOption } from "../../components/partial/PreferenceOption";
-// import { BootstrapModal } from "../../components/Modal";
-// import { StyleStringToObject } from "../../lib/style/to-object";
-// import { DefaultTextArea } from "../../components/TextArea";
 
 const ComponentInput: NextPage = () => {
+  /* order - state */
+  // 타입
   const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
-
+  // 너비
   const [width, setWidth] = useState(200);
-
+  // 텍스트 높이
   const [lineHeight, setLineHeight] = useState(25);
-
+  // 자간
   const [letterSpacing, setLetterSpacing] = useState(0);
-
+  // 지시자
   const [placeholder, setPlaceholder] = useState("입력하세요");
-
+  // 배경색
   const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
 
   const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
 
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
-
+  // 텍스트 색
   const [color, setColor] = useState("#000000");
-
+  // 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
 
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
@@ -68,9 +66,9 @@ const ComponentInput: NextPage = () => {
   const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
 
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
-
-  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
-
+  // 모서리 각 모두 보기 여부
+  const [showAllBorderRadius, setShowAllBorderRadius] = useState(false);
+  // 여백
   const [paddingTop, setPaddingTop] = useState(4);
 
   const [paddingRight, setPaddingRight] = useState(4);
@@ -78,9 +76,9 @@ const ComponentInput: NextPage = () => {
   const [paddingBottom, setPaddingBottom] = useState(4);
 
   const [paddingLeft, setPaddingLeft] = useState(4);
-
-  const [isSetDetailPadding, setIsSetDetailPadding] = useState(false);
-
+  // 여백 모두 보기 여부
+  const [showAllPadding, setShowAllPadding] = useState(false);
+  // 테두리
   const [borderStyle, setBorderStyle] = useState<SelectOption>(
     borderStyleOptions[1]
   );
@@ -88,13 +86,12 @@ const ComponentInput: NextPage = () => {
   const [borderColor, setBorderColor] = useState("#000000");
 
   const [borderWidth, setBorderWidth] = useState(1);
-
+  // 언어
   const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-
+  // 텍스트 크기
   const [fontSize, setFontSize] = useState(16);
-
   // search icon 추가 여부
   const [checkSearchIcon, setCheckSearchIcon] = useState(false);
   // option text 정렬
@@ -125,141 +122,14 @@ const ComponentInput: NextPage = () => {
   const [showBackgroundColor, setShowBackgroundColor] = useState(true);
   // 환경 설정 보이기
   const [showPreference, setShowPreference] = useState(true);
-  // const [showImportModal, setShowImportModal] = useState(false);
-
-  // const [importStrStyle, setImportStrStyle] = useState("");
-
-  // const [importStyleFeedback, setImportStyleFeedback] = useState("");
-
-  const handleCheckSearchIcon = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = evt.target;
-
-    setCheckSearchIcon(checked);
-  };
-
-  const handleClickPresetBootstrapLightButton = () => {
-    setWidth(100);
-    setLineHeight(25);
-    setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(12);
-    setPaddingBottom(6);
-    setPaddingLeft(12);
-    setIsSetDetailPadding(true);
-    setBackgroundColorHex(theme.color.white);
-    setBackgroundColorRgb("255,255,255");
-    setBackgroundColorAlpha(1);
-    setColor(theme.color.white);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setIsSetDetailBorderRadius(false);
-    setBorderColor(theme.color.lightDividerColor);
-    setBorderWidth(1);
-    setBorderStyle(borderStyleOptions[1]);
-    setFontSize(16);
-  };
-
-  const handleClickPresetBootstrapDarkButton = () => {
-    setWidth(100);
-    setLineHeight(25);
-    setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(12);
-    setPaddingBottom(6);
-    setPaddingLeft(12);
-    setIsSetDetailPadding(true);
-    setBackgroundColorHex(theme.color.gray_lv0);
-    setBackgroundColorRgb("31, 31, 31");
-    setBackgroundColorAlpha(1);
-    setColor(theme.color.darkTextColor_lv0);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setIsSetDetailBorderRadius(false);
-    setBorderColor(theme.color.darkDividerColor);
-    setBorderWidth(1);
-    setBorderStyle(borderStyleOptions[1]);
-    setFontSize(16);
-  };
-
-  // const handleShowImportModal = () => {
-  //   setShowImportModal(true);
-  // };
-
-  // const handleChangeImportStrStyle = (
-  //   evt: ChangeEvent<HTMLTextAreaElement>
-  // ) => {
-  //   const nextVal = evt.target.value;
-
-  //   setImportStrStyle(nextVal);
-
-  //   const importToObj = new StyleStringToObject(nextVal);
-
-  //   let feedback = "";
-
-  //   const {
-  //     backgroundColor,
-  //     borderRadius,
-  //     lineHeight,
-  //     letterSpacing,
-  //     padding
-  //   } = importToObj.getObject;
-
-  //   if (backgroundColor) {
-  //     feedback += "배경 색 정보를 확인했습니다.";
-  //   }
-
-  //   if (borderRadius && importToObj.isPixel(borderRadius)) {
-  //     feedback += "모서리 각도 정보를 확인했습니다.";
-  //   }
-
-  //   if (lineHeight && importToObj.isPixel(lineHeight)) {
-  //     feedback += "줄 높이 정보를 확인했습니다.";
-  //   }
-
-  //   if (letterSpacing && importToObj.isPixel(letterSpacing)) {
-  //     feedback += "자간 정보를 확인했습니다.";
-  //   }
-
-  //   if (padding && importToObj.isPixel(padding)) {
-  //     feedback += "여백 정보를 확인했습니다.";
-  //   }
-
-  //   if (!feedback) {
-  //     feedback += "스타일 형식을 확인하세요.";
-  //   }
-
-  //   setImportStyleFeedback(feedback);
-  // };
-
-  // const handleImport = () => {
-  //   const importToObj = new StyleStringToObject(importStrStyle);
-
-  //   const { backgroundColor, backgroundColorAlpha, borderRadius, lineHeight, letterSpacing, padding } =
-  //     importToObj.getObject;
-
-  //   if (backgroundColor) {
-  //     setBackgroundColor(backgroundColor);
-  //   }
-
-  //   if (backgroundColorAlpha) {
-  //     setBackgroundColorAlpha(+backgroundColorAlpha);
-  //   }
-
-  //   if (borderRadius && importToObj.isPixel(borderRadius)) {
-  //     setBorderRadius(importToObj.convertPixelToNumber(borderRadius));
-  //   }
-
-  //   setShowImportModal(false);
-  // };
+  /* order - variable */
+  // grid span
+  const gridSpan = 3;
   // 타입-검색 설정 여부
   const isSearchType = inputType.value === InputTypeOption.SEARCH;
   // 아이콘 보이기 조건
   const showIcon = checkSearchIcon && isSearchType;
-
+  // preview style
   const inputWrapperStyle: CSSProperties = {
     width,
     backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
@@ -302,6 +172,60 @@ const ComponentInput: NextPage = () => {
     borderBottomRightRadius,
     border: "none"
   };
+  /* handler */
+  const handleCheckSearchIcon = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = evt.target;
+
+    setCheckSearchIcon(checked);
+  };
+
+  const handleClickPresetBootstrapLightButton = () => {
+    setWidth(100);
+    setLineHeight(25);
+    setLetterSpacing(0);
+    setPaddingTop(6);
+    setPaddingRight(12);
+    setPaddingBottom(6);
+    setPaddingLeft(12);
+    setShowAllPadding(true);
+    setBackgroundColorHex(theme.color.white);
+    setBackgroundColorRgb("255,255,255");
+    setBackgroundColorAlpha(1);
+    setColor(theme.color.white);
+    setBorderTopLeftRadius(5);
+    setBorderTopRightRadius(5);
+    setBorderBottomLeftRadius(5);
+    setBorderBottomRightRadius(5);
+    setShowAllBorderRadius(false);
+    setBorderColor(theme.color.lightDividerColor);
+    setBorderWidth(1);
+    setBorderStyle(borderStyleOptions[1]);
+    setFontSize(16);
+  };
+
+  const handleClickPresetBootstrapDarkButton = () => {
+    setWidth(100);
+    setLineHeight(25);
+    setLetterSpacing(0);
+    setPaddingTop(6);
+    setPaddingRight(12);
+    setPaddingBottom(6);
+    setPaddingLeft(12);
+    setShowAllPadding(true);
+    setBackgroundColorHex(theme.color.gray_lv0);
+    setBackgroundColorRgb("31, 31, 31");
+    setBackgroundColorAlpha(1);
+    setColor(theme.color.darkTextColor_lv0);
+    setBorderTopLeftRadius(5);
+    setBorderTopRightRadius(5);
+    setBorderBottomLeftRadius(5);
+    setBorderBottomRightRadius(5);
+    setShowAllBorderRadius(false);
+    setBorderColor(theme.color.darkDividerColor);
+    setBorderWidth(1);
+    setBorderStyle(borderStyleOptions[1]);
+    setFontSize(16);
+  };
 
   const handleExport = () => {
     const exportToInput = new ConvertInput(inputWrapperStyle, inputStyle);
@@ -330,11 +254,7 @@ const ComponentInput: NextPage = () => {
       </Head>
       <Component.Container>
         <Component.Aside>
-          <Preview
-            width={width}
-            // onImport={handleShowImportModal}
-            onExport={handleExport}
-          >
+          <Preview width={width} onExport={handleExport}>
             <div style={inputWrapperStyle}>
               <input
                 type={inputType.value}
@@ -344,7 +264,7 @@ const ComponentInput: NextPage = () => {
             </div>
           </Preview>
           <Preset.Container>
-            <StylingHeader>Preset</StylingHeader>
+            <Component.Header>Preset</Component.Header>
             <Preset.Body>
               <Preset.Item>
                 <Preset.ButtonPreview>
@@ -375,36 +295,40 @@ const ComponentInput: NextPage = () => {
             </Preset.Body>
           </Preset.Container>
         </Component.Aside>
-        <Option.Container>
-          <StylingHeader>Options</StylingHeader>
-          <Option.Body>
-            <Option.GridContainer>
-              <Option.FoldableTitle fold={showDefault} setFold={setShowDefault}>
+        <Component.Section>
+          <Component.Header>Options</Component.Header>
+          <Component.Scrollable>
+            <Grid.ResponsiveContainer span={gridSpan}>
+              <Grid.FoldableTitle
+                fold={showDefault}
+                setFold={setShowDefault}
+                span={gridSpan}
+              >
                 {showIcon ? (
                   <>
-                    <Option.Tab
+                    <Grid.Tab
                       active={activeSearchTab === InputSearchTabType.DEFAULT}
                       onClick={() =>
                         handleClickSearchTab(InputSearchTabType.DEFAULT)
                       }
                     >
                       기본 설정
-                    </Option.Tab>
-                    <Option.Tab
+                    </Grid.Tab>
+                    <Grid.Tab
                       active={activeSearchTab === InputSearchTabType.ICON}
                       onClick={() =>
                         handleClickSearchTab(InputSearchTabType.ICON)
                       }
                     >
                       아이콘 설정
-                    </Option.Tab>
+                    </Grid.Tab>
                   </>
                 ) : (
                   <span>기본 설정</span>
                 )}
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               {activeSearchTab === InputSearchTabType.DEFAULT && (
-                <Option.GridColumn span={showDefault ? 1 : 0}>
+                <Grid.Column span={showDefault ? 1 : 0}>
                   <RequireLabel>타입</RequireLabel>
                   <CustomSelect
                     activeOption={inputType}
@@ -420,7 +344,7 @@ const ComponentInput: NextPage = () => {
                       />
                     </WithLabel>
                   )}
-                </Option.GridColumn>
+                </Grid.Column>
               )}
               {activeSearchTab === InputSearchTabType.ICON && (
                 <IconOption
@@ -435,10 +359,14 @@ const ComponentInput: NextPage = () => {
                 />
               )}
 
-              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+              <Grid.FoldableTitle
+                fold={showLayout}
+                setFold={setShowLayout}
+                span={gridSpan}
+              >
                 <span>레이아웃 설정</span>
-              </Option.FoldableTitle>
-              <Option.GridColumn span={showLayout ? 1 : 0}>
+              </Grid.FoldableTitle>
+              <Grid.Column span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                 <CountingInput
                   id="setWidth"
@@ -451,11 +379,15 @@ const ComponentInput: NextPage = () => {
                   numberType={CountNumberType.INTEGER}
                   unit="px"
                 />
-              </Option.GridColumn>
-              <Option.FoldableTitle fold={showText} setFold={setShowText}>
+              </Grid.Column>
+              <Grid.FoldableTitle
+                fold={showText}
+                setFold={setShowText}
+                span={gridSpan}
+              >
                 <span>텍스트 설정</span>
-              </Option.FoldableTitle>
-              <Option.GridColumn span={showText ? 1 : 0}>
+              </Grid.FoldableTitle>
+              <Grid.Column span={showText ? 1 : 0}>
                 <RequireLabel htmlFor="setPlaceholder">
                   입력 가이드 문구
                 </RequireLabel>
@@ -466,7 +398,7 @@ const ComponentInput: NextPage = () => {
                   limit={10}
                   showFeedback={true}
                 />
-              </Option.GridColumn>
+              </Grid.Column>
               <FontOption
                 id="Input"
                 color={color}
@@ -481,9 +413,13 @@ const ComponentInput: NextPage = () => {
                 setTextAlign={setTextAlign}
                 span={showText ? 1 : 0}
               />
-              <Option.FoldableTitle fold={showPadding} setFold={setShowPadding}>
+              <Grid.FoldableTitle
+                fold={showPadding}
+                setFold={setShowPadding}
+                span={gridSpan}
+              >
                 <span>여백 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <PaddingOption
                 id="Input"
                 paddingTop={paddingTop}
@@ -494,16 +430,17 @@ const ComponentInput: NextPage = () => {
                 setPaddingBottom={setPaddingBottom}
                 paddingLeft={paddingLeft}
                 setPaddingLeft={setPaddingLeft}
-                isShowAllOption={isSetDetailPadding}
-                setIsShowAllOption={setIsSetDetailPadding}
+                isShowAllOption={showAllPadding}
+                setIsShowAllOption={setShowAllPadding}
                 span={showPadding ? 1 : 0}
               />
-              <Option.FoldableTitle
+              <Grid.FoldableTitle
                 fold={showBorderRadius}
                 setFold={setShowBorderRadius}
+                span={gridSpan}
               >
                 <span>모서리각 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <BorderRadiusOption
                 id="Input"
                 borderTopLeftRadius={borderTopLeftRadius}
@@ -514,14 +451,18 @@ const ComponentInput: NextPage = () => {
                 setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                 borderBottomRightRadius={borderBottomRightRadius}
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
-                isShowAllOption={isSetDetailBorderRadius}
-                setIsShowAllOption={setIsSetDetailBorderRadius}
+                isShowAllOption={showAllBorderRadius}
+                setIsShowAllOption={setShowAllBorderRadius}
                 span={showBorderRadius ? 1 : 0}
               />
 
-              <Option.FoldableTitle fold={showBorder} setFold={setShowBorder}>
+              <Grid.FoldableTitle
+                fold={showBorder}
+                setFold={setShowBorder}
+                span={gridSpan}
+              >
                 <span>테두리 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <BorderOption
                 id="Input"
                 borderStyle={borderStyle}
@@ -532,12 +473,13 @@ const ComponentInput: NextPage = () => {
                 setBorderColor={setBorderColor}
                 span={showBorder ? 1 : 0}
               />
-              <Option.FoldableTitle
+              <Grid.FoldableTitle
                 fold={showBackgroundColor}
                 setFold={setShowBackgroundColor}
+                span={gridSpan}
               >
                 <span>배경색 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <RgbaOption
                 id="Input"
                 hex={backgroundColorHex}
@@ -547,19 +489,13 @@ const ComponentInput: NextPage = () => {
                 setAlpha={setBackgroundColorAlpha}
                 span={showBackgroundColor ? 1 : 0}
               />
-
-              {/* <Option.Title>추가 설정</Option.Title>
-            <Option.Item>
-              <Checkbox id="setDisabled" label="비활성 스타일 사용" />
-            </Option.Item> */}
-              {/* <OptionTitle>접근성 설정</OptionTitle> */}
-
-              <Option.FoldableTitle
+              <Grid.FoldableTitle
                 fold={showPreference}
                 setFold={setShowPreference}
+                span={gridSpan}
               >
                 <span>환경 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
@@ -567,9 +503,9 @@ const ComponentInput: NextPage = () => {
                 setHtml={setHtml}
                 span={showPreference ? 1 : 0}
               />
-            </Option.GridContainer>
-          </Option.Body>
-        </Option.Container>
+            </Grid.ResponsiveContainer>
+          </Component.Scrollable>
+        </Component.Section>
       </Component.Container>
       {/* <BootstrapModal
         show={showImportModal}

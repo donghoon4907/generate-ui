@@ -7,11 +7,10 @@ import styled from "styled-components";
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
-import { StylingHeader } from "../../components/StylingHeader";
 import { CountNumberType } from "../../types/count";
 import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
-import * as Option from "../../components/partial/Option";
+import * as Grid from "../../components/partial/Grid";
 import { RequireLabel } from "../../components/RequireLabel";
 import { langOptions } from "../../components/options/Template";
 import { mixinEllipsisText } from "../../theme/mixins/text";
@@ -46,25 +45,29 @@ const StyledInput = styled.input<{
 `;
 
 const ComponentCheckbox: NextPage = () => {
+  /* order - state */
+  // 라벨
   const [label, setLabel] = useState("Checkbox");
-
+  // 크기
   const [scale, setScale] = useState(1.2);
-
+  // 텍스트 색
   const [color, setColor] = useState("#000000");
-
+  // 텍스트 크기
+  const [fontSize, setFontSize] = useState(16);
+  // 언어
   const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-
-  const [fontSize, setFontSize] = useState(16);
-
   // layout 설정 보이기
   const [showLayout, setShowLayout] = useState(true);
   // text 설정 보이기
   const [showText, setShowText] = useState(true);
   // 환경 설정 보이기
   const [showPreference, setShowPreference] = useState(true);
-
+  /* order - variable */
+  // grid span
+  const gridSpan = 3;
+  // preview style
   const checkboxStyle: CSSProperties = {
     position: "relative",
     transform: `scale(${scale})`
@@ -74,7 +77,7 @@ const ComponentCheckbox: NextPage = () => {
     color,
     fontSize
   };
-
+  /* handler */
   const handleExport = () => {
     const exportToInput = new ConvertCheckbox(checkboxStyle, labelStyle);
 
@@ -112,15 +115,18 @@ const ComponentCheckbox: NextPage = () => {
             />
           </Preview>
         </Component.Aside>
-        <Option.Container>
-          <StylingHeader>Options</StylingHeader>
-
-          <Option.Body>
-            <Option.GridContainer>
-              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+        <Component.Section>
+          <Component.Header>Options</Component.Header>
+          <Component.Scrollable>
+            <Grid.ResponsiveContainer span={gridSpan}>
+              <Grid.FoldableTitle
+                fold={showLayout}
+                setFold={setShowLayout}
+                span={gridSpan}
+              >
                 <span>레이아웃 설정</span>
-              </Option.FoldableTitle>
-              <Option.GridColumn span={showLayout ? 1 : 0}>
+              </Grid.FoldableTitle>
+              <Grid.Column span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
                 <CountingInput
                   id="setScale"
@@ -133,11 +139,15 @@ const ComponentCheckbox: NextPage = () => {
                   numberType={CountNumberType.DECIMAL}
                   unit=""
                 />
-              </Option.GridColumn>
-              <Option.FoldableTitle fold={showText} setFold={setShowText}>
+              </Grid.Column>
+              <Grid.FoldableTitle
+                fold={showText}
+                setFold={setShowText}
+                span={gridSpan}
+              >
                 <span>텍스트 설정</span>
-              </Option.FoldableTitle>
-              <Option.GridColumn span={showText ? 1 : 0}>
+              </Grid.FoldableTitle>
+              <Grid.Column span={showText ? 1 : 0}>
                 <RequireLabel htmlFor="setLabel">설명</RequireLabel>
                 <FeedbackInput
                   id="setLabel"
@@ -146,7 +156,7 @@ const ComponentCheckbox: NextPage = () => {
                   limit={10}
                   showFeedback={true}
                 />
-              </Option.GridColumn>
+              </Grid.Column>
               <FontOption
                 id="Checkbox"
                 color={color}
@@ -156,12 +166,13 @@ const ComponentCheckbox: NextPage = () => {
                 span={showText ? 1 : 0}
               />
 
-              <Option.FoldableTitle
+              <Grid.FoldableTitle
                 fold={showPreference}
                 setFold={setShowPreference}
+                span={gridSpan}
               >
                 <span>환경 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
@@ -169,9 +180,9 @@ const ComponentCheckbox: NextPage = () => {
                 setHtml={setHtml}
                 span={showPreference ? 1 : 0}
               />
-            </Option.GridContainer>
-          </Option.Body>
-        </Option.Container>
+            </Grid.ResponsiveContainer>
+          </Component.Scrollable>
+        </Component.Section>
       </Component.Container>
     </>
   );

@@ -2,13 +2,13 @@ import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
 import { CountingInput } from "../CountingInput";
 import { CountNumberType } from "../../types/count";
-import * as Option from "./Option";
+import * as Grid from "./Grid";
 import { RequireLabel } from "../RequireLabel";
 import { DefaultInput } from "../Input";
 import { hexToRgb } from "../../lib/calc/rgb";
-import type { GridColumnOption } from "../../interfaces/grid";
+import type { GridCoreProps } from "../../interfaces/grid";
 
-interface Props extends GridColumnOption {
+interface Props extends GridCoreProps {
   id: string | number;
   hex: string;
   setRgb: Dispatch<SetStateAction<string>>;
@@ -38,7 +38,7 @@ export const RgbaOption: FC<Props> = ({
 
   return (
     <>
-      <Option.GridColumn span={span}>
+      <Grid.Column span={span}>
         <RequireLabel htmlFor={`setHex${id}`}>RGB</RequireLabel>
         <DefaultInput
           type="color"
@@ -46,8 +46,8 @@ export const RgbaOption: FC<Props> = ({
           value={hex}
           onChange={handleChangeColor}
         />
-      </Option.GridColumn>
-      <Option.GridColumn span={span}>
+      </Grid.Column>
+      <Grid.Column span={span}>
         <RequireLabel htmlFor={`setAlpha${id}`}>투명도</RequireLabel>
         <CountingInput
           id={`setAlpha${id}`}
@@ -60,7 +60,7 @@ export const RgbaOption: FC<Props> = ({
           numberType={CountNumberType.DECIMAL}
           unit=""
         />
-      </Option.GridColumn>
+      </Grid.Column>
     </>
   );
 };

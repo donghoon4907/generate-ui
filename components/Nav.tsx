@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -49,11 +49,11 @@ interface Props {
 export const Nav: FC<Props> = ({ themeMode, toggle }) => {
   const [open, setOpen] = useState(false);
 
-  const handleMouseMove = useCallback((evt: MouseEvent) => {
+  const handleMouseMove = (evt: MouseEvent) => {
     if (evt.pageX > 350) {
       setOpen(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);

@@ -1,3 +1,3 @@
-export interface GridColumnOption {
+export interface GridCoreProps {
   span: number;
 }

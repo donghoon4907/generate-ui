@@ -2,13 +2,13 @@ import type { Dispatch, FC, SetStateAction } from "react";
 
 import { CountingInput } from "../CountingInput";
 import { CountNumberType } from "../../types/count";
-import * as Option from "./Option";
+import * as Grid from "./Grid";
 import { RequireLabel } from "../RequireLabel";
 import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
-import type { GridColumnOption } from "../../interfaces/grid";
+import type { GridCoreProps } from "../../interfaces/grid";
 
-interface Props extends GridColumnOption {
+interface Props extends GridCoreProps {
   id: string | number;
   borderTopLeftRadius: number;
   setBorderTopLeftRadius: Dispatch<SetStateAction<number>>;
@@ -45,7 +45,7 @@ export const BorderRadiusOption: FC<Props> = ({
 
   return (
     <>
-      <Option.GridColumn span={span}>
+      <Grid.Column span={span}>
         <RequireLabel
           htmlFor={
             isShowAllOption
@@ -80,10 +80,10 @@ export const BorderRadiusOption: FC<Props> = ({
             setChecked={setIsShowAllOption}
           />
         </WithLabel>
-      </Option.GridColumn>
+      </Grid.Column>
       {isShowAllOption && (
         <>
-          <Option.GridColumn span={span}>
+          <Grid.Column span={span}>
             <RequireLabel htmlFor={`setBorderTopRightRadius${id}`}>
               모서리 각 Top-Right
             </RequireLabel>
@@ -98,8 +98,8 @@ export const BorderRadiusOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.GridColumn>
-          <Option.GridColumn span={span}>
+          </Grid.Column>
+          <Grid.Column span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
               모서리 각 Bottom-Left
             </RequireLabel>
@@ -114,8 +114,8 @@ export const BorderRadiusOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.GridColumn>
-          <Option.GridColumn span={span}>
+          </Grid.Column>
+          <Grid.Column span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
               모서리 각 Bottom-Right
             </RequireLabel>
@@ -130,7 +130,7 @@ export const BorderRadiusOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.GridColumn>
+          </Grid.Column>
         </>
       )}
     </>

@@ -1,5 +1,5 @@
 import type { Dispatch, FC, SetStateAction, MouseEvent } from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -120,15 +120,18 @@ export const BootstrapModal: FC<Props> = ({
   showHeaderCloseButton,
   onSubmit
 }) => {
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setShow(false);
-  };
+  }, [setShow]);
 
-  const handleKeyDown = (evt: KeyboardEvent) => {
-    if (evt.key === "Escape") {
-      handleClose();
-    }
-  };
+  const handleKeyDown = useCallback(
+    (evt: KeyboardEvent) => {
+      if (evt.key === "Escape") {
+        handleClose();
+      }
+    },
+    [handleClose]
+  );
 
   const handleSubmit = (evt: MouseEvent) => {
     evt.preventDefault();
@@ -141,7 +144,7 @@ export const BootstrapModal: FC<Props> = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   return (
     <Container

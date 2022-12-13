@@ -75,11 +75,14 @@ export const ToggleNavDrawer: FC<Props> = ({
     }
   };
 
-  const handleClickWindow = useCallback((evt: MouseEvent) => {
-    if (evt.pageX > 256) {
-      setOpen(false);
-    }
-  }, []);
+  const handleClickWindow = useCallback(
+    (evt: MouseEvent) => {
+      if (evt.pageX > 256) {
+        setOpen(false);
+      }
+    },
+    [setOpen]
+  );
 
   useEffect(() => {
     const currentLevelMenus = getCurrentLevelGnbMenus(
@@ -91,7 +94,7 @@ export const ToggleNavDrawer: FC<Props> = ({
       type: SET_ACTIVE_MDMENU,
       payload: currentLevelMenus
     });
-  }, [router.asPath]);
+  }, [dispatch, router.asPath]);
 
   useEffect(() => {
     window.addEventListener("click", handleClickWindow);
@@ -99,7 +102,7 @@ export const ToggleNavDrawer: FC<Props> = ({
     return () => {
       window.removeEventListener("click", handleClickWindow);
     };
-  }, []);
+  }, [handleClickWindow]);
 
   return (
     <Container open={open}>

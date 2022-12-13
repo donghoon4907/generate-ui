@@ -5,7 +5,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BiRefresh } from "react-icons/bi";
 
 import { PrimaryButton, SecondaryButton } from "./Button";
-import { StylingHeader } from "./StylingHeader";
+import * as Component from "./partial/Component";
 import { CoreProps } from "../interfaces/core";
 import { IconWrapper } from "./IconWrapper";
 
@@ -123,7 +123,7 @@ export const Preview: FC<Props> = ({
 }) => {
   return (
     <Container>
-      <StylingHeader>Output</StylingHeader>
+      <Component.Header>Output</Component.Header>
       <TransformWrapper>
         {({ zoomIn, zoomOut, resetTransform }) => (
           <>

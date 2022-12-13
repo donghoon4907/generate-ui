@@ -2,15 +2,15 @@ import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
 import { CountingInput } from "../CountingInput";
 import { CountNumberType } from "../../types/count";
-import * as Option from "./Option";
+import * as Grid from "./Grid";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
 import { DefaultInput } from "../Input";
 import type { SelectOption } from "../../interfaces/select";
 import { iconAlignOptions } from "../options/IconAlign";
-import type { GridColumnOption } from "../../interfaces/grid";
+import type { GridCoreProps } from "../../interfaces/grid";
 
-interface Props extends GridColumnOption {
+interface Props extends GridCoreProps {
   id: string | number;
   iconAlign: SelectOption;
   setIconAlign: Dispatch<SetStateAction<SelectOption>>;
@@ -36,7 +36,7 @@ export const IconOption: FC<Props> = ({
 
   return (
     <>
-      <Option.GridColumn span={span}>
+      <Grid.Column span={span}>
         <RequireLabel htmlFor={`setIconSize${id}`}>크기</RequireLabel>
         <CountingInput
           id={`setIconSize${id}`}
@@ -49,17 +49,16 @@ export const IconOption: FC<Props> = ({
           numberType={CountNumberType.INTEGER}
           unit="px"
         />
-      </Option.GridColumn>
-      <Option.GridColumn span={span}>
+      </Grid.Column>
+      <Grid.Column span={span}>
         <RequireLabel>정렬</RequireLabel>
         <CustomSelect
           activeOption={iconAlign}
           setOption={setIconAlign}
           options={iconAlignOptions}
         />
-      </Option.GridColumn>
-
-      <Option.GridColumn span={span}>
+      </Grid.Column>
+      <Grid.Column span={span}>
         <RequireLabel htmlFor={`setIconColor${id}`}>색</RequireLabel>
         <DefaultInput
           type="color"
@@ -67,7 +66,7 @@ export const IconOption: FC<Props> = ({
           value={iconColor}
           onChange={handleChangeIconColor}
         />
-      </Option.GridColumn>
+      </Grid.Column>
     </>
   );
 };

@@ -2,13 +2,13 @@ import type { Dispatch, FC, SetStateAction } from "react";
 
 import { CountingInput } from "../CountingInput";
 import { CountNumberType } from "../../types/count";
-import * as Option from "./Option";
+import * as Grid from "./Grid";
 import { RequireLabel } from "../RequireLabel";
 import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
-import type { GridColumnOption } from "../../interfaces/grid";
+import type { GridCoreProps } from "../../interfaces/grid";
 
-interface Props extends GridColumnOption {
+interface Props extends GridCoreProps {
   id: string | number;
   paddingTop: number;
   setPaddingTop: Dispatch<SetStateAction<number>>;
@@ -45,7 +45,7 @@ export const PaddingOption: FC<Props> = ({
 
   return (
     <>
-      <Option.GridColumn span={span}>
+      <Grid.Column span={span}>
         <RequireLabel
           htmlFor={isShowAllOption ? `setPaddingTop${id}` : `setPadding${id}`}
         >
@@ -70,10 +70,10 @@ export const PaddingOption: FC<Props> = ({
             setChecked={setIsShowAllOption}
           />
         </WithLabel>
-      </Option.GridColumn>
+      </Grid.Column>
       {isShowAllOption && (
         <>
-          <Option.GridColumn span={span}>
+          <Grid.Column span={span}>
             <RequireLabel htmlFor="setPaddingRight">여백 Right</RequireLabel>
             <CountingInput
               id={`setPaddingRight${id}`}
@@ -86,8 +86,8 @@ export const PaddingOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.GridColumn>
-          <Option.GridColumn span={span}>
+          </Grid.Column>
+          <Grid.Column span={span}>
             <RequireLabel htmlFor={`setPaddingBottom${id}`}>
               여백 Bottom
             </RequireLabel>
@@ -102,8 +102,8 @@ export const PaddingOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.GridColumn>
-          <Option.GridColumn span={span}>
+          </Grid.Column>
+          <Grid.Column span={span}>
             <RequireLabel htmlFor={`setPaddingLeft${id}`}>
               여백 Left
             </RequireLabel>
@@ -118,7 +118,7 @@ export const PaddingOption: FC<Props> = ({
               numberType={CountNumberType.INTEGER}
               unit="px"
             />
-          </Option.GridColumn>
+          </Grid.Column>
         </>
       )}
     </>

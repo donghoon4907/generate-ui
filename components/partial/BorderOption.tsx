@@ -2,15 +2,15 @@ import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
 import { CountingInput } from "../CountingInput";
 import { CountNumberType } from "../../types/count";
-import * as Option from "./Option";
+import * as Grid from "./Grid";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
 import { borderStyleOptions } from "../options/BorderStyle";
 import { DefaultInput } from "../Input";
 import type { SelectOption } from "../../interfaces/select";
-import type { GridColumnOption } from "../../interfaces/grid";
+import type { GridCoreProps } from "../../interfaces/grid";
 
-interface Props extends GridColumnOption {
+interface Props extends GridCoreProps {
   id: string | number;
   borderStyle: SelectOption;
   setBorderStyle: Dispatch<SetStateAction<SelectOption>>;
@@ -36,15 +36,15 @@ export const BorderOption: FC<Props> = ({
 
   return (
     <>
-      <Option.GridColumn span={span}>
+      <Grid.Column span={span}>
         <RequireLabel>스타일</RequireLabel>
         <CustomSelect
           activeOption={borderStyle}
           setOption={setBorderStyle}
           options={borderStyleOptions}
         />
-      </Option.GridColumn>
-      <Option.GridColumn span={span}>
+      </Grid.Column>
+      <Grid.Column span={span}>
         <RequireLabel htmlFor={`setBorderWidth${id}`}>너비</RequireLabel>
         <CountingInput
           id={`setBorderWidth${id}`}
@@ -57,8 +57,8 @@ export const BorderOption: FC<Props> = ({
           numberType={CountNumberType.INTEGER}
           unit="px"
         />
-      </Option.GridColumn>
-      <Option.GridColumn span={span}>
+      </Grid.Column>
+      <Grid.Column span={span}>
         <RequireLabel htmlFor={`setBorderColor${id}`}>색</RequireLabel>
         <DefaultInput
           type="color"
@@ -66,7 +66,7 @@ export const BorderOption: FC<Props> = ({
           value={borderColor}
           onChange={handleChangeBorderColor}
         />
-      </Option.GridColumn>
+      </Grid.Column>
     </>
   );
 };

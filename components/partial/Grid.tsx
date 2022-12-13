@@ -3,27 +3,29 @@ import { AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";
 import styled from "styled-components";
 
 import type { CoreProps } from "../../interfaces/core";
-import { mixinBgLv1 } from "../../theme/mixins/background";
+import type { GridCoreProps } from "../../interfaces/grid";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import { IconWrapper } from "../IconWrapper";
 
-export const GridContainer = styled.div`
+export const Container = styled.div<{ span: number }>`
   display: grid;
   grid-column-gap: 5px;
-  grid-template-columns: repeat(3, minmax(82px, 1fr));
+  grid-template-columns: repeat(${({ span }) => span}, minmax(82px, 1fr));
   grid-auto-flow: row;
+`;
 
+export const ResponsiveContainer = styled(Container)`
   ${({ theme }) => theme.breakPoint.lg} {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(${({ span }) => span - 1}, 1fr);
   }
 
   ${({ theme }) => theme.breakPoint.md} {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(${({ span }) => span - 2}, 1fr);
   }
 `;
 
-export const GridRow = styled.div`
-  grid-column: span 3;
+export const Row = styled.div<{ span: number }>`
+  grid-column: span ${({ span }) => span};
   padding: 5px 10px 0 10px;
   margin-bottom: 5px;
   user-select: none;
@@ -32,32 +34,34 @@ export const GridRow = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 5px;
+  line-height: 1;
+`;
 
+export const ResponsiveRow = styled(Row)`
   ${({ theme }) => theme.breakPoint.lg} {
-    grid-column: span 2;
+    grid-column: span ${({ span }) => span - 1};
   }
 
   ${({ theme }) => theme.breakPoint.md} {
-    grid-column: span 1;
-  }
-
-  & > span {
-    line-height: 1;
+    grid-column: span ${({ span }) => span - 2};
   }
 `;
 
 const TabWrapper = styled.button<{ active: boolean }>`
   font-weight: ${({ active }) => (active ? "" : "400")};
   opacity: ${({ active }) => (active ? "1" : "0.5")};
-  line-height: 1;
 
   ${mixinBtnDefault}
 `;
 
-interface TitleProps extends CoreProps {}
+interface TitleProps extends CoreProps, GridCoreProps {}
 
-export const Title: FC<TitleProps> = ({ children }) => {
-  return <GridRow>{children}</GridRow>;
+export const Title: FC<TitleProps> = ({ children, span }) => {
+  return <Row span={span}>{children}</Row>;
+};
+
+export const ResponsiveTitle: FC<TitleProps> = ({ children, span }) => {
+  return <ResponsiveRow span={span}>{children}</ResponsiveRow>;
 };
 
 interface FoldableTitleProps extends TitleProps {
@@ -68,19 +72,20 @@ interface FoldableTitleProps extends TitleProps {
 export const FoldableTitle: FC<FoldableTitleProps> = ({
   children,
   fold,
-  setFold
+  setFold,
+  span
 }) => {
   const handleToggleFold = () => {
     setFold(!fold);
   };
 
   return (
-    <GridRow>
+    <ResponsiveRow span={span}>
       <IconWrapper iconSize={15} onClick={handleToggleFold}>
         {fold ? <AiOutlineMinusSquare /> : <AiOutlinePlusSquare />}
       </IconWrapper>
       {children}
-    </GridRow>
+    </ResponsiveRow>
   );
 };
 
@@ -95,7 +100,7 @@ export const Tab: FC<TabProps> = ({ children, active, onClick }) => (
   </TabWrapper>
 );
 
-export const GridColumn = styled.div<{ span: number }>`
+export const Column = styled.div<{ span: number }>`
   max-height: ${({ span }) => (span === 0 ? 0 : "")};
   padding: ${({ span }) => (span === 0 ? 0 : "5px 10px")};
   display: ${({ span }) => (span === 0 ? "none" : "block")};

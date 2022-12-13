@@ -1,15 +1,15 @@
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
-import * as Option from "./Option";
+import * as Grid from "./Grid";
 import { RequireLabel } from "../RequireLabel";
 import { CustomSelect } from "../CustomSelect";
 import type { SelectOption } from "../../interfaces/select";
 import { langOptions } from "../options/Template";
 import { WithLabel } from "../WithLabel";
 import { Checkbox } from "../Checkbox";
-import type { GridColumnOption } from "../../interfaces/grid";
+import type { GridCoreProps } from "../../interfaces/grid";
 
-interface Props extends GridColumnOption {
+interface Props extends GridCoreProps {
   lang?: SelectOption;
   setLang?: Dispatch<SetStateAction<SelectOption>>;
   html?: boolean;
@@ -34,7 +34,7 @@ export const PreferenceOption: FC<Props> = ({
   return (
     <>
       {isShowLang && (
-        <Option.GridColumn span={span}>
+        <Grid.Column span={span}>
           <RequireLabel htmlFor="setLang">언어</RequireLabel>
           <CustomSelect
             activeOption={lang}
@@ -50,7 +50,7 @@ export const PreferenceOption: FC<Props> = ({
               />
             </WithLabel>
           )}
-        </Option.GridColumn>
+        </Grid.Column>
       )}
     </>
   );

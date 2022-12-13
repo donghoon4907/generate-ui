@@ -7,12 +7,11 @@ import styled from "styled-components";
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
-import { StylingHeader } from "../../components/StylingHeader";
 import { CountNumberType } from "../../types/count";
 import { borderStyleOptions } from "../../components/options/BorderStyle";
 import type { SelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
-import * as Option from "../../components/partial/Option";
+import * as Grid from "../../components/partial/Grid";
 import { RequireLabel } from "../../components/RequireLabel";
 import { langOptions } from "../../components/options/Template";
 import { PaddingOption } from "../../components/partial/PaddingOption";
@@ -28,8 +27,9 @@ import type {
 } from "../../lib/style/select";
 import { ConvertSelect } from "../../lib/style/select";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
-import { LangOption, TextOverflowOption } from "../../types/select-option";
+import { LangOption } from "../../types/select-option";
 import { PreferenceOption } from "../../components/partial/PreferenceOption";
+import { useTextOverflow } from "../../hooks/useTextOverflow";
 
 const OptionItem = styled.li`
   &:hover {
@@ -38,48 +38,30 @@ const OptionItem = styled.li`
 `;
 
 const ComponentSelect: NextPage = () => {
+  /* order - state */
+  // 너비
   const [width, setWidth] = useState(200);
+  // 텍스트 높이
+  const [selectLineHeight, setSelectLineHeight] = useState(25);
 
-  const [borderStyle, setBorderStyle] = useState<SelectOption>(
-    borderStyleOptions[1]
-  );
+  const [optionLineHeight, setOptionLineHeight] = useState(25);
+  // 자간
+  const [selectLetterSpacing, setSelectLetterSpacing] = useState(0);
 
-  const [borderWidth, setBorderWidth] = useState(1);
-
-  const [borderColor, setBorderColor] = useState("#000000");
-
+  const [optionLetterSpacing, setOptionLetterSpacing] = useState(0);
+  // 제목
+  const [label, setLabel] = useState("제목");
+  // 배경색
   const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
 
   const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
 
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
-
-  const [label, setLabel] = useState("제목");
-
+  // 텍스트 색
   const [selectColor, setSelectColor] = useState("#000000");
 
   const [optionColor, setOptionColor] = useState("#000000");
-
-  const [selectTextAlign, setSelectTextAlign] = useState<SelectOption>(
-    textAlignOptions[0]
-  );
-
-  const [optionTextAlign, setOptionTextAlign] = useState<SelectOption>(
-    textAlignOptions[0]
-  );
-
-  const [selectFontSize, setSelectFontSize] = useState(16);
-
-  const [optionFontSize, setOptionFontSize] = useState(16);
-
-  const [selectLineHeight, setSelectLineHeight] = useState(25);
-
-  const [optionLineHeight, setOptionLineHeight] = useState(25);
-
-  const [selectLetterSpacing, setSelectLetterSpacing] = useState(0);
-
-  const [optionLetterSpacing, setOptionLetterSpacing] = useState(0);
-
+  // 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
 
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
@@ -87,9 +69,9 @@ const ComponentSelect: NextPage = () => {
   const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
 
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
-
-  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
-
+  // 모서리 각 모두 보기 여부
+  const [showAllBorderRadius, setShowAllBorderRadius] = useState(false);
+  // 여백
   const [selectPaddingTop, setSelectPaddingTop] = useState(4);
 
   const [selectPaddingRight, setSelectPaddingRight] = useState(4);
@@ -105,22 +87,46 @@ const ComponentSelect: NextPage = () => {
   const [optionPaddingBottom, setOptionPaddingBottom] = useState(4);
 
   const [optionPaddingLeft, setOptionPaddingLeft] = useState(4);
-  // 모든 여백 설정 보이기 여부
+  // 여백 모두 보기 여부
   const [showSelectAllPading, setShowSelectAllPadding] = useState(false);
 
   const [showOptionAllPadding, setShowOptionAllPadding] = useState(false);
+  // 테두리
+  const [borderStyle, setBorderStyle] = useState<SelectOption>(
+    borderStyleOptions[1]
+  );
+
+  const [borderWidth, setBorderWidth] = useState(1);
+
+  const [borderColor, setBorderColor] = useState("#000000");
   // 언어
   const [lang, setLang] = useState<SelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-  // 줄바꿈
-  const [selectTextOverflow, setSelectTextOverflow] = useState(
-    textOverflowOptions[0]
+  // 텍스트 크기
+  const [selectFontSize, setSelectFontSize] = useState(16);
+
+  const [optionFontSize, setOptionFontSize] = useState(16);
+  // 텍스트 정렬 기본값: 가운데 정렬
+  const [selectTextAlign, setSelectTextAlign] = useState<SelectOption>(
+    textAlignOptions[0]
   );
 
-  const [optionTextOverflow, setOptionTextOverflow] = useState(
-    textOverflowOptions[0]
+  const [optionTextAlign, setOptionTextAlign] = useState<SelectOption>(
+    textAlignOptions[0]
   );
+  // 텍스트 줄바꿈 기본값: 줄바꿈 허용
+  const {
+    textOverflow: selectTextOverflow,
+    setTextOverflow: setSelectTextOverflow,
+    textOverflowStyle: selectTextOverflowStyle
+  } = useTextOverflow(textOverflowOptions[0]);
+
+  const {
+    textOverflow: optionTextOverflow,
+    setTextOverflow: setOptionTextOverflow,
+    textOverflowStyle: optionTextOverflowStyle
+  } = useTextOverflow(textOverflowOptions[0]);
   // layout 설정 보이기
   const [showLayout, setShowLayout] = useState(true);
   // 테두리 설정 보이기
@@ -133,11 +139,13 @@ const ComponentSelect: NextPage = () => {
   const [showOption, setShowOption] = useState(true);
   // 환경 설정 보이기
   const [showPreference, setShowPreference] = useState(true);
-
-  // select height
+  /* order - variable */
+  // grid span
+  const gridSpan = 3;
+  // select min height
   const minHeight =
     selectPaddingTop + selectPaddingBottom + selectLineHeight + borderWidth * 2;
-
+  // preview style
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
     borderTopLeftRadius,
@@ -170,16 +178,8 @@ const ComponentSelect: NextPage = () => {
     paddingRight: selectPaddingRight,
     paddingBottom: selectPaddingBottom,
     paddingLeft: selectPaddingLeft,
-    textOverflow: selectTextOverflow.value,
-    wordBreak:
-      selectTextOverflow.value === TextOverflowOption.CLIP
-        ? "break-all"
-        : "normal",
-    whiteSpace:
-      selectTextOverflow.value === TextOverflowOption.ELLIPSIS
-        ? "nowrap"
-        : "normal",
-    overflow: "hidden"
+    overflow: "hidden",
+    ...selectTextOverflowStyle
   };
 
   const optionWrapperStyle: CSSProperties = {
@@ -201,18 +201,10 @@ const ComponentSelect: NextPage = () => {
     paddingRight: optionPaddingRight,
     paddingBottom: optionPaddingBottom,
     paddingLeft: optionPaddingLeft,
-    textOverflow: optionTextOverflow.value,
-    wordBreak:
-      optionTextOverflow.value === TextOverflowOption.CLIP
-        ? "break-all"
-        : "normal",
-    whiteSpace:
-      optionTextOverflow.value === TextOverflowOption.ELLIPSIS
-        ? "nowrap"
-        : "normal",
-    overflow: "hidden"
+    overflow: "hidden",
+    ...optionTextOverflowStyle
   };
-
+  /* handler */
   const handleExport = () => {
     const buttonOption: SelectButtonOption = {
       wrapperStyle: selectWrapperStyle,
@@ -259,14 +251,18 @@ const ComponentSelect: NextPage = () => {
             </ul>
           </Preview>
         </Component.Aside>
-        <Option.Container>
-          <StylingHeader>Options</StylingHeader>
-          <Option.Body>
-            <Option.GridContainer>
-              <Option.FoldableTitle fold={showLayout} setFold={setShowLayout}>
+        <Component.Section>
+          <Component.Header>Options</Component.Header>
+          <Component.Scrollable>
+            <Grid.ResponsiveContainer span={gridSpan}>
+              <Grid.FoldableTitle
+                fold={showLayout}
+                setFold={setShowLayout}
+                span={gridSpan}
+              >
                 <span>레이아웃 설정</span>
-              </Option.FoldableTitle>
-              <Option.GridColumn span={showLayout ? 1 : 0}>
+              </Grid.FoldableTitle>
+              <Grid.Column span={showLayout ? 1 : 0}>
                 <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                 <CountingInput
                   id="setWidth"
@@ -279,10 +275,14 @@ const ComponentSelect: NextPage = () => {
                   numberType={CountNumberType.INTEGER}
                   unit="px"
                 />
-              </Option.GridColumn>
-              <Option.FoldableTitle fold={showBorder} setFold={setShowBorder}>
+              </Grid.Column>
+              <Grid.FoldableTitle
+                fold={showBorder}
+                setFold={setShowBorder}
+                span={gridSpan}
+              >
                 <span>테두리 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <BorderOption
                 id="Select"
                 borderStyle={borderStyle}
@@ -293,12 +293,13 @@ const ComponentSelect: NextPage = () => {
                 setBorderColor={setBorderColor}
                 span={showBorder ? 1 : 0}
               />
-              <Option.FoldableTitle
+              <Grid.FoldableTitle
                 fold={showBackgroundColor}
                 setFold={setShowBackgroundColor}
+                span={gridSpan}
               >
                 <span>배경색 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <RgbaOption
                 id="Select"
                 hex={backgroundColorHex}
@@ -308,10 +309,14 @@ const ComponentSelect: NextPage = () => {
                 setAlpha={setBackgroundColorAlpha}
                 span={showBackgroundColor ? 1 : 0}
               />
-              <Option.FoldableTitle fold={showSelect} setFold={setShowSelect}>
+              <Grid.FoldableTitle
+                fold={showSelect}
+                setFold={setShowSelect}
+                span={gridSpan}
+              >
                 <span>셀렉트 설정</span>
-              </Option.FoldableTitle>
-              <Option.GridColumn span={showSelect ? 1 : 0}>
+              </Grid.FoldableTitle>
+              <Grid.Column span={showSelect ? 1 : 0}>
                 <RequireLabel htmlFor="setLabel">제목</RequireLabel>
                 <FeedbackInput
                   id="setLabel"
@@ -320,7 +325,7 @@ const ComponentSelect: NextPage = () => {
                   limit={50}
                   showFeedback={true}
                 />
-              </Option.GridColumn>
+              </Grid.Column>
 
               <FontOption
                 id="Select"
@@ -363,13 +368,17 @@ const ComponentSelect: NextPage = () => {
                 setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                 borderBottomRightRadius={borderBottomRightRadius}
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
-                isShowAllOption={isSetDetailBorderRadius}
-                setIsShowAllOption={setIsSetDetailBorderRadius}
+                isShowAllOption={showAllBorderRadius}
+                setIsShowAllOption={setShowAllBorderRadius}
                 span={showSelect ? 1 : 0}
               />
-              <Option.FoldableTitle fold={showOption} setFold={setShowOption}>
+              <Grid.FoldableTitle
+                fold={showOption}
+                setFold={setShowOption}
+                span={gridSpan}
+              >
                 <span>옵션 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <FontOption
                 id="Option"
                 color={optionColor}
@@ -400,12 +409,13 @@ const ComponentSelect: NextPage = () => {
                 setIsShowAllOption={setShowOptionAllPadding}
                 span={showOption ? 1 : 0}
               />
-              <Option.FoldableTitle
+              <Grid.FoldableTitle
                 fold={showPreference}
                 setFold={setShowPreference}
+                span={gridSpan}
               >
                 <span>환경 설정</span>
-              </Option.FoldableTitle>
+              </Grid.FoldableTitle>
               <PreferenceOption
                 lang={lang}
                 setLang={setLang}
@@ -413,9 +423,9 @@ const ComponentSelect: NextPage = () => {
                 setHtml={setHtml}
                 span={showPreference ? 1 : 0}
               />
-            </Option.GridContainer>
-          </Option.Body>
-        </Option.Container>
+            </Grid.ResponsiveContainer>
+          </Component.Scrollable>
+        </Component.Section>
       </Component.Container>
     </>
   );
