@@ -4,26 +4,38 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BiRefresh } from "react-icons/bi";
 
-import { PrimaryButton, SecondaryButton } from "./Button";
+import { PrimaryButton } from "./Button";
 import * as Component from "./partial/Component";
 import { CoreProps } from "../interfaces/core";
 import { IconWrapper } from "./IconWrapper";
+import { mixinBgLv1 } from "../theme/mixins/background";
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 330px;
+  overflow: hidden;
   border: 1px solid ${({ theme }) => theme.dividerColor};
+
+  ${mixinBgLv1}
 `;
 
 const Body = styled.div`
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+`;
+
+const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  position: relative;
-
   width: 100%;
-  height: 250px;
+  height: 100%;
+  overflow: hidden;
   text-align: center;
 
   &:active,
@@ -32,18 +44,17 @@ const Body = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
+const Target = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
   position: relative;
 `;
 
 const Tool = styled.div`
   position: absolute;
-  bottom: 40px;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 40px;
@@ -95,10 +106,9 @@ const Height = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-
-  padding: 5px;
+  padding: 0 5px;
   height: 40px;
   border-top: 1px solid ${({ theme }) => theme.dividerColor};
 `;
@@ -124,51 +134,46 @@ export const Preview: FC<Props> = ({
   return (
     <Container>
       <Component.Header>Output</Component.Header>
-      <TransformWrapper>
-        {({ zoomIn, zoomOut, resetTransform }) => (
-          <>
-            <TransformComponent
-              wrapperStyle={{ width: "100%" }}
-              contentStyle={{ width: "100%" }}
-            >
-              <Body>
-                <Wrapper
-                  style={{
-                    width,
-                    height
-                  }}
-                >
-                  {width && <Width>{width}px</Width>}
-                  {width && <RangeTop />}
-                  {height && <Height>{height}px</Height>}
-                  {height && <RangeLeft />}
-                  {children}
-                </Wrapper>
-              </Body>
-            </TransformComponent>
-            <Tool>
-              <IconWrapper onClick={() => zoomOut()} ariaLabel="zoom out">
-                <AiOutlineMinus />
-              </IconWrapper>
-              <IconWrapper onClick={() => zoomIn()} ariaLabel="zoom in">
-                <AiOutlinePlus />
-              </IconWrapper>
-              <IconWrapper onClick={() => resetTransform()} ariaLabel="reset">
-                <BiRefresh />
-              </IconWrapper>
-            </Tool>
-          </>
-        )}
-      </TransformWrapper>
+      <Body>
+        <TransformWrapper>
+          {({ zoomIn, zoomOut, resetTransform }) => (
+            <>
+              <TransformComponent
+                wrapperStyle={{ width: "100%", height: "100%" }}
+                contentStyle={{ width: "100%", height: "100%" }}
+              >
+                <Background>
+                  <Target
+                    style={{
+                      width,
+                      height
+                    }}
+                  >
+                    {width && <Width>{width}px</Width>}
+                    {width && <RangeTop />}
+                    {height && <Height>{height}px</Height>}
+                    {height && <RangeLeft />}
+                    {children}
+                  </Target>
+                </Background>
+              </TransformComponent>
+              <Tool>
+                <IconWrapper onClick={() => zoomOut()} ariaLabel="zoom out">
+                  <AiOutlineMinus />
+                </IconWrapper>
+                <IconWrapper onClick={() => zoomIn()} ariaLabel="zoom in">
+                  <AiOutlinePlus />
+                </IconWrapper>
+                <IconWrapper onClick={() => resetTransform()} ariaLabel="reset">
+                  <BiRefresh />
+                </IconWrapper>
+              </Tool>
+            </>
+          )}
+        </TransformWrapper>
+      </Body>
 
       <Footer>
-        <ButtonWrapper>
-          {onImport && (
-            <SecondaryButton type="button" onClick={onImport}>
-              Import
-            </SecondaryButton>
-          )}
-        </ButtonWrapper>
         <ButtonWrapper>
           <PrimaryButton type="button" onClick={onExport}>
             Export

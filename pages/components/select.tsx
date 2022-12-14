@@ -243,7 +243,7 @@ const ComponentSelect: NextPage = () => {
             <button type="button" style={selectWrapperStyle}>
               <span style={selectLabelStyle}>{label}</span>
             </button>
-            <ul style={optionWrapperStyle}>
+            <ul style={{ marginTop: 2, ...optionWrapperStyle }}>
               <OptionItem style={optionLabelStyle}>none</OptionItem>
               <OptionItem style={optionLabelStyle}>
                 option 1 - Long text example

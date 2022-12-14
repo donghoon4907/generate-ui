@@ -22,18 +22,16 @@ export const Container = styled.div`
 
 export const Aside = styled.aside`
   width: 300px;
-  height: 330px;
   position: relative;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 5px;
+  overflow: hidden;
 
   ${({ theme }) => theme.breakPoint.md} {
     width: 100%;
   }
-
-  ${mixinBgLv1}
 `;
 
 export const Section = styled.section`
