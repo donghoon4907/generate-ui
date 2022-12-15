@@ -39,11 +39,11 @@ export const Row = styled.div<{ span: number }>`
 
 export const ResponsiveRow = styled(Row)`
   ${({ theme }) => theme.breakPoint.lg} {
-    grid-column: span ${({ span }) => span - 1};
+    grid-column: span ${({ span }) => (span - 1 > 0 ? span - 1 : 1)};
   }
 
   ${({ theme }) => theme.breakPoint.md} {
-    grid-column: span ${({ span }) => span - 2};
+    grid-column: span ${({ span }) => (span - 2 > 0 ? span - 1 : 1)};
   }
 `;
 

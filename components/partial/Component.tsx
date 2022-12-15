@@ -34,13 +34,18 @@ export const Aside = styled.aside`
   }
 `;
 
-export const Section = styled.section`
-  flex: 1;
-  position: relative;
+export const RightAside = styled(Aside)`
+  border: 1px solid ${({ theme }) => theme.dividerColor};
 
+  ${mixinBgLv1}
+`;
+
+export const Section = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
-
+  width: 100%;
+  height: 100%;
   border: 1px solid ${({ theme }) => theme.dividerColor};
 
   ${mixinBgLv1}

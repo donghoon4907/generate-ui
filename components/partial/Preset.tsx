@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
+import { mixinBgLv1 } from "../../theme/mixins/background";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid ${({ theme }) => theme.dividerColor};
+
+  ${mixinBgLv1}
 `;
 
 export const Body = styled.div`
