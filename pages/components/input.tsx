@@ -32,7 +32,6 @@ import {
   BootstrapDarkInputButton,
   BootstrapLightInputButton
 } from "../../components/Button";
-import { InputSearchTabType } from "../../types/tab";
 import { IconAlignOption } from "../../types/select-option";
 import { iconAlignOptions } from "../../components/options/IconAlign";
 import { IconOption } from "../../components/partial/IconOption";
@@ -92,14 +91,10 @@ const ComponentInput: NextPage = () => {
   const [html, setHtml] = useState(false);
   // 텍스트 크기
   const [fontSize, setFontSize] = useState(16);
-  // search icon 추가 여부
-  const [checkSearchIcon, setCheckSearchIcon] = useState(false);
-  // option text 정렬
+  // 아이콘 추가 여부
+  const [checkIcon, setCheckIcon] = useState(false);
+  // 텍스트 정렬
   const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
-  // 탭 활성화 관리
-  const [activeSearchTab, setActiveSearchTab] = useState<InputSearchTabType>(
-    InputSearchTabType.DEFAULT
-  );
   // 아이콘 사이즈
   const [iconSize, setIconSize] = useState(16);
   // 아이콘 정렬
@@ -108,6 +103,8 @@ const ComponentInput: NextPage = () => {
   const [iconColor, setIconColor] = useState("#000000");
   // 기본 설정 보이기
   const [showDefault, setShowDefault] = useState(true);
+  // 아이콘 설정 보이기
+  const [showIcon, setShowIcon] = useState(true);
   // layout 설정 보이기
   const [showLayout, setShowLayout] = useState(true);
   // text 설정 보이기
@@ -125,15 +122,19 @@ const ComponentInput: NextPage = () => {
   /* order - variable */
   // grid span
   const gridSpan = 3;
-  // 타입-검색 설정 여부
-  const isSearchType = inputType.value === InputTypeOption.SEARCH;
-  // 아이콘 보이기 조건
-  const showIcon = checkSearchIcon && isSearchType;
+  // 아이콘 설정 노출 조건
+  const showSetIcon = inputType.value === InputTypeOption.SEARCH && checkIcon;
+  // 아이콘 오른쪽 정렬 시
+  const isIconAlignRight =
+    iconAlign.value === IconAlignOption.RIGHT && showSetIcon;
+  // 아이콘 왼쪽 정렬 시
+  const isIconAlignLeft =
+    iconAlign.value === IconAlignOption.LEFT && showSetIcon;
   // preview style
   const inputWrapperStyle: CSSProperties = {
     width,
     backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
-    backgroundImage: showIcon
+    backgroundImage: showSetIcon
       ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='${encodeURIComponent(
           iconColor
         )}' stroke-width='0' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")`
@@ -141,9 +142,8 @@ const ComponentInput: NextPage = () => {
     backgroundRepeat: "no-repeat",
     backgroundPosition: `${iconAlign.value} 5px center`,
     backgroundSize: iconSize,
-    paddingRight:
-      showIcon && iconAlign.value === IconAlignOption.RIGHT ? 25 : 0,
-    paddingLeft: showIcon && iconAlign.value === IconAlignOption.LEFT ? 25 : 0,
+    paddingRight: isIconAlignRight ? 25 : 0,
+    paddingLeft: isIconAlignLeft ? 25 : 0,
     borderTopLeftRadius,
     borderTopRightRadius,
     borderBottomLeftRadius,
@@ -173,10 +173,10 @@ const ComponentInput: NextPage = () => {
     border: "none"
   };
   /* handler */
-  const handleCheckSearchIcon = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleCheckIcon = (evt: ChangeEvent<HTMLInputElement>) => {
     const { checked } = evt.target;
 
-    setCheckSearchIcon(checked);
+    setCheckIcon(checked);
   };
 
   const handleClickPresetBootstrapLightButton = () => {
@@ -241,10 +241,6 @@ const ComponentInput: NextPage = () => {
     copyToClipboard(exportToInput.getHtml);
   };
 
-  const handleClickSearchTab = (activeTab: InputSearchTabType) => {
-    setActiveSearchTab(activeTab);
-  };
-
   return (
     <>
       <Head>
@@ -304,59 +300,45 @@ const ComponentInput: NextPage = () => {
                 setFold={setShowDefault}
                 span={gridSpan}
               >
-                {showIcon ? (
-                  <>
-                    <Grid.Tab
-                      active={activeSearchTab === InputSearchTabType.DEFAULT}
-                      onClick={() =>
-                        handleClickSearchTab(InputSearchTabType.DEFAULT)
-                      }
-                    >
-                      기본 설정
-                    </Grid.Tab>
-                    <Grid.Tab
-                      active={activeSearchTab === InputSearchTabType.ICON}
-                      onClick={() =>
-                        handleClickSearchTab(InputSearchTabType.ICON)
-                      }
-                    >
-                      아이콘 설정
-                    </Grid.Tab>
-                  </>
-                ) : (
-                  <span>기본 설정</span>
-                )}
+                <span>기본 설정</span>
               </Grid.FoldableTitle>
-              {activeSearchTab === InputSearchTabType.DEFAULT && (
-                <Grid.Column span={showDefault ? 1 : 0}>
-                  <RequireLabel>타입</RequireLabel>
-                  <CustomSelect
-                    activeOption={inputType}
-                    setOption={setInputType}
-                    options={inputTypeOptions}
-                  />
-                  {isSearchType && (
-                    <WithLabel id="setCheckSearchIcon" label="검색 아이콘 추가">
-                      <Checkbox
-                        id="setCheckSearchIcon"
-                        checked={checkSearchIcon}
-                        onChange={handleCheckSearchIcon}
-                      />
-                    </WithLabel>
-                  )}
-                </Grid.Column>
-              )}
-              {activeSearchTab === InputSearchTabType.ICON && (
-                <IconOption
-                  id="Input"
-                  iconAlign={iconAlign}
-                  setIconAlign={setIconAlign}
-                  iconSize={iconSize}
-                  setIconSize={setIconSize}
-                  iconColor={iconColor}
-                  setIconColor={setIconColor}
-                  span={showDefault ? 1 : 0}
+              <Grid.Column span={showDefault ? 1 : 0}>
+                <RequireLabel>타입</RequireLabel>
+                <CustomSelect
+                  activeOption={inputType}
+                  setOption={setInputType}
+                  options={inputTypeOptions}
                 />
+                {inputType.value === InputTypeOption.SEARCH && (
+                  <WithLabel id="setCheckIcon" label="검색 아이콘 추가">
+                    <Checkbox
+                      id="setCheckSearchIcon"
+                      checked={checkIcon}
+                      onChange={handleCheckIcon}
+                    />
+                  </WithLabel>
+                )}
+              </Grid.Column>
+              {showSetIcon && (
+                <>
+                  <Grid.FoldableTitle
+                    fold={showIcon}
+                    setFold={setShowIcon}
+                    span={gridSpan}
+                  >
+                    <span>아이콘 설정</span>
+                  </Grid.FoldableTitle>
+                  <IconOption
+                    id="Input"
+                    iconAlign={iconAlign}
+                    setIconAlign={setIconAlign}
+                    iconSize={iconSize}
+                    setIconSize={setIconSize}
+                    iconColor={iconColor}
+                    setIconColor={setIconColor}
+                    span={showIcon ? 1 : 0}
+                  />
+                </>
               )}
 
               <Grid.FoldableTitle

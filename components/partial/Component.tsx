@@ -53,7 +53,7 @@ export const Section = styled.section`
 
 export const Scrollable = styled.div`
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const HeaderWrapper = styled.div`

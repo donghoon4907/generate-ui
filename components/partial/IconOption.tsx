@@ -37,17 +37,12 @@ export const IconOption: FC<Props> = ({
   return (
     <>
       <Grid.Column span={span}>
-        <RequireLabel htmlFor={`setIconSize${id}`}>크기</RequireLabel>
-        <CountingInput
-          id={`setIconSize${id}`}
-          ariaLabel="아이콘 크기"
-          count={iconSize}
-          setCount={setIconSize}
-          limit={20}
-          showIcon={true}
-          showFeedback={true}
-          numberType={CountNumberType.INTEGER}
-          unit="px"
+        <RequireLabel htmlFor={`setIconColor${id}`}>색</RequireLabel>
+        <DefaultInput
+          type="color"
+          id={`setIconColor${id}`}
+          value={iconColor}
+          onChange={handleChangeIconColor}
         />
       </Grid.Column>
       <Grid.Column span={span}>
@@ -59,12 +54,17 @@ export const IconOption: FC<Props> = ({
         />
       </Grid.Column>
       <Grid.Column span={span}>
-        <RequireLabel htmlFor={`setIconColor${id}`}>색</RequireLabel>
-        <DefaultInput
-          type="color"
-          id={`setIconColor${id}`}
-          value={iconColor}
-          onChange={handleChangeIconColor}
+        <RequireLabel htmlFor={`setIconSize${id}`}>크기</RequireLabel>
+        <CountingInput
+          id={`setIconSize${id}`}
+          ariaLabel="아이콘 크기"
+          count={iconSize}
+          setCount={setIconSize}
+          limit={20}
+          showIcon={true}
+          showFeedback={true}
+          numberType={CountNumberType.INTEGER}
+          unit="px"
         />
       </Grid.Column>
     </>
