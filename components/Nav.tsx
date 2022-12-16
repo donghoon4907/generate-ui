@@ -1,12 +1,10 @@
 import type { FC } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { NavItem } from "./NavItem";
 import { mixinBgLv2 } from "../theme/mixins/background";
 import { NavDrawer } from "./NavDrawer";
-import { ThemeMode } from "../types/theme";
 import { ToggleThemeMode } from "./ToggleThemeMode";
 import { gnbOptions } from "./options/Gnb";
 
@@ -41,12 +39,9 @@ const Footer = styled.div`
   margin-bottom: 16px;
 `;
 
-interface Props {
-  themeMode: ThemeMode;
-  toggle: () => void;
-}
+interface Props {}
 
-export const Nav: FC<Props> = ({ themeMode, toggle }) => {
+export const Nav: FC<Props> = () => {
   const [open, setOpen] = useState(false);
 
   const handleMouseMove = (evt: MouseEvent) => {
@@ -76,11 +71,7 @@ export const Nav: FC<Props> = ({ themeMode, toggle }) => {
           ))}
         </Body>
         <Footer>
-          <ToggleThemeMode
-            themeMode={themeMode}
-            toggle={toggle}
-            showLabel={false}
-          />
+          <ToggleThemeMode showLabel={false} />
         </Footer>
       </Container>
       <NavDrawer open={open} />

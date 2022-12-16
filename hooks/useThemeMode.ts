@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { setCookie } from "cookies-next";
 
-import { COOKIE_THEME_KEY } from "../lib/cookies-next/key";
 import { ThemeMode } from "../types/theme";
+import constants from "../constants";
 
 export const useThemeMode = (defaultThemeMode: ThemeMode) => {
   const [themeMode, setThemeMode] = useState<ThemeMode>(
@@ -13,11 +13,11 @@ export const useThemeMode = (defaultThemeMode: ThemeMode) => {
     if (themeMode === ThemeMode.DARK) {
       setThemeMode(ThemeMode.LIGHT);
 
-      setCookie(COOKIE_THEME_KEY, ThemeMode.LIGHT);
+      setCookie(constants.key.cookie, ThemeMode.LIGHT);
     } else {
       setThemeMode(ThemeMode.DARK);
 
-      setCookie(COOKIE_THEME_KEY, ThemeMode.DARK);
+      setCookie(constants.key.cookie, ThemeMode.DARK);
     }
   };
 

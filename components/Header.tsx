@@ -31,12 +31,9 @@ const Container = styled.header`
   }
 `;
 
-interface Props {
-  themeMode: ThemeMode;
-  toggle: () => void;
-}
+interface Props {}
 
-export const Header: FC<Props> = ({ themeMode, toggle }) => {
+export const Header: FC<Props> = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickListIcon = () => {
@@ -50,12 +47,7 @@ export const Header: FC<Props> = ({ themeMode, toggle }) => {
           <BsList />
         </IconWrapper>
       </Container>
-      <ToggleNavDrawer
-        open={open}
-        setOpen={setOpen}
-        themeMode={themeMode}
-        toggle={toggle}
-      />
+      <ToggleNavDrawer open={open} setOpen={setOpen} />
     </>
   );
 };

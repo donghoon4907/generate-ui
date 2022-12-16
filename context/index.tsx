@@ -9,11 +9,14 @@ const StateContext = createContext<AppState | null>(null);
 const DispatchContext = createContext<Dispatch<Action> | null>(null);
 
 interface ContextProps extends CoreProps {
-  context?: AppState;
+  context?: Partial<AppState>;
 }
 
-export function ContextProvider({ children }: ContextProps) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export function ContextProvider({ children, context }: ContextProps) {
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    ...context
+  });
 
   return (
     <StateContext.Provider value={state}>

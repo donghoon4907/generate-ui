@@ -4,6 +4,7 @@ import { FiSun, FiMoon } from "react-icons/fi";
 
 import { ThemeMode } from "../types/theme";
 import { mixinBtnDefault } from "../theme/mixins/button";
+import { useTheme } from "../hooks/useTheme";
 
 const Container = styled.button<{ showLabel: boolean }>`
   position: relative;
@@ -63,25 +64,23 @@ const Label = styled.div`
 `;
 
 interface Props {
-  themeMode: ThemeMode;
-  toggle: () => void;
   showLabel: boolean;
 }
 
-export const ToggleThemeMode: FC<Props> = ({
-  themeMode,
-  toggle,
-  showLabel
-}) => (
-  <Container showLabel={showLabel} onClick={toggle}>
-    <Switch themeMode={themeMode}>
-      <IconWrapper>
-        <FiMoon />
-      </IconWrapper>
-      <IconWrapper>
-        <FiSun />
-      </IconWrapper>
-    </Switch>
-    {showLabel && <Label>Switch to {themeMode} mode</Label>}
-  </Container>
-);
+export const ToggleThemeMode: FC<Props> = ({ showLabel }) => {
+  const { themeMode, onToggle } = useTheme();
+
+  return (
+    <Container showLabel={showLabel} onClick={onToggle}>
+      <Switch themeMode={themeMode}>
+        <IconWrapper>
+          <FiMoon />
+        </IconWrapper>
+        <IconWrapper>
+          <FiSun />
+        </IconWrapper>
+      </Switch>
+      {showLabel && <Label>Switch to {themeMode} mode</Label>}
+    </Container>
+  );
+};

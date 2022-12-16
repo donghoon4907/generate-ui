@@ -9,7 +9,6 @@ import {
   ToggleNavDrawerCollapseItem,
   ToggleNavDrawerItem
 } from "./ToggleNavDrawerItem";
-import { ThemeMode } from "../types/theme";
 import { ToggleThemeMode } from "./ToggleThemeMode";
 import { SET_ACTIVE_MDMENU } from "../context/action";
 import { getCurrentLevelGnbMenus, getParentGnbMenus } from "../lib/calc/tree";
@@ -40,16 +39,9 @@ const Footer = styled.div`
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  themeMode: ThemeMode;
-  toggle: () => void;
 }
 
-export const ToggleNavDrawer: FC<Props> = ({
-  open,
-  setOpen,
-  themeMode,
-  toggle
-}) => {
+export const ToggleNavDrawer: FC<Props> = ({ open, setOpen }) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -113,11 +105,7 @@ export const ToggleNavDrawer: FC<Props> = ({
         ))}
       </Body>
       <Footer>
-        <ToggleThemeMode
-          themeMode={themeMode}
-          toggle={toggle}
-          showLabel={true}
-        />
+        <ToggleThemeMode showLabel={true} />
       </Footer>
     </Container>
   );
