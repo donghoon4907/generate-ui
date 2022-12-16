@@ -7,6 +7,7 @@ import { RequireLabel } from "../RequireLabel";
 import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
 import type { GridCoreProps } from "../../interfaces/grid";
+import constants from "../../constants";
 
 interface Props extends GridCoreProps {
   id: string | number;
@@ -62,7 +63,10 @@ export const PaddingOption: FC<Props> = ({
           numberType={CountNumberType.INTEGER}
           unit="px"
         />
-        <WithLabel id={`setDetailPadding${id}`} label="디테일 설정">
+        <WithLabel
+          id={`setDetailPadding${id}`}
+          label={constants.label.showAllPadding}
+        >
           <Switch
             id={`setDetailPadding${id}`}
             width={40}

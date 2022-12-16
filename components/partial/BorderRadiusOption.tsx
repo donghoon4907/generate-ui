@@ -7,6 +7,7 @@ import { RequireLabel } from "../RequireLabel";
 import { Switch } from "../Switch";
 import { WithLabel } from "../WithLabel";
 import type { GridCoreProps } from "../../interfaces/grid";
+import constants from "../../constants";
 
 interface Props extends GridCoreProps {
   id: string | number;
@@ -72,7 +73,10 @@ export const BorderRadiusOption: FC<Props> = ({
           numberType={CountNumberType.INTEGER}
           unit="px"
         />
-        <WithLabel id={`setDetailBorderRadius${id}`} label="디테일 설정">
+        <WithLabel
+          id={`setDetailBorderRadius${id}`}
+          label={constants.label.showAllBorderRadius}
+        >
           <Switch
             id={`setDetailBorderRadius${id}`}
             width={40}
