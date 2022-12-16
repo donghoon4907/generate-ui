@@ -19,6 +19,7 @@ import { FeedbackInput } from "../../components/Input";
 import { FontOption } from "../../components/partial/FontOption";
 import type { SelectOption } from "../../interfaces/select";
 import { textAlignOptions } from "../../components/options/TextAlign";
+import { useTheme } from "../../hooks/useTheme";
 
 const Layer = styled.div`
   width: 100%;
@@ -57,6 +58,7 @@ const CloseIconWrapper = styled.button<{ iconSize: number }>`
 
 const ComponentModal: NextPage = () => {
   /* order - state */
+  const { theme } = useTheme();
   // 너비
   const [width, setWidth] = useState(500);
   // 높이
@@ -74,7 +76,7 @@ const ComponentModal: NextPage = () => {
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
-  const [headerTitleColor, setHeaderTitleColor] = useState("#000000");
+  const [headerTitleColor, setHeaderTitleColor] = useState(theme.textColor_lv0);
   // header - 텍스트 크기
   const [headerTitleFontSize, setHeaderTitleFontSize] = useState(16);
   // header - 텍스트 높이

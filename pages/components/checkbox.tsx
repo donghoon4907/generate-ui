@@ -19,6 +19,7 @@ import { LangOption } from "../../types/select-option";
 import { PreferenceOption } from "../../components/partial/PreferenceOption";
 import { ConvertCheckbox } from "../../lib/style/checkbox";
 import { copyToClipboard } from "../../lib/copy/clipboard";
+import { useTheme } from "../../hooks/useTheme";
 
 const StyledInput = styled.input<{
   label: string;
@@ -46,12 +47,13 @@ const StyledInput = styled.input<{
 
 const ComponentCheckbox: NextPage = () => {
   /* order - state */
+  const { theme } = useTheme();
   // 라벨
   const [label, setLabel] = useState("Checkbox");
   // 크기
   const [scale, setScale] = useState(1.2);
   // 텍스트 색
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState(theme.textColor_lv0);
   // 텍스트 크기
   const [fontSize, setFontSize] = useState(16);
   // 언어
