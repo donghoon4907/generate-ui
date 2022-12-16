@@ -42,87 +42,74 @@ const ComponentSelect: NextPage = () => {
   /* order - state */
   // 너비
   const [width, setWidth] = useState(200);
-  // 텍스트 높이
+  // select - 텍스트 높이
   const [selectLineHeight, setSelectLineHeight] = useState(25);
-
+  // option - 텍스트 높이
   const [optionLineHeight, setOptionLineHeight] = useState(25);
-  // 자간
+  // select - 자간
   const [selectLetterSpacing, setSelectLetterSpacing] = useState(0);
-
+  // option - 자간
   const [optionLetterSpacing, setOptionLetterSpacing] = useState(0);
-  // 제목
+  // select - 제목
   const [label, setLabel] = useState("제목");
-  // 배경색
+  // common - 배경색
   const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
-
   const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
-
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
-  // 텍스트 색
+  // select - 텍스트 색
   const [selectColor, setSelectColor] = useState("#000000");
-
+  // option - 텍스트 색
   const [optionColor, setOptionColor] = useState("#000000");
-  // 모서리 각
+  // select - 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
-
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
-
   const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
-
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
-  // 모서리 각 모두 보기 여부
+  // select - 모서리 각 모든 설정 보기 여부
   const [showAllBorderRadius, setShowAllBorderRadius] = useState(false);
-  // 여백
+  // select - 여백
   const [selectPaddingTop, setSelectPaddingTop] = useState(4);
-
   const [selectPaddingRight, setSelectPaddingRight] = useState(4);
-
   const [selectPaddingBottom, setSelectPaddingBottom] = useState(4);
-
   const [selectPaddingLeft, setSelectPaddingLeft] = useState(4);
-
-  const [optionPaddingTop, setOptionPaddingTop] = useState(4);
-
-  const [optionPaddingRight, setOptionPaddingRight] = useState(4);
-
-  const [optionPaddingBottom, setOptionPaddingBottom] = useState(4);
-
-  const [optionPaddingLeft, setOptionPaddingLeft] = useState(4);
-  // 여백 모두 보기 여부
+  // select - 여백 모든 설정 보기 여부
   const [showSelectAllPading, setShowSelectAllPadding] = useState(false);
-
+  // option - 여백
+  const [optionPaddingTop, setOptionPaddingTop] = useState(4);
+  const [optionPaddingRight, setOptionPaddingRight] = useState(4);
+  const [optionPaddingBottom, setOptionPaddingBottom] = useState(4);
+  const [optionPaddingLeft, setOptionPaddingLeft] = useState(4);
+  // option - 여백 모든 설정 보기 여부
   const [showOptionAllPadding, setShowOptionAllPadding] = useState(false);
-  // 테두리
+  // common - 테두리
   const [borderStyle, setBorderStyle] = useState<SelectOption>(
     borderStyleOptions[1]
   );
-
   const [borderWidth, setBorderWidth] = useState(1);
-
   const [borderColor, setBorderColor] = useState("#000000");
-  // 언어
+  // common - 언어
   const [lang, setLang] = useState<SelectOption>(langOptions[0]);
-  // html 템플릿 추가 여부
+  // common - html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-  // 텍스트 크기
+  // select - 텍스트 크기
   const [selectFontSize, setSelectFontSize] = useState(16);
-
+  // option - 텍스트 크기
   const [optionFontSize, setOptionFontSize] = useState(16);
-  // 텍스트 정렬 기본값: 가운데 정렬
+  // select - 텍스트 정렬 기본값: 가운데 정렬
   const [selectTextAlign, setSelectTextAlign] = useState<SelectOption>(
     textAlignOptions[0]
   );
-
+  // option - 텍스트 정렬 기본값: 가운데 정렬
   const [optionTextAlign, setOptionTextAlign] = useState<SelectOption>(
     textAlignOptions[0]
   );
-  // 텍스트 줄바꿈 기본값: 줄바꿈 허용
+  // select - 텍스트 줄바꿈 기본값: 줄바꿈 허용
   const {
     textOverflow: selectTextOverflow,
     setTextOverflow: setSelectTextOverflow,
     textOverflowStyle: selectTextOverflowStyle
   } = useTextOverflow(textOverflowOptions[0]);
-
+  // option - 텍스트 줄바꿈 기본값: 줄바꿈 허용
   const {
     textOverflow: optionTextOverflow,
     setTextOverflow: setOptionTextOverflow,
@@ -176,7 +163,6 @@ const ComponentSelect: NextPage = () => {
     outline: "none",
     minHeight
   };
-
   const selectLabelStyle: CSSProperties = {
     width: "100%",
     display: "block",
@@ -192,7 +178,6 @@ const ComponentSelect: NextPage = () => {
     overflow: "hidden",
     ...selectTextOverflowStyle
   };
-
   const optionWrapperStyle: CSSProperties = {
     width: "100%",
     color: optionColor,
@@ -206,7 +191,6 @@ const ComponentSelect: NextPage = () => {
     borderColor,
     userSelect: "none"
   };
-
   const optionLabelStyle: CSSProperties = {
     paddingTop: optionPaddingTop,
     paddingRight: optionPaddingRight,
