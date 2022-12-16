@@ -489,27 +489,6 @@ const ComponentInput: NextPage = () => {
           </Component.Scrollable>
         </Component.Section>
       </Component.Container>
-      {/* <BootstrapModal
-        show={showImportModal}
-        setShow={setShowImportModal}
-        ariaLabel="importModal"
-        headerTitle="Import"
-        showHeaderCloseButton={true}
-        onSubmit={handleImport}
-      >
-        <div>
-          <p>
-            * 불러오길 원하는 요소의 스타일을 복사하여 이곳에 붙여넣기 해주세요.
-          </p>
-          <DefaultTextArea
-            value={importStrStyle}
-            onChange={handleChangeImportStrStyle}
-          />
-          {importStyleFeedback.split(".").map((feedback, index) => (
-            <p key={`importStyleFeedback${index}`}>{feedback}</p>
-          ))}
-        </div>
-      </BootstrapModal> */}
     </>
   );
 };

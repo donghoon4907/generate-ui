@@ -3,6 +3,12 @@ export enum InputSearchTabType {
   ICON = "icon"
 }
 
+export enum SelectTabType {
+  COMMON = "common",
+  SELECT = "select",
+  OPTION = "option"
+}
+
 export enum ModalTabType {
   MODAL = "modal",
   HEADER = "header",
