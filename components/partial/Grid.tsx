@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import type { CoreProps } from "../../interfaces/core";
 import type { GridCoreProps } from "../../interfaces/grid";
+import { mixinBgLv3 } from "../../theme/mixins/background";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import { IconWrapper } from "../IconWrapper";
 
@@ -102,12 +103,16 @@ export const Tab: FC<TabProps> = ({ children, active, onClick }) => (
 
 export const Column = styled.div<{ span: number }>`
   max-height: ${({ span }) => (span === 0 ? 0 : "")};
+  margin: 5px;
+  border-radius: 5px;
   padding: ${({ span }) => (span === 0 ? 0 : "5px 10px")};
   display: ${({ span }) => (span === 0 ? "none" : "block")};
-
+  border: 1px solid ${({ theme }) => theme.dividerColor};
   ${({ span }) => (span > 0 ? `grid-column: span ${span}` : "")};
 
   & > * {
     margin-bottom: 5px;
   }
+
+  ${mixinBgLv3}
 `;

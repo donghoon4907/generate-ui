@@ -7,7 +7,6 @@ import { mixinBtnDefault } from "../theme/mixins/button";
 
 const Container = styled.button`
   width: 100%;
-  height: 100%;
   border-radius: 100px;
   line-height: 30px;
 
@@ -32,6 +31,11 @@ const PrimaryButtonContainer = styled(Container)`
 
 const SecondaryButtonContainer = styled(Container)`
   background: ${({ theme }) => theme.hoverBgColor} !important;
+`;
+
+const DangerButtonContainer = styled(Container)`
+  background: ${({ theme }) => theme.color.bootstrapRed} !important;
+  color ${({ theme }) => theme.color.white};
 `;
 
 const BootstrapPrimaryContainer = styled(PresetButtonContainer)`
@@ -70,6 +74,10 @@ export const SecondaryButton: FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <SecondaryButtonContainer {...props}>{children}</SecondaryButtonContainer>
   );
+};
+
+export const DangerButton: FC<ButtonProps> = ({ children, ...props }) => {
+  return <DangerButtonContainer {...props}>{children}</DangerButtonContainer>;
 };
 
 export const BootstrapPrimaryButton: FC<ButtonProps> = ({

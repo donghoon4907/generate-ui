@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { CSSProperties } from "react";
-import { useState } from "react";
+import type { ChangeEvent, CSSProperties } from "react";
+import { useState, Fragment } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -15,11 +15,13 @@ import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption"
 import { ModalTabType } from "../../types/tab";
 import { PaddingOption } from "../../components/partial/PaddingOption";
 import { mixinBtnDefault } from "../../theme/mixins/button";
-import { FeedbackInput } from "../../components/Input";
+import { DefaultInput, FeedbackInput } from "../../components/Input";
 import { FontOption } from "../../components/partial/FontOption";
-import type { SelectOption } from "../../interfaces/select";
-import { textAlignOptions } from "../../components/options/TextAlign";
 import { useTheme } from "../../hooks/useTheme";
+import { WithLabel } from "../../components/WithLabel";
+import { Switch } from "../../components/Switch";
+import { ModalLayoutOption } from "../../interfaces/modal";
+import { DangerButton, PrimaryButton } from "../../components/Button";
 
 const Layer = styled.div`
   width: 100%;
@@ -27,8 +29,8 @@ const Layer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 `;
 
 const Modal = styled.div`
@@ -56,13 +58,17 @@ const CloseIconWrapper = styled.button<{ iconSize: number }>`
   ${mixinBtnDefault}
 `;
 
+const ModalBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
 const ComponentModal: NextPage = () => {
   /* order - state */
   const { theme } = useTheme();
   // 너비
   const [width, setWidth] = useState(500);
-  // 높이
-  const [height, setHeight] = useState(500);
   // 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(10);
 
@@ -88,14 +94,18 @@ const ComponentModal: NextPage = () => {
   //   useState<SelectOption>(textAlignOptions[0]);
   // header - 여백
   const [headerPaddingTop, setHeaderPaddingTop] = useState(10);
-
   const [headerPaddingRight, setHeaderPaddingRight] = useState(10);
-
   const [headerPaddingBottom, setHeaderPaddingBottom] = useState(10);
-
   const [headerPaddingLeft, setHeaderPaddingLeft] = useState(10);
   // header - 여백 모두 보기 여부
   const [showAllHeaderPadding, setShowAllHeaderPadding] = useState(false);
+  // body - 여백
+  const [bodyPaddingTop, setBodyPaddingTop] = useState(10);
+  const [bodyPaddingRight, setBodyPaddingRight] = useState(10);
+  const [bodyPaddingBottom, setBodyPaddingBottom] = useState(10);
+  const [bodyPaddingLeft, setBodyPaddingLeft] = useState(10);
+  // body - 여백 모두 보기 여부
+  const [showAllBodyPadding, setShowAllBodyPadding] = useState(false);
   // header - 닫기 아이콘 크기
   const [closeIconSize, setCloseIconSize] = useState(20);
   // layout 설정 보이기
@@ -104,12 +114,26 @@ const ComponentModal: NextPage = () => {
   const [showHeaderText, setShowHeaderText] = useState(true);
   // header - padding 설정 보이기
   const [showHeaderPadding, setShowHeaderPadding] = useState(true);
+  // body - padding 설정 보이기
+  const [showBodyPadding, setShowBodyPadding] = useState(true);
   // 모서리 각 설정 보이기
   const [showBorderRadius, setShowBorderRadius] = useState(true);
   // 닫기 아이콘 설정 보이기
   const [showCloseIcon, setShowCloseIcon] = useState(true);
   // 탭 활성화 관리
   const [activeTab, setActiveTab] = useState<ModalTabType>(ModalTabType.MODAL);
+  // container - 헤더 설정 활성화 여부
+  const [checkAddHeader, setCheckAddHeader] = useState(true);
+  // container - 푸터 설정 활성화 여부
+  const [checkAddFooter, setCheckAddFooter] = useState(false);
+  // body - 폼 관리 보이기
+  const [showManageForm, setShowManageForm] = useState(true);
+  // body - 레이아웃 관리 보이기
+  const [showManageLayout, setShowManageLayout] = useState(true);
+  // body - 추가된 레이아웃 수
+  const [layouts, setLayouts] = useState<ModalLayoutOption[]>([
+    { useLabel: true, label: "제목", useInput: true }
+  ]);
   /* order - variable */
   // grid span
   const gridSpan = 1;
@@ -121,6 +145,42 @@ const ComponentModal: NextPage = () => {
   const handleClickTab = (activeTab: ModalTabType) => {
     setActiveTab(activeTab);
   };
+
+  const handleCreateLayout = () => {
+    const nextLayout: ModalLayoutOption = {
+      useLabel: true,
+      label: "제목",
+      useInput: true
+    };
+
+    setLayouts([...layouts, nextLayout]);
+  };
+
+  const handleRemoveLayout = (order: number) => {
+    setLayouts(prevLayouts =>
+      prevLayouts.filter((layout, index) => order !== index)
+    );
+  };
+
+  const handleChangeLabel = (
+    evt: ChangeEvent<HTMLInputElement>,
+    order: number
+  ) => {
+    setLayouts(prevLayouts =>
+      prevLayouts.map((layout, index) => {
+        if (order === index) {
+          return {
+            ...layout,
+            label: evt.target.value
+          };
+        }
+
+        return layout;
+      })
+    );
+  };
+
+  const handleChangeOrder = () => {};
 
   return (
     <>
@@ -137,35 +197,53 @@ const ComponentModal: NextPage = () => {
             <Modal
               style={{
                 width,
-                height,
                 borderTopLeftRadius,
                 borderTopRightRadius,
                 borderBottomLeftRadius,
-                borderBottomRightRadius
+                borderBottomRightRadius,
+                overflow: "hidden"
               }}
             >
-              <ModalHeader
-                style={{
-                  paddingTop: headerPaddingTop,
-                  paddingRight: headerPaddingRight,
-                  paddingBottom: headerPaddingBottom,
-                  paddingLeft: headerPaddingLeft
-                }}
-              >
-                <span
+              {checkAddHeader && (
+                <ModalHeader
                   style={{
-                    color: headerTitleColor,
-                    fontSize: headerTitleFontSize,
-                    lineHeight: `${headerTitleLineHeight}px`,
-                    letterSpacing: headerTitleLetterSpacing
+                    paddingTop: headerPaddingTop,
+                    paddingRight: headerPaddingRight,
+                    paddingBottom: headerPaddingBottom,
+                    paddingLeft: headerPaddingLeft
                   }}
                 >
-                  {headerTitle}
-                </span>
-                <CloseIconWrapper type="button" iconSize={closeIconSize}>
-                  <AiOutlineClose />
-                </CloseIconWrapper>
-              </ModalHeader>
+                  <span
+                    style={{
+                      color: headerTitleColor,
+                      fontSize: headerTitleFontSize,
+                      lineHeight: `${headerTitleLineHeight}px`,
+                      letterSpacing: headerTitleLetterSpacing
+                    }}
+                  >
+                    {headerTitle}
+                  </span>
+                  <CloseIconWrapper type="button" iconSize={closeIconSize}>
+                    <AiOutlineClose />
+                  </CloseIconWrapper>
+                </ModalHeader>
+              )}
+
+              <ModalBody
+                style={{
+                  paddingTop: bodyPaddingTop,
+                  paddingRight: bodyPaddingRight,
+                  paddingBottom: bodyPaddingBottom,
+                  paddingLeft: bodyPaddingLeft
+                }}
+              >
+                {layouts.map((layout, index) => (
+                  <Fragment key={`PreviewLayout${index}`}>
+                    <span>{layout.label}</span>
+                    <DefaultInput />
+                  </Fragment>
+                ))}
+              </ModalBody>
             </Modal>
           </Layer>
         </Component.Section>
@@ -181,24 +259,29 @@ const ComponentModal: NextPage = () => {
                 >
                   Container
                 </Grid.Tab>
-                <Grid.Tab
-                  active={activeTab === ModalTabType.HEADER}
-                  onClick={() => handleClickTab(ModalTabType.HEADER)}
-                >
-                  Header
-                </Grid.Tab>
+                {checkAddHeader && (
+                  <Grid.Tab
+                    active={activeTab === ModalTabType.HEADER}
+                    onClick={() => handleClickTab(ModalTabType.HEADER)}
+                  >
+                    Header
+                  </Grid.Tab>
+                )}
+
                 <Grid.Tab
                   active={activeTab === ModalTabType.BODY}
                   onClick={() => handleClickTab(ModalTabType.BODY)}
                 >
                   Body
                 </Grid.Tab>
-                <Grid.Tab
-                  active={activeTab === ModalTabType.FOOTER}
-                  onClick={() => handleClickTab(ModalTabType.FOOTER)}
-                >
-                  Footer
-                </Grid.Tab>
+                {checkAddFooter && (
+                  <Grid.Tab
+                    active={activeTab === ModalTabType.FOOTER}
+                    onClick={() => handleClickTab(ModalTabType.FOOTER)}
+                  >
+                    Footer
+                  </Grid.Tab>
+                )}
               </Grid.Row>
               {activeTab === ModalTabType.MODAL && (
                 <>
@@ -224,19 +307,25 @@ const ComponentModal: NextPage = () => {
                     />
                   </Grid.Column>
                   <Grid.Column span={showLayout ? 1 : 0}>
-                    <RequireLabel htmlFor="setWidth">높이</RequireLabel>
-                    <CountingInput
-                      id="setWidth"
-                      ariaLabel="너비"
-                      count={width}
-                      setCount={setWidth}
-                      limit={100}
-                      showIcon={true}
-                      showFeedback={true}
-                      numberType={CountNumberType.INTEGER}
-                      unit="px"
-                    />
+                    <RequireLabel htmlFor="">레이아웃 추가</RequireLabel>
+                    <WithLabel id="addHeader" label="헤더 추가 하기">
+                      <Switch
+                        id="addHeader"
+                        width={40}
+                        checked={checkAddHeader}
+                        setChecked={setCheckAddHeader}
+                      />
+                    </WithLabel>
+                    <WithLabel id="addFooter" label="푸터 추가 하기">
+                      <Switch
+                        id="addFooter"
+                        width={40}
+                        checked={checkAddFooter}
+                        setChecked={setCheckAddFooter}
+                      />
+                    </WithLabel>
                   </Grid.Column>
+
                   <Grid.FoldableTitle
                     fold={showBorderRadius}
                     setFold={setShowBorderRadius}
@@ -334,6 +423,71 @@ const ComponentModal: NextPage = () => {
                       unit="px"
                     />
                   </Grid.Column>
+                </>
+              )}
+              {activeTab === ModalTabType.BODY && (
+                <>
+                  <Grid.FoldableTitle
+                    fold={showBodyPadding}
+                    setFold={setShowBodyPadding}
+                    span={gridSpan}
+                  >
+                    <span>여백 설정</span>
+                  </Grid.FoldableTitle>
+                  <PaddingOption
+                    id="ModalBody"
+                    paddingTop={bodyPaddingTop}
+                    setPaddingTop={setBodyPaddingTop}
+                    paddingRight={bodyPaddingRight}
+                    setPaddingRight={setBodyPaddingRight}
+                    paddingBottom={bodyPaddingBottom}
+                    setPaddingBottom={setBodyPaddingBottom}
+                    paddingLeft={bodyPaddingLeft}
+                    setPaddingLeft={setBodyPaddingLeft}
+                    isShowAllOption={showAllBodyPadding}
+                    setIsShowAllOption={setShowAllBodyPadding}
+                    span={showBodyPadding ? 1 : 0}
+                  />
+                  <Grid.FoldableTitle
+                    fold={showManageLayout}
+                    setFold={setShowManageLayout}
+                    span={gridSpan}
+                  >
+                    <span>레이아웃 관리</span>
+                  </Grid.FoldableTitle>
+                  <Grid.Column span={showManageLayout ? 1 : 0}>
+                    <PrimaryButton type="button" onClick={handleCreateLayout}>
+                      레이아웃 추가
+                    </PrimaryButton>
+                  </Grid.Column>
+                  {layouts.map((layout, index) => (
+                    <Fragment key={`Layout${index}`}>
+                      <Grid.Column span={showManageLayout ? 1 : 0}>
+                        <RequireLabel htmlFor={`setOrder${index}`}>
+                          순서
+                        </RequireLabel>
+                        <DefaultInput
+                          id={`setOrder${index}`}
+                          value={index + 1}
+                          disabled
+                        />
+                        <RequireLabel htmlFor={`setLabel${index}`}>
+                          Label 설정
+                        </RequireLabel>
+                        <DefaultInput
+                          id={`setLabel${index}`}
+                          value={layout.label}
+                          onChange={evt => handleChangeLabel(evt, index)}
+                        />
+                        <DangerButton
+                          type="button"
+                          onClick={() => handleRemoveLayout(index)}
+                        >
+                          삭제
+                        </DangerButton>
+                      </Grid.Column>
+                    </Fragment>
+                  ))}
                 </>
               )}
             </Grid.ResponsiveContainer>
