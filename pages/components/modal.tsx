@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent, CSSProperties } from "react";
+import type { ChangeEvent, CSSProperties, MouseEvent } from "react";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
@@ -134,6 +134,10 @@ const ComponentModal: NextPage = () => {
   const [layouts, setLayouts] = useState<ModalLayoutOption[]>([
     { useLabel: true, label: "제목", useInput: true }
   ]);
+  // body - 현재 드래그 중인 레이아웃 순서
+  const [dragOrder, setDragOrder] = useState(-1);
+  // body - 현재 마우스 오버 중인 레이아웃 순서
+  const [hoverOrder, setHoverOrder] = useState(-1);
   /* order - variable */
   // grid span
   const gridSpan = 1;
@@ -181,6 +185,35 @@ const ComponentModal: NextPage = () => {
   };
 
   const handleChangeOrder = () => {};
+
+  const handleDragEnter = (order: number) => {
+    if (dragOrder !== -1) {
+      setHoverOrder(order);
+    }
+  };
+  const handleDrag = (order: number) => {
+    setDragOrder(order);
+  };
+
+  const handleDrop = (order: number) => {
+    if (dragOrder !== order) {
+      const cloneLayout = layouts;
+
+      const [dragLayout] = cloneLayout.splice(dragOrder, 1);
+
+      cloneLayout.splice(order, 0, dragLayout);
+
+      setLayouts([...cloneLayout]);
+    }
+
+    setDragOrder(-1);
+
+    setHoverOrder(-1);
+  };
+
+  const handleDragOver = (evt: MouseEvent<HTMLDivElement>) => {
+    evt.preventDefault();
+  };
 
   return (
     <>
@@ -299,7 +332,7 @@ const ComponentModal: NextPage = () => {
                       ariaLabel="너비"
                       count={width}
                       setCount={setWidth}
-                      limit={100}
+                      limit={500}
                       showIcon={true}
                       showFeedback={true}
                       numberType={CountNumberType.INTEGER}
@@ -308,7 +341,7 @@ const ComponentModal: NextPage = () => {
                   </Grid.Column>
                   <Grid.Column span={showLayout ? 1 : 0}>
                     <RequireLabel htmlFor="">레이아웃 추가</RequireLabel>
-                    <WithLabel id="addHeader" label="헤더 추가 하기">
+                    <WithLabel id="addHeader" label="헤더">
                       <Switch
                         id="addHeader"
                         width={40}
@@ -316,7 +349,7 @@ const ComponentModal: NextPage = () => {
                         setChecked={setCheckAddHeader}
                       />
                     </WithLabel>
-                    <WithLabel id="addFooter" label="푸터 추가 하기">
+                    <WithLabel id="addFooter" label="푸터">
                       <Switch
                         id="addFooter"
                         width={40}
@@ -461,32 +494,39 @@ const ComponentModal: NextPage = () => {
                     </PrimaryButton>
                   </Grid.Column>
                   {layouts.map((layout, index) => (
-                    <Fragment key={`Layout${index}`}>
-                      <Grid.Column span={showManageLayout ? 1 : 0}>
-                        <RequireLabel htmlFor={`setOrder${index}`}>
-                          순서
-                        </RequireLabel>
-                        <DefaultInput
-                          id={`setOrder${index}`}
-                          value={index + 1}
-                          disabled
-                        />
-                        <RequireLabel htmlFor={`setLabel${index}`}>
-                          Label 설정
-                        </RequireLabel>
-                        <DefaultInput
-                          id={`setLabel${index}`}
-                          value={layout.label}
-                          onChange={evt => handleChangeLabel(evt, index)}
-                        />
-                        <DangerButton
-                          type="button"
-                          onClick={() => handleRemoveLayout(index)}
-                        >
-                          삭제
-                        </DangerButton>
-                      </Grid.Column>
-                    </Fragment>
+                    <Grid.Column
+                      key={`Layout${index}`}
+                      span={showManageLayout ? 1 : 0}
+                      draggable={true}
+                      onDragOver={handleDragOver}
+                      onDragStart={() => handleDrag(index)}
+                      onDragEnter={() => handleDragEnter(index)}
+                      onDrop={() => handleDrop(index)}
+                      showBefore={hoverOrder === index}
+                    >
+                      <RequireLabel htmlFor={`setOrder${index}`}>
+                        순서
+                      </RequireLabel>
+                      <DefaultInput
+                        id={`setOrder${index}`}
+                        value={index + 1}
+                        disabled
+                      />
+                      <RequireLabel htmlFor={`setLabel${index}`}>
+                        Label 설정
+                      </RequireLabel>
+                      <DefaultInput
+                        id={`setLabel${index}`}
+                        value={layout.label}
+                        onChange={evt => handleChangeLabel(evt, index)}
+                      />
+                      <DangerButton
+                        type="button"
+                        onClick={() => handleRemoveLayout(index)}
+                      >
+                        삭제
+                      </DangerButton>
+                    </Grid.Column>
                   ))}
                 </>
               )}

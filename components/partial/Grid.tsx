@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import type { CoreProps } from "../../interfaces/core";
 import type { GridCoreProps } from "../../interfaces/grid";
+import { blink } from "../../theme/keyframes";
 import { mixinBgLv3 } from "../../theme/mixins/background";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import { IconWrapper } from "../IconWrapper";
@@ -101,7 +102,8 @@ export const Tab: FC<TabProps> = ({ children, active, onClick }) => (
   </TabWrapper>
 );
 
-export const Column = styled.div<{ span: number }>`
+export const Column = styled.div<{ span: number; showBefore?: boolean }>`
+  position: relative;
   max-height: ${({ span }) => (span === 0 ? 0 : "")};
   margin: 5px;
   border-radius: 5px;
@@ -110,7 +112,19 @@ export const Column = styled.div<{ span: number }>`
   border: 1px solid ${({ theme }) => theme.dividerColor};
   ${({ span }) => (span > 0 ? `grid-column: span ${span}` : "")};
 
-  & > * {
+  &:before {
+    position: absolute;
+    content: "";
+    top: -8px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: ${({ theme }) => theme.dividerColor};
+    border-radius: 10px;
+    opacity: ${({ showBefore }) => (showBefore ? 1 : 0)};
+  }
+
+  & > * + * {
     margin-bottom: 5px;
   }
 
