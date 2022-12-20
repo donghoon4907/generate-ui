@@ -3,6 +3,10 @@ import Head from "next/head";
 import type { ChangeEvent, CSSProperties } from "react";
 import { useState } from "react";
 
+import type { ISelectOption } from "../../interfaces/select";
+import * as Component from "../../components/partial/Component";
+import * as Preset from "../../components/partial/Preset";
+import * as Grid from "../../components/partial/Grid";
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
@@ -10,22 +14,13 @@ import { theme } from "../../theme";
 import { CountNumberType } from "../../types/count";
 import { CustomSelect } from "../../components/CustomSelect";
 import { borderStyleOptions } from "../../components/options/BorderStyle";
-import type { SelectOption } from "../../interfaces/select";
-import * as Component from "../../components/partial/Component";
-import * as Preset from "../../components/partial/Preset";
-import * as Grid from "../../components/partial/Grid";
 import { RequireLabel } from "../../components/RequireLabel";
 import { inputTypeOptions } from "../../components/options/InputType";
 import { langOptions } from "../../components/options/Template";
 import { WithLabel } from "../../components/WithLabel";
 import { Checkbox } from "../../components/Checkbox";
-import { PaddingOption } from "../../components/partial/PaddingOption";
-import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 import { InputTypeOption, LangOption } from "../../types/select-option";
-import { FontOption } from "../../components/partial/FontOption";
 import { textAlignOptions } from "../../components/options/TextAlign";
-import { BorderOption } from "../../components/partial/BorderOption";
-import { RgbaOption } from "../../components/partial/RgbaOption";
 import { ConvertInput } from "../../lib/style/input";
 import { copyToClipboard } from "../../lib/copy/clipboard";
 import {
@@ -34,13 +29,20 @@ import {
 } from "../../components/Button";
 import { IconAlignOption } from "../../types/select-option";
 import { iconAlignOptions } from "../../components/options/IconAlign";
-import { IconOption } from "../../components/partial/IconOption";
-import { PreferenceOption } from "../../components/partial/PreferenceOption";
+import { IconOption } from "../../components/templates/options/Icon";
+import { FontOption } from "../../components/templates/options/Font";
+import { PaddingOption } from "../../components/templates/options/Padding";
+import { BorderRadiusOption } from "../../components/templates/options/BorderRadius";
+import { BorderOption } from "../../components/templates/options/Border";
+import { RgbaOption } from "../../components/templates/options/Rgba";
+import { PreferenceOption } from "../../components/templates/options/Preference";
 
 const ComponentInput: NextPage = () => {
   /* order - state */
   // 타입
-  const [inputType, setInputType] = useState<SelectOption>(inputTypeOptions[0]);
+  const [inputType, setInputType] = useState<ISelectOption>(
+    inputTypeOptions[0]
+  );
   // 너비
   const [width, setWidth] = useState(200);
   // 텍스트 높이
@@ -51,42 +53,32 @@ const ComponentInput: NextPage = () => {
   const [placeholder, setPlaceholder] = useState("입력하세요");
   // 배경색
   const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
-
   const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
-
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
   // 텍스트 색
   const [color, setColor] = useState("#000000");
   // 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
-
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
-
   const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
-
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
   // 모서리 각 모두 보기 여부
-  const [showAllBorderRadius, setShowAllBorderRadius] = useState(false);
+  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
   // 여백
   const [paddingTop, setPaddingTop] = useState(4);
-
   const [paddingRight, setPaddingRight] = useState(4);
-
   const [paddingBottom, setPaddingBottom] = useState(4);
-
   const [paddingLeft, setPaddingLeft] = useState(4);
   // 여백 모두 보기 여부
-  const [showAllPadding, setShowAllPadding] = useState(false);
+  const [checkAllPadding, setCheckAllPadding] = useState(false);
   // 테두리
-  const [borderStyle, setBorderStyle] = useState<SelectOption>(
+  const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
   );
-
   const [borderColor, setBorderColor] = useState("#000000");
-
   const [borderWidth, setBorderWidth] = useState(1);
   // 언어
-  const [lang, setLang] = useState<SelectOption>(langOptions[0]);
+  const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
   // 텍스트 크기
@@ -94,11 +86,15 @@ const ComponentInput: NextPage = () => {
   // 아이콘 추가 여부
   const [checkIcon, setCheckIcon] = useState(false);
   // 텍스트 정렬
-  const [textAlign, setTextAlign] = useState<SelectOption>(textAlignOptions[0]);
+  const [textAlign, setTextAlign] = useState<ISelectOption>(
+    textAlignOptions[0]
+  );
   // 아이콘 사이즈
   const [iconSize, setIconSize] = useState(16);
   // 아이콘 정렬
-  const [iconAlign, setIconAlign] = useState<SelectOption>(iconAlignOptions[0]);
+  const [iconAlign, setIconAlign] = useState<ISelectOption>(
+    iconAlignOptions[0]
+  );
   // 아이콘 색
   const [iconColor, setIconColor] = useState("#000000");
   // 기본 설정 보이기
@@ -187,7 +183,7 @@ const ComponentInput: NextPage = () => {
     setPaddingRight(12);
     setPaddingBottom(6);
     setPaddingLeft(12);
-    setShowAllPadding(true);
+    setCheckAllPadding(true);
     setBackgroundColorHex(theme.color.white);
     setBackgroundColorRgb("255,255,255");
     setBackgroundColorAlpha(1);
@@ -196,7 +192,7 @@ const ComponentInput: NextPage = () => {
     setBorderTopRightRadius(5);
     setBorderBottomLeftRadius(5);
     setBorderBottomRightRadius(5);
-    setShowAllBorderRadius(false);
+    setCheckAllBorderRadius(false);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -211,7 +207,7 @@ const ComponentInput: NextPage = () => {
     setPaddingRight(12);
     setPaddingBottom(6);
     setPaddingLeft(12);
-    setShowAllPadding(true);
+    setCheckAllPadding(true);
     setBackgroundColorHex(theme.color.gray_lv0);
     setBackgroundColorRgb("31, 31, 31");
     setBackgroundColorAlpha(1);
@@ -220,7 +216,7 @@ const ComponentInput: NextPage = () => {
     setBorderTopRightRadius(5);
     setBorderBottomLeftRadius(5);
     setBorderBottomRightRadius(5);
-    setShowAllBorderRadius(false);
+    setCheckAllBorderRadius(false);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -329,6 +325,7 @@ const ComponentInput: NextPage = () => {
                     <span>아이콘 설정</span>
                   </Grid.FoldableTitle>
                   <IconOption
+                    span={showIcon ? 1 : 0}
                     id="Input"
                     iconAlign={iconAlign}
                     setIconAlign={setIconAlign}
@@ -336,7 +333,6 @@ const ComponentInput: NextPage = () => {
                     setIconSize={setIconSize}
                     iconColor={iconColor}
                     setIconColor={setIconColor}
-                    span={showIcon ? 1 : 0}
                   />
                 </>
               )}
@@ -383,6 +379,7 @@ const ComponentInput: NextPage = () => {
               </Grid.Column>
               <FontOption
                 id="Input"
+                span={showText ? 1 : 0}
                 color={color}
                 setColor={setColor}
                 fontSize={fontSize}
@@ -393,7 +390,6 @@ const ComponentInput: NextPage = () => {
                 setLetterSpacing={setLetterSpacing}
                 textAlign={textAlign}
                 setTextAlign={setTextAlign}
-                span={showText ? 1 : 0}
               />
               <Grid.FoldableTitle
                 fold={showPadding}
@@ -404,6 +400,7 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
               <PaddingOption
                 id="Input"
+                span={showPadding ? 1 : 0}
                 paddingTop={paddingTop}
                 setPaddingTop={setPaddingTop}
                 paddingRight={paddingRight}
@@ -412,9 +409,8 @@ const ComponentInput: NextPage = () => {
                 setPaddingBottom={setPaddingBottom}
                 paddingLeft={paddingLeft}
                 setPaddingLeft={setPaddingLeft}
-                isShowAllOption={showAllPadding}
-                setIsShowAllOption={setShowAllPadding}
-                span={showPadding ? 1 : 0}
+                checkAllPaddingOption={checkAllPadding}
+                setCheckAllPaddingOption={setCheckAllPadding}
               />
               <Grid.FoldableTitle
                 fold={showBorderRadius}
@@ -425,6 +421,7 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
               <BorderRadiusOption
                 id="Input"
+                span={showBorderRadius ? 1 : 0}
                 borderTopLeftRadius={borderTopLeftRadius}
                 setBorderTopLeftRadius={setBorderTopLeftRadius}
                 borderTopRightRadius={borderTopRightRadius}
@@ -433,9 +430,8 @@ const ComponentInput: NextPage = () => {
                 setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                 borderBottomRightRadius={borderBottomRightRadius}
                 setBorderBottomRightRadius={setBorderBottomRightRadius}
-                isShowAllOption={showAllBorderRadius}
-                setIsShowAllOption={setShowAllBorderRadius}
-                span={showBorderRadius ? 1 : 0}
+                checkAllBorderRadiusOption={checkAllBorderRadius}
+                setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
               />
 
               <Grid.FoldableTitle
@@ -447,13 +443,13 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
               <BorderOption
                 id="Input"
+                span={showBorder ? 1 : 0}
                 borderStyle={borderStyle}
                 setBorderStyle={setBorderStyle}
                 borderWidth={borderWidth}
                 setBorderWidth={setBorderWidth}
                 borderColor={borderColor}
                 setBorderColor={setBorderColor}
-                span={showBorder ? 1 : 0}
               />
               <Grid.FoldableTitle
                 fold={showBackgroundColor}
@@ -464,12 +460,12 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
               <RgbaOption
                 id="Input"
+                span={showBackgroundColor ? 1 : 0}
                 hex={backgroundColorHex}
                 setRgb={setBackgroundColorRgb}
                 setHex={setBackgroundColorHex}
                 alpha={backgroundColorAlpha}
                 setAlpha={setBackgroundColorAlpha}
-                span={showBackgroundColor ? 1 : 0}
               />
               <Grid.FoldableTitle
                 fold={showPreference}
@@ -479,11 +475,11 @@ const ComponentInput: NextPage = () => {
                 <span>환경 설정</span>
               </Grid.FoldableTitle>
               <PreferenceOption
+                span={showPreference ? 1 : 0}
                 lang={lang}
                 setLang={setLang}
                 html={html}
                 setHtml={setHtml}
-                span={showPreference ? 1 : 0}
               />
             </Grid.ResponsiveContainer>
           </Component.Scrollable>

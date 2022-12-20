@@ -1,7 +1,7 @@
-import type { SelectOption } from "../../interfaces/select";
+import type { ISelectOption } from "../../interfaces/select";
 import { LangOption } from "../../types/select-option";
 
-export const langOptions: SelectOption[] = [
+export const langOptions: ISelectOption[] = [
   {
     label: "Javascript",
     value: LangOption.JS,

@@ -1,18 +1,18 @@
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
-import { CountingInput } from "../CountingInput";
-import { CountNumberType } from "../../types/count";
-import * as Grid from "./Grid";
-import { RequireLabel } from "../RequireLabel";
-import { CustomSelect } from "../CustomSelect";
-import { DefaultInput } from "../Input";
-import type { SelectOption } from "../../interfaces/select";
-import { textAlignOptions } from "../options/TextAlign";
-import { isNumber } from "../../lib/calc/number";
-import { textOverflowOptions } from "../options/TextOverflow";
-import type { GridCoreProps } from "../../interfaces/grid";
+import type { IGridOption } from "../../../interfaces/grid";
+import type { ISelectOption } from "../../../interfaces/select";
+import * as Grid from "../../partial/Grid";
+import { isNumber } from "../../../lib/calc/number";
+import { RequireLabel } from "../../RequireLabel";
+import { DefaultInput } from "../../Input";
+import { CustomSelect } from "../../CustomSelect";
+import { textAlignOptions } from "../../options/TextAlign";
+import { CountingInput } from "../../CountingInput";
+import { CountNumberType } from "../../../types/count";
+import { textOverflowOptions } from "../../options/TextOverflow";
 
-interface Props extends GridCoreProps {
+interface Props extends IGridOption {
   id: string | number;
   color?: string;
   setColor?: Dispatch<SetStateAction<string>>;
@@ -22,14 +22,15 @@ interface Props extends GridCoreProps {
   setLineHeight?: Dispatch<SetStateAction<number>>;
   letterSpacing?: number;
   setLetterSpacing?: Dispatch<SetStateAction<number>>;
-  textAlign?: SelectOption;
-  setTextAlign?: Dispatch<SetStateAction<SelectOption>>;
-  textOverflow?: SelectOption;
-  setTextOverflow?: Dispatch<SetStateAction<SelectOption>>;
+  textAlign?: ISelectOption;
+  setTextAlign?: Dispatch<SetStateAction<ISelectOption>>;
+  textOverflow?: ISelectOption;
+  setTextOverflow?: Dispatch<SetStateAction<ISelectOption>>;
 }
 
 export const FontOption: FC<Props> = ({
   id,
+  span,
   color,
   setColor,
   fontSize,
@@ -41,8 +42,7 @@ export const FontOption: FC<Props> = ({
   textAlign,
   setTextAlign,
   textOverflow,
-  setTextOverflow,
-  span
+  setTextOverflow
 }) => {
   const isShowColor = color && setColor;
 

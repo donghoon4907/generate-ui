@@ -1,12 +1,12 @@
 import type { CSSProperties } from "react";
 import { useState } from "react";
 
-import type { SelectOption } from "../interfaces/select";
+import type { ISelectOption } from "../interfaces/select";
 import { TextOverflowOption } from "../types/select-option";
 
-export const useTextOverflow = (defaultTextOverflow: SelectOption) => {
+export const useTextOverflow = (defaultTextOverflow: ISelectOption) => {
   const [textOverflow, setTextOverflow] =
-    useState<SelectOption>(defaultTextOverflow);
+    useState<ISelectOption>(defaultTextOverflow);
 
   const textOverflowStyle: CSSProperties = {
     textOverflow: textOverflow.value,

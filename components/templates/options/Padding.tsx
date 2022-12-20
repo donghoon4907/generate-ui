@@ -1,30 +1,22 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 
-import { CountingInput } from "../CountingInput";
-import { CountNumberType } from "../../types/count";
-import * as Grid from "./Grid";
-import { RequireLabel } from "../RequireLabel";
-import { Switch } from "../Switch";
-import { WithLabel } from "../WithLabel";
-import type { GridCoreProps } from "../../interfaces/grid";
-import constants from "../../constants";
+import type { IGridOption } from "../../../interfaces/grid";
+import type { IPaddingOption } from "../../../interfaces/option";
+import * as Grid from "../../partial/Grid";
+import constants from "../../../constants";
+import { RequireLabel } from "../../RequireLabel";
+import { CountingInput } from "../../CountingInput";
+import { CountNumberType } from "../../../types/count";
+import { WithLabel } from "../../WithLabel";
+import { Switch } from "../../Switch";
 
-interface Props extends GridCoreProps {
+interface Props extends IGridOption, IPaddingOption {
   id: string | number;
-  paddingTop: number;
-  setPaddingTop: Dispatch<SetStateAction<number>>;
-  paddingRight: number;
-  setPaddingRight: Dispatch<SetStateAction<number>>;
-  paddingBottom: number;
-  setPaddingBottom: Dispatch<SetStateAction<number>>;
-  paddingLeft: number;
-  setPaddingLeft: Dispatch<SetStateAction<number>>;
-  isShowAllOption: boolean;
-  setIsShowAllOption: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PaddingOption: FC<Props> = ({
   id,
+  span,
   paddingTop,
   setPaddingTop,
   paddingRight,
@@ -33,9 +25,8 @@ export const PaddingOption: FC<Props> = ({
   setPaddingBottom,
   paddingLeft,
   setPaddingLeft,
-  isShowAllOption,
-  setIsShowAllOption,
-  span
+  checkAllPaddingOption,
+  setCheckAllPaddingOption
 }) => {
   const setPadding = (px: number) => {
     setPaddingTop(px);
@@ -48,15 +39,17 @@ export const PaddingOption: FC<Props> = ({
     <>
       <Grid.Column span={span}>
         <RequireLabel
-          htmlFor={isShowAllOption ? `setPaddingTop${id}` : `setPadding${id}`}
+          htmlFor={
+            checkAllPaddingOption ? `setPaddingTop${id}` : `setPadding${id}`
+          }
         >
-          {`여백 ${isShowAllOption ? "Top" : ""}`}
+          {`여백 ${checkAllPaddingOption ? "Top" : ""}`}
         </RequireLabel>
         <CountingInput
-          id={isShowAllOption ? `setPaddingTop${id}` : `setPadding${id}`}
-          ariaLabel={isShowAllOption ? "padding-top" : "padding"}
+          id={checkAllPaddingOption ? `setPaddingTop${id}` : `setPadding${id}`}
+          ariaLabel={checkAllPaddingOption ? "padding-top" : "padding"}
           count={paddingTop}
-          setCount={isShowAllOption ? setPaddingTop : setPadding}
+          setCount={checkAllPaddingOption ? setPaddingTop : setPadding}
           limit={30}
           showIcon={true}
           showFeedback={true}
@@ -70,12 +63,12 @@ export const PaddingOption: FC<Props> = ({
           <Switch
             id={`setDetailPadding${id}`}
             width={40}
-            checked={isShowAllOption}
-            setChecked={setIsShowAllOption}
+            checked={checkAllPaddingOption}
+            setChecked={setCheckAllPaddingOption}
           />
         </WithLabel>
       </Grid.Column>
-      {isShowAllOption && (
+      {checkAllPaddingOption && (
         <>
           <Grid.Column span={span}>
             <RequireLabel htmlFor="setPaddingRight">여백 Right</RequireLabel>

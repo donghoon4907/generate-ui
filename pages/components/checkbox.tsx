@@ -4,22 +4,22 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
+import * as Component from "../../components/partial/Component";
+import * as Grid from "../../components/partial/Grid";
+import type { ISelectOption } from "../../interfaces/select";
 import { CountingInput } from "../../components/CountingInput";
 import { FeedbackInput } from "../../components/Input";
 import { Preview } from "../../components/Preview";
 import { CountNumberType } from "../../types/count";
-import type { SelectOption } from "../../interfaces/select";
-import * as Component from "../../components/partial/Component";
-import * as Grid from "../../components/partial/Grid";
 import { RequireLabel } from "../../components/RequireLabel";
 import { langOptions } from "../../components/options/Template";
 import { mixinEllipsisText } from "../../theme/mixins/text";
-import { FontOption } from "../../components/partial/FontOption";
 import { LangOption } from "../../types/select-option";
-import { PreferenceOption } from "../../components/partial/PreferenceOption";
 import { ConvertCheckbox } from "../../lib/style/checkbox";
 import { copyToClipboard } from "../../lib/copy/clipboard";
 import { useTheme } from "../../hooks/useTheme";
+import { FontOption } from "../../components/templates/options/Font";
+import { PreferenceOption } from "../../components/templates/options/Preference";
 
 const StyledInput = styled.input<{
   label: string;
@@ -57,7 +57,7 @@ const ComponentCheckbox: NextPage = () => {
   // 텍스트 크기
   const [fontSize, setFontSize] = useState(16);
   // 언어
-  const [lang, setLang] = useState<SelectOption>(langOptions[0]);
+  const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
   // layout 설정 보이기
@@ -160,12 +160,12 @@ const ComponentCheckbox: NextPage = () => {
                 />
               </Grid.Column>
               <FontOption
+                span={showText ? 1 : 0}
                 id="Checkbox"
                 color={color}
                 setColor={setColor}
                 fontSize={fontSize}
                 setFontSize={setFontSize}
-                span={showText ? 1 : 0}
               />
 
               <Grid.FoldableTitle
@@ -176,11 +176,11 @@ const ComponentCheckbox: NextPage = () => {
                 <span>환경 설정</span>
               </Grid.FoldableTitle>
               <PreferenceOption
+                span={showPreference ? 1 : 0}
                 lang={lang}
                 setLang={setLang}
                 html={html}
                 setHtml={setHtml}
-                span={showPreference ? 1 : 0}
               />
             </Grid.ResponsiveContainer>
           </Component.Scrollable>

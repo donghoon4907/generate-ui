@@ -1,34 +1,28 @@
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import type { ChangeEvent, FC } from "react";
 
-import { CountingInput } from "../CountingInput";
-import { CountNumberType } from "../../types/count";
-import * as Grid from "./Grid";
-import { RequireLabel } from "../RequireLabel";
-import { CustomSelect } from "../CustomSelect";
-import { DefaultInput } from "../Input";
-import type { SelectOption } from "../../interfaces/select";
-import { iconAlignOptions } from "../options/IconAlign";
-import type { GridCoreProps } from "../../interfaces/grid";
+import type { IGridOption } from "../../../interfaces/grid";
+import type { IIconOption } from "../../../interfaces/option";
+import * as Grid from "../../partial/Grid";
+import { CountingInput } from "../../CountingInput";
+import { CustomSelect } from "../../CustomSelect";
+import { DefaultInput } from "../../Input";
+import { iconAlignOptions } from "../../options/IconAlign";
+import { RequireLabel } from "../../RequireLabel";
+import { CountNumberType } from "../../../types/count";
 
-interface Props extends GridCoreProps {
+interface Props extends IGridOption, IIconOption {
   id: string | number;
-  iconAlign: SelectOption;
-  setIconAlign: Dispatch<SetStateAction<SelectOption>>;
-  iconSize: number;
-  setIconSize: Dispatch<SetStateAction<number>>;
-  iconColor: string;
-  setIconColor: Dispatch<SetStateAction<string>>;
 }
 
 export const IconOption: FC<Props> = ({
   id,
+  span,
   iconAlign,
   setIconAlign,
   iconSize,
   setIconSize,
   iconColor,
-  setIconColor,
-  span
+  setIconColor
 }) => {
   const handleChangeIconColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setIconColor(evt.target.value);

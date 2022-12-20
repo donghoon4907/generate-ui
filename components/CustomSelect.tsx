@@ -3,8 +3,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RiArrowUpSLine } from "react-icons/ri";
 
+import type { ISelectOption } from "../interfaces/select";
 import { mixinBgLv0 } from "../theme/mixins/background";
-import type { SelectOption } from "../interfaces/select";
 
 const Container = styled.div<{ open: boolean }>`
   position: relative;
@@ -97,9 +97,9 @@ const OptionItem = styled.li`
 `;
 
 interface Props {
-  activeOption: SelectOption;
-  setOption: Dispatch<SetStateAction<SelectOption>>;
-  options: SelectOption[];
+  activeOption: ISelectOption;
+  setOption: Dispatch<SetStateAction<ISelectOption>>;
+  options: ISelectOption[];
 }
 
 export const CustomSelect: FC<Props> = ({
@@ -130,7 +130,7 @@ export const CustomSelect: FC<Props> = ({
     }
   };
 
-  const handleClickOption = (option: SelectOption) => {
+  const handleClickOption = (option: ISelectOption) => {
     setOption(option);
   };
 

@@ -1,27 +1,21 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import type { ChangeEvent, CSSProperties, MouseEvent } from "react";
+import type { CSSProperties } from "react";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
 import * as Component from "../../components/partial/Component";
 import * as Grid from "../../components/partial/Grid";
-import { RequireLabel } from "../../components/RequireLabel";
 import { mixinBgLv1 } from "../../theme/mixins/background";
-import { CountingInput } from "../../components/CountingInput";
-import { CountNumberType } from "../../types/count";
-import { BorderRadiusOption } from "../../components/partial/BorderRadiusOption";
 import { ModalTabType } from "../../types/tab";
-import { PaddingOption } from "../../components/partial/PaddingOption";
 import { mixinBtnDefault } from "../../theme/mixins/button";
-import { DefaultInput, FeedbackInput } from "../../components/Input";
-import { FontOption } from "../../components/partial/FontOption";
+import { DefaultInput } from "../../components/Input";
 import { useTheme } from "../../hooks/useTheme";
-import { WithLabel } from "../../components/WithLabel";
-import { Switch } from "../../components/Switch";
-import { ModalLayoutOption } from "../../interfaces/modal";
-import { DangerButton, PrimaryButton } from "../../components/Button";
+import type { IModalLayoutOption } from "../../interfaces/modal";
+import { ModalContainerForm } from "../../components/templates/form/ModalContainer";
+import { ModalHeaderForm } from "../../components/templates/form/ModalHeader";
+import { ModalBodyForm } from "../../components/templates/form/ModalBody";
 
 const Layer = styled.div`
   width: 100%;
@@ -67,18 +61,15 @@ const ModalBody = styled.div`
 const ComponentModal: NextPage = () => {
   /* order - state */
   const { theme } = useTheme();
-  // 너비
+  // container - 너비
   const [width, setWidth] = useState(500);
-  // 모서리 각
+  // container - 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(10);
-
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(10);
-
   const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(10);
-
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(10);
-  // 모서리 각 모두 보기 여부
-  const [isSetDetailBorderRadius, setIsSetDetailBorderRadius] = useState(false);
+  // container - 모서리 각 모두 보기 여부
+  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
@@ -89,29 +80,26 @@ const ComponentModal: NextPage = () => {
   const [headerTitleLineHeight, setHeaderTitleLineHeight] = useState(25);
   // header - 자간
   const [headerTitleLetterSpacing, setHeaderTitleLetterSpacing] = useState(0);
-  // // header - 텍스트 정렬
-  // const [headerTitleTextAlign, setHeaderTitleTextAlign] =
-  //   useState<SelectOption>(textAlignOptions[0]);
   // header - 여백
   const [headerPaddingTop, setHeaderPaddingTop] = useState(10);
   const [headerPaddingRight, setHeaderPaddingRight] = useState(10);
   const [headerPaddingBottom, setHeaderPaddingBottom] = useState(10);
   const [headerPaddingLeft, setHeaderPaddingLeft] = useState(10);
   // header - 여백 모두 보기 여부
-  const [showAllHeaderPadding, setShowAllHeaderPadding] = useState(false);
+  const [checkAllHeaderPadding, setCheckAllHeaderPadding] = useState(false);
   // body - 여백
   const [bodyPaddingTop, setBodyPaddingTop] = useState(10);
   const [bodyPaddingRight, setBodyPaddingRight] = useState(10);
   const [bodyPaddingBottom, setBodyPaddingBottom] = useState(10);
   const [bodyPaddingLeft, setBodyPaddingLeft] = useState(10);
   // body - 여백 모두 보기 여부
-  const [showAllBodyPadding, setShowAllBodyPadding] = useState(false);
+  const [checkAllBodyPadding, setCheckAllBodyPadding] = useState(false);
   // header - 닫기 아이콘 크기
   const [closeIconSize, setCloseIconSize] = useState(20);
   // layout 설정 보이기
   const [showLayout, setShowLayout] = useState(true);
-  // header - 텍스트 설정 보이기
-  const [showHeaderText, setShowHeaderText] = useState(true);
+  // header - 제목 설정 보이기
+  const [showHeaderTitle, setShowHeaderTitle] = useState(true);
   // header - padding 설정 보이기
   const [showHeaderPadding, setShowHeaderPadding] = useState(true);
   // body - padding 설정 보이기
@@ -126,12 +114,10 @@ const ComponentModal: NextPage = () => {
   const [checkAddHeader, setCheckAddHeader] = useState(true);
   // container - 푸터 설정 활성화 여부
   const [checkAddFooter, setCheckAddFooter] = useState(false);
-  // body - 폼 관리 보이기
-  const [showManageForm, setShowManageForm] = useState(true);
   // body - 레이아웃 관리 보이기
   const [showManageLayout, setShowManageLayout] = useState(true);
   // body - 추가된 레이아웃 수
-  const [layouts, setLayouts] = useState<ModalLayoutOption[]>([
+  const [layouts, setLayouts] = useState<IModalLayoutOption[]>([
     { useLabel: true, label: "제목", useInput: true }
   ]);
   // body - 현재 드래그 중인 레이아웃 순서
@@ -148,71 +134,6 @@ const ComponentModal: NextPage = () => {
 
   const handleClickTab = (activeTab: ModalTabType) => {
     setActiveTab(activeTab);
-  };
-
-  const handleCreateLayout = () => {
-    const nextLayout: ModalLayoutOption = {
-      useLabel: true,
-      label: "제목",
-      useInput: true
-    };
-
-    setLayouts([...layouts, nextLayout]);
-  };
-
-  const handleRemoveLayout = (order: number) => {
-    setLayouts(prevLayouts =>
-      prevLayouts.filter((layout, index) => order !== index)
-    );
-  };
-
-  const handleChangeLabel = (
-    evt: ChangeEvent<HTMLInputElement>,
-    order: number
-  ) => {
-    setLayouts(prevLayouts =>
-      prevLayouts.map((layout, index) => {
-        if (order === index) {
-          return {
-            ...layout,
-            label: evt.target.value
-          };
-        }
-
-        return layout;
-      })
-    );
-  };
-
-  const handleChangeOrder = () => {};
-
-  const handleDragEnter = (order: number) => {
-    if (dragOrder !== -1) {
-      setHoverOrder(order);
-    }
-  };
-  const handleDrag = (order: number) => {
-    setDragOrder(order);
-  };
-
-  const handleDrop = (order: number) => {
-    if (dragOrder !== order) {
-      const cloneLayout = layouts;
-
-      const [dragLayout] = cloneLayout.splice(dragOrder, 1);
-
-      cloneLayout.splice(order, 0, dragLayout);
-
-      setLayouts([...cloneLayout]);
-    }
-
-    setDragOrder(-1);
-
-    setHoverOrder(-1);
-  };
-
-  const handleDragOver = (evt: MouseEvent<HTMLDivElement>) => {
-    evt.preventDefault();
   };
 
   return (
@@ -280,7 +201,6 @@ const ComponentModal: NextPage = () => {
             </Modal>
           </Layer>
         </Component.Section>
-
         <Component.RightAside>
           <Component.Header>Option</Component.Header>
           <Component.Scrollable>
@@ -317,218 +237,88 @@ const ComponentModal: NextPage = () => {
                 )}
               </Grid.Row>
               {activeTab === ModalTabType.MODAL && (
-                <>
-                  <Grid.FoldableTitle
-                    fold={showLayout}
-                    setFold={setShowLayout}
-                    span={gridSpan}
-                  >
-                    <span>레이아웃 설정</span>
-                  </Grid.FoldableTitle>
-                  <Grid.Column span={showLayout ? 1 : 0}>
-                    <RequireLabel htmlFor="setWidth">너비</RequireLabel>
-                    <CountingInput
-                      id="setWidth"
-                      ariaLabel="너비"
-                      count={width}
-                      setCount={setWidth}
-                      limit={500}
-                      showIcon={true}
-                      showFeedback={true}
-                      numberType={CountNumberType.INTEGER}
-                      unit="px"
-                    />
-                  </Grid.Column>
-                  <Grid.Column span={showLayout ? 1 : 0}>
-                    <RequireLabel htmlFor="">레이아웃 추가</RequireLabel>
-                    <WithLabel id="addHeader" label="헤더">
-                      <Switch
-                        id="addHeader"
-                        width={40}
-                        checked={checkAddHeader}
-                        setChecked={setCheckAddHeader}
-                      />
-                    </WithLabel>
-                    <WithLabel id="addFooter" label="푸터">
-                      <Switch
-                        id="addFooter"
-                        width={40}
-                        checked={checkAddFooter}
-                        setChecked={setCheckAddFooter}
-                      />
-                    </WithLabel>
-                  </Grid.Column>
-
-                  <Grid.FoldableTitle
-                    fold={showBorderRadius}
-                    setFold={setShowBorderRadius}
-                    span={gridSpan}
-                  >
-                    <span>모서리각 설정</span>
-                  </Grid.FoldableTitle>
-                  <BorderRadiusOption
-                    id="Modal"
-                    borderTopLeftRadius={borderTopLeftRadius}
-                    setBorderTopLeftRadius={setBorderTopLeftRadius}
-                    borderTopRightRadius={borderTopRightRadius}
-                    setBorderTopRightRadius={setBorderTopRightRadius}
-                    borderBottomLeftRadius={borderBottomLeftRadius}
-                    setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                    borderBottomRightRadius={borderBottomRightRadius}
-                    setBorderBottomRightRadius={setBorderBottomRightRadius}
-                    isShowAllOption={isSetDetailBorderRadius}
-                    setIsShowAllOption={setIsSetDetailBorderRadius}
-                    span={showBorderRadius ? 1 : 0}
-                  />
-                </>
+                <ModalContainerForm
+                  span={gridSpan}
+                  showLayout={showLayout}
+                  setShowLayout={setShowLayout}
+                  width={width}
+                  setWidth={setWidth}
+                  checkAddHeader={checkAddHeader}
+                  setCheckAddHeader={setCheckAddHeader}
+                  checkAddFooter={checkAddFooter}
+                  setCheckAddFooter={setCheckAddFooter}
+                  showBorderRadius={showBorderRadius}
+                  setShowBorderRadius={setShowBorderRadius}
+                  borderTopLeftRadius={borderTopLeftRadius}
+                  setBorderTopLeftRadius={setBorderTopLeftRadius}
+                  borderTopRightRadius={borderTopRightRadius}
+                  setBorderTopRightRadius={setBorderTopRightRadius}
+                  borderBottomLeftRadius={borderBottomLeftRadius}
+                  setBorderBottomLeftRadius={setBorderBottomLeftRadius}
+                  borderBottomRightRadius={borderBottomRightRadius}
+                  setBorderBottomRightRadius={setBorderBottomRightRadius}
+                  checkAllBorderRadiusOption={checkAllBorderRadius}
+                  setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
+                />
               )}
 
               {activeTab === ModalTabType.HEADER && (
-                <>
-                  <Grid.FoldableTitle
-                    fold={showHeaderText}
-                    setFold={setShowHeaderText}
-                    span={gridSpan}
-                  >
-                    <span>제목 설정</span>
-                  </Grid.FoldableTitle>
-                  <Grid.Column span={showHeaderText ? 1 : 0}>
-                    <RequireLabel htmlFor="setHeaderTitle">제목</RequireLabel>
-                    <FeedbackInput
-                      id="setHeaderTitle"
-                      value={headerTitle}
-                      setValue={setHeaderTitle}
-                      limit={10}
-                      showFeedback={true}
-                    />
-                  </Grid.Column>
-                  <FontOption
-                    id="HeaderTitle"
-                    color={headerTitleColor}
-                    setColor={setHeaderTitleColor}
-                    fontSize={headerTitleFontSize}
-                    setFontSize={setHeaderTitleFontSize}
-                    lineHeight={headerTitleLineHeight}
-                    setLineHeight={setHeaderTitleLineHeight}
-                    letterSpacing={headerTitleLetterSpacing}
-                    setLetterSpacing={setHeaderTitleLetterSpacing}
-                    span={showHeaderText ? 1 : 0}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showHeaderPadding}
-                    setFold={setShowHeaderPadding}
-                    span={gridSpan}
-                  >
-                    <span>여백 설정</span>
-                  </Grid.FoldableTitle>
-                  <PaddingOption
-                    id="ModalHeader"
-                    paddingTop={headerPaddingTop}
-                    setPaddingTop={setHeaderPaddingTop}
-                    paddingRight={headerPaddingRight}
-                    setPaddingRight={setHeaderPaddingRight}
-                    paddingBottom={headerPaddingBottom}
-                    setPaddingBottom={setHeaderPaddingBottom}
-                    paddingLeft={headerPaddingLeft}
-                    setPaddingLeft={setHeaderPaddingLeft}
-                    isShowAllOption={showAllHeaderPadding}
-                    setIsShowAllOption={setShowAllHeaderPadding}
-                    span={showHeaderPadding ? 1 : 0}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showCloseIcon}
-                    setFold={setShowCloseIcon}
-                    span={gridSpan}
-                  >
-                    <span>아이콘 설정</span>
-                  </Grid.FoldableTitle>
-                  <Grid.Column span={showCloseIcon ? 1 : 0}>
-                    <RequireLabel htmlFor="setCloseIconSize">크기</RequireLabel>
-                    <CountingInput
-                      id="setCloseIconSize"
-                      ariaLabel="닫기 아이콘 크기"
-                      count={closeIconSize}
-                      setCount={setCloseIconSize}
-                      limit={50}
-                      showIcon={true}
-                      showFeedback={true}
-                      numberType={CountNumberType.INTEGER}
-                      unit="px"
-                    />
-                  </Grid.Column>
-                </>
+                <ModalHeaderForm
+                  span={gridSpan}
+                  showTitle={showHeaderTitle}
+                  setShowTitle={setShowHeaderTitle}
+                  title={headerTitle}
+                  setTitle={setHeaderTitle}
+                  titleColor={headerTitleColor}
+                  setTitleColor={setHeaderTitleColor}
+                  titleFontSize={headerTitleFontSize}
+                  setTitleFontSize={setHeaderTitleFontSize}
+                  titleLineHeight={headerTitleLineHeight}
+                  setTitleLineHeight={setHeaderTitleLineHeight}
+                  titleLetterSpacing={headerTitleLetterSpacing}
+                  setTitleLetterSpacing={setHeaderTitleLetterSpacing}
+                  showPadding={showHeaderPadding}
+                  setShowPadding={setShowHeaderPadding}
+                  paddingTop={headerPaddingTop}
+                  setPaddingTop={setHeaderPaddingTop}
+                  paddingRight={headerPaddingRight}
+                  setPaddingRight={setHeaderPaddingRight}
+                  paddingBottom={headerPaddingBottom}
+                  setPaddingBottom={setHeaderPaddingBottom}
+                  paddingLeft={headerPaddingLeft}
+                  setPaddingLeft={setHeaderPaddingLeft}
+                  checkAllPaddingOption={checkAllHeaderPadding}
+                  setCheckAllPaddingOption={setCheckAllHeaderPadding}
+                  showCloseIcon={showCloseIcon}
+                  setShowCloseIcon={setShowCloseIcon}
+                  closeIconSize={closeIconSize}
+                  setCloseIconSize={setCloseIconSize}
+                />
               )}
               {activeTab === ModalTabType.BODY && (
-                <>
-                  <Grid.FoldableTitle
-                    fold={showBodyPadding}
-                    setFold={setShowBodyPadding}
-                    span={gridSpan}
-                  >
-                    <span>여백 설정</span>
-                  </Grid.FoldableTitle>
-                  <PaddingOption
-                    id="ModalBody"
-                    paddingTop={bodyPaddingTop}
-                    setPaddingTop={setBodyPaddingTop}
-                    paddingRight={bodyPaddingRight}
-                    setPaddingRight={setBodyPaddingRight}
-                    paddingBottom={bodyPaddingBottom}
-                    setPaddingBottom={setBodyPaddingBottom}
-                    paddingLeft={bodyPaddingLeft}
-                    setPaddingLeft={setBodyPaddingLeft}
-                    isShowAllOption={showAllBodyPadding}
-                    setIsShowAllOption={setShowAllBodyPadding}
-                    span={showBodyPadding ? 1 : 0}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showManageLayout}
-                    setFold={setShowManageLayout}
-                    span={gridSpan}
-                  >
-                    <span>레이아웃 관리</span>
-                  </Grid.FoldableTitle>
-                  <Grid.Column span={showManageLayout ? 1 : 0}>
-                    <PrimaryButton type="button" onClick={handleCreateLayout}>
-                      레이아웃 추가
-                    </PrimaryButton>
-                  </Grid.Column>
-                  {layouts.map((layout, index) => (
-                    <Grid.Column
-                      key={`Layout${index}`}
-                      span={showManageLayout ? 1 : 0}
-                      draggable={true}
-                      onDragOver={handleDragOver}
-                      onDragStart={() => handleDrag(index)}
-                      onDragEnter={() => handleDragEnter(index)}
-                      onDrop={() => handleDrop(index)}
-                      showBefore={hoverOrder === index}
-                    >
-                      <RequireLabel htmlFor={`setOrder${index}`}>
-                        순서
-                      </RequireLabel>
-                      <DefaultInput
-                        id={`setOrder${index}`}
-                        value={index + 1}
-                        disabled
-                      />
-                      <RequireLabel htmlFor={`setLabel${index}`}>
-                        Label 설정
-                      </RequireLabel>
-                      <DefaultInput
-                        id={`setLabel${index}`}
-                        value={layout.label}
-                        onChange={evt => handleChangeLabel(evt, index)}
-                      />
-                      <DangerButton
-                        type="button"
-                        onClick={() => handleRemoveLayout(index)}
-                      >
-                        삭제
-                      </DangerButton>
-                    </Grid.Column>
-                  ))}
-                </>
+                <ModalBodyForm
+                  span={gridSpan}
+                  showPadding={showBodyPadding}
+                  setShowPadding={setShowBodyPadding}
+                  paddingTop={bodyPaddingTop}
+                  setPaddingTop={setBodyPaddingTop}
+                  paddingRight={bodyPaddingRight}
+                  setPaddingRight={setBodyPaddingRight}
+                  paddingBottom={bodyPaddingBottom}
+                  setPaddingBottom={setBodyPaddingBottom}
+                  paddingLeft={bodyPaddingLeft}
+                  setPaddingLeft={setBodyPaddingLeft}
+                  checkAllPaddingOption={checkAllBodyPadding}
+                  setCheckAllPaddingOption={setCheckAllBodyPadding}
+                  showManageLayout={showManageLayout}
+                  setShowManageLayout={setShowManageLayout}
+                  layouts={layouts}
+                  setLayouts={setLayouts}
+                  dragOrder={dragOrder}
+                  setDragOrder={setDragOrder}
+                  hoverOrder={hoverOrder}
+                  setHoverOrder={setHoverOrder}
+                />
               )}
             </Grid.ResponsiveContainer>
           </Component.Scrollable>

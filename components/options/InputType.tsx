@@ -3,7 +3,7 @@ import { BsPencil, BsSearch } from "react-icons/bs";
 import { MdPassword } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 
-import type { SelectOption } from "../../interfaces/select";
+import type { ISelectOption } from "../../interfaces/select";
 import { InputTypeOption } from "../../types/select-option";
 
 const Continaer = styled.div`
@@ -14,7 +14,7 @@ const Continaer = styled.div`
   height: 100%;
 `;
 
-export const inputTypeOptions: SelectOption[] = [
+export const inputTypeOptions: ISelectOption[] = [
   {
     label: "텍스트",
     value: InputTypeOption.TEXT,

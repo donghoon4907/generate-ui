@@ -1,34 +1,28 @@
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import type { ChangeEvent, FC } from "react";
 
-import { CountingInput } from "../CountingInput";
-import { CountNumberType } from "../../types/count";
-import * as Grid from "./Grid";
-import { RequireLabel } from "../RequireLabel";
-import { CustomSelect } from "../CustomSelect";
-import { borderStyleOptions } from "../options/BorderStyle";
-import { DefaultInput } from "../Input";
-import type { SelectOption } from "../../interfaces/select";
-import type { GridCoreProps } from "../../interfaces/grid";
+import type { IGridOption } from "../../../interfaces/grid";
+import type { IBorderOption } from "../../../interfaces/option";
+import * as Grid from "../../partial/Grid";
+import { RequireLabel } from "../../RequireLabel";
+import { CustomSelect } from "../../CustomSelect";
+import { borderStyleOptions } from "../../options/BorderStyle";
+import { CountingInput } from "../../CountingInput";
+import { CountNumberType } from "../../../types/count";
+import { DefaultInput } from "../../Input";
 
-interface Props extends GridCoreProps {
+interface Props extends IGridOption, IBorderOption {
   id: string | number;
-  borderStyle: SelectOption;
-  setBorderStyle: Dispatch<SetStateAction<SelectOption>>;
-  borderWidth: number;
-  setBorderWidth: Dispatch<SetStateAction<number>>;
-  borderColor: string;
-  setBorderColor: Dispatch<SetStateAction<string>>;
 }
 
 export const BorderOption: FC<Props> = ({
   id,
+  span,
   borderStyle,
   setBorderStyle,
   borderWidth,
   setBorderWidth,
   borderColor,
-  setBorderColor,
-  span
+  setBorderColor
 }) => {
   const handleChangeBorderColor = (evt: ChangeEvent<HTMLInputElement>) => {
     setBorderColor(evt.target.value);

@@ -1,27 +1,27 @@
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
-import * as Grid from "./Grid";
-import { RequireLabel } from "../RequireLabel";
-import { CustomSelect } from "../CustomSelect";
-import type { SelectOption } from "../../interfaces/select";
-import { langOptions } from "../options/Template";
-import { WithLabel } from "../WithLabel";
-import { Checkbox } from "../Checkbox";
-import type { GridCoreProps } from "../../interfaces/grid";
+import type { IGridOption } from "../../../interfaces/grid";
+import type { ISelectOption } from "../../../interfaces/select";
+import * as Grid from "../../partial/Grid";
+import { RequireLabel } from "../../RequireLabel";
+import { CustomSelect } from "../../CustomSelect";
+import { langOptions } from "../../options/Template";
+import { WithLabel } from "../../WithLabel";
+import { Checkbox } from "../../Checkbox";
 
-interface Props extends GridCoreProps {
-  lang?: SelectOption;
-  setLang?: Dispatch<SetStateAction<SelectOption>>;
+interface Props extends IGridOption {
+  lang?: ISelectOption;
+  setLang?: Dispatch<SetStateAction<ISelectOption>>;
   html?: boolean;
   setHtml?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PreferenceOption: FC<Props> = ({
+  span,
   lang,
   setLang,
   html,
-  setHtml,
-  span
+  setHtml
 }) => {
   const isShowLang = lang && setLang;
 

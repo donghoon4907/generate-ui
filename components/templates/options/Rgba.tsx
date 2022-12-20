@@ -1,30 +1,26 @@
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import type { ChangeEvent, FC } from "react";
 
-import { CountingInput } from "../CountingInput";
-import { CountNumberType } from "../../types/count";
-import * as Grid from "./Grid";
-import { RequireLabel } from "../RequireLabel";
-import { DefaultInput } from "../Input";
-import { hexToRgb } from "../../lib/calc/rgb";
-import type { GridCoreProps } from "../../interfaces/grid";
+import type { IGridOption } from "../../../interfaces/grid";
+import type { IRgbaOption } from "../../../interfaces/option";
+import * as Grid from "../../partial/Grid";
+import { hexToRgb } from "../../../lib/calc/rgb";
+import { RequireLabel } from "../../RequireLabel";
+import { DefaultInput } from "../../Input";
+import { CountingInput } from "../../CountingInput";
+import { CountNumberType } from "../../../types/count";
 
-interface Props extends GridCoreProps {
+interface Props extends IGridOption, IRgbaOption {
   id: string | number;
-  hex: string;
-  setRgb: Dispatch<SetStateAction<string>>;
-  setHex: Dispatch<SetStateAction<string>>;
-  alpha: number;
-  setAlpha: Dispatch<SetStateAction<number>>;
 }
 
 export const RgbaOption: FC<Props> = ({
   id,
+  span,
   hex,
   setRgb,
   setHex,
   alpha,
-  setAlpha,
-  span
+  setAlpha
 }) => {
   const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
     const rgb = hexToRgb(evt.target.value);

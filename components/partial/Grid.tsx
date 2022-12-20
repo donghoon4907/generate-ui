@@ -3,8 +3,7 @@ import { AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";
 import styled from "styled-components";
 
 import type { CoreProps } from "../../interfaces/core";
-import type { GridCoreProps } from "../../interfaces/grid";
-import { blink } from "../../theme/keyframes";
+import type { IGridOption } from "../../interfaces/grid";
 import { mixinBgLv3 } from "../../theme/mixins/background";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import { IconWrapper } from "../IconWrapper";
@@ -56,7 +55,7 @@ const TabWrapper = styled.button<{ active: boolean }>`
   ${mixinBtnDefault}
 `;
 
-interface TitleProps extends CoreProps, GridCoreProps {}
+interface TitleProps extends CoreProps, IGridOption {}
 
 export const Title: FC<TitleProps> = ({ children, span }) => {
   return <Row span={span}>{children}</Row>;
@@ -102,7 +101,7 @@ export const Tab: FC<TabProps> = ({ children, active, onClick }) => (
   </TabWrapper>
 );
 
-export const Column = styled.div<{ span: number; showBefore?: boolean }>`
+export const Column = styled.div<{ span: number }>`
   position: relative;
   max-height: ${({ span }) => (span === 0 ? 0 : "")};
   margin: 5px;
@@ -112,6 +111,16 @@ export const Column = styled.div<{ span: number; showBefore?: boolean }>`
   border: 1px solid ${({ theme }) => theme.dividerColor};
   ${({ span }) => (span > 0 ? `grid-column: span ${span}` : "")};
 
+  & > * + * {
+    margin-top: 5px;
+  }
+
+  ${mixinBgLv3}
+`;
+
+export const DragableColumn = styled(Column).attrs(props => ({
+  draggable: true
+}))<{ showBefore: boolean }>`
   &:before {
     position: absolute;
     content: "";
@@ -123,10 +132,4 @@ export const Column = styled.div<{ span: number; showBefore?: boolean }>`
     border-radius: 10px;
     opacity: ${({ showBefore }) => (showBefore ? 1 : 0)};
   }
-
-  & > * + * {
-    margin-bottom: 5px;
-  }
-
-  ${mixinBgLv3}
 `;

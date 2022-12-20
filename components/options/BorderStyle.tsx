@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import type { SelectOption } from "../../interfaces/select";
+import type { ISelectOption } from "../../interfaces/select";
 import { BorderStyleOption } from "../../types/select-option";
 
 const Continaer = styled.div`
@@ -20,7 +20,7 @@ const Dashed = styled(Continaer)`
   border: 2px dashed ${({ theme }) => theme.dividerColor};
 `;
 
-export const borderStyleOptions: SelectOption[] = [
+export const borderStyleOptions: ISelectOption[] = [
   {
     label: "없음",
     value: BorderStyleOption.NONE,
