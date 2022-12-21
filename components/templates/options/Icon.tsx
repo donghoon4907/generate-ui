@@ -1,7 +1,7 @@
-import type { ChangeEvent, FC } from "react";
+import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IIconOption } from "../../../interfaces/option";
+import type { ISelectOption } from "../../../interfaces/select";
 import * as Grid from "../../partial/Grid";
 import { CountingInput } from "../../CountingInput";
 import { CustomSelect } from "../../CustomSelect";
@@ -10,8 +10,14 @@ import { iconAlignOptions } from "../../options/IconAlign";
 import { RequireLabel } from "../../RequireLabel";
 import { CountNumberType } from "../../../types/count";
 
-interface Props extends IGridOption, IIconOption {
+interface Props extends IGridOption {
   id: string | number;
+  iconAlign: ISelectOption;
+  setIconAlign: Dispatch<SetStateAction<ISelectOption>>;
+  iconSize: number;
+  setIconSize: Dispatch<SetStateAction<number>>;
+  iconColor: string;
+  setIconColor: Dispatch<SetStateAction<string>>;
 }
 
 export const IconOption: FC<Props> = ({

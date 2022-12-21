@@ -17,11 +17,17 @@ export const Container = styled.div<{ span: number }>`
 
 export const ResponsiveContainer = styled(Container)`
   ${({ theme }) => theme.breakPoint.lg} {
-    grid-template-columns: repeat(${({ span }) => span - 1}, 1fr);
+    grid-template-columns: repeat(
+      ${({ span }) => (span - 1 > 0 ? span - 1 : 1)},
+      minmax(82px, 1fr)
+    );
   }
 
   ${({ theme }) => theme.breakPoint.md} {
-    grid-template-columns: repeat(${({ span }) => span - 2}, 1fr);
+    grid-template-columns: repeat(
+      ${({ span }) => (span - 2 > 0 ? span - 2 : 1)},
+      minmax(82px, 1fr)
+    );
   }
 `;
 
@@ -44,7 +50,7 @@ export const ResponsiveRow = styled(Row)`
   }
 
   ${({ theme }) => theme.breakPoint.md} {
-    grid-column: span ${({ span }) => (span - 2 > 0 ? span - 1 : 1)};
+    grid-column: span ${({ span }) => (span - 2 > 0 ? span - 2 : 1)};
   }
 `;
 
@@ -109,10 +115,10 @@ export const Column = styled.div<{ span: number }>`
   padding: ${({ span }) => (span === 0 ? 0 : "5px 10px")};
   display: ${({ span }) => (span === 0 ? "none" : "block")};
   border: 1px solid ${({ theme }) => theme.dividerColor};
-  ${({ span }) => (span > 0 ? `grid-column: span ${span}` : "")};
+  grid-column: span ${({ span }) => (span > 0 ? span : 1)};
 
-  & > * + * {
-    margin-top: 5px;
+  & > *:not(button) {
+    margin-bottom: 5px;
   }
 
   ${mixinBgLv3}
@@ -120,16 +126,6 @@ export const Column = styled.div<{ span: number }>`
 
 export const DragableColumn = styled(Column).attrs(props => ({
   draggable: true
-}))<{ showBefore: boolean }>`
-  &:before {
-    position: absolute;
-    content: "";
-    top: -8px;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: ${({ theme }) => theme.dividerColor};
-    border-radius: 10px;
-    opacity: ${({ showBefore }) => (showBefore ? 1 : 0)};
-  }
+}))<{ isDragEnter: boolean }>`
+  opacity: ${({ isDragEnter }) => (isDragEnter ? 0.5 : 1)};
 `;

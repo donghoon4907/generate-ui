@@ -25,6 +25,7 @@ const Layer = styled.div`
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  padding: 20px;
 `;
 
 const Modal = styled.div`

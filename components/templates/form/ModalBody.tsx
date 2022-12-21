@@ -105,14 +105,12 @@ export const ModalBodyForm: FC<Props> = ({
 
       setLayouts([...cloneLayout]);
     }
+  };
 
+  const handleDragEnd = () => {
     setDragOrder(-1);
 
     setHoverOrder(-1);
-  };
-
-  const handleDragOver = (evt: MouseEvent<HTMLDivElement>) => {
-    evt.preventDefault();
   };
 
   return (
@@ -154,11 +152,12 @@ export const ModalBodyForm: FC<Props> = ({
         <Grid.DragableColumn
           key={`Layout${index}`}
           span={showManageLayout ? 1 : 0}
-          onDragOver={handleDragOver}
+          onDragOver={evt => evt.preventDefault()}
           onDragStart={() => handleDrag(index)}
           onDragEnter={() => handleDragEnter(index)}
           onDrop={() => handleDrop(index)}
-          showBefore={hoverOrder === index}
+          onDragEnd={handleDragEnd}
+          isDragEnter={hoverOrder === index}
         >
           <div>- 순서 {index + 1}</div>
           <RequireLabel htmlFor={`setLabel${index}`}>Label 설정</RequireLabel>
@@ -166,6 +165,8 @@ export const ModalBodyForm: FC<Props> = ({
             id={`setLabel${index}`}
             value={layout.label}
             onChange={evt => handleChangeLabel(evt, index)}
+            draggable={true}
+            onDragStart={evt => evt.preventDefault()}
           />
           <DangerButton type="button" onClick={() => handleRemoveLayout(index)}>
             삭제

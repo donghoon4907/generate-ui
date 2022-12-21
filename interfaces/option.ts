@@ -37,15 +37,6 @@ export interface IBorderOption {
   setBorderColor: Dispatch<SetStateAction<string>>;
 }
 
-export interface IIconOption {
-  iconAlign: ISelectOption;
-  setIconAlign: Dispatch<SetStateAction<ISelectOption>>;
-  iconSize: number;
-  setIconSize: Dispatch<SetStateAction<number>>;
-  iconColor: string;
-  setIconColor: Dispatch<SetStateAction<string>>;
-}
-
 export interface IRgbaOption {
   setRgb: Dispatch<SetStateAction<string>>;
   hex: string;

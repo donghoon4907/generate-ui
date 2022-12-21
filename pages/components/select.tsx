@@ -255,7 +255,7 @@ const ComponentSelect: NextPage = () => {
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
             <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.Row span={gridSpan}>
+              <Grid.ResponsiveRow span={gridSpan}>
                 <Grid.Tab
                   active={activeTab === SelectTabType.COMMON}
                   onClick={() => handleClickTab(SelectTabType.COMMON)}
@@ -274,7 +274,7 @@ const ComponentSelect: NextPage = () => {
                 >
                   Option
                 </Grid.Tab>
-              </Grid.Row>
+              </Grid.ResponsiveRow>
               {activeTab === SelectTabType.COMMON && (
                 <>
                   <Grid.FoldableTitle
