@@ -57,6 +57,8 @@ const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-height: 500px;
+  overflow-y: auto;
 `;
 
 const ComponentModal: NextPage = () => {
@@ -206,7 +208,7 @@ const ComponentModal: NextPage = () => {
           <Component.Header>Option</Component.Header>
           <Component.Scrollable>
             <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.Row span={gridSpan}>
+              <Grid.ResponsiveRow span={gridSpan}>
                 <Grid.Tab
                   active={activeTab === ModalTabType.MODAL}
                   onClick={() => handleClickTab(ModalTabType.MODAL)}
@@ -236,7 +238,7 @@ const ComponentModal: NextPage = () => {
                     Footer
                   </Grid.Tab>
                 )}
-              </Grid.Row>
+              </Grid.ResponsiveRow>
               {activeTab === ModalTabType.MODAL && (
                 <ModalContainerForm
                   span={gridSpan}

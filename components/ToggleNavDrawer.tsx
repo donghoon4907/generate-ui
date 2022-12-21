@@ -101,7 +101,11 @@ export const ToggleNavDrawer: FC<Props> = ({ open, setOpen }) => {
       <Body>
         <ToggleNavDrawerCollapseItem onClick={handleBack} />
         {activeMdMenu.map((g, index) => (
-          <ToggleNavDrawerItem key={`mdMenu${index}`} {...g} />
+          <ToggleNavDrawerItem
+            key={`mdMenu${index}`}
+            setOpen={setOpen}
+            {...g}
+          />
         ))}
       </Body>
       <Footer>

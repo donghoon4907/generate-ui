@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import type { FC, MouseEvent } from "react";
+import type { Dispatch, FC, MouseEvent, SetStateAction } from "react";
 import styled from "styled-components";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
@@ -47,13 +47,16 @@ const Label = styled.span<{ isActive: boolean }>`
   ${({ isActive }) => mixinNavDrawerItemLabel(isActive)}
 `;
 
-interface ToggleNavDrawerItemProps extends Gnb {}
+interface ToggleNavDrawerItemProps extends Gnb {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
 
 export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
   label,
   icon,
   href,
-  items
+  items,
+  setOpen
 }) => {
   const router = useRouter();
 
@@ -83,6 +86,8 @@ export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({
     evt.preventDefault();
 
     router.push(href!);
+
+    setOpen(false);
   };
 
   return hasLnb ? (

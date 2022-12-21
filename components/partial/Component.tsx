@@ -45,7 +45,6 @@ export const Section = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   border: 1px solid ${({ theme }) => theme.dividerColor};
 
   ${mixinBgLv1}
@@ -54,6 +53,10 @@ export const Section = styled.section`
 export const Scrollable = styled.div`
   height: 100%;
   overflow-y: auto;
+
+  ${({ theme }) => theme.breakPoint.md} {
+    overflow-y: visible;
+  }
 `;
 
 const HeaderWrapper = styled.div`
