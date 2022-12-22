@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { CoreProps } from "../interfaces/core";
 
-const Container = styled.label`
+const Label = styled.label`
   position: relative;
   display: inline-block;
   user-select: none;
@@ -21,5 +21,9 @@ const Container = styled.label`
 interface Props extends CoreProps, LabelHTMLAttributes<HTMLLabelElement> {}
 
 export const RequireLabel: FC<Props> = ({ children, ...props }) => {
-  return <Container {...props}>{children}</Container>;
+  return (
+    <div>
+      <Label {...props}>{children}</Label>
+    </div>
+  );
 };
