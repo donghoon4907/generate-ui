@@ -17,10 +17,6 @@ import { DefaultInput } from "../../Input";
 import { FoldableTitle } from "../../FoldableTitle";
 
 interface Props extends IGridOption, IPaddingOption {
-  showPadding: boolean;
-  setShowPadding: Dispatch<SetStateAction<boolean>>;
-  showManageLayout: boolean;
-  setShowManageLayout: Dispatch<SetStateAction<boolean>>;
   layouts: IModalLayoutOption[];
   setLayouts: Dispatch<SetStateAction<IModalLayoutOption[]>>;
   dragOrder: number;
@@ -31,8 +27,6 @@ interface Props extends IGridOption, IPaddingOption {
 
 export const ModalBodyForm: FC<Props> = ({
   span,
-  showPadding,
-  setShowPadding,
   paddingTop,
   setPaddingTop,
   paddingRight,
@@ -43,8 +37,6 @@ export const ModalBodyForm: FC<Props> = ({
   setPaddingLeft,
   checkAllPaddingOption,
   setCheckAllPaddingOption,
-  showManageLayout,
-  setShowManageLayout,
   layouts,
   setLayouts,
   dragOrder,
@@ -116,77 +108,71 @@ export const ModalBodyForm: FC<Props> = ({
 
   return (
     <>
-      <Grid.FoldableTitle
-        fold={showPadding}
-        setFold={setShowPadding}
-        span={span}
-      >
-        <span>여백 설정</span>
+      <Grid.FoldableTitle span={span} title="여백 설정">
+        <PaddingOption
+          id="ModalBody"
+          span={span}
+          paddingTop={paddingTop}
+          setPaddingTop={setPaddingTop}
+          paddingRight={paddingRight}
+          setPaddingRight={setPaddingRight}
+          paddingBottom={paddingBottom}
+          setPaddingBottom={setPaddingBottom}
+          paddingLeft={paddingLeft}
+          setPaddingLeft={setPaddingLeft}
+          checkAllPaddingOption={checkAllPaddingOption}
+          setCheckAllPaddingOption={setCheckAllPaddingOption}
+        />
       </Grid.FoldableTitle>
-      <PaddingOption
-        id="ModalBody"
-        paddingTop={paddingTop}
-        setPaddingTop={setPaddingTop}
-        paddingRight={paddingRight}
-        setPaddingRight={setPaddingRight}
-        paddingBottom={paddingBottom}
-        setPaddingBottom={setPaddingBottom}
-        paddingLeft={paddingLeft}
-        setPaddingLeft={setPaddingLeft}
-        checkAllPaddingOption={checkAllPaddingOption}
-        setCheckAllPaddingOption={setCheckAllPaddingOption}
-        span={showPadding ? 1 : 0}
-      />
-      <Grid.FoldableTitle
-        fold={showManageLayout}
-        setFold={setShowManageLayout}
-        span={span}
-      >
-        <span>레이아웃 관리</span>
-      </Grid.FoldableTitle>
-      <Grid.Column span={showManageLayout ? 1 : 0}>
-        <PrimaryButton type="button" onClick={handleCreateLayout}>
-          레이아웃 추가
-        </PrimaryButton>
-      </Grid.Column>
-      {layouts.map((layout, index) => (
-        <Grid.DragableColumn
-          key={`Layout${index}`}
-          span={showManageLayout ? 1 : 0}
-          onDragOver={evt => evt.preventDefault()}
-          onDragStart={() => handleDrag(index)}
-          onDragEnter={() => handleDragEnter(index)}
-          onDrop={() => handleDrop(index)}
-          onDragEnd={handleDragEnd}
-          isDragEnter={hoverOrder === index}
-        >
-          <div>- 순서 {index + 1}</div>
-          <FoldableTitle defaultFold={true} title="레이블 설정">
-            <RequireLabel htmlFor={`setLabel${index}`}>레이블명</RequireLabel>
-            <DefaultInput
-              id={`setLabel${index}`}
-              value={layout.label}
-              onChange={evt => handleChangeLabel(evt, index)}
-              draggable={true}
-              onDragStart={evt => evt.preventDefault()}
-            />
-          </FoldableTitle>
-          <FoldableTitle defaultFold={true} title="입력창 설정">
-            <RequireLabel htmlFor={`setLabel${index}`}>레이블명</RequireLabel>
-            <DefaultInput
-              id={`setLabel${index}`}
-              value={layout.label}
-              onChange={evt => handleChangeLabel(evt, index)}
-              draggable={true}
-              onDragStart={evt => evt.preventDefault()}
-            />
-          </FoldableTitle>
 
-          <DangerButton type="button" onClick={() => handleRemoveLayout(index)}>
-            삭제
-          </DangerButton>
-        </Grid.DragableColumn>
-      ))}
+      <Grid.FoldableTitle span={span} title="레이아웃 관리">
+        <Grid.Column span={span}>
+          <PrimaryButton type="button" onClick={handleCreateLayout}>
+            레이아웃 추가
+          </PrimaryButton>
+        </Grid.Column>
+        {layouts.map((layout, index) => (
+          <Grid.DragableColumn
+            key={`Layout${index}`}
+            span={span}
+            onDragOver={evt => evt.preventDefault()}
+            onDragStart={() => handleDrag(index)}
+            onDragEnter={() => handleDragEnter(index)}
+            onDrop={() => handleDrop(index)}
+            onDragEnd={handleDragEnd}
+            isDragEnter={hoverOrder === index}
+          >
+            <div>- 순서 {index + 1}</div>
+            <FoldableTitle title="레이블 설정">
+              <RequireLabel htmlFor={`setLabel${index}`}>레이블명</RequireLabel>
+              <DefaultInput
+                id={`setLabel${index}`}
+                value={layout.label}
+                onChange={evt => handleChangeLabel(evt, index)}
+                draggable={true}
+                onDragStart={evt => evt.preventDefault()}
+              />
+            </FoldableTitle>
+            <FoldableTitle title="입력창 설정">
+              <RequireLabel htmlFor={`setLabel${index}`}>레이블명</RequireLabel>
+              <DefaultInput
+                id={`setLabel${index}`}
+                value={layout.label}
+                onChange={evt => handleChangeLabel(evt, index)}
+                draggable={true}
+                onDragStart={evt => evt.preventDefault()}
+              />
+            </FoldableTitle>
+
+            <DangerButton
+              type="button"
+              onClick={() => handleRemoveLayout(index)}
+            >
+              삭제
+            </DangerButton>
+          </Grid.DragableColumn>
+        ))}
+      </Grid.FoldableTitle>
     </>
   );
 };

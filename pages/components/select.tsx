@@ -74,7 +74,7 @@ const ComponentSelect: NextPage = () => {
   const [selectPaddingBottom, setSelectPaddingBottom] = useState(4);
   const [selectPaddingLeft, setSelectPaddingLeft] = useState(4);
   // select - 여백 모든 설정 보기 여부
-  const [checAllSellectPadding, setCheckAllSelectPadding] = useState(false);
+  const [checkAllSelectPadding, setCheckAllSelectPadding] = useState(false);
   // option - 여백
   const [optionPaddingTop, setOptionPaddingTop] = useState(4);
   const [optionPaddingRight, setOptionPaddingRight] = useState(4);
@@ -116,24 +116,6 @@ const ComponentSelect: NextPage = () => {
     setTextOverflow: setOptionTextOverflow,
     textOverflowStyle: optionTextOverflowStyle
   } = useTextOverflow(textOverflowOptions[0]);
-  // common - layout 설정 보이기
-  const [showLayout, setShowLayout] = useState(true);
-  // common - 테두리 설정 보이기
-  const [showBorder, setShowBorder] = useState(true);
-  // common - 배경색 설정 보이기
-  const [showBackgroundColor, setShowBackgroundColor] = useState(true);
-  // common - 환경 설정 보이기
-  const [showPreference, setShowPreference] = useState(true);
-  // select - 텍스트 설정 보이기
-  const [showSelectText, setShowSelectText] = useState(true);
-  // option - 텍스트 설정 보이기
-  const [showOptionText, setShowOptionText] = useState(true);
-  // select - padding 설정 보이기
-  const [showSelectPadding, setShowSelectPadding] = useState(true);
-  // option - padding 설정 보이기
-  const [showOptionPadding, setShowOptionPadding] = useState(true);
-  // select - 모서리 각 설정 보이기
-  const [showSelectBorderRadius, setShowSelectBorderRadius] = useState(true);
   // 탭 활성화 관리
   const [activeTab, setActiveTab] = useState<SelectTabType>(
     SelectTabType.COMMON
@@ -277,204 +259,165 @@ const ComponentSelect: NextPage = () => {
               </Grid.ResponsiveRow>
               {activeTab === SelectTabType.COMMON && (
                 <>
-                  <Grid.FoldableTitle
-                    fold={showLayout}
-                    setFold={setShowLayout}
-                    span={gridSpan}
-                  >
-                    <span>레이아웃 설정</span>
+                  <Grid.FoldableTitle span={gridSpan} title="레이아웃 설정">
+                    <Grid.Column span={1}>
+                      <RequireLabel htmlFor="setWidth">너비</RequireLabel>
+                      <CountingInput
+                        id="setWidth"
+                        ariaLabel="너비"
+                        count={width}
+                        setCount={setWidth}
+                        limit={200}
+                        showIcon={true}
+                        showFeedback={true}
+                        numberType={CountNumberType.INTEGER}
+                        unit="px"
+                      />
+                    </Grid.Column>
                   </Grid.FoldableTitle>
-                  <Grid.Column span={showLayout ? 1 : 0}>
-                    <RequireLabel htmlFor="setWidth">너비</RequireLabel>
-                    <CountingInput
-                      id="setWidth"
-                      ariaLabel="너비"
-                      count={width}
-                      setCount={setWidth}
-                      limit={200}
-                      showIcon={true}
-                      showFeedback={true}
-                      numberType={CountNumberType.INTEGER}
-                      unit="px"
+
+                  <Grid.FoldableTitle span={gridSpan} title="테두리 설정">
+                    <BorderOption
+                      id="Select"
+                      span={1}
+                      borderStyle={borderStyle}
+                      setBorderStyle={setBorderStyle}
+                      borderWidth={borderWidth}
+                      setBorderWidth={setBorderWidth}
+                      borderColor={borderColor}
+                      setBorderColor={setBorderColor}
                     />
-                  </Grid.Column>
-                  <Grid.FoldableTitle
-                    fold={showBorder}
-                    setFold={setShowBorder}
-                    span={gridSpan}
-                  >
-                    <span>테두리 설정</span>
                   </Grid.FoldableTitle>
-                  <BorderOption
-                    id="Select"
-                    span={showBorder ? 1 : 0}
-                    borderStyle={borderStyle}
-                    setBorderStyle={setBorderStyle}
-                    borderWidth={borderWidth}
-                    setBorderWidth={setBorderWidth}
-                    borderColor={borderColor}
-                    setBorderColor={setBorderColor}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showBackgroundColor}
-                    setFold={setShowBackgroundColor}
-                    span={gridSpan}
-                  >
-                    <span>배경색 설정</span>
+
+                  <Grid.FoldableTitle span={gridSpan} title="배경색 설정">
+                    <RgbaOption
+                      id="Select"
+                      span={1}
+                      hex={backgroundColorHex}
+                      setRgb={setBackgroundColorRgb}
+                      setHex={setBackgroundColorHex}
+                      alpha={backgroundColorAlpha}
+                      setAlpha={setBackgroundColorAlpha}
+                    />
                   </Grid.FoldableTitle>
-                  <RgbaOption
-                    id="Select"
-                    span={showBackgroundColor ? 1 : 0}
-                    hex={backgroundColorHex}
-                    setRgb={setBackgroundColorRgb}
-                    setHex={setBackgroundColorHex}
-                    alpha={backgroundColorAlpha}
-                    setAlpha={setBackgroundColorAlpha}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showPreference}
-                    setFold={setShowPreference}
-                    span={gridSpan}
-                  >
-                    <span>환경 설정</span>
+
+                  <Grid.FoldableTitle span={gridSpan} title="환경 설정">
+                    <PreferenceOption
+                      span={1}
+                      lang={lang}
+                      setLang={setLang}
+                      html={html}
+                      setHtml={setHtml}
+                    />
                   </Grid.FoldableTitle>
-                  <PreferenceOption
-                    span={showPreference ? 1 : 0}
-                    lang={lang}
-                    setLang={setLang}
-                    html={html}
-                    setHtml={setHtml}
-                  />
                 </>
               )}
               {activeTab === SelectTabType.SELECT && (
                 <>
-                  <Grid.FoldableTitle
-                    fold={showSelectText}
-                    setFold={setShowSelectText}
-                    span={gridSpan}
-                  >
-                    <span>텍스트 설정</span>
-                  </Grid.FoldableTitle>
-                  <Grid.Column span={showSelectText ? 1 : 0}>
-                    <RequireLabel htmlFor="setLabel">제목</RequireLabel>
-                    <FeedbackInput
-                      id="setLabel"
-                      value={label}
-                      setValue={setLabel}
-                      limit={50}
-                      showFeedback={true}
-                    />
-                  </Grid.Column>
+                  <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+                    <Grid.Column span={1}>
+                      <RequireLabel htmlFor="setLabel">제목</RequireLabel>
+                      <FeedbackInput
+                        id="setLabel"
+                        value={label}
+                        setValue={setLabel}
+                        limit={50}
+                        showFeedback={true}
+                      />
+                    </Grid.Column>
 
-                  <FontOption
-                    id="Select"
-                    span={showSelectText ? 1 : 0}
-                    color={selectColor}
-                    setColor={setSelectColor}
-                    fontSize={selectFontSize}
-                    setFontSize={setSelectFontSize}
-                    lineHeight={selectLineHeight}
-                    setLineHeight={setSelectLineHeight}
-                    letterSpacing={selectLetterSpacing}
-                    setLetterSpacing={setSelectLetterSpacing}
-                    textAlign={selectTextAlign}
-                    setTextAlign={setSelectTextAlign}
-                    textOverflow={selectTextOverflow}
-                    setTextOverflow={setSelectTextOverflow}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showSelectPadding}
-                    setFold={setShowSelectPadding}
-                    span={gridSpan}
-                  >
-                    <span>여백 설정</span>
+                    <FontOption
+                      id="Select"
+                      span={1}
+                      color={selectColor}
+                      setColor={setSelectColor}
+                      fontSize={selectFontSize}
+                      setFontSize={setSelectFontSize}
+                      lineHeight={selectLineHeight}
+                      setLineHeight={setSelectLineHeight}
+                      letterSpacing={selectLetterSpacing}
+                      setLetterSpacing={setSelectLetterSpacing}
+                      textAlign={selectTextAlign}
+                      setTextAlign={setSelectTextAlign}
+                      textOverflow={selectTextOverflow}
+                      setTextOverflow={setSelectTextOverflow}
+                    />
                   </Grid.FoldableTitle>
-                  <PaddingOption
-                    id="Select"
-                    span={showSelectPadding ? 1 : 0}
-                    paddingTop={selectPaddingTop}
-                    setPaddingTop={setSelectPaddingTop}
-                    paddingRight={selectPaddingRight}
-                    setPaddingRight={setSelectPaddingRight}
-                    paddingBottom={selectPaddingBottom}
-                    setPaddingBottom={setSelectPaddingBottom}
-                    paddingLeft={selectPaddingLeft}
-                    setPaddingLeft={setSelectPaddingLeft}
-                    checkAllPaddingOption={checkAllSelectBorderRadius}
-                    setCheckAllPaddingOption={setCheckAllSelectBorderRadius}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showSelectBorderRadius}
-                    setFold={setShowSelectBorderRadius}
-                    span={gridSpan}
-                  >
-                    <span>모서리각 설정</span>
+
+                  <Grid.FoldableTitle span={gridSpan} title="여백 설정">
+                    <PaddingOption
+                      id="Select"
+                      span={1}
+                      paddingTop={selectPaddingTop}
+                      setPaddingTop={setSelectPaddingTop}
+                      paddingRight={selectPaddingRight}
+                      setPaddingRight={setSelectPaddingRight}
+                      paddingBottom={selectPaddingBottom}
+                      setPaddingBottom={setSelectPaddingBottom}
+                      paddingLeft={selectPaddingLeft}
+                      setPaddingLeft={setSelectPaddingLeft}
+                      checkAllPaddingOption={checkAllSelectPadding}
+                      setCheckAllPaddingOption={setCheckAllSelectPadding}
+                    />
                   </Grid.FoldableTitle>
-                  <BorderRadiusOption
-                    id="Select"
-                    span={showSelectBorderRadius ? 1 : 0}
-                    borderTopLeftRadius={borderTopLeftRadius}
-                    setBorderTopLeftRadius={setBorderTopLeftRadius}
-                    borderTopRightRadius={borderTopRightRadius}
-                    setBorderTopRightRadius={setBorderTopRightRadius}
-                    borderBottomLeftRadius={borderBottomLeftRadius}
-                    setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                    borderBottomRightRadius={borderBottomRightRadius}
-                    setBorderBottomRightRadius={setBorderBottomRightRadius}
-                    checkAllBorderRadiusOption={checkAllSelectBorderRadius}
-                    setCheckAllBorderRadiusOption={
-                      setCheckAllSelectBorderRadius
-                    }
-                  />
+
+                  <Grid.FoldableTitle span={gridSpan} title="모서리각 설정">
+                    <BorderRadiusOption
+                      id="Select"
+                      span={1}
+                      borderTopLeftRadius={borderTopLeftRadius}
+                      setBorderTopLeftRadius={setBorderTopLeftRadius}
+                      borderTopRightRadius={borderTopRightRadius}
+                      setBorderTopRightRadius={setBorderTopRightRadius}
+                      borderBottomLeftRadius={borderBottomLeftRadius}
+                      setBorderBottomLeftRadius={setBorderBottomLeftRadius}
+                      borderBottomRightRadius={borderBottomRightRadius}
+                      setBorderBottomRightRadius={setBorderBottomRightRadius}
+                      checkAllBorderRadiusOption={checkAllSelectBorderRadius}
+                      setCheckAllBorderRadiusOption={
+                        setCheckAllSelectBorderRadius
+                      }
+                    />
+                  </Grid.FoldableTitle>
                 </>
               )}
               {activeTab === SelectTabType.OPTION && (
                 <>
-                  <Grid.FoldableTitle
-                    fold={showOptionText}
-                    setFold={setShowOptionText}
-                    span={gridSpan}
-                  >
-                    <span>텍스트 설정</span>
+                  <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+                    <FontOption
+                      id="Option"
+                      span={1}
+                      color={optionColor}
+                      setColor={setOptionColor}
+                      fontSize={optionFontSize}
+                      setFontSize={setOptionFontSize}
+                      lineHeight={optionLineHeight}
+                      setLineHeight={setOptionLineHeight}
+                      letterSpacing={optionLetterSpacing}
+                      setLetterSpacing={setOptionLetterSpacing}
+                      textAlign={optionTextAlign}
+                      setTextAlign={setOptionTextAlign}
+                      textOverflow={optionTextOverflow}
+                      setTextOverflow={setOptionTextOverflow}
+                    />
                   </Grid.FoldableTitle>
-                  <FontOption
-                    id="Option"
-                    span={showOptionText ? 1 : 0}
-                    color={optionColor}
-                    setColor={setOptionColor}
-                    fontSize={optionFontSize}
-                    setFontSize={setOptionFontSize}
-                    lineHeight={optionLineHeight}
-                    setLineHeight={setOptionLineHeight}
-                    letterSpacing={optionLetterSpacing}
-                    setLetterSpacing={setOptionLetterSpacing}
-                    textAlign={optionTextAlign}
-                    setTextAlign={setOptionTextAlign}
-                    textOverflow={optionTextOverflow}
-                    setTextOverflow={setOptionTextOverflow}
-                  />
-                  <Grid.FoldableTitle
-                    fold={showOptionPadding}
-                    setFold={setShowOptionPadding}
-                    span={gridSpan}
-                  >
-                    <span>여백 설정</span>
+
+                  <Grid.FoldableTitle span={gridSpan} title="여백 설정">
+                    <PaddingOption
+                      id="Option"
+                      span={1}
+                      paddingTop={optionPaddingTop}
+                      setPaddingTop={setOptionPaddingTop}
+                      paddingRight={optionPaddingRight}
+                      setPaddingRight={setOptionPaddingRight}
+                      paddingBottom={optionPaddingBottom}
+                      setPaddingBottom={setOptionPaddingBottom}
+                      paddingLeft={optionPaddingLeft}
+                      setPaddingLeft={setOptionPaddingLeft}
+                      checkAllPaddingOption={checkAllOptionPadding}
+                      setCheckAllPaddingOption={setCheckAllOptionPadding}
+                    />
                   </Grid.FoldableTitle>
-                  <PaddingOption
-                    id="Option"
-                    span={showOptionPadding ? 1 : 0}
-                    paddingTop={optionPaddingTop}
-                    setPaddingTop={setOptionPaddingTop}
-                    paddingRight={optionPaddingRight}
-                    setPaddingRight={setOptionPaddingRight}
-                    paddingBottom={optionPaddingBottom}
-                    setPaddingBottom={setOptionPaddingBottom}
-                    paddingLeft={optionPaddingLeft}
-                    setPaddingLeft={setOptionPaddingLeft}
-                    checkAllPaddingOption={checkAllOptionPadding}
-                    setCheckAllPaddingOption={setCheckAllOptionPadding}
-                  />
                 </>
               )}
             </Grid.ResponsiveContainer>

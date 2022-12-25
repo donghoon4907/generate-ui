@@ -60,12 +60,6 @@ const ComponentCheckbox: NextPage = () => {
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-  // layout 설정 보이기
-  const [showLayout, setShowLayout] = useState(true);
-  // text 설정 보이기
-  const [showText, setShowText] = useState(true);
-  // 환경 설정 보이기
-  const [showPreference, setShowPreference] = useState(true);
   /* order - variable */
   // grid span
   const gridSpan = 3;
@@ -121,67 +115,53 @@ const ComponentCheckbox: NextPage = () => {
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
             <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.FoldableTitle
-                fold={showLayout}
-                setFold={setShowLayout}
-                span={gridSpan}
-              >
-                <span>레이아웃 설정</span>
+              <Grid.FoldableTitle span={gridSpan} title="레이아웃 설정">
+                <Grid.Column span={1}>
+                  <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
+                  <CountingInput
+                    id="setScale"
+                    ariaLabel="배경색 Alpha"
+                    count={scale}
+                    setCount={setScale}
+                    limit={5}
+                    showIcon={true}
+                    showFeedback={true}
+                    numberType={CountNumberType.DECIMAL}
+                    unit=""
+                  />
+                </Grid.Column>
               </Grid.FoldableTitle>
-              <Grid.Column span={showLayout ? 1 : 0}>
-                <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
-                <CountingInput
-                  id="setScale"
-                  ariaLabel="배경색 Alpha"
-                  count={scale}
-                  setCount={setScale}
-                  limit={5}
-                  showIcon={true}
-                  showFeedback={true}
-                  numberType={CountNumberType.DECIMAL}
-                  unit=""
-                />
-              </Grid.Column>
-              <Grid.FoldableTitle
-                fold={showText}
-                setFold={setShowText}
-                span={gridSpan}
-              >
-                <span>텍스트 설정</span>
-              </Grid.FoldableTitle>
-              <Grid.Column span={showText ? 1 : 0}>
-                <RequireLabel htmlFor="setLabel">설명</RequireLabel>
-                <FeedbackInput
-                  id="setLabel"
-                  value={label}
-                  setValue={setLabel}
-                  limit={10}
-                  showFeedback={true}
-                />
-              </Grid.Column>
-              <FontOption
-                span={showText ? 1 : 0}
-                id="Checkbox"
-                color={color}
-                setColor={setColor}
-                fontSize={fontSize}
-                setFontSize={setFontSize}
-              />
 
-              <Grid.FoldableTitle
-                fold={showPreference}
-                setFold={setShowPreference}
-                span={gridSpan}
-              >
-                <span>환경 설정</span>
+              <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+                <Grid.Column span={1}>
+                  <RequireLabel htmlFor="setLabel">설명</RequireLabel>
+                  <FeedbackInput
+                    id="setLabel"
+                    value={label}
+                    setValue={setLabel}
+                    limit={10}
+                    showFeedback={true}
+                  />
+                </Grid.Column>
+                <FontOption
+                  span={1}
+                  id="Checkbox"
+                  color={color}
+                  setColor={setColor}
+                  fontSize={fontSize}
+                  setFontSize={setFontSize}
+                />
               </Grid.FoldableTitle>
-              <PreferenceOption
-                span={showPreference ? 1 : 0}
-                lang={lang}
-                setLang={setLang}
-                html={html}
-                setHtml={setHtml}
-              />
+
+              <Grid.FoldableTitle span={gridSpan} title="환경 설정">
+                <PreferenceOption
+                  span={1}
+                  lang={lang}
+                  setLang={setLang}
+                  html={html}
+                  setHtml={setHtml}
+                />
+              </Grid.FoldableTitle>
             </Grid.ResponsiveContainer>
           </Component.Scrollable>
         </Component.Section>

@@ -9,6 +9,7 @@ import { IconWrapper } from "./IconWrapper";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   & > * {
     margin-bottom: 5px;
@@ -21,12 +22,16 @@ const Header = styled.div`
   gap: 5px;
 `;
 
-interface Props extends CoreProps {
-  defaultFold: boolean;
+export interface Props extends CoreProps {
+  defaultFold?: boolean;
   title: string;
 }
 
-export const FoldableTitle: FC<Props> = ({ children, defaultFold, title }) => {
+export const FoldableTitle: FC<Props> = ({
+  children,
+  defaultFold = true,
+  title
+}) => {
   const [fold, setFold] = useState(defaultFold);
 
   const handleClick = () => {

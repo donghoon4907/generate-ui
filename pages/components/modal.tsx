@@ -99,26 +99,12 @@ const ComponentModal: NextPage = () => {
   const [checkAllBodyPadding, setCheckAllBodyPadding] = useState(false);
   // header - 닫기 아이콘 크기
   const [closeIconSize, setCloseIconSize] = useState(20);
-  // layout 설정 보이기
-  const [showLayout, setShowLayout] = useState(true);
-  // header - 제목 설정 보이기
-  const [showHeaderTitle, setShowHeaderTitle] = useState(true);
-  // header - padding 설정 보이기
-  const [showHeaderPadding, setShowHeaderPadding] = useState(true);
-  // body - padding 설정 보이기
-  const [showBodyPadding, setShowBodyPadding] = useState(true);
-  // 모서리 각 설정 보이기
-  const [showBorderRadius, setShowBorderRadius] = useState(true);
-  // 닫기 아이콘 설정 보이기
-  const [showCloseIcon, setShowCloseIcon] = useState(true);
   // 탭 활성화 관리
   const [activeTab, setActiveTab] = useState<ModalTabType>(ModalTabType.MODAL);
   // container - 헤더 설정 활성화 여부
   const [checkAddHeader, setCheckAddHeader] = useState(true);
   // container - 푸터 설정 활성화 여부
   const [checkAddFooter, setCheckAddFooter] = useState(false);
-  // body - 레이아웃 관리 보이기
-  const [showManageLayout, setShowManageLayout] = useState(true);
   // body - 추가된 레이아웃 수
   const [layouts, setLayouts] = useState<IModalLayoutOption[]>([
     { useLabel: true, label: "제목", useInput: true }
@@ -242,16 +228,12 @@ const ComponentModal: NextPage = () => {
               {activeTab === ModalTabType.MODAL && (
                 <ModalContainerForm
                   span={gridSpan}
-                  showLayout={showLayout}
-                  setShowLayout={setShowLayout}
                   width={width}
                   setWidth={setWidth}
                   checkAddHeader={checkAddHeader}
                   setCheckAddHeader={setCheckAddHeader}
                   checkAddFooter={checkAddFooter}
                   setCheckAddFooter={setCheckAddFooter}
-                  showBorderRadius={showBorderRadius}
-                  setShowBorderRadius={setShowBorderRadius}
                   borderTopLeftRadius={borderTopLeftRadius}
                   setBorderTopLeftRadius={setBorderTopLeftRadius}
                   borderTopRightRadius={borderTopRightRadius}
@@ -268,8 +250,6 @@ const ComponentModal: NextPage = () => {
               {activeTab === ModalTabType.HEADER && (
                 <ModalHeaderForm
                   span={gridSpan}
-                  showTitle={showHeaderTitle}
-                  setShowTitle={setShowHeaderTitle}
                   title={headerTitle}
                   setTitle={setHeaderTitle}
                   titleColor={headerTitleColor}
@@ -280,8 +260,6 @@ const ComponentModal: NextPage = () => {
                   setTitleLineHeight={setHeaderTitleLineHeight}
                   titleLetterSpacing={headerTitleLetterSpacing}
                   setTitleLetterSpacing={setHeaderTitleLetterSpacing}
-                  showPadding={showHeaderPadding}
-                  setShowPadding={setShowHeaderPadding}
                   paddingTop={headerPaddingTop}
                   setPaddingTop={setHeaderPaddingTop}
                   paddingRight={headerPaddingRight}
@@ -292,8 +270,6 @@ const ComponentModal: NextPage = () => {
                   setPaddingLeft={setHeaderPaddingLeft}
                   checkAllPaddingOption={checkAllHeaderPadding}
                   setCheckAllPaddingOption={setCheckAllHeaderPadding}
-                  showCloseIcon={showCloseIcon}
-                  setShowCloseIcon={setShowCloseIcon}
                   closeIconSize={closeIconSize}
                   setCloseIconSize={setCloseIconSize}
                 />
@@ -301,8 +277,6 @@ const ComponentModal: NextPage = () => {
               {activeTab === ModalTabType.BODY && (
                 <ModalBodyForm
                   span={gridSpan}
-                  showPadding={showBodyPadding}
-                  setShowPadding={setShowBodyPadding}
                   paddingTop={bodyPaddingTop}
                   setPaddingTop={setBodyPaddingTop}
                   paddingRight={bodyPaddingRight}
@@ -313,8 +287,6 @@ const ComponentModal: NextPage = () => {
                   setPaddingLeft={setBodyPaddingLeft}
                   checkAllPaddingOption={checkAllBodyPadding}
                   setCheckAllPaddingOption={setCheckAllBodyPadding}
-                  showManageLayout={showManageLayout}
-                  setShowManageLayout={setShowManageLayout}
                   layouts={layouts}
                   setLayouts={setLayouts}
                   dragOrder={dragOrder}
