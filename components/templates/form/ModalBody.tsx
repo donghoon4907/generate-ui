@@ -1,28 +1,20 @@
-import type {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  MouseEvent,
-  SetStateAction
-} from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { useState } from "react";
 
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IModalLayoutOption } from "../../../interfaces/modal";
+import {
+  IModalLayoutOption,
+  defaultModalLayoutOption
+} from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
-import { RequireLabel } from "../../RequireLabel";
 import { PaddingOption } from "../options/Padding";
-import { DangerButton, PrimaryButton } from "../../Button";
-import { DefaultInput } from "../../Input";
-import { FoldableTitle } from "../../FoldableTitle";
+import { PrimaryButton } from "../../Button";
+import { DragableInputOption } from "../options/DragableInput";
 
 interface Props extends IGridOption, IPaddingOption {
   layouts: IModalLayoutOption[];
   setLayouts: Dispatch<SetStateAction<IModalLayoutOption[]>>;
-  dragOrder: number;
-  setDragOrder: Dispatch<SetStateAction<number>>;
-  hoverOrder: number;
-  setHoverOrder: Dispatch<SetStateAction<number>>;
 }
 
 export const ModalBodyForm: FC<Props> = ({
@@ -38,72 +30,15 @@ export const ModalBodyForm: FC<Props> = ({
   checkAllPaddingOption,
   setCheckAllPaddingOption,
   layouts,
-  setLayouts,
-  dragOrder,
-  setDragOrder,
-  hoverOrder,
-  setHoverOrder
+  setLayouts
 }) => {
+  // body - 현재 드래그 중인 레이아웃 순서
+  const [draggingOrder, setDraggingOrder] = useState(-1);
+  // body - 현재 마우스 오버 중인 레이아웃 순서
+  const [hoverOrder, setHoverOrder] = useState(-1);
+
   const handleCreateLayout = () => {
-    const nextLayout: IModalLayoutOption = {
-      useLabel: true,
-      label: "제목",
-      useInput: true
-    };
-
-    setLayouts([...layouts, nextLayout]);
-  };
-
-  const handleRemoveLayout = (order: number) => {
-    setLayouts(prevLayouts =>
-      prevLayouts.filter((layout, index) => order !== index)
-    );
-  };
-
-  const handleChangeLabel = (
-    evt: ChangeEvent<HTMLInputElement>,
-    order: number
-  ) => {
-    setLayouts(prevLayouts =>
-      prevLayouts.map((layout, index) => {
-        if (order === index) {
-          return {
-            ...layout,
-            label: evt.target.value
-          };
-        }
-
-        return layout;
-      })
-    );
-  };
-
-  const handleDragEnter = (order: number) => {
-    if (dragOrder !== -1) {
-      setHoverOrder(order);
-    }
-  };
-
-  const handleDrag = (order: number) => {
-    setDragOrder(order);
-  };
-
-  const handleDrop = (order: number) => {
-    if (dragOrder !== order) {
-      const cloneLayout = layouts;
-
-      const [dragLayout] = cloneLayout.splice(dragOrder, 1);
-
-      cloneLayout.splice(order, 0, dragLayout);
-
-      setLayouts([...cloneLayout]);
-    }
-  };
-
-  const handleDragEnd = () => {
-    setDragOrder(-1);
-
-    setHoverOrder(-1);
+    setLayouts([...layouts, defaultModalLayoutOption]);
   };
 
   return (
@@ -132,45 +67,18 @@ export const ModalBodyForm: FC<Props> = ({
           </PrimaryButton>
         </Grid.Column>
         {layouts.map((layout, index) => (
-          <Grid.DragableColumn
-            key={`Layout${index}`}
+          <DragableInputOption
+            key={`layout${index}`}
             span={span}
-            onDragOver={evt => evt.preventDefault()}
-            onDragStart={() => handleDrag(index)}
-            onDragEnter={() => handleDragEnter(index)}
-            onDrop={() => handleDrop(index)}
-            onDragEnd={handleDragEnd}
-            isDragEnter={hoverOrder === index}
-          >
-            <div>- 순서 {index + 1}</div>
-            <FoldableTitle title="레이블 설정">
-              <RequireLabel htmlFor={`setLabel${index}`}>레이블명</RequireLabel>
-              <DefaultInput
-                id={`setLabel${index}`}
-                value={layout.label}
-                onChange={evt => handleChangeLabel(evt, index)}
-                draggable={true}
-                onDragStart={evt => evt.preventDefault()}
-              />
-            </FoldableTitle>
-            <FoldableTitle title="입력창 설정">
-              <RequireLabel htmlFor={`setLabel${index}`}>레이블명</RequireLabel>
-              <DefaultInput
-                id={`setLabel${index}`}
-                value={layout.label}
-                onChange={evt => handleChangeLabel(evt, index)}
-                draggable={true}
-                onDragStart={evt => evt.preventDefault()}
-              />
-            </FoldableTitle>
-
-            <DangerButton
-              type="button"
-              onClick={() => handleRemoveLayout(index)}
-            >
-              삭제
-            </DangerButton>
-          </Grid.DragableColumn>
+            order={index}
+            layouts={layouts}
+            setLayouts={setLayouts}
+            draggingOrder={draggingOrder}
+            setDraggingOrder={setDraggingOrder}
+            hoverOrder={hoverOrder}
+            setHoverOrder={setHoverOrder}
+            {...layout}
+          />
         ))}
       </Grid.FoldableTitle>
     </>

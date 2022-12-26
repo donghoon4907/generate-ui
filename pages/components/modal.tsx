@@ -12,10 +12,14 @@ import { ModalTabType } from "../../types/tab";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import { DefaultInput } from "../../components/Input";
 import { useTheme } from "../../hooks/useTheme";
-import type { IModalLayoutOption } from "../../interfaces/modal";
+import {
+  IModalLayoutOption,
+  defaultModalLayoutOption
+} from "../../interfaces/modal";
 import { ModalContainerForm } from "../../components/templates/form/ModalContainer";
 import { ModalHeaderForm } from "../../components/templates/form/ModalHeader";
 import { ModalBodyForm } from "../../components/templates/form/ModalBody";
+import { PositionOption } from "../../types/select-option";
 
 const Layer = styled.div`
   width: 100%;
@@ -107,12 +111,8 @@ const ComponentModal: NextPage = () => {
   const [checkAddFooter, setCheckAddFooter] = useState(false);
   // body - 추가된 레이아웃 수
   const [layouts, setLayouts] = useState<IModalLayoutOption[]>([
-    { useLabel: true, label: "제목", useInput: true }
+    defaultModalLayoutOption
   ]);
-  // body - 현재 드래그 중인 레이아웃 순서
-  const [dragOrder, setDragOrder] = useState(-1);
-  // body - 현재 마우스 오버 중인 레이아웃 순서
-  const [hoverOrder, setHoverOrder] = useState(-1);
   /* order - variable */
   // grid span
   const gridSpan = 1;
@@ -180,12 +180,46 @@ const ComponentModal: NextPage = () => {
                   paddingLeft: bodyPaddingLeft
                 }}
               >
-                {layouts.map((layout, index) => (
-                  <Fragment key={`PreviewLayout${index}`}>
-                    <span>{layout.label}</span>
-                    <DefaultInput />
-                  </Fragment>
-                ))}
+                {layouts.map((layout, index) => {
+                  const labelPosValue = layout.labelPos.value;
+
+                  const inputWrapperStyle: CSSProperties = {
+                    display: "flex"
+                  };
+
+                  const labelStyle: CSSProperties = {};
+
+                  const inputStyle: CSSProperties = {
+                    flex: 1
+                  };
+
+                  if (labelPosValue === PositionOption.TOP) {
+                    inputWrapperStyle.flexDirection = "column";
+                  } else if (labelPosValue === PositionOption.RIGHT) {
+                    inputWrapperStyle.justifyContent = "space-between";
+                    inputWrapperStyle.alignItems = "center";
+                    inputWrapperStyle.gap = 5;
+                    inputStyle.order = 1;
+                    labelStyle.order = 2;
+                  } else if (labelPosValue === PositionOption.LEFT) {
+                    inputWrapperStyle.justifyContent = "space-between";
+                    inputWrapperStyle.alignItems = "center";
+                    inputWrapperStyle.gap = 5;
+                    labelStyle.order = 1;
+                    inputStyle.order = 2;
+                  }
+
+                  return (
+                    <Fragment key={`PreviewLayout${index}`}>
+                      <div style={inputWrapperStyle}>
+                        <div style={labelStyle}>{layout.label}</div>
+                        <div style={inputStyle}>
+                          <DefaultInput />
+                        </div>
+                      </div>
+                    </Fragment>
+                  );
+                })}
               </ModalBody>
             </Modal>
           </Layer>
@@ -289,10 +323,6 @@ const ComponentModal: NextPage = () => {
                   setCheckAllPaddingOption={setCheckAllBodyPadding}
                   layouts={layouts}
                   setLayouts={setLayouts}
-                  dragOrder={dragOrder}
-                  setDragOrder={setDragOrder}
-                  hoverOrder={hoverOrder}
-                  setHoverOrder={setHoverOrder}
                 />
               )}
             </Grid.ResponsiveContainer>

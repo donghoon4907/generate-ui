@@ -5,7 +5,8 @@ export enum InputTypeOption {
   TEXT = "text",
   PASSWORD = "password",
   EMAIL = "email",
-  SEARCH = "search"
+  SEARCH = "search",
+  TEXTAREA = "textarea"
 }
 /**
  * Select option - 언어 목록
@@ -44,4 +45,13 @@ export enum IconAlignOption {
 export enum TextOverflowOption {
   CLIP = "clip",
   ELLIPSIS = "ellipsis"
+}
+/**
+ * Select option - 상하좌우
+ */
+export enum PositionOption {
+  TOP = "top",
+  RIGHT = "right",
+  BOTTOM = "bottom",
+  LEFT = "left"
 }

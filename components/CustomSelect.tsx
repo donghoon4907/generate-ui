@@ -98,7 +98,9 @@ const OptionItem = styled.li`
 
 interface Props {
   activeOption: ISelectOption;
-  setOption: Dispatch<SetStateAction<ISelectOption>>;
+  setOption:
+    | Dispatch<SetStateAction<ISelectOption>>
+    | ((option: ISelectOption) => void);
   options: ISelectOption[];
 }
 

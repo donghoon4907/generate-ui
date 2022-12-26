@@ -52,3 +52,16 @@ export const inputTypeOptions: ISelectOption[] = [
     )
   }
 ];
+
+export const modalInputTypeOptions: ISelectOption[] = [
+  {
+    label: "기본",
+    value: InputTypeOption.TEXT,
+    preview: null
+  },
+  {
+    label: "영역",
+    value: InputTypeOption.TEXTAREA,
+    preview: null
+  }
+];
