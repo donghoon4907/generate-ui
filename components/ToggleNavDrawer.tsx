@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 
+import type { CoreSetState } from "../types/core";
 import { gnbOptions } from "./options/Gnb";
 import { useDispatch, useSelector } from "../context";
 import {
@@ -38,7 +39,7 @@ const Footer = styled.div`
 
 interface Props {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: CoreSetState<boolean>;
 }
 
 export const ToggleNavDrawer: FC<Props> = ({ open, setOpen }) => {

@@ -1,9 +1,10 @@
-import { Dispatch, FC, SetStateAction, useRef } from "react";
-import { useState } from "react";
+import type { FC } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
 import { RiArrowUpSLine } from "react-icons/ri";
 
 import type { ISelectOption } from "../interfaces/select";
+import type { CoreSetState } from "../types/core";
 import { mixinBgLv0 } from "../theme/mixins/background";
 
 const Container = styled.div<{ open: boolean }>`
@@ -98,9 +99,7 @@ const OptionItem = styled.li`
 
 interface Props {
   activeOption: ISelectOption;
-  setOption:
-    | Dispatch<SetStateAction<ISelectOption>>
-    | ((option: ISelectOption) => void);
+  setOption: CoreSetState<ISelectOption>;
   options: ISelectOption[];
 }
 

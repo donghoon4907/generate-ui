@@ -1,7 +1,8 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 
 import type { IBorderRadiusOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
+import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CountingInput } from "../../CountingInput";
@@ -12,11 +13,11 @@ import { Switch } from "../../Switch";
 
 interface Props extends IGridOption, IBorderRadiusOption {
   width: number;
-  setWidth: Dispatch<SetStateAction<number>>;
+  setWidth: CoreSetState<number>;
   checkAddHeader: boolean;
-  setCheckAddHeader: Dispatch<SetStateAction<boolean>>;
+  setCheckAddHeader: CoreSetState<boolean>;
   checkAddFooter: boolean;
-  setCheckAddFooter: Dispatch<SetStateAction<boolean>>;
+  setCheckAddFooter: CoreSetState<boolean>;
 }
 export const ModalContainerForm: FC<Props> = ({
   span,

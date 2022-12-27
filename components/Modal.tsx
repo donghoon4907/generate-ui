@@ -1,9 +1,10 @@
-import type { Dispatch, FC, SetStateAction, MouseEvent } from "react";
+import type { FC, MouseEvent } from "react";
 import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
-import { CoreProps } from "../interfaces/core";
+import type { CoreSetState } from "../types/core";
+import type { CoreProps } from "../interfaces/core";
 import { mixinBgLv0 } from "../theme/mixins/background";
 import { IconWrapper } from "./IconWrapper";
 import { PrimaryButton, SecondaryButton } from "./Button";
@@ -105,7 +106,7 @@ const ButtonWrapper = styled.div`
 
 interface Props extends CoreProps {
   show: boolean;
-  setShow: Dispatch<SetStateAction<boolean>>;
+  setShow: CoreSetState<boolean>;
   headerTitle?: string;
   showHeaderCloseButton?: boolean;
   onSubmit?: () => void;

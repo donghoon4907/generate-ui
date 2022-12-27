@@ -1,7 +1,8 @@
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import type { ChangeEvent, FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { ISelectOption } from "../../../interfaces/select";
+import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CustomSelect } from "../../CustomSelect";
@@ -11,9 +12,9 @@ import { Checkbox } from "../../Checkbox";
 
 interface Props extends IGridOption {
   lang?: ISelectOption;
-  setLang?: Dispatch<SetStateAction<ISelectOption>>;
+  setLang?: CoreSetState<ISelectOption>;
   html?: boolean;
-  setHtml?: Dispatch<SetStateAction<boolean>>;
+  setHtml?: CoreSetState<boolean>;
 }
 
 export const PreferenceOption: FC<Props> = ({

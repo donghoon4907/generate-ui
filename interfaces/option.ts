@@ -1,46 +1,45 @@
-import { Dispatch, SetStateAction } from "react";
-
+import type { CoreSetState } from "../types/core";
 import { ISelectOption } from "./select";
 
 export interface IPaddingOption {
   paddingTop: number;
-  setPaddingTop: Dispatch<SetStateAction<number>>;
+  setPaddingTop: CoreSetState<number>;
   paddingRight: number;
-  setPaddingRight: Dispatch<SetStateAction<number>>;
+  setPaddingRight: CoreSetState<number>;
   paddingBottom: number;
-  setPaddingBottom: Dispatch<SetStateAction<number>>;
+  setPaddingBottom: CoreSetState<number>;
   paddingLeft: number;
-  setPaddingLeft: Dispatch<SetStateAction<number>>;
+  setPaddingLeft: CoreSetState<number>;
   checkAllPaddingOption: boolean;
-  setCheckAllPaddingOption: Dispatch<SetStateAction<boolean>>;
+  setCheckAllPaddingOption: CoreSetState<boolean>;
 }
 
 export interface IBorderRadiusOption {
   borderTopLeftRadius: number;
-  setBorderTopLeftRadius: Dispatch<SetStateAction<number>>;
+  setBorderTopLeftRadius: CoreSetState<number>;
   borderTopRightRadius: number;
-  setBorderTopRightRadius: Dispatch<SetStateAction<number>>;
+  setBorderTopRightRadius: CoreSetState<number>;
   borderBottomLeftRadius: number;
-  setBorderBottomLeftRadius: Dispatch<SetStateAction<number>>;
+  setBorderBottomLeftRadius: CoreSetState<number>;
   borderBottomRightRadius: number;
-  setBorderBottomRightRadius: Dispatch<SetStateAction<number>>;
+  setBorderBottomRightRadius: CoreSetState<number>;
   checkAllBorderRadiusOption: boolean;
-  setCheckAllBorderRadiusOption: Dispatch<SetStateAction<boolean>>;
+  setCheckAllBorderRadiusOption: CoreSetState<boolean>;
 }
 
 export interface IBorderOption {
   borderStyle: ISelectOption;
-  setBorderStyle: Dispatch<SetStateAction<ISelectOption>>;
+  setBorderStyle: CoreSetState<ISelectOption>;
   borderWidth: number;
-  setBorderWidth: Dispatch<SetStateAction<number>>;
+  setBorderWidth: CoreSetState<number>;
   borderColor: string;
-  setBorderColor: Dispatch<SetStateAction<string>>;
+  setBorderColor: CoreSetState<string>;
 }
 
 export interface IRgbaOption {
-  setRgb: Dispatch<SetStateAction<string>>;
+  setRgb: CoreSetState<string>;
   hex: string;
-  setHex: Dispatch<SetStateAction<string>>;
+  setHex: CoreSetState<string>;
   alpha: number;
-  setAlpha: Dispatch<SetStateAction<number>>;
+  setAlpha: CoreSetState<number>;
 }

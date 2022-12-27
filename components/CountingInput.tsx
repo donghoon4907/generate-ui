@@ -1,8 +1,9 @@
-import type { Dispatch, FC, InputHTMLAttributes, SetStateAction } from "react";
+import type { FC, InputHTMLAttributes } from "react";
 import { ChangeEvent, useState, useRef } from "react";
 import styled from "styled-components";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
+import type { CoreSetState } from "../types/core";
 import { mixinInputDefault, mixinInputValidation } from "../theme/mixins/input";
 import { IconWrapper } from "./IconWrapper";
 import { Feedback } from "./Feedback";
@@ -52,7 +53,7 @@ const Tool = styled.div`
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   count: number;
-  setCount: Dispatch<SetStateAction<number>> | ((px: number) => void);
+  setCount: CoreSetState<number>;
   ariaLabel: string;
   limit: number;
   showIcon?: boolean;

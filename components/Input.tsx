@@ -1,7 +1,8 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 import { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
+import type { CoreSetState } from "../types/core";
 import { mixinInputDefault, mixinInputValidation } from "../theme/mixins/input";
 import { Feedback } from "./Feedback";
 
@@ -25,7 +26,7 @@ export const ValidInput = styled.input<{
 interface Props {
   id: string;
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: CoreSetState<string>;
   limit: number;
   showFeedback: boolean;
 }

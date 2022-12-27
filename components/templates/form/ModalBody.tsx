@@ -1,12 +1,11 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 import { useState } from "react";
 
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
-import {
-  IModalLayoutOption,
-  defaultModalLayoutOption
-} from "../../../interfaces/modal";
+import type { CoreSetState } from "../../../types/core";
+import type { IModalLayoutOption } from "../../../interfaces/modal";
+import { defaultModalLayoutOption } from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
 import { PaddingOption } from "../options/Padding";
 import { PrimaryButton } from "../../Button";
@@ -14,7 +13,7 @@ import { DragableInputOption } from "../options/DragableInput";
 
 interface Props extends IGridOption, IPaddingOption {
   layouts: IModalLayoutOption[];
-  setLayouts: Dispatch<SetStateAction<IModalLayoutOption[]>>;
+  setLayouts: CoreSetState<IModalLayoutOption[]>;
 }
 
 export const ModalBodyForm: FC<Props> = ({

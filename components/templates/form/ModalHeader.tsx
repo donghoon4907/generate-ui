@@ -1,7 +1,8 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
+import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CountingInput } from "../../CountingInput";
@@ -12,17 +13,17 @@ import { PaddingOption } from "../options/Padding";
 
 interface Props extends IGridOption, IPaddingOption {
   title: string;
-  setTitle: Dispatch<SetStateAction<string>>;
+  setTitle: CoreSetState<string>;
   titleColor: string;
-  setTitleColor: Dispatch<SetStateAction<string>>;
+  setTitleColor: CoreSetState<string>;
   titleFontSize: number;
-  setTitleFontSize: Dispatch<SetStateAction<number>>;
+  setTitleFontSize: CoreSetState<number>;
   titleLineHeight: number;
-  setTitleLineHeight: Dispatch<SetStateAction<number>>;
+  setTitleLineHeight: CoreSetState<number>;
   titleLetterSpacing: number;
-  setTitleLetterSpacing: Dispatch<SetStateAction<number>>;
+  setTitleLetterSpacing: CoreSetState<number>;
   closeIconSize: number;
-  setCloseIconSize: Dispatch<SetStateAction<number>>;
+  setCloseIconSize: CoreSetState<number>;
 }
 
 export const ModalHeaderForm: FC<Props> = ({

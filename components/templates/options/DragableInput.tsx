@@ -1,8 +1,9 @@
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import type { ChangeEvent, FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
 import type { ISelectOption } from "../../../interfaces/select";
+import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { DangerButton } from "../../Button";
@@ -11,15 +12,16 @@ import { FoldableTitle } from "../../FoldableTitle";
 import { labelPositionOptions } from "../../options/LabelPosition";
 import { CustomSelect } from "../../CustomSelect";
 import { modalInputTypeOptions } from "../../options/InputType";
+import { FontOption } from "./Font";
 
 interface Props extends IGridOption, IModalLayoutOption {
   order: number;
   layouts: IModalLayoutOption[];
-  setLayouts: Dispatch<SetStateAction<IModalLayoutOption[]>>;
+  setLayouts: CoreSetState<IModalLayoutOption[]>;
   draggingOrder: number;
-  setDraggingOrder: Dispatch<SetStateAction<number>>;
+  setDraggingOrder: CoreSetState<number>;
   hoverOrder: number;
-  setHoverOrder: Dispatch<SetStateAction<number>>;
+  setHoverOrder: CoreSetState<number>;
 }
 
 export const DragableInputOption: FC<Props> = ({
@@ -28,6 +30,11 @@ export const DragableInputOption: FC<Props> = ({
   label,
   labelPos,
   inputType,
+  inputColor,
+  inputFontSize,
+  inputLineHeight,
+  inputLetterSpacing,
+  inputTextAlign,
   layouts,
   setLayouts,
   draggingOrder,
@@ -49,18 +56,39 @@ export const DragableInputOption: FC<Props> = ({
       })
     );
   };
+
   const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
     const label = evt.target.value;
 
     updateLayout({ label });
   };
 
-  const handleChangeLabelPos = (labelPos: ISelectOption) => {
+  const setLabelPos = (labelPos: ISelectOption) => {
     updateLayout({ labelPos });
   };
 
-  const handleChangeInputType = (inputType: ISelectOption) => {
+  const setInputType = (inputType: ISelectOption) => {
     updateLayout({ inputType });
+  };
+
+  const setInputColor = (inputColor: string) => {
+    updateLayout({ inputColor });
+  };
+
+  const setInputFontSize = (inputFontSize: number) => {
+    updateLayout({ inputFontSize });
+  };
+
+  const setInputLineHeight = (inputLineHeight: number) => {
+    updateLayout({ inputLineHeight });
+  };
+
+  const setInputLetterSpacing = (inputLetterSpacing: number) => {
+    updateLayout({ inputLetterSpacing });
+  };
+
+  const setInputTextAlign = (inputTextAlign: ISelectOption) => {
+    updateLayout({ inputTextAlign });
   };
 
   const handleRemove = () => {
@@ -120,7 +148,7 @@ export const DragableInputOption: FC<Props> = ({
         <RequireLabel htmlFor={`setLabelPos${order}`}>레이블 위치</RequireLabel>
         <CustomSelect
           activeOption={labelPos}
-          setOption={handleChangeLabelPos}
+          setOption={setLabelPos}
           options={labelPositionOptions}
         />
       </FoldableTitle>
@@ -128,8 +156,21 @@ export const DragableInputOption: FC<Props> = ({
         <RequireLabel htmlFor={`setInputType${order}`}>입력 타입</RequireLabel>
         <CustomSelect
           activeOption={inputType}
-          setOption={handleChangeInputType}
+          setOption={setInputType}
           options={modalInputTypeOptions}
+        />
+        <FontOption
+          id={`LayoutFontOption${order}`}
+          color={inputColor}
+          setColor={setInputColor}
+          fontSize={inputFontSize}
+          setFontSize={setInputFontSize}
+          lineHeight={inputLineHeight}
+          setLineHeight={setInputLineHeight}
+          letterSpacing={inputLetterSpacing}
+          setLetterSpacing={setInputLetterSpacing}
+          textAlign={inputTextAlign}
+          setTextAlign={setInputTextAlign}
         />
       </FoldableTitle>
 

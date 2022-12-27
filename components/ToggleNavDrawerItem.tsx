@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
-import type { Dispatch, FC, MouseEvent, SetStateAction } from "react";
+import type { FC, MouseEvent } from "react";
 import styled from "styled-components";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
+import type { CoreSetState } from "../types/core";
 import { Gnb } from "../types/gnb";
 import { IconWrapper } from "./IconWrapper";
 import { useDispatch } from "../context";
@@ -48,7 +49,7 @@ const Label = styled.span<{ isActive: boolean }>`
 `;
 
 interface ToggleNavDrawerItemProps extends Gnb {
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: CoreSetState<boolean>;
 }
 
 export const ToggleNavDrawerItem: FC<ToggleNavDrawerItemProps> = ({

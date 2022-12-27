@@ -7,11 +7,8 @@ import { AiOutlineClose } from "react-icons/ai";
 
 import * as Component from "../../components/partial/Component";
 import * as Grid from "../../components/partial/Grid";
-import { mixinBgLv1 } from "../../theme/mixins/background";
 import { ModalTabType } from "../../types/tab";
 import { mixinBtnDefault } from "../../theme/mixins/button";
-import { DefaultInput } from "../../components/Input";
-import { useTheme } from "../../hooks/useTheme";
 import {
   IModalLayoutOption,
   defaultModalLayoutOption
@@ -19,7 +16,7 @@ import {
 import { ModalContainerForm } from "../../components/templates/form/ModalContainer";
 import { ModalHeaderForm } from "../../components/templates/form/ModalHeader";
 import { ModalBodyForm } from "../../components/templates/form/ModalBody";
-import { PositionOption } from "../../types/select-option";
+import { InputTypeOption, PositionOption } from "../../types/select-option";
 
 const Layer = styled.div`
   width: 100%;
@@ -33,16 +30,15 @@ const Layer = styled.div`
 `;
 
 const Modal = styled.div`
-  border: 1px solid ${({ theme }) => theme.dividerColor};
-
-  ${mixinBgLv1}
+  border: 1px solid ${({ theme }) => theme.color.black};
+  background: ${({ theme }) => theme.color.white};
 `;
 
 const ModalHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.dividerColor};
+  border-bottom: 1px solid ${({ theme }) => theme.color.black};
 `;
 
 const CloseIconWrapper = styled.button<{ iconSize: number }>`
@@ -52,6 +48,7 @@ const CloseIconWrapper = styled.button<{ iconSize: number }>`
   & > svg {
     width: 100%;
     height: 100%;
+    fill: #000;
   }
 
   ${mixinBtnDefault}
@@ -67,7 +64,6 @@ const ModalBody = styled.div`
 
 const ComponentModal: NextPage = () => {
   /* order - state */
-  const { theme } = useTheme();
   // container - 너비
   const [width, setWidth] = useState(500);
   // container - 모서리 각
@@ -80,7 +76,7 @@ const ComponentModal: NextPage = () => {
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
-  const [headerTitleColor, setHeaderTitleColor] = useState(theme.textColor_lv0);
+  const [headerTitleColor, setHeaderTitleColor] = useState("#000000");
   // header - 텍스트 크기
   const [headerTitleFontSize, setHeaderTitleFontSize] = useState(16);
   // header - 텍스트 높이
@@ -181,40 +177,75 @@ const ComponentModal: NextPage = () => {
                 }}
               >
                 {layouts.map((layout, index) => {
-                  const labelPosValue = layout.labelPos.value;
+                  const {
+                    label,
+                    labelPos,
+                    inputType,
+                    inputColor,
+                    inputFontSize,
+                    inputLineHeight,
+                    inputLetterSpacing,
+                    inputTextAlign
+                  } = layout;
+                  const labelPosValue = labelPos.value;
 
-                  const inputWrapperStyle: CSSProperties = {
+                  const containerStyle: CSSProperties = {
                     display: "flex"
                   };
 
-                  const labelStyle: CSSProperties = {};
+                  const labelStyle: CSSProperties = {
+                    color: "#000000"
+                  };
 
-                  const inputStyle: CSSProperties = {
+                  const inputWrapperStyle: CSSProperties = {
                     flex: 1
                   };
 
+                  const inputStyle: CSSProperties = {
+                    color: inputColor,
+                    fontSize: inputFontSize,
+                    lineHeight: `${inputLineHeight}px`,
+                    letterSpacing: inputLetterSpacing,
+                    textAlign: inputTextAlign.value as any,
+                    width: "100%"
+                  };
+
+                  if (inputType.value === InputTypeOption.TEXTAREA) {
+                    inputStyle.resize = "none";
+                    inputWrapperStyle.height = "100px";
+                    inputStyle.height = "100px";
+                  }
+
                   if (labelPosValue === PositionOption.TOP) {
-                    inputWrapperStyle.flexDirection = "column";
-                  } else if (labelPosValue === PositionOption.RIGHT) {
-                    inputWrapperStyle.justifyContent = "space-between";
-                    inputWrapperStyle.alignItems = "center";
-                    inputWrapperStyle.gap = 5;
-                    inputStyle.order = 1;
-                    labelStyle.order = 2;
-                  } else if (labelPosValue === PositionOption.LEFT) {
-                    inputWrapperStyle.justifyContent = "space-between";
-                    inputWrapperStyle.alignItems = "center";
-                    inputWrapperStyle.gap = 5;
-                    labelStyle.order = 1;
-                    inputStyle.order = 2;
+                    containerStyle.flexDirection = "column";
+                  } else {
+                    containerStyle.justifyContent = "space-between";
+                    containerStyle.alignItems = "center";
+                    containerStyle.gap = 5;
+
+                    if (labelPosValue === PositionOption.RIGHT) {
+                      inputWrapperStyle.order = 1;
+                      labelStyle.order = 2;
+                    } else if (labelPosValue === PositionOption.LEFT) {
+                      inputWrapperStyle.order = 2;
+                      labelStyle.order = 1;
+                    }
+
+                    if (inputType.value === InputTypeOption.TEXTAREA) {
+                      labelStyle.height = "100px";
+                    }
                   }
 
                   return (
                     <Fragment key={`PreviewLayout${index}`}>
-                      <div style={inputWrapperStyle}>
-                        <div style={labelStyle}>{layout.label}</div>
-                        <div style={inputStyle}>
-                          <DefaultInput />
+                      <div style={containerStyle}>
+                        <div style={labelStyle}>{label}</div>
+                        <div style={inputWrapperStyle}>
+                          {inputType.value === InputTypeOption.TEXTAREA ? (
+                            <textarea style={inputStyle} />
+                          ) : (
+                            <input type="text" style={inputStyle} />
+                          )}
                         </div>
                       </div>
                     </Fragment>

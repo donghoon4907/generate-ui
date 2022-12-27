@@ -1,5 +1,7 @@
-import type { Dispatch, FC, InputHTMLAttributes, SetStateAction } from "react";
+import type { FC, InputHTMLAttributes } from "react";
 import styled from "styled-components";
+
+import type { CoreSetState } from "../types/core";
 import { mixinBootstrapInputFocus } from "../theme/mixins/input";
 
 const Container = styled.input<{ width: number }>`
@@ -47,7 +49,7 @@ const Container = styled.input<{ width: number }>`
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   width: number;
   checked: boolean;
-  setChecked: Dispatch<SetStateAction<boolean>>;
+  setChecked: CoreSetState<boolean>;
 }
 
 export const Switch: FC<Props> = ({ width, checked, setChecked, ...props }) => {
