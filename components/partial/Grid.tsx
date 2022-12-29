@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { ButtonHTMLAttributes, FC } from "react";
 import { useState } from "react";
 import { AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";
 import styled from "styled-components";
@@ -101,9 +101,8 @@ export const FoldableTitle: FC<FoldableTitleProps> = ({
   );
 };
 
-interface TabProps extends CoreProps {
+interface TabProps extends CoreProps, ButtonHTMLAttributes<HTMLButtonElement> {
   active: boolean;
-  onClick: () => void;
 }
 
 export const Tab: FC<TabProps> = ({ children, active, onClick }) => (
@@ -118,19 +117,24 @@ export const Column = styled.div<{ span: number }>`
   border-radius: 5px;
   padding: ${({ span }) => (span === 0 ? 0 : "5px 10px")};
   display: ${({ span }) => (span === 0 ? "none" : "block")};
-  border: 1px solid ${({ theme }) => theme.dividerColor};
+
   grid-column: span ${({ span }) => (span > 0 ? span : 1)};
-  margin-bottom: 5px;
 
   & > *:not(button) {
     margin-bottom: 5px;
   }
+`;
+
+export const BorderColumn = styled(Column)`
+  border: 1px solid ${({ theme }) => theme.dividerColor};
+  margin-bottom: 5px;
 
   ${mixinBgLv3}
 `;
 
-export const DragableColumn = styled(Column).attrs(props => ({
+export const DragableColumn = styled(BorderColumn).attrs(props => ({
   draggable: true
 }))<{ isDragEnter: boolean }>`
   opacity: ${({ isDragEnter }) => (isDragEnter ? 0.5 : 1)};
+  padding: 0;
 `;

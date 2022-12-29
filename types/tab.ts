@@ -15,3 +15,14 @@ export enum ModalTabType {
   BODY = "body",
   FOOTER = "footer"
 }
+
+export enum ModalBodyLayoutTabType {
+  LABEL = "label",
+  INPUT = "input"
+}
+
+export type TabType =
+  | InputSearchTabType
+  | SelectTabType
+  | ModalTabType
+  | ModalBodyLayoutTabType;

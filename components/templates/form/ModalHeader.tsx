@@ -78,7 +78,7 @@ export const ModalHeaderForm: FC<Props> = ({
         />
       </Grid.FoldableTitle>
 
-      <Grid.FoldableTitle span={span} title="여백 설정">
+      <Grid.FoldableTitle span={span} title="여백 설정" defaultFold={false}>
         <PaddingOption
           id="ModalHeader"
           span={span}
@@ -95,7 +95,7 @@ export const ModalHeaderForm: FC<Props> = ({
         />
       </Grid.FoldableTitle>
 
-      <Grid.FoldableTitle span={span} title="아이콘 설정">
+      <Grid.FoldableTitle span={span} title="아이콘 설정" defaultFold={false}>
         <Grid.Column span={span}>
           <RequireLabel htmlFor="setCloseIconSize">크기</RequireLabel>
           <CountingInput

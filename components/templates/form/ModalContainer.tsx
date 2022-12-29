@@ -55,7 +55,7 @@ export const ModalContainerForm: FC<Props> = ({
             unit="px"
           />
         </Grid.Column>
-        <Grid.Column span={span}>
+        <Grid.BorderColumn span={span}>
           <RequireLabel htmlFor="">레이아웃 추가</RequireLabel>
           <WithLabel id="addHeader" label="헤더">
             <Switch
@@ -73,7 +73,7 @@ export const ModalContainerForm: FC<Props> = ({
               setChecked={setCheckAddFooter}
             />
           </WithLabel>
-        </Grid.Column>
+        </Grid.BorderColumn>
       </Grid.FoldableTitle>
 
       <Grid.FoldableTitle span={span} title="모서리각 설정">

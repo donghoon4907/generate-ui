@@ -185,8 +185,23 @@ const ComponentModal: NextPage = () => {
                     inputFontSize,
                     inputLineHeight,
                     inputLetterSpacing,
-                    inputTextAlign
+                    inputTextAlign,
+                    inputPaddingTop,
+                    inputPaddingRight,
+                    inputPaddingBottom,
+                    inputPaddingLeft,
+                    inputBorderTopLeftRadius,
+                    inputBorderTopRightRadius,
+                    inputBorderBottomLeftRadius,
+                    inputBorderBottomRightRadius,
+                    inputBorderStyle,
+                    inputBorderColor,
+                    inputBorderWidth,
+                    inputBackgroundColorHex,
+                    inputBackgroundColorRgb,
+                    inputBackgroundColorAlpha
                   } = layout;
+
                   const labelPosValue = labelPos.value;
 
                   const containerStyle: CSSProperties = {
@@ -198,7 +213,16 @@ const ComponentModal: NextPage = () => {
                   };
 
                   const inputWrapperStyle: CSSProperties = {
-                    flex: 1
+                    flex: 1,
+                    borderTopLeftRadius: inputBorderTopLeftRadius,
+                    borderTopRightRadius: inputBorderTopRightRadius,
+                    borderBottomLeftRadius: inputBorderBottomLeftRadius,
+                    borderBottomRightRadius: inputBorderBottomRightRadius,
+                    borderStyle: inputBorderStyle.value,
+                    borderWidth: inputBorderWidth,
+                    borderColor: inputBorderColor,
+                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`,
+                    overflow: "hidden"
                   };
 
                   const inputStyle: CSSProperties = {
@@ -207,7 +231,17 @@ const ComponentModal: NextPage = () => {
                     lineHeight: `${inputLineHeight}px`,
                     letterSpacing: inputLetterSpacing,
                     textAlign: inputTextAlign.value as any,
-                    width: "100%"
+                    width: "100%",
+                    paddingTop: inputPaddingTop,
+                    paddingRight: inputPaddingRight,
+                    paddingBottom: inputPaddingBottom,
+                    paddingLeft: inputPaddingLeft,
+                    borderTopLeftRadius: inputBorderTopLeftRadius,
+                    borderTopRightRadius: inputBorderTopRightRadius,
+                    borderBottomLeftRadius: inputBorderBottomLeftRadius,
+                    borderBottomRightRadius: inputBorderBottomRightRadius,
+                    border: "none",
+                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`,
                   };
 
                   if (inputType.value === InputTypeOption.TEXTAREA) {

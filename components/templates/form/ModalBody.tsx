@@ -60,11 +60,11 @@ export const ModalBodyForm: FC<Props> = ({
       </Grid.FoldableTitle>
 
       <Grid.FoldableTitle span={span} title="레이아웃 관리">
-        <Grid.Column span={span}>
+        <Grid.BorderColumn span={span}>
           <PrimaryButton type="button" onClick={handleCreateLayout}>
             레이아웃 추가
           </PrimaryButton>
-        </Grid.Column>
+        </Grid.BorderColumn>
         {layouts.map((layout, index) => (
           <DragableInputOption
             key={`layout${index}`}

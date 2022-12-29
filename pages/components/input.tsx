@@ -36,6 +36,7 @@ import { BorderRadiusOption } from "../../components/templates/options/BorderRad
 import { BorderOption } from "../../components/templates/options/Border";
 import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
+import constants from "../../constants";
 
 const ComponentInput: NextPage = () => {
   /* order - state */
@@ -50,13 +51,19 @@ const ComponentInput: NextPage = () => {
   // 자간
   const [letterSpacing, setLetterSpacing] = useState(0);
   // 지시자
-  const [placeholder, setPlaceholder] = useState("입력하세요");
+  const [placeholder, setPlaceholder] = useState(
+    constants.label.defaultPlaceholder
+  );
   // 배경색
-  const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
-  const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
+  const [backgroundColorHex, setBackgroundColorHex] = useState(
+    constants.color.whiteHex
+  );
+  const [backgroundColorRgb, setBackgroundColorRgb] = useState(
+    constants.color.whiteRgb
+  );
   const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
   // 텍스트 색
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
@@ -75,7 +82,7 @@ const ComponentInput: NextPage = () => {
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
   );
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
   const [borderWidth, setBorderWidth] = useState(1);
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
@@ -96,7 +103,7 @@ const ComponentInput: NextPage = () => {
     iconAlignOptions[0]
   );
   // 아이콘 색
-  const [iconColor, setIconColor] = useState("#000000");
+  const [iconColor, setIconColor] = useState(constants.color.blackHex);
   /* order - variable */
   // grid span
   const gridSpan = 3;
