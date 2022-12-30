@@ -8,7 +8,7 @@ import type { IModalLayoutOption } from "../../../interfaces/modal";
 import { defaultModalLayoutOption } from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
 import { PaddingOption } from "../options/Padding";
-import { PrimaryButton } from "../../Button";
+import { PrimaryButton, WarningButton } from "../../Button";
 import { DragableInputOption } from "../options/DragableInput";
 
 interface Props extends IGridOption, IPaddingOption {
@@ -35,9 +35,15 @@ export const ModalBodyForm: FC<Props> = ({
   const [draggingOrder, setDraggingOrder] = useState(-1);
   // body - 현재 마우스 오버 중인 레이아웃 순서
   const [hoverOrder, setHoverOrder] = useState(-1);
+  // 순서 변경 활성화 여부
+  const [activeOrderMode, setActiveOrderMode] = useState(false);
 
   const handleCreateLayout = () => {
     setLayouts([...layouts, defaultModalLayoutOption]);
+  };
+
+  const handleToggleOrderMode = () => {
+    setActiveOrderMode(!activeOrderMode);
   };
 
   return (
@@ -65,6 +71,11 @@ export const ModalBodyForm: FC<Props> = ({
             레이아웃 추가
           </PrimaryButton>
         </Grid.BorderColumn>
+        <Grid.BorderColumn span={span}>
+          <WarningButton type="button" onClick={handleToggleOrderMode}>
+            순서 변경 {activeOrderMode && "종료"}
+          </WarningButton>
+        </Grid.BorderColumn>
         {layouts.map((layout, index) => (
           <DragableInputOption
             key={`layout${index}`}
@@ -76,6 +87,7 @@ export const ModalBodyForm: FC<Props> = ({
             setDraggingOrder={setDraggingOrder}
             hoverOrder={hoverOrder}
             setHoverOrder={setHoverOrder}
+            isExpand={!activeOrderMode}
             {...layout}
           />
         ))}

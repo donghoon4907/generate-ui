@@ -132,8 +132,8 @@ export const BorderColumn = styled(Column)`
   ${mixinBgLv3}
 `;
 
-export const DragableColumn = styled(BorderColumn).attrs(props => ({
-  draggable: true
+export const DragableColumn = styled(BorderColumn).attrs(({ draggable }) => ({
+  draggable
 }))<{ isDragEnter: boolean }>`
   opacity: ${({ isDragEnter }) => (isDragEnter ? 0.5 : 1)};
   padding: 0;

@@ -113,7 +113,35 @@ const ComponentModal: NextPage = () => {
   // grid span
   const gridSpan = 1;
   // preview style
-  const modalStyle: CSSProperties = {};
+  const modalStyle: CSSProperties = {
+    width,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    overflow: "hidden"
+  };
+
+  const headerWrapperStyle: CSSProperties = {
+    paddingTop: headerPaddingTop,
+    paddingRight: headerPaddingRight,
+    paddingBottom: headerPaddingBottom,
+    paddingLeft: headerPaddingLeft
+  };
+
+  const headerTitleStyle: CSSProperties = {
+    color: headerTitleColor,
+    fontSize: headerTitleFontSize,
+    lineHeight: `${headerTitleLineHeight}px`,
+    letterSpacing: headerTitleLetterSpacing
+  };
+
+  const bodyWrapperStyle: CSSProperties = {
+    paddingTop: bodyPaddingTop,
+    paddingRight: bodyPaddingRight,
+    paddingBottom: bodyPaddingBottom,
+    paddingLeft: bodyPaddingLeft
+  };
   /* handler */
   const handleExport = () => {};
 
@@ -133,49 +161,17 @@ const ComponentModal: NextPage = () => {
         <Component.Section>
           <Component.Header>Preview</Component.Header>
           <Layer>
-            <Modal
-              style={{
-                width,
-                borderTopLeftRadius,
-                borderTopRightRadius,
-                borderBottomLeftRadius,
-                borderBottomRightRadius,
-                overflow: "hidden"
-              }}
-            >
+            <Modal style={modalStyle}>
               {checkAddHeader && (
-                <ModalHeader
-                  style={{
-                    paddingTop: headerPaddingTop,
-                    paddingRight: headerPaddingRight,
-                    paddingBottom: headerPaddingBottom,
-                    paddingLeft: headerPaddingLeft
-                  }}
-                >
-                  <span
-                    style={{
-                      color: headerTitleColor,
-                      fontSize: headerTitleFontSize,
-                      lineHeight: `${headerTitleLineHeight}px`,
-                      letterSpacing: headerTitleLetterSpacing
-                    }}
-                  >
-                    {headerTitle}
-                  </span>
+                <ModalHeader style={headerWrapperStyle}>
+                  <span style={headerTitleStyle}>{headerTitle}</span>
                   <CloseIconWrapper type="button" iconSize={closeIconSize}>
                     <AiOutlineClose />
                   </CloseIconWrapper>
                 </ModalHeader>
               )}
 
-              <ModalBody
-                style={{
-                  paddingTop: bodyPaddingTop,
-                  paddingRight: bodyPaddingRight,
-                  paddingBottom: bodyPaddingBottom,
-                  paddingLeft: bodyPaddingLeft
-                }}
-              >
+              <ModalBody style={bodyWrapperStyle}>
                 {layouts.map((layout, index) => {
                   const {
                     label,
@@ -197,7 +193,6 @@ const ComponentModal: NextPage = () => {
                     inputBorderStyle,
                     inputBorderColor,
                     inputBorderWidth,
-                    inputBackgroundColorHex,
                     inputBackgroundColorRgb,
                     inputBackgroundColorAlpha
                   } = layout;
@@ -241,7 +236,7 @@ const ComponentModal: NextPage = () => {
                     borderBottomLeftRadius: inputBorderBottomLeftRadius,
                     borderBottomRightRadius: inputBorderBottomRightRadius,
                     border: "none",
-                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`,
+                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`
                   };
 
                   if (inputType.value === InputTypeOption.TEXTAREA) {

@@ -26,7 +26,8 @@ const PresetButtonContainer = styled.button`
 `;
 
 const PrimaryButtonContainer = styled(Container)`
-  background: ${({ theme }) => theme.activeBgColor} !important;
+  background: ${({ theme }) => theme.color.bootstrapBlue} !important;
+  color ${({ theme }) => theme.color.white};
 `;
 
 const SecondaryButtonContainer = styled(Container)`
@@ -36,6 +37,11 @@ const SecondaryButtonContainer = styled(Container)`
 const DangerButtonContainer = styled(Container)`
   background: ${({ theme }) => theme.color.bootstrapRed} !important;
   color ${({ theme }) => theme.color.white};
+`;
+
+const WarningButtonContainer = styled(Container)`
+  background: ${({ theme }) => theme.color.bootstrapYellow} !important;
+  color: ${({ theme }) => theme.color.black};
 `;
 
 const BootstrapPrimaryContainer = styled(PresetButtonContainer)`
@@ -78,6 +84,10 @@ export const SecondaryButton: FC<ButtonProps> = ({ children, ...props }) => {
 
 export const DangerButton: FC<ButtonProps> = ({ children, ...props }) => {
   return <DangerButtonContainer {...props}>{children}</DangerButtonContainer>;
+};
+
+export const WarningButton: FC<ButtonProps> = ({ children, ...props }) => {
+  return <WarningButtonContainer {...props}>{children}</WarningButtonContainer>;
 };
 
 export const BootstrapPrimaryButton: FC<ButtonProps> = ({

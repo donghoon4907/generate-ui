@@ -19,6 +19,7 @@ declare module "styled-components" {
     bootstrapBlue: string;
     bootstrapGreen: string;
     bootstrapRed: string;
+    bootstrapYellow: string;
   }
 
   export interface BoxShadow {

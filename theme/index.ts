@@ -37,7 +37,8 @@ const color: Color = {
   darkTextColor_lv0: "#e3e3e3",
   bootstrapBlue: "#0d6efd",
   bootstrapGreen: "#198754",
-  bootstrapRed: "#dc3545"
+  bootstrapRed: "#dc3545",
+  bootstrapYellow: "#ffc107"
 };
 
 const boxShadow: BoxShadow = {
