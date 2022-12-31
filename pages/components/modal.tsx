@@ -236,7 +236,8 @@ const ComponentModal: NextPage = () => {
                     borderBottomLeftRadius: inputBorderBottomLeftRadius,
                     borderBottomRightRadius: inputBorderBottomRightRadius,
                     border: "none",
-                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`
+                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`,
+                    verticalAlign: "middle"
                   };
 
                   if (inputType.value === InputTypeOption.TEXTAREA) {

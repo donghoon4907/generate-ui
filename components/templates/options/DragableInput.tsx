@@ -230,10 +230,14 @@ export const DragableInputOption: FC<Props> = ({
     >
       <Grid.ResponsiveContainer span={span}>
         <Grid.ResponsiveRow span={span}>
-          <div>
-            {!isExpand && "-"} 순서 {order + 1}
-          </div>
+          <div>순서 {order + 1}</div>
         </Grid.ResponsiveRow>
+        {!isExpand && (
+          <Grid.ResponsiveRow span={span}>
+            {!isExpand && <div>{`- Label: ${label}`}</div>}
+          </Grid.ResponsiveRow>
+        )}
+
         {isExpand && (
           <>
             <Grid.ResponsiveRow span={span}>
