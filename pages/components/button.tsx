@@ -31,8 +31,14 @@ import { BorderRadiusOption } from "../../components/templates/options/BorderRad
 import { BorderOption } from "../../components/templates/options/Border";
 import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
+import { useSubstr } from "../../hooks/useSubstr";
 
 const ComponentButton: NextPage = () => {
+  /* order - constans */
+  // grid span
+  const GRID_SPAN = 3;
+  // 버튼명 글자 수 제한
+  const LABEL_LIMIT = 10;
   /* order - state */
   // 너비
   const [width, setWidth] = useState(100);
@@ -83,8 +89,6 @@ const ComponentButton: NextPage = () => {
     textOverflowOptions[0]
   );
   /* order - variable */
-  // grid span
-  const gridSpan = 3;
   // preview style
   const buttonStyle: CSSProperties = {
     width,
@@ -163,7 +167,7 @@ const ComponentButton: NextPage = () => {
     const exportToButton = new ConvertButton(buttonStyle);
 
     if (lang.value === LangOption.JS) {
-      exportToButton.generateButton(label);
+      exportToButton.generateButton(label.substring(0, LABEL_LIMIT - 1));
     }
 
     if (html) {
@@ -184,7 +188,9 @@ const ComponentButton: NextPage = () => {
       <Component.Container>
         <Component.Aside>
           <Preview width={width} onExport={handleExport}>
-            <button style={buttonStyle}>{label}</button>
+            <button style={buttonStyle}>
+              {label.substring(0, LABEL_LIMIT - 1)}
+            </button>
           </Preview>
           <Preset.Container>
             <Component.Header>Preset</Component.Header>
@@ -221,8 +227,8 @@ const ComponentButton: NextPage = () => {
         <Component.Section>
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
-            <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.FoldableTitle span={gridSpan} title="레이아웃 설정">
+            <Grid.ResponsiveContainer span={GRID_SPAN}>
+              <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                   <CountingInput
@@ -239,15 +245,15 @@ const ComponentButton: NextPage = () => {
                 </Grid.Column>
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
                   <FeedbackInput
                     id="setLabel"
                     value={label}
                     setValue={setLabel}
-                    limit={10}
-                    showFeedback={true}
+                    condition={label.length < 10}
+                    invalidComment="버튼명은 10자 미만으로 입력하세요."
                   />
                 </Grid.Column>
                 <FontOption
@@ -268,7 +274,7 @@ const ComponentButton: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="여백 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
                 <PaddingOption
                   id="Button"
                   span={1}
@@ -285,7 +291,7 @@ const ComponentButton: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="모서리각 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">
                 <BorderRadiusOption
                   id="Button"
                   span={1}
@@ -302,7 +308,7 @@ const ComponentButton: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="테두리 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
                 <BorderOption
                   id="Button"
                   span={1}
@@ -315,7 +321,7 @@ const ComponentButton: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="배경색 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">
                 <RgbaOption
                   id="Button"
                   span={1}
@@ -327,7 +333,7 @@ const ComponentButton: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="환경 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">
                 <PreferenceOption
                   span={1}
                   lang={lang}

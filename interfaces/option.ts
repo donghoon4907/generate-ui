@@ -36,10 +36,13 @@ export interface IBorderOption {
   setBorderColor: CoreSetState<string>;
 }
 
-export interface IRgbaOption {
-  setRgb: CoreSetState<string>;
+export interface IRgbOption {
   hex: string;
   setHex: CoreSetState<string>;
+  setRgb?: CoreSetState<string>;
+}
+
+export interface IRgbaOption extends IRgbOption {
   alpha: number;
   setAlpha: CoreSetState<number>;
 }

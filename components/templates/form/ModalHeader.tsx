@@ -51,6 +51,9 @@ export const ModalHeaderForm: FC<Props> = ({
   closeIconSize,
   setCloseIconSize
 }) => {
+  // 제목 글자 수 제한
+  const LABEL_LIMIT = 10;
+
   return (
     <>
       <Grid.FoldableTitle span={span} title="제목 설정">
@@ -60,8 +63,8 @@ export const ModalHeaderForm: FC<Props> = ({
             id="setHeaderTitle"
             value={title}
             setValue={setTitle}
-            limit={10}
-            showFeedback={true}
+            condition={title.length < LABEL_LIMIT}
+            invalidComment={`제목은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
           />
         </Grid.Column>
         <FontOption

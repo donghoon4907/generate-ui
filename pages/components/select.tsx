@@ -39,6 +39,11 @@ const OptionItem = styled.li`
 `;
 
 const ComponentSelect: NextPage = () => {
+  /* order - constans */
+  // grid span
+  const GRID_SPAN = 3;
+  // 제목 글자 수 제한
+  const LABEL_LIMIT = 10;
   /* order - state */
   // 너비
   const [width, setWidth] = useState(200);
@@ -121,8 +126,6 @@ const ComponentSelect: NextPage = () => {
     SelectTabType.COMMON
   );
   /* order - variable */
-  // grid span
-  const gridSpan = 3;
   // select min height
   const minHeight =
     selectPaddingTop + selectPaddingBottom + selectLineHeight + borderWidth * 2;
@@ -197,7 +200,7 @@ const ComponentSelect: NextPage = () => {
     const exportToSelect = new ConvertSelect(width, buttonOption, listOption);
 
     if (lang.value === LangOption.JS) {
-      exportToSelect.generateSelect(label);
+      exportToSelect.generateSelect(label.substring(0, LABEL_LIMIT - 1));
     }
 
     if (html) {
@@ -223,7 +226,9 @@ const ComponentSelect: NextPage = () => {
         <Component.Aside>
           <Preview width={width} onExport={handleExport}>
             <button type="button" style={selectWrapperStyle}>
-              <span style={selectLabelStyle}>{label}</span>
+              <span style={selectLabelStyle}>
+                {label.substring(0, LABEL_LIMIT - 1)}
+              </span>
             </button>
             <ul style={{ marginTop: 2, ...optionWrapperStyle }}>
               <OptionItem style={optionLabelStyle}>none</OptionItem>
@@ -236,8 +241,8 @@ const ComponentSelect: NextPage = () => {
         <Component.Section>
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
-            <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.ResponsiveRow span={gridSpan}>
+            <Grid.ResponsiveContainer span={GRID_SPAN}>
+              <Grid.ResponsiveRow span={GRID_SPAN}>
                 <Grid.Tab
                   active={activeTab === SelectTabType.COMMON}
                   onClick={() => handleClickTab(SelectTabType.COMMON)}
@@ -259,7 +264,7 @@ const ComponentSelect: NextPage = () => {
               </Grid.ResponsiveRow>
               {activeTab === SelectTabType.COMMON && (
                 <>
-                  <Grid.FoldableTitle span={gridSpan} title="레이아웃 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
                     <Grid.Column span={1}>
                       <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                       <CountingInput
@@ -276,7 +281,7 @@ const ComponentSelect: NextPage = () => {
                     </Grid.Column>
                   </Grid.FoldableTitle>
 
-                  <Grid.FoldableTitle span={gridSpan} title="테두리 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
                     <BorderOption
                       id="Select"
                       span={1}
@@ -289,7 +294,7 @@ const ComponentSelect: NextPage = () => {
                     />
                   </Grid.FoldableTitle>
 
-                  <Grid.FoldableTitle span={gridSpan} title="배경색 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">
                     <RgbaOption
                       id="Select"
                       span={1}
@@ -301,7 +306,7 @@ const ComponentSelect: NextPage = () => {
                     />
                   </Grid.FoldableTitle>
 
-                  <Grid.FoldableTitle span={gridSpan} title="환경 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">
                     <PreferenceOption
                       span={1}
                       lang={lang}
@@ -314,15 +319,15 @@ const ComponentSelect: NextPage = () => {
               )}
               {activeTab === SelectTabType.SELECT && (
                 <>
-                  <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
                     <Grid.Column span={1}>
                       <RequireLabel htmlFor="setLabel">제목</RequireLabel>
                       <FeedbackInput
                         id="setLabel"
                         value={label}
                         setValue={setLabel}
-                        limit={50}
-                        showFeedback={true}
+                        condition={label.length < LABEL_LIMIT}
+                        invalidComment={`제목은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
                       />
                     </Grid.Column>
 
@@ -344,7 +349,7 @@ const ComponentSelect: NextPage = () => {
                     />
                   </Grid.FoldableTitle>
 
-                  <Grid.FoldableTitle span={gridSpan} title="여백 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
                     <PaddingOption
                       id="Select"
                       span={1}
@@ -361,7 +366,7 @@ const ComponentSelect: NextPage = () => {
                     />
                   </Grid.FoldableTitle>
 
-                  <Grid.FoldableTitle span={gridSpan} title="모서리각 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">
                     <BorderRadiusOption
                       id="Select"
                       span={1}
@@ -383,7 +388,7 @@ const ComponentSelect: NextPage = () => {
               )}
               {activeTab === SelectTabType.OPTION && (
                 <>
-                  <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
                     <FontOption
                       id="Option"
                       span={1}
@@ -402,7 +407,7 @@ const ComponentSelect: NextPage = () => {
                     />
                   </Grid.FoldableTitle>
 
-                  <Grid.FoldableTitle span={gridSpan} title="여백 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
                     <PaddingOption
                       id="Option"
                       span={1}

@@ -1,5 +1,5 @@
-import type { FC } from "react";
-import { ChangeEvent, useState } from "react";
+import type { FC, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import type { CoreSetState } from "../types/core";
@@ -15,7 +15,7 @@ export const DefaultInput = styled.input`
   ${mixinInputDefault}
 `;
 
-export const ValidInput = styled.input<{
+export const ValidateInput = styled.input<{
   valid: boolean;
   invalid: boolean;
 }>`
@@ -27,37 +27,52 @@ interface Props {
   id: string;
   value: string;
   setValue: CoreSetState<string>;
-  limit: number;
-  showFeedback: boolean;
+  condition: boolean;
+  invalidComment?: string;
 }
 
 export const FeedbackInput: FC<Props> = ({
   id,
   value,
   setValue,
-  limit,
-  showFeedback
+  condition,
+  invalidComment
 }) => {
+  // 처음값
+  const [initValue] = useState(value);
+
   const [valid, setValid] = useState(false);
 
   const [invalid, setInvalid] = useState(false);
 
-  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { value } = evt.target;
-
-    if (value.length < limit) {
+  const validate = (_condition: boolean) => {
+    if (_condition) {
       setValid(true);
       setInvalid(false);
-      setValue(value);
     } else {
       setValid(false);
       setInvalid(true);
     }
   };
 
+  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+
+    setValue(value);
+  };
+
+  useEffect(() => {
+    if (initValue === value) {
+      setValid(false);
+      setInvalid(false);
+    } else {
+      validate(condition);
+    }
+  }, [condition, initValue, value]);
+
   return (
     <Container>
-      <ValidInput
+      <ValidateInput
         type="text"
         id={id}
         onChange={handleChange}
@@ -65,9 +80,9 @@ export const FeedbackInput: FC<Props> = ({
         valid={valid}
         invalid={invalid}
       />
-      {showFeedback && (
+      {invalidComment && (
         <Feedback valid={valid} invalid={invalid}>
-          {`${limit}글자 미만으로 설정해주세요.`}
+          {invalidComment}
         </Feedback>
       )}
     </Container>

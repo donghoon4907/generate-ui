@@ -21,7 +21,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { FontOption } from "../../components/templates/options/Font";
 import { PreferenceOption } from "../../components/templates/options/Preference";
 
-const StyledInput = styled.input<{
+const PreviewCheckbox = styled.input<{
   label: string;
   color: string;
   fontSize: number;
@@ -46,6 +46,11 @@ const StyledInput = styled.input<{
 `;
 
 const ComponentCheckbox: NextPage = () => {
+  /* order - constans */
+  // grid span
+  const GRID_SPAN = 3;
+  // 라벨 글자 수 제한
+  const LABEL_LIMIT = 10;
   /* order - state */
   const { theme } = useTheme();
   // 라벨
@@ -61,8 +66,6 @@ const ComponentCheckbox: NextPage = () => {
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
   /* order - variable */
-  // grid span
-  const gridSpan = 3;
   // preview style
   const checkboxStyle: CSSProperties = {
     position: "relative",
@@ -78,7 +81,7 @@ const ComponentCheckbox: NextPage = () => {
     const exportToInput = new ConvertCheckbox(checkboxStyle, labelStyle);
 
     if (lang.value === LangOption.JS) {
-      exportToInput.generateCheckbox(label);
+      exportToInput.generateCheckbox(label.substring(0, LABEL_LIMIT - 1));
     }
 
     if (html) {
@@ -102,9 +105,9 @@ const ComponentCheckbox: NextPage = () => {
             height={Math.round(13 * scale)}
             onExport={handleExport}
           >
-            <StyledInput
+            <PreviewCheckbox
               type="checkbox"
-              label={label}
+              label={label.substring(0, LABEL_LIMIT - 1)}
               color={color}
               fontSize={fontSize}
               scale={scale}
@@ -114,8 +117,8 @@ const ComponentCheckbox: NextPage = () => {
         <Component.Section>
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
-            <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.FoldableTitle span={gridSpan} title="레이아웃 설정">
+            <Grid.ResponsiveContainer span={GRID_SPAN}>
+              <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
                   <CountingInput
@@ -132,15 +135,15 @@ const ComponentCheckbox: NextPage = () => {
                 </Grid.Column>
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setLabel">설명</RequireLabel>
                   <FeedbackInput
                     id="setLabel"
                     value={label}
                     setValue={setLabel}
-                    limit={10}
-                    showFeedback={true}
+                    condition={label.length < LABEL_LIMIT}
+                    invalidComment={`설명은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
                   />
                 </Grid.Column>
                 <FontOption
@@ -153,7 +156,7 @@ const ComponentCheckbox: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="환경 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">
                 <PreferenceOption
                   span={1}
                   lang={lang}

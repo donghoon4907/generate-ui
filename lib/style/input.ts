@@ -40,11 +40,11 @@ export class ConvertInput extends ConvertElement {
     return "<script></script>";
   }
 
-  generateInput(type: string) {
+  generateInput(type: string, placeholder: string) {
     this.convertedHtml = `
     ${this.generateClass()}
     <div class="generate-input__container">
-      <input type="${type}" class="generate-input" />
+      <input type="${type}" class="generate-input" placeholder="${placeholder}" />
     </div>
     ${this.generateEvent()}
     `;

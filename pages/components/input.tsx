@@ -39,6 +39,11 @@ import { PreferenceOption } from "../../components/templates/options/Preference"
 import constants from "../../constants";
 
 const ComponentInput: NextPage = () => {
+  /* order - constans */
+  // grid span
+  const GRID_SPAN = 3;
+  // placeholder 글자 수 제한
+  const PLACEHOLDER_LIMIT = 10;
   /* order - state */
   // 타입
   const [inputType, setInputType] = useState<ISelectOption>(
@@ -105,8 +110,6 @@ const ComponentInput: NextPage = () => {
   // 아이콘 색
   const [iconColor, setIconColor] = useState(constants.color.blackHex);
   /* order - variable */
-  // grid span
-  const gridSpan = 3;
   // 아이콘 설정 노출 조건
   const showSetIcon = inputType.value === InputTypeOption.SEARCH && checkIcon;
   // 아이콘 오른쪽 정렬 시
@@ -216,7 +219,10 @@ const ComponentInput: NextPage = () => {
     const exportToInput = new ConvertInput(inputWrapperStyle, inputStyle);
 
     if (lang.value === LangOption.JS) {
-      exportToInput.generateInput(inputType.value);
+      exportToInput.generateInput(
+        inputType.value,
+        placeholder.substring(0, PLACEHOLDER_LIMIT - 1)
+      );
     }
 
     if (html) {
@@ -239,7 +245,7 @@ const ComponentInput: NextPage = () => {
             <div style={inputWrapperStyle}>
               <input
                 type={inputType.value}
-                placeholder={placeholder}
+                placeholder={placeholder.substring(0, PLACEHOLDER_LIMIT - 1)}
                 style={inputStyle}
               />
             </div>
@@ -279,8 +285,8 @@ const ComponentInput: NextPage = () => {
         <Component.Section>
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
-            <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.FoldableTitle span={gridSpan} title="기본 설정">
+            <Grid.ResponsiveContainer span={GRID_SPAN}>
+              <Grid.FoldableTitle span={GRID_SPAN} title="기본 설정">
                 <Grid.Column span={1}>
                   <RequireLabel>타입</RequireLabel>
                   <CustomSelect
@@ -302,7 +308,7 @@ const ComponentInput: NextPage = () => {
 
               {showSetIcon && (
                 <>
-                  <Grid.FoldableTitle span={gridSpan} title="아이콘 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="아이콘 설정">
                     <IconOption
                       span={1}
                       id="Input"
@@ -317,7 +323,7 @@ const ComponentInput: NextPage = () => {
                 </>
               )}
 
-              <Grid.FoldableTitle span={gridSpan} title="레이아웃 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setWidth">너비</RequireLabel>
                   <CountingInput
@@ -334,7 +340,7 @@ const ComponentInput: NextPage = () => {
                 </Grid.Column>
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="텍스트 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setPlaceholder">
                     입력 가이드 문구
@@ -343,8 +349,8 @@ const ComponentInput: NextPage = () => {
                     id="setPlaceholder"
                     value={placeholder}
                     setValue={setPlaceholder}
-                    limit={10}
-                    showFeedback={true}
+                    condition={placeholder.length < PLACEHOLDER_LIMIT}
+                    invalidComment={`문구는 ${PLACEHOLDER_LIMIT}자 미만으로 입력하세요.`}
                   />
                 </Grid.Column>
                 <FontOption
@@ -363,7 +369,7 @@ const ComponentInput: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="여백 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
                 <PaddingOption
                   id="Input"
                   span={1}
@@ -379,7 +385,7 @@ const ComponentInput: NextPage = () => {
                   setCheckAllPaddingOption={setCheckAllPadding}
                 />
               </Grid.FoldableTitle>
-              <Grid.FoldableTitle span={gridSpan} title="모서리각 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">
                 <BorderRadiusOption
                   id="Input"
                   span={1}
@@ -396,7 +402,7 @@ const ComponentInput: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="테두리 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
                 <BorderOption
                   id="Input"
                   span={1}
@@ -409,7 +415,7 @@ const ComponentInput: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="배경색 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">
                 <RgbaOption
                   id="Input"
                   span={1}
@@ -421,7 +427,7 @@ const ComponentInput: NextPage = () => {
                 />
               </Grid.FoldableTitle>
 
-              <Grid.FoldableTitle span={gridSpan} title="환경 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">
                 <PreferenceOption
                   span={1}
                   lang={lang}

@@ -1,4 +1,4 @@
-import type { ChangeEvent, FC } from "react";
+import type { FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { IBorderOption } from "../../../interfaces/option";
@@ -8,7 +8,7 @@ import { CustomSelect } from "../../CustomSelect";
 import { borderStyleOptions } from "../../options/BorderStyle";
 import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
-import { DefaultInput } from "../../Input";
+import { ColorOption } from "./Color";
 
 interface Props extends IGridOption, IBorderOption {
   id: string | number;
@@ -24,10 +24,6 @@ export const BorderOption: FC<Props> = ({
   borderColor,
   setBorderColor
 }) => {
-  const handleChangeBorderColor = (evt: ChangeEvent<HTMLInputElement>) => {
-    setBorderColor(evt.target.value);
-  };
-
   return (
     <>
       <Grid.Column span={span}>
@@ -52,15 +48,12 @@ export const BorderOption: FC<Props> = ({
           unit="px"
         />
       </Grid.Column>
-      <Grid.Column span={span}>
-        <RequireLabel htmlFor={`setBorderColor${id}`}>색</RequireLabel>
-        <DefaultInput
-          type="color"
-          id={`setBorderColor${id}`}
-          value={borderColor}
-          onChange={handleChangeBorderColor}
-        />
-      </Grid.Column>
+      <ColorOption
+        id={`setBorderColor${id}`}
+        span={span}
+        hex={borderColor}
+        setHex={setBorderColor}
+      />
     </>
   );
 };
