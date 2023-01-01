@@ -31,7 +31,7 @@ import { BorderRadiusOption } from "../../components/templates/options/BorderRad
 import { BorderOption } from "../../components/templates/options/Border";
 import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
-import { useSubstr } from "../../hooks/useSubstr";
+import { fontWeightOptions } from "../../components/options/FontWeight";
 
 const ComponentButton: NextPage = () => {
   /* order - constans */
@@ -88,6 +88,10 @@ const ComponentButton: NextPage = () => {
   const { textOverflow, setTextOverflow, textOverflowStyle } = useTextOverflow(
     textOverflowOptions[0]
   );
+  // 굵기
+  const [fontWeight, setFontWeight] = useState<ISelectOption>(
+    fontWeightOptions[3]
+  );
   /* order - variable */
   // preview style
   const buttonStyle: CSSProperties = {
@@ -110,6 +114,7 @@ const ComponentButton: NextPage = () => {
     paddingLeft,
     textAlign: textAlign.value as any,
     overflow: "hidden",
+    fontWeight: fontWeight.value,
     ...textOverflowStyle
   };
   /* handler */
@@ -136,6 +141,7 @@ const ComponentButton: NextPage = () => {
     setBackgroundColorAlpha(1);
     setFontSize(16);
     setLabel("Primary");
+    setFontWeight(fontWeightOptions[3]);
   };
 
   const handleClickPresetBootstrapOutlineButton = () => {
@@ -161,6 +167,7 @@ const ComponentButton: NextPage = () => {
     setBackgroundColorAlpha(1);
     setFontSize(16);
     setLabel("Primary");
+    setFontWeight(fontWeightOptions[3]);
   };
 
   const handleExport = () => {
@@ -271,6 +278,8 @@ const ComponentButton: NextPage = () => {
                   setTextAlign={setTextAlign}
                   textOverflow={textOverflow}
                   setTextOverflow={setTextOverflow}
+                  fontWeight={fontWeight}
+                  setFontWeight={setFontWeight}
                 />
               </Grid.FoldableTitle>
 

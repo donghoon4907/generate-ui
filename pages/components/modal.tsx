@@ -5,6 +5,7 @@ import { useState, Fragment } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
+import type { ISelectOption } from "../../interfaces/select";
 import * as Component from "../../components/partial/Component";
 import * as Grid from "../../components/partial/Grid";
 import { ModalTabType } from "../../types/tab";
@@ -17,6 +18,7 @@ import { ModalContainerForm } from "../../components/templates/form/ModalContain
 import { ModalHeaderForm } from "../../components/templates/form/ModalHeader";
 import { ModalBodyForm } from "../../components/templates/form/ModalBody";
 import { InputTypeOption, PositionOption } from "../../types/select-option";
+import { fontWeightOptions } from "../../components/options/FontWeight";
 
 const Layer = styled.div`
   width: 100%;
@@ -88,6 +90,9 @@ const ComponentModal: NextPage = () => {
   const [headerPaddingRight, setHeaderPaddingRight] = useState(10);
   const [headerPaddingBottom, setHeaderPaddingBottom] = useState(10);
   const [headerPaddingLeft, setHeaderPaddingLeft] = useState(10);
+  // header - 굵기
+  const [headerTitleFontWeight, setHeaderTitleFontWeight] =
+    useState<ISelectOption>(fontWeightOptions[3]);
   // header - 여백 모두 보기 여부
   const [checkAllHeaderPadding, setCheckAllHeaderPadding] = useState(false);
   // body - 여백
@@ -133,7 +138,8 @@ const ComponentModal: NextPage = () => {
     color: headerTitleColor,
     fontSize: headerTitleFontSize,
     lineHeight: `${headerTitleLineHeight}px`,
-    letterSpacing: headerTitleLetterSpacing
+    letterSpacing: headerTitleLetterSpacing,
+    fontWeight: headerTitleFontWeight.value
   };
 
   const bodyWrapperStyle: CSSProperties = {
@@ -176,6 +182,11 @@ const ComponentModal: NextPage = () => {
                   const {
                     label,
                     labelPos,
+                    labelColor,
+                    labelFontSize,
+                    labelLineHeight,
+                    labelLetterSpacing,
+                    labelFontWeight,
                     inputType,
                     inputColor,
                     inputFontSize,
@@ -204,7 +215,11 @@ const ComponentModal: NextPage = () => {
                   };
 
                   const labelStyle: CSSProperties = {
-                    color: "#000000"
+                    color: labelColor,
+                    fontSize: labelFontSize,
+                    lineHeight: `${labelLineHeight}px`,
+                    letterSpacing: labelLetterSpacing,
+                    fontWeight: labelFontWeight.value
                   };
 
                   const inputWrapperStyle: CSSProperties = {
@@ -274,7 +289,7 @@ const ComponentModal: NextPage = () => {
                           {inputType.value === InputTypeOption.TEXTAREA ? (
                             <textarea style={inputStyle} />
                           ) : (
-                            <input type="text" style={inputStyle} />
+                            <input type={inputType.value} style={inputStyle} />
                           )}
                         </div>
                       </div>
@@ -355,6 +370,8 @@ const ComponentModal: NextPage = () => {
                   setTitleLineHeight={setHeaderTitleLineHeight}
                   titleLetterSpacing={headerTitleLetterSpacing}
                   setTitleLetterSpacing={setHeaderTitleLetterSpacing}
+                  titleFontWeight={headerTitleFontWeight}
+                  setTitleFontWeight={setHeaderTitleFontWeight}
                   paddingTop={headerPaddingTop}
                   setPaddingTop={setHeaderPaddingTop}
                   paddingRight={headerPaddingRight}

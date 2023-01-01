@@ -3,6 +3,7 @@ import type { FC } from "react";
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
+import type { ISelectOption } from "../../../interfaces/select";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CountingInput } from "../../CountingInput";
@@ -22,6 +23,8 @@ interface Props extends IGridOption, IPaddingOption {
   setTitleLineHeight: CoreSetState<number>;
   titleLetterSpacing: number;
   setTitleLetterSpacing: CoreSetState<number>;
+  titleFontWeight: ISelectOption;
+  setTitleFontWeight: CoreSetState<ISelectOption>;
   closeIconSize: number;
   setCloseIconSize: CoreSetState<number>;
 }
@@ -38,6 +41,8 @@ export const ModalHeaderForm: FC<Props> = ({
   setTitleLineHeight,
   titleLetterSpacing,
   setTitleLetterSpacing,
+  titleFontWeight,
+  setTitleFontWeight,
   paddingTop,
   setPaddingTop,
   paddingRight,
@@ -56,7 +61,7 @@ export const ModalHeaderForm: FC<Props> = ({
 
   return (
     <>
-      <Grid.FoldableTitle span={span} title="제목 설정">
+      <Grid.FoldableTitle span={span} title="텍스트 설정">
         <Grid.Column span={span}>
           <RequireLabel htmlFor="setHeaderTitle">제목</RequireLabel>
           <FeedbackInput
@@ -78,6 +83,8 @@ export const ModalHeaderForm: FC<Props> = ({
           setLineHeight={setTitleLineHeight}
           letterSpacing={titleLetterSpacing}
           setLetterSpacing={setTitleLetterSpacing}
+          fontWeight={titleFontWeight}
+          setFontWeight={setTitleFontWeight}
         />
       </Grid.FoldableTitle>
 
@@ -98,7 +105,11 @@ export const ModalHeaderForm: FC<Props> = ({
         />
       </Grid.FoldableTitle>
 
-      <Grid.FoldableTitle span={span} title="아이콘 설정" defaultFold={false}>
+      <Grid.FoldableTitle
+        span={span}
+        title="닫기 아이콘 설정"
+        defaultFold={false}
+      >
         <Grid.Column span={span}>
           <RequireLabel htmlFor="setCloseIconSize">크기</RequireLabel>
           <CountingInput

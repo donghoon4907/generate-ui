@@ -1,4 +1,4 @@
-import type { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useCallback } from "react";
 import { useState } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
@@ -18,6 +18,7 @@ import { BorderRadiusOption } from "./BorderRadius";
 import { PaddingOption } from "./Padding";
 import { BorderOption } from "./Border";
 import { RgbaOption } from "./Rgba";
+import { ColorOption } from "./Color";
 
 interface Props extends IGridOption, IModalLayoutOption {
   order: number;
@@ -35,6 +36,11 @@ export const DragableInputOption: FC<Props> = ({
   order,
   label,
   labelPos,
+  labelColor,
+  labelFontSize,
+  labelLineHeight,
+  labelLetterSpacing,
+  labelFontWeight,
   inputType,
   inputColor,
   inputFontSize,
@@ -70,20 +76,23 @@ export const DragableInputOption: FC<Props> = ({
 
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
 
-  const updateLayout = (newLayout: Partial<IModalLayoutOption>) => {
-    setLayouts(prevLayouts =>
-      prevLayouts.map((layout, index) => {
-        if (order === index) {
-          return {
-            ...layout,
-            ...newLayout
-          };
-        }
+  const updateLayout = useCallback(
+    (newLayout: Partial<IModalLayoutOption>) => {
+      setLayouts(prevLayouts =>
+        prevLayouts.map((layout, index) => {
+          if (order === index) {
+            return {
+              ...layout,
+              ...newLayout
+            };
+          }
 
-        return layout;
-      })
-    );
-  };
+          return layout;
+        })
+      );
+    },
+    [order, setLayouts]
+  );
 
   const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
     const label = evt.target.value;
@@ -95,13 +104,39 @@ export const DragableInputOption: FC<Props> = ({
     updateLayout({ labelPos });
   };
 
+  const setLabelColor = useCallback(
+    (labelColor: string) => {
+      updateLayout({ labelColor });
+    },
+    [updateLayout]
+  );
+
+  const setLabelFontSize = (labelFontSize: number) => {
+    updateLayout({ labelFontSize });
+  };
+
+  const setLabelLineHeight = (labelLineHeight: number) => {
+    updateLayout({ labelLineHeight });
+  };
+
+  const setLabelLetterSpacing = (labelLetterSpacing: number) => {
+    updateLayout({ labelLetterSpacing });
+  };
+
+  const setLabelFontWeight = (labelFontWeight: ISelectOption) => {
+    updateLayout({ labelFontWeight });
+  };
+
   const setInputType = (inputType: ISelectOption) => {
     updateLayout({ inputType });
   };
 
-  const setInputColor = (inputColor: string) => {
-    updateLayout({ inputColor });
-  };
+  const setInputColor = useCallback(
+    (inputColor: string) => {
+      updateLayout({ inputColor });
+    },
+    [updateLayout]
+  );
 
   const setInputFontSize = (inputFontSize: number) => {
     updateLayout({ inputFontSize });
@@ -255,30 +290,52 @@ export const DragableInputOption: FC<Props> = ({
               </Grid.Tab>
             </Grid.ResponsiveRow>
             {activeTab === ModalBodyLayoutTabType.LABEL && (
-              <Grid.FoldableTitle span={span} title="텍스트 설정">
-                <Grid.Column span={span}>
-                  <RequireLabel htmlFor={`setLabel${order}`}>
-                    레이블 명
-                  </RequireLabel>
-                  <DefaultInput
-                    id={`setLabel${order}`}
-                    value={label}
-                    onChange={handleChangeLabel}
-                    // draggable={true}
-                    // onDragStart={evt => evt.preventDefault()}
+              <>
+                <Grid.FoldableTitle span={span} title="레이아웃 설정">
+                  <Grid.Column span={span}>
+                    <RequireLabel htmlFor={`setLabelPos${order}`}>
+                      레이블 위치
+                    </RequireLabel>
+                    <CustomSelect
+                      activeOption={labelPos}
+                      setOption={setLabelPos}
+                      options={labelPositionOptions}
+                    />
+                  </Grid.Column>
+                </Grid.FoldableTitle>
+                <Grid.FoldableTitle
+                  span={span}
+                  title="텍스트 설정"
+                  defaultFold={false}
+                >
+                  <Grid.Column span={span}>
+                    <RequireLabel htmlFor={`setLabel${order}`}>
+                      레이블 명
+                    </RequireLabel>
+                    <DefaultInput
+                      id={`setLabel${order}`}
+                      value={label}
+                      onChange={handleChangeLabel}
+                      // draggable={true}
+                      // onDragStart={evt => evt.preventDefault()}
+                    />
+                  </Grid.Column>
+                  <FontOption
+                    id={`LayoutLabel${order}`}
+                    span={span}
+                    color={labelColor}
+                    setColor={setLabelColor}
+                    fontSize={labelFontSize}
+                    setFontSize={setLabelFontSize}
+                    lineHeight={labelLineHeight}
+                    setLineHeight={setLabelLineHeight}
+                    letterSpacing={labelLetterSpacing}
+                    setLetterSpacing={setLabelLetterSpacing}
+                    fontWeight={labelFontWeight}
+                    setFontWeight={setLabelFontWeight}
                   />
-                </Grid.Column>
-                <Grid.Column span={span}>
-                  <RequireLabel htmlFor={`setLabelPos${order}`}>
-                    레이블 위치
-                  </RequireLabel>
-                  <CustomSelect
-                    activeOption={labelPos}
-                    setOption={setLabelPos}
-                    options={labelPositionOptions}
-                  />
-                </Grid.Column>
-              </Grid.FoldableTitle>
+                </Grid.FoldableTitle>
+              </>
             )}
             {activeTab === ModalBodyLayoutTabType.INPUT && (
               <>
@@ -300,7 +357,7 @@ export const DragableInputOption: FC<Props> = ({
                   defaultFold={false}
                 >
                   <FontOption
-                    id={`DragableInput${order}`}
+                    id={`LayoutInput${order}`}
                     span={span}
                     color={inputColor}
                     setColor={setInputColor}
@@ -320,7 +377,7 @@ export const DragableInputOption: FC<Props> = ({
                   defaultFold={false}
                 >
                   <PaddingOption
-                    id={`DragableInput${order}`}
+                    id={`LayoutInput${order}`}
                     span={span}
                     paddingTop={inputPaddingTop}
                     setPaddingTop={setInputPaddingTop}
@@ -340,7 +397,7 @@ export const DragableInputOption: FC<Props> = ({
                   defaultFold={false}
                 >
                   <BorderRadiusOption
-                    id={`DragableInput${order}`}
+                    id={`LayoutInput${order}`}
                     span={span}
                     borderTopLeftRadius={inputBorderTopLeftRadius}
                     setBorderTopLeftRadius={setInputBorderTopLeftRadius}
@@ -360,7 +417,7 @@ export const DragableInputOption: FC<Props> = ({
                   defaultFold={false}
                 >
                   <BorderOption
-                    id={`DragableInput${order}`}
+                    id={`LayoutInput${order}`}
                     span={span}
                     borderStyle={inputBorderStyle}
                     setBorderStyle={setInputBorderStyle}
@@ -376,7 +433,7 @@ export const DragableInputOption: FC<Props> = ({
                   defaultFold={false}
                 >
                   <RgbaOption
-                    id={`DragableInput${order}`}
+                    id={`LayoutInput${order}`}
                     span={span}
                     hex={inputBackgroundColorHex}
                     setRgb={setInputBackgroundColorRgb}

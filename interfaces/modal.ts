@@ -4,10 +4,16 @@ import { labelPositionOptions } from "../components/options/LabelPosition";
 import { textAlignOptions } from "../components/options/TextAlign";
 import { borderStyleOptions } from "../components/options/BorderStyle";
 import constants from "../constants";
+import { fontWeightOptions } from "../components/options/FontWeight";
 
 export interface IModalLayoutOption {
   label: string;
   labelPos: ISelectOption;
+  labelColor: string;
+  labelFontSize: number;
+  labelLineHeight: number;
+  labelLetterSpacing: number;
+  labelFontWeight: ISelectOption;
   inputType: ISelectOption;
   inputColor: string;
   inputFontSize: number;
@@ -33,8 +39,13 @@ export interface IModalLayoutOption {
 export const defaultModalLayoutOption: IModalLayoutOption = {
   label: "레이블 명",
   labelPos: labelPositionOptions[0],
+  labelColor: constants.color.blackHex,
+  labelFontSize: 16,
+  labelLineHeight: 25,
+  labelLetterSpacing: 0,
+  labelFontWeight: fontWeightOptions[3],
   inputType: modalInputTypeOptions[0],
-  inputColor: "#000000",
+  inputColor: constants.color.blackHex,
   inputFontSize: 16,
   inputLineHeight: 25,
   inputLetterSpacing: 0,

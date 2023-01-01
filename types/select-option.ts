@@ -55,3 +55,17 @@ export enum PositionOption {
   BOTTOM = "bottom",
   LEFT = "left"
 }
+/**
+ * Select option - 텍스트 줄바꿈 목록
+ */
+export enum FontWeightOption {
+  LEVEL1 = "100",
+  LEVEL2 = "200",
+  LEVEL3 = "300",
+  NORMAL = "400",
+  LEVEL5 = "500",
+  LEVEL6 = "600",
+  BOLD = "700",
+  LEVEL8 = "800",
+  LEVEL9 = "900"
+}

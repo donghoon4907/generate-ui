@@ -12,9 +12,10 @@ import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
 import { textOverflowOptions } from "../../options/TextOverflow";
 import { ColorOption } from "./Color";
+import { fontWeightOptions } from "../../options/FontWeight";
 
 interface Props extends IGridOption {
-  id: string | number;
+  id: string;
   color?: string;
   setColor?: CoreSetState<string>;
   fontSize?: number;
@@ -27,6 +28,8 @@ interface Props extends IGridOption {
   setTextAlign?: CoreSetState<ISelectOption>;
   textOverflow?: ISelectOption;
   setTextOverflow?: CoreSetState<ISelectOption>;
+  fontWeight?: ISelectOption;
+  setFontWeight?: CoreSetState<ISelectOption>;
 }
 
 export const FontOption: FC<Props> = ({
@@ -43,7 +46,9 @@ export const FontOption: FC<Props> = ({
   textAlign,
   setTextAlign,
   textOverflow,
-  setTextOverflow
+  setTextOverflow,
+  fontWeight,
+  setFontWeight
 }) => {
   const isShowColor = color && setColor;
 
@@ -57,15 +62,12 @@ export const FontOption: FC<Props> = ({
 
   const isShowTextOverflow = textOverflow && setTextOverflow;
 
+  const isShowFontWeight = fontWeight && setFontWeight;
+
   return (
     <>
       {isShowColor && (
-        <ColorOption
-          id={`setColor${id}`}
-          span={span}
-          hex={color}
-          setHex={setColor}
-        />
+        <ColorOption id={id} span={span} hex={color} setHex={setColor} />
       )}
       {isShowFontSize && (
         <Grid.Column span={span}>
@@ -112,6 +114,16 @@ export const FontOption: FC<Props> = ({
             showFeedback={true}
             numberType={CountNumberType.DECIMAL}
             unit="px"
+          />
+        </Grid.Column>
+      )}
+      {isShowFontWeight && (
+        <Grid.Column span={span}>
+          <RequireLabel htmlFor={`setFontWeight${id}`}>굵기</RequireLabel>
+          <CustomSelect
+            activeOption={fontWeight}
+            setOption={setFontWeight}
+            options={fontWeightOptions}
           />
         </Grid.Column>
       )}

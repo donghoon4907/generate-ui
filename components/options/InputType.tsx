@@ -63,5 +63,10 @@ export const modalInputTypeOptions: ISelectOption[] = [
     label: "영역",
     value: InputTypeOption.TEXTAREA,
     preview: null
+  },
+  {
+    label: "암호",
+    value: InputTypeOption.PASSWORD,
+    preview: null
   }
 ];
