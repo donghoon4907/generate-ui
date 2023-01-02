@@ -93,12 +93,6 @@ export const DragableInputOption: FC<Props> = ({
     [order, setLayouts]
   );
 
-  const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
-    const label = evt.target.value;
-
-    updateLayout({ label });
-  };
-
   const setLabelPos = (labelPos: ISelectOption) => {
     updateLayout({ labelPos });
   };
@@ -212,6 +206,18 @@ export const DragableInputOption: FC<Props> = ({
     updateLayout({ inputBgColorAlpha });
   };
 
+  const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
+    const label = evt.target.value;
+
+    updateLayout({ label });
+  };
+
+  const handleLoadLayout = (layout: ISelectOption) => {
+    if (confirm("선택한 레이아웃의 설정을 불러오시겠습니까?")) {
+      updateLayout(layouts[+layout.value]);
+    }
+  };
+
   const handleRemove = () => {
     setLayouts(prevLayouts =>
       prevLayouts.filter((_, index) => order !== index)
@@ -250,6 +256,12 @@ export const DragableInputOption: FC<Props> = ({
     setActiveTab(activeTab);
   };
 
+  const mapToLayout: ISelectOption[] = layouts.map((_, index) => ({
+    label: `레이아웃 순서 ${index + 1}`,
+    value: index.toString(),
+    preview: null
+  }));
+
   return (
     <Grid.DragableColumn
       span={span}
@@ -278,13 +290,19 @@ export const DragableInputOption: FC<Props> = ({
                 active={activeTab === ModalBodyLayoutTabType.LABEL}
                 onClick={() => handleClickTab(ModalBodyLayoutTabType.LABEL)}
               >
-                레이블 설정
+                레이블설정
               </Grid.Tab>
               <Grid.Tab
                 active={activeTab === ModalBodyLayoutTabType.INPUT}
                 onClick={() => handleClickTab(ModalBodyLayoutTabType.INPUT)}
               >
-                입력창 설정
+                입력창설정
+              </Grid.Tab>
+              <Grid.Tab
+                active={activeTab === ModalBodyLayoutTabType.LOAD}
+                onClick={() => handleClickTab(ModalBodyLayoutTabType.LOAD)}
+              >
+                불러오기
               </Grid.Tab>
             </Grid.ResponsiveRow>
             {activeTab === ModalBodyLayoutTabType.LABEL && (
@@ -438,6 +456,22 @@ export const DragableInputOption: FC<Props> = ({
                     alpha={inputBgColorAlpha}
                     setAlpha={setInputBgColorAlpha}
                   />
+                </Grid.FoldableTitle>
+              </>
+            )}
+            {activeTab === ModalBodyLayoutTabType.LOAD && (
+              <>
+                <Grid.FoldableTitle span={span} title="설정 불러오기">
+                  <Grid.Column span={span}>
+                    <div>
+                      <label>레이아웃 목록</label>
+                    </div>
+                    <CustomSelect
+                      activeOption={mapToLayout[order]}
+                      setOption={handleLoadLayout}
+                      options={mapToLayout}
+                    />
+                  </Grid.Column>
                 </Grid.FoldableTitle>
               </>
             )}

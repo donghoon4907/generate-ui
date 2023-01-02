@@ -18,7 +18,8 @@ export enum ModalTabType {
 
 export enum ModalBodyLayoutTabType {
   LABEL = "label",
-  INPUT = "input"
+  INPUT = "input",
+  LOAD = "load"
 }
 
 export type TabType =
