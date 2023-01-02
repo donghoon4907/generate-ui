@@ -9,27 +9,20 @@ import { CountNumberType } from "../../../types/count";
 import { ColorOption } from "./Color";
 
 interface Props extends IGridOption, IRgbaOption {
-  id: string | number;
+  id: string;
 }
 
 export const RgbaOption: FC<Props> = ({
   id,
   span,
   hex,
-  setRgb,
   setHex,
   alpha,
   setAlpha
 }) => {
   return (
     <>
-      <ColorOption
-        id={`setHex${id}`}
-        span={span}
-        hex={hex}
-        setRgb={setRgb}
-        setHex={setHex}
-      />
+      <ColorOption id={`setHex${id}`} span={span} hex={hex} setHex={setHex} />
       <Grid.Column span={span}>
         <RequireLabel htmlFor={`setAlpha${id}`}>투명도</RequireLabel>
         <CountingInput

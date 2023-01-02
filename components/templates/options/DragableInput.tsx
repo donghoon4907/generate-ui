@@ -1,5 +1,5 @@
-import { ChangeEvent, FC, useCallback } from "react";
-import { useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useState, useCallback } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
@@ -18,7 +18,6 @@ import { BorderRadiusOption } from "./BorderRadius";
 import { PaddingOption } from "./Padding";
 import { BorderOption } from "./Border";
 import { RgbaOption } from "./Rgba";
-import { ColorOption } from "./Color";
 
 interface Props extends IGridOption, IModalLayoutOption {
   order: number;
@@ -58,8 +57,8 @@ export const DragableInputOption: FC<Props> = ({
   inputBorderStyle,
   inputBorderColor,
   inputBorderWidth,
-  inputBackgroundColorHex,
-  inputBackgroundColorAlpha,
+  inputBgColorHex,
+  inputBgColorAlpha,
   layouts,
   setLayouts,
   draggingOrder,
@@ -202,16 +201,15 @@ export const DragableInputOption: FC<Props> = ({
     updateLayout({ inputBorderWidth });
   };
 
-  const setInputBackgroundColorHex = (inputBackgroundColorHex: string) => {
-    updateLayout({ inputBackgroundColorHex });
-  };
+  const setInputBgColorHex = useCallback(
+    (inputBgColorHex: string) => {
+      updateLayout({ inputBgColorHex });
+    },
+    [updateLayout]
+  );
 
-  const setInputBackgroundColorRgb = (inputBackgroundColorRgb: string) => {
-    updateLayout({ inputBackgroundColorRgb });
-  };
-
-  const setInputBackgroundColorAlpha = (inputBackgroundColorAlpha: number) => {
-    updateLayout({ inputBackgroundColorAlpha });
+  const setInputBgColorAlpha = (inputBgColorAlpha: number) => {
+    updateLayout({ inputBgColorAlpha });
   };
 
   const handleRemove = () => {
@@ -435,11 +433,10 @@ export const DragableInputOption: FC<Props> = ({
                   <RgbaOption
                     id={`LayoutInput${order}`}
                     span={span}
-                    hex={inputBackgroundColorHex}
-                    setRgb={setInputBackgroundColorRgb}
-                    setHex={setInputBackgroundColorHex}
-                    alpha={inputBackgroundColorAlpha}
-                    setAlpha={setInputBackgroundColorAlpha}
+                    hex={inputBgColorHex}
+                    setHex={setInputBgColorHex}
+                    alpha={inputBgColorAlpha}
+                    setAlpha={setInputBgColorAlpha}
                   />
                 </Grid.FoldableTitle>
               </>

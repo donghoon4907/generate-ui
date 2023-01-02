@@ -39,7 +39,6 @@ export interface IBorderOption {
 export interface IRgbOption {
   hex: string;
   setHex: CoreSetState<string>;
-  setRgb?: CoreSetState<string>;
 }
 
 export interface IRgbaOption extends IRgbOption {

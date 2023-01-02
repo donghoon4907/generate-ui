@@ -5,6 +5,7 @@ import {
   BoxShadow,
   FontFamily
 } from "styled-components";
+import constants from "../constants";
 
 const mediaQuery = (maxWidth: number) =>
   `@media only screen and (max-width: ${maxWidth}px)`;
@@ -25,11 +26,11 @@ const breakPoint: BreakPoint = {
 };
 
 const color: Color = {
-  black: "#000000",
+  black: constants.color.blackHex,
   gray_lv0: "#1f1f1f",
   gray_lv1: "#28292a",
   gray_lv2: "#2d2f31",
-  white: "#ffffff",
+  white: constants.color.whiteHex,
   lightBlue_lv0: "#f8fafd",
   lightBlue_lv1: "#f3f6fc",
   lightDividerColor: "#e1e3e1",

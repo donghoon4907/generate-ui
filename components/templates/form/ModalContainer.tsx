@@ -10,6 +10,7 @@ import { CountNumberType } from "../../../types/count";
 import { BorderRadiusOption } from "../options/BorderRadius";
 import { WithLabel } from "../../WithLabel";
 import { Switch } from "../../Switch";
+import { RgbaOption } from "../options/Rgba";
 
 interface Props extends IGridOption, IBorderRadiusOption {
   width: number;
@@ -18,6 +19,10 @@ interface Props extends IGridOption, IBorderRadiusOption {
   setCheckAddHeader: CoreSetState<boolean>;
   checkAddFooter: boolean;
   setCheckAddFooter: CoreSetState<boolean>;
+  backgroundColorHex: string;
+  setBackgroundColorHex: CoreSetState<string>;
+  backgroundColorAlpha: number;
+  setBackgroundColorAlpha: CoreSetState<number>;
 }
 export const ModalContainerForm: FC<Props> = ({
   span,
@@ -36,7 +41,11 @@ export const ModalContainerForm: FC<Props> = ({
   borderBottomRightRadius,
   setBorderBottomRightRadius,
   checkAllBorderRadiusOption,
-  setCheckAllBorderRadiusOption
+  setCheckAllBorderRadiusOption,
+  backgroundColorHex,
+  setBackgroundColorHex,
+  backgroundColorAlpha,
+  setBackgroundColorAlpha
 }) => {
   return (
     <>
@@ -76,7 +85,7 @@ export const ModalContainerForm: FC<Props> = ({
         </Grid.BorderColumn>
       </Grid.FoldableTitle>
 
-      <Grid.FoldableTitle span={span} title="모서리각 설정">
+      <Grid.FoldableTitle span={span} title="모서리각 설정" defaultFold={false}>
         <BorderRadiusOption
           id="Modal"
           span={span}
@@ -90,6 +99,17 @@ export const ModalContainerForm: FC<Props> = ({
           setBorderBottomRightRadius={setBorderBottomRightRadius}
           checkAllBorderRadiusOption={checkAllBorderRadiusOption}
           setCheckAllBorderRadiusOption={setCheckAllBorderRadiusOption}
+        />
+      </Grid.FoldableTitle>
+
+      <Grid.FoldableTitle span={span} title="배경색 설정" defaultFold={false}>
+        <RgbaOption
+          id="Modal"
+          span={span}
+          hex={backgroundColorHex}
+          setHex={setBackgroundColorHex}
+          alpha={backgroundColorAlpha}
+          setAlpha={setBackgroundColorAlpha}
         />
       </Grid.FoldableTitle>
     </>

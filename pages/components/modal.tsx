@@ -19,6 +19,9 @@ import { ModalHeaderForm } from "../../components/templates/form/ModalHeader";
 import { ModalBodyForm } from "../../components/templates/form/ModalBody";
 import { InputTypeOption, PositionOption } from "../../types/select-option";
 import { fontWeightOptions } from "../../components/options/FontWeight";
+import constants from "../../constants";
+import { useRgba } from "../../hooks/useRgba";
+import { hexToRgb } from "../../lib/calc/rgb";
 
 const Layer = styled.div`
   width: 100%;
@@ -65,6 +68,9 @@ const ModalBody = styled.div`
 `;
 
 const ComponentModal: NextPage = () => {
+  /* order - constans */
+  // grid span
+  const GRID_SPAN = 1;
   /* order - state */
   // container - 너비
   const [width, setWidth] = useState(500);
@@ -73,12 +79,22 @@ const ComponentModal: NextPage = () => {
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(10);
   const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(10);
   const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(10);
+  // container - 배경색
+  const [
+    bgColorHex,
+    setBgColorHex,
+    bgColorAlpha,
+    setBgColorAlpha,
+    backgroundColor
+  ] = useRgba(constants.color.whiteHex);
   // container - 모서리 각 모두 보기 여부
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
-  const [headerTitleColor, setHeaderTitleColor] = useState("#000000");
+  const [headerTitleColor, setHeaderTitleColor] = useState(
+    constants.color.blackHex
+  );
   // header - 텍스트 크기
   const [headerTitleFontSize, setHeaderTitleFontSize] = useState(16);
   // header - 텍스트 높이
@@ -115,8 +131,6 @@ const ComponentModal: NextPage = () => {
     defaultModalLayoutOption
   ]);
   /* order - variable */
-  // grid span
-  const gridSpan = 1;
   // preview style
   const modalStyle: CSSProperties = {
     width,
@@ -124,6 +138,7 @@ const ComponentModal: NextPage = () => {
     borderTopRightRadius,
     borderBottomLeftRadius,
     borderBottomRightRadius,
+    backgroundColor,
     overflow: "hidden"
   };
 
@@ -204,11 +219,17 @@ const ComponentModal: NextPage = () => {
                     inputBorderStyle,
                     inputBorderColor,
                     inputBorderWidth,
-                    inputBackgroundColorRgb,
-                    inputBackgroundColorAlpha
+                    inputBgColorHex,
+                    inputBgColorAlpha
                   } = layout;
 
                   const labelPosValue = labelPos.value;
+
+                  const rgb = hexToRgb(inputBgColorHex);
+
+                  const inputBgColor = rgb
+                    ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${inputBgColorAlpha})`
+                    : "inherit";
 
                   const containerStyle: CSSProperties = {
                     display: "flex"
@@ -231,7 +252,7 @@ const ComponentModal: NextPage = () => {
                     borderStyle: inputBorderStyle.value,
                     borderWidth: inputBorderWidth,
                     borderColor: inputBorderColor,
-                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`,
+                    backgroundColor: inputBgColor,
                     overflow: "hidden"
                   };
 
@@ -251,7 +272,7 @@ const ComponentModal: NextPage = () => {
                     borderBottomLeftRadius: inputBorderBottomLeftRadius,
                     borderBottomRightRadius: inputBorderBottomRightRadius,
                     border: "none",
-                    backgroundColor: `rgba(${inputBackgroundColorRgb},${inputBackgroundColorAlpha})`,
+                    backgroundColor: inputBgColor,
                     verticalAlign: "middle"
                   };
 
@@ -303,8 +324,8 @@ const ComponentModal: NextPage = () => {
         <Component.RightAside>
           <Component.Header>Option</Component.Header>
           <Component.Scrollable>
-            <Grid.ResponsiveContainer span={gridSpan}>
-              <Grid.ResponsiveRow span={gridSpan}>
+            <Grid.ResponsiveContainer span={GRID_SPAN}>
+              <Grid.ResponsiveRow span={GRID_SPAN}>
                 <Grid.Tab
                   active={activeTab === ModalTabType.MODAL}
                   onClick={() => handleClickTab(ModalTabType.MODAL)}
@@ -337,7 +358,7 @@ const ComponentModal: NextPage = () => {
               </Grid.ResponsiveRow>
               {activeTab === ModalTabType.MODAL && (
                 <ModalContainerForm
-                  span={gridSpan}
+                  span={GRID_SPAN}
                   width={width}
                   setWidth={setWidth}
                   checkAddHeader={checkAddHeader}
@@ -354,12 +375,16 @@ const ComponentModal: NextPage = () => {
                   setBorderBottomRightRadius={setBorderBottomRightRadius}
                   checkAllBorderRadiusOption={checkAllBorderRadius}
                   setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
+                  backgroundColorHex={bgColorHex}
+                  setBackgroundColorHex={setBgColorHex}
+                  backgroundColorAlpha={bgColorAlpha}
+                  setBackgroundColorAlpha={setBgColorAlpha}
                 />
               )}
 
               {activeTab === ModalTabType.HEADER && (
                 <ModalHeaderForm
-                  span={gridSpan}
+                  span={GRID_SPAN}
                   title={headerTitle}
                   setTitle={setHeaderTitle}
                   titleColor={headerTitleColor}
@@ -388,7 +413,7 @@ const ComponentModal: NextPage = () => {
               )}
               {activeTab === ModalTabType.BODY && (
                 <ModalBodyForm
-                  span={gridSpan}
+                  span={GRID_SPAN}
                   paddingTop={bodyPaddingTop}
                   setPaddingTop={setBodyPaddingTop}
                   paddingRight={bodyPaddingRight}

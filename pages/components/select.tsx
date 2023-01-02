@@ -31,6 +31,8 @@ import { PreferenceOption } from "../../components/templates/options/Preference"
 import { FontOption } from "../../components/templates/options/Font";
 import { PaddingOption } from "../../components/templates/options/Padding";
 import { BorderRadiusOption } from "../../components/templates/options/BorderRadius";
+import { useRgba } from "../../hooks/useRgba";
+import constants from "../../constants";
 
 const OptionItem = styled.li`
   &:hover {
@@ -58,13 +60,17 @@ const ComponentSelect: NextPage = () => {
   // select - 제목
   const [label, setLabel] = useState("제목");
   // common - 배경색
-  const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
-  const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
-  const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
+  const [
+    bgColorHex,
+    setBgColorHex,
+    bgColorAlpha,
+    setBgColorAlpha,
+    backgroundColor
+  ] = useRgba(constants.color.whiteHex);
   // select - 텍스트 색
-  const [selectColor, setSelectColor] = useState("#000000");
+  const [selectColor, setSelectColor] = useState(constants.color.blackHex);
   // option - 텍스트 색
-  const [optionColor, setOptionColor] = useState("#000000");
+  const [optionColor, setOptionColor] = useState(constants.color.blackHex);
   // select - 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
@@ -92,7 +98,7 @@ const ComponentSelect: NextPage = () => {
     borderStyleOptions[1]
   );
   const [borderWidth, setBorderWidth] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
   // common - 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // common - html 템플릿 추가 여부
@@ -110,17 +116,11 @@ const ComponentSelect: NextPage = () => {
     textAlignOptions[0]
   );
   // select - 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const {
-    textOverflow: selectTextOverflow,
-    setTextOverflow: setSelectTextOverflow,
-    textOverflowStyle: selectTextOverflowStyle
-  } = useTextOverflow(textOverflowOptions[0]);
+  const [selectTextOverflow, setSelectTextOverflow, selectTextOverflowOutput] =
+    useTextOverflow(textOverflowOptions[0]);
   // option - 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const {
-    textOverflow: optionTextOverflow,
-    setTextOverflow: setOptionTextOverflow,
-    textOverflowStyle: optionTextOverflowStyle
-  } = useTextOverflow(textOverflowOptions[0]);
+  const [optionTextOverflow, setOptionTextOverflow, optionTextOverflowOutput] =
+    useTextOverflow(textOverflowOptions[0]);
   // 탭 활성화 관리
   const [activeTab, setActiveTab] = useState<SelectTabType>(
     SelectTabType.COMMON
@@ -139,7 +139,7 @@ const ComponentSelect: NextPage = () => {
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
-    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundColor,
     backgroundImage: `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'%3E%3C/path%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'%3E%3C/path%3E%3C/svg%3E")`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 5px center",
@@ -162,7 +162,7 @@ const ComponentSelect: NextPage = () => {
     paddingBottom: selectPaddingBottom,
     paddingLeft: selectPaddingLeft,
     overflow: "hidden",
-    ...selectTextOverflowStyle
+    ...selectTextOverflowOutput
   };
   const optionWrapperStyle: CSSProperties = {
     width: "100%",
@@ -171,7 +171,7 @@ const ComponentSelect: NextPage = () => {
     lineHeight: `${optionLineHeight}px`,
     letterSpacing: optionLetterSpacing,
     textAlign: optionTextAlign.value as any,
-    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundColor,
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
@@ -183,7 +183,7 @@ const ComponentSelect: NextPage = () => {
     paddingBottom: optionPaddingBottom,
     paddingLeft: optionPaddingLeft,
     overflow: "hidden",
-    ...optionTextOverflowStyle
+    ...optionTextOverflowOutput
   };
   /* handler */
   const handleExport = () => {
@@ -298,11 +298,10 @@ const ComponentSelect: NextPage = () => {
                     <RgbaOption
                       id="Select"
                       span={1}
-                      hex={backgroundColorHex}
-                      setRgb={setBackgroundColorRgb}
-                      setHex={setBackgroundColorHex}
-                      alpha={backgroundColorAlpha}
-                      setAlpha={setBackgroundColorAlpha}
+                      hex={bgColorHex}
+                      setHex={setBgColorHex}
+                      alpha={bgColorAlpha}
+                      setAlpha={setBgColorAlpha}
                     />
                   </Grid.FoldableTitle>
 

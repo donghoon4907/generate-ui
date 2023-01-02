@@ -37,6 +37,7 @@ import { BorderOption } from "../../components/templates/options/Border";
 import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
 import constants from "../../constants";
+import { useRgba } from "../../hooks/useRgba";
 
 const ComponentInput: NextPage = () => {
   /* order - constans */
@@ -60,13 +61,13 @@ const ComponentInput: NextPage = () => {
     constants.label.defaultPlaceholder
   );
   // 배경색
-  const [backgroundColorHex, setBackgroundColorHex] = useState(
-    constants.color.whiteHex
-  );
-  const [backgroundColorRgb, setBackgroundColorRgb] = useState(
-    constants.color.whiteRgb
-  );
-  const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
+  const [
+    bgColorHex,
+    setBgColorHex,
+    bgColorAlpha,
+    setBgColorAlpha,
+    backgroundColor
+  ] = useRgba(constants.color.whiteHex);
   // 텍스트 색
   const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
@@ -121,7 +122,7 @@ const ComponentInput: NextPage = () => {
   // preview style
   const inputWrapperStyle: CSSProperties = {
     width,
-    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundColor,
     backgroundImage: showSetIcon
       ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='${encodeURIComponent(
           iconColor
@@ -144,7 +145,7 @@ const ComponentInput: NextPage = () => {
 
   const inputStyle: CSSProperties = {
     width: "100%",
-    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundColor,
     color,
     fontSize,
     lineHeight: `${lineHeight}px`,
@@ -176,9 +177,8 @@ const ComponentInput: NextPage = () => {
     setPaddingBottom(6);
     setPaddingLeft(12);
     setCheckAllPadding(true);
-    setBackgroundColorHex(theme.color.white);
-    setBackgroundColorRgb("255,255,255");
-    setBackgroundColorAlpha(1);
+    setBgColorHex(theme.color.white);
+    setBgColorAlpha(1);
     setColor(theme.color.white);
     setBorderTopLeftRadius(5);
     setBorderTopRightRadius(5);
@@ -200,9 +200,8 @@ const ComponentInput: NextPage = () => {
     setPaddingBottom(6);
     setPaddingLeft(12);
     setCheckAllPadding(true);
-    setBackgroundColorHex(theme.color.gray_lv0);
-    setBackgroundColorRgb("31, 31, 31");
-    setBackgroundColorAlpha(1);
+    setBgColorHex(theme.color.gray_lv0);
+    setBgColorAlpha(1);
     setColor(theme.color.darkTextColor_lv0);
     setBorderTopLeftRadius(5);
     setBorderTopRightRadius(5);
@@ -419,11 +418,10 @@ const ComponentInput: NextPage = () => {
                 <RgbaOption
                   id="Input"
                   span={1}
-                  hex={backgroundColorHex}
-                  setRgb={setBackgroundColorRgb}
-                  setHex={setBackgroundColorHex}
-                  alpha={backgroundColorAlpha}
-                  setAlpha={setBackgroundColorAlpha}
+                  hex={bgColorHex}
+                  setHex={setBgColorHex}
+                  alpha={bgColorAlpha}
+                  setAlpha={setBgColorAlpha}
                 />
               </Grid.FoldableTitle>
 

@@ -31,9 +31,8 @@ export interface IModalLayoutOption {
   inputBorderStyle: ISelectOption;
   inputBorderColor: string;
   inputBorderWidth: number;
-  inputBackgroundColorHex: string;
-  inputBackgroundColorRgb: string;
-  inputBackgroundColorAlpha: number;
+  inputBgColorHex: string;
+  inputBgColorAlpha: number;
 }
 
 export const defaultModalLayoutOption: IModalLayoutOption = {
@@ -61,7 +60,6 @@ export const defaultModalLayoutOption: IModalLayoutOption = {
   inputBorderStyle: borderStyleOptions[1],
   inputBorderColor: constants.color.blackHex,
   inputBorderWidth: 1,
-  inputBackgroundColorHex: constants.color.whiteHex,
-  inputBackgroundColorRgb: constants.color.whiteRgb,
-  inputBackgroundColorAlpha: 1
+  inputBgColorHex: constants.color.whiteHex,
+  inputBgColorAlpha: 1
 };

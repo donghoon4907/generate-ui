@@ -32,6 +32,8 @@ import { BorderOption } from "../../components/templates/options/Border";
 import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
 import { fontWeightOptions } from "../../components/options/FontWeight";
+import constants from "../../constants";
+import { useRgba } from "../../hooks/useRgba";
 
 const ComponentButton: NextPage = () => {
   /* order - constans */
@@ -49,11 +51,15 @@ const ComponentButton: NextPage = () => {
   // 버튼명
   const [label, setLabel] = useState("버튼명");
   // 배경색
-  const [backgroundColorHex, setBackgroundColorHex] = useState("#ffffff");
-  const [backgroundColorRgb, setBackgroundColorRgb] = useState("255,255,255");
-  const [backgroundColorAlpha, setBackgroundColorAlpha] = useState(1);
+  const [
+    bgColorHex,
+    setBgColorHex,
+    bgColorAlpha,
+    setBgColorAlpha,
+    backgroundColor
+  ] = useRgba(constants.color.whiteHex);
   // 텍스트 색
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
   const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
   const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
@@ -72,7 +78,7 @@ const ComponentButton: NextPage = () => {
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
   );
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
   const [borderWidth, setBorderWidth] = useState(1);
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
@@ -85,7 +91,7 @@ const ComponentButton: NextPage = () => {
     textAlignOptions[1]
   );
   // 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const { textOverflow, setTextOverflow, textOverflowStyle } = useTextOverflow(
+  const [textOverflow, setTextOverflow, textOverflowOutput] = useTextOverflow(
     textOverflowOptions[0]
   );
   // 굵기
@@ -96,7 +102,7 @@ const ComponentButton: NextPage = () => {
   // preview style
   const buttonStyle: CSSProperties = {
     width,
-    backgroundColor: `rgba(${backgroundColorRgb},${backgroundColorAlpha})`,
+    backgroundColor,
     color,
     borderTopLeftRadius,
     borderTopRightRadius,
@@ -115,7 +121,7 @@ const ComponentButton: NextPage = () => {
     textAlign: textAlign.value as any,
     overflow: "hidden",
     fontWeight: fontWeight.value,
-    ...textOverflowStyle
+    ...textOverflowOutput
   };
   /* handler */
   const handleClickPresetBootstrapButton = () => {
@@ -126,9 +132,8 @@ const ComponentButton: NextPage = () => {
     setPaddingRight(6);
     setPaddingBottom(6);
     setPaddingLeft(6);
-    setBackgroundColorHex(theme.color.bootstrapBlue);
-    setBackgroundColorRgb("13,110,253");
-    setBackgroundColorAlpha(1);
+    setBgColorHex(theme.color.bootstrapBlue);
+    setBgColorAlpha(1);
     setColor(theme.color.white);
     setBorderTopLeftRadius(5);
     setBorderTopRightRadius(5);
@@ -138,7 +143,6 @@ const ComponentButton: NextPage = () => {
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
-    setBackgroundColorAlpha(1);
     setFontSize(16);
     setLabel("Primary");
     setFontWeight(fontWeightOptions[3]);
@@ -152,9 +156,8 @@ const ComponentButton: NextPage = () => {
     setPaddingRight(6);
     setPaddingBottom(6);
     setPaddingLeft(6);
-    setBackgroundColorHex(theme.color.white);
-    setBackgroundColorRgb("255,255,255");
-    setBackgroundColorAlpha(1);
+    setBgColorHex(theme.color.white);
+    setBgColorAlpha(1);
     setColor(theme.color.bootstrapBlue);
     setBorderTopLeftRadius(5);
     setBorderTopRightRadius(5);
@@ -164,7 +167,6 @@ const ComponentButton: NextPage = () => {
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
-    setBackgroundColorAlpha(1);
     setFontSize(16);
     setLabel("Primary");
     setFontWeight(fontWeightOptions[3]);
@@ -334,11 +336,10 @@ const ComponentButton: NextPage = () => {
                 <RgbaOption
                   id="Button"
                   span={1}
-                  hex={backgroundColorHex}
-                  setRgb={setBackgroundColorRgb}
-                  setHex={setBackgroundColorHex}
-                  alpha={backgroundColorAlpha}
-                  setAlpha={setBackgroundColorAlpha}
+                  hex={bgColorHex}
+                  setHex={setBgColorHex}
+                  alpha={bgColorAlpha}
+                  setAlpha={setBgColorAlpha}
                 />
               </Grid.FoldableTitle>
 

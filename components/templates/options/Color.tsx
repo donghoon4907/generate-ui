@@ -13,7 +13,7 @@ interface Props extends IGridOption, IRgbOption {
   id: string;
 }
 
-export const ColorOption: FC<Props> = ({ id, span, hex, setRgb, setHex }) => {
+export const ColorOption: FC<Props> = ({ id, span, hex, setHex }) => {
   // 유효한 색상 여부
   const [isColor, setIsColor] = useState(true);
   // 직접 입력 hex
@@ -27,12 +27,11 @@ export const ColorOption: FC<Props> = ({ id, span, hex, setRgb, setHex }) => {
         setIsColor(false);
       } else {
         setIsColor(true);
-        setRgb?.(`${rgb.r},${rgb.g},${rgb.b}`);
         setHex(_hex);
         setDirectInputHex(_hex);
       }
     },
-    [setRgb, setHex]
+    [setHex]
   );
 
   const handleChangeColor = (evt: ChangeEvent<HTMLInputElement>) => {
