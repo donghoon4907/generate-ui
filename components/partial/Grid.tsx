@@ -137,4 +137,6 @@ export const DragableColumn = styled(BorderColumn).attrs(({ draggable }) => ({
 }))<{ isDragEnter: boolean }>`
   opacity: ${({ isDragEnter }) => (isDragEnter ? 0.5 : 1)};
   padding: 0;
+
+  ${({ draggable }) => (draggable ? `&:hover { opacity: 0.5 }` : "")}
 `;
