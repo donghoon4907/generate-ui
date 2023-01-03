@@ -3,7 +3,7 @@ import { PositionOption } from "../../types/select-option";
 
 export const labelPositionOptions: ISelectOption[] = [
   {
-    label: "위",
+    label: "입력창 상단",
     value: PositionOption.TOP,
     preview: null
   },

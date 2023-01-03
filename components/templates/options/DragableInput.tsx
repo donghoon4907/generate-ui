@@ -257,7 +257,7 @@ export const DragableInputOption: FC<Props> = ({
   };
 
   const mapToLayout: ISelectOption[] = layouts.map((_, index) => ({
-    label: `레이아웃 순서 ${index + 1}`,
+    label: `순서 ${index + 1}`,
     value: index.toString(),
     preview: null
   }));
@@ -326,7 +326,7 @@ export const DragableInputOption: FC<Props> = ({
                 >
                   <Grid.Column span={span}>
                     <RequireLabel htmlFor={`setLabel${order}`}>
-                      레이블 명
+                      레이블명
                     </RequireLabel>
                     <DefaultInput
                       id={`setLabel${order}`}

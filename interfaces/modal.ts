@@ -36,7 +36,7 @@ export interface IModalLayoutOption {
 }
 
 export const defaultModalLayoutOption: IModalLayoutOption = {
-  label: "레이블 명",
+  label: "레이블",
   labelPos: labelPositionOptions[0],
   labelColor: constants.color.blackHex,
   labelFontSize: 16,

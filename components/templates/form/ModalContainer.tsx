@@ -65,7 +65,10 @@ export const ModalContainerForm: FC<Props> = ({
           />
         </Grid.Column>
         <Grid.BorderColumn span={span}>
-          <RequireLabel htmlFor="">레이아웃 추가</RequireLabel>
+          <div>
+            <label htmlFor="">레이아웃 추가</label>
+          </div>
+
           <WithLabel id="addHeader" label="헤더">
             <Switch
               id="addHeader"
