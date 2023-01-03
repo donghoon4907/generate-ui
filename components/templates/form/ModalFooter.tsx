@@ -4,20 +4,29 @@ import { useState } from "react";
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
-import type { IModalLayoutOption } from "../../../interfaces/modal";
-import { defaultModalLayoutOption } from "../../../interfaces/modal";
+import type { ISelectOption } from "../../../interfaces/select";
+import {
+  IModalButtonOption,
+  defaultModalButtonOption
+} from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
+import { RequireLabel } from "../../RequireLabel";
+import { CustomSelect } from "../../CustomSelect";
+import { justifyContentOptions } from "../../options/Flex";
 import { PaddingOption } from "../options/Padding";
 import { PrimaryButton, WarningButton } from "../../Button";
-import { DragableInputOption } from "../options/DragableInput";
+import { DragableButtonOption } from "../options/DragableButton";
 
 interface Props extends IGridOption, IPaddingOption {
-  layouts: IModalLayoutOption[];
-  setLayouts: CoreSetState<IModalLayoutOption[]>;
+  align: ISelectOption;
+  setAlign: CoreSetState<ISelectOption>;
+  buttons: IModalButtonOption[];
+  setButtons: CoreSetState<IModalButtonOption[]>;
 }
-
-export const ModalBodyForm: FC<Props> = ({
+export const ModalFooterForm: FC<Props> = ({
   span,
+  align,
+  setAlign,
   paddingTop,
   setPaddingTop,
   paddingRight,
@@ -28,8 +37,8 @@ export const ModalBodyForm: FC<Props> = ({
   setPaddingLeft,
   checkAllPaddingOption,
   setCheckAllPaddingOption,
-  layouts,
-  setLayouts
+  buttons,
+  setButtons
 }) => {
   // 현재 드래그 중인 레이아웃 순서
   const [draggingOrder, setDraggingOrder] = useState(-1);
@@ -38,8 +47,8 @@ export const ModalBodyForm: FC<Props> = ({
   // 순서 변경 활성화 여부
   const [activeOrderMode, setActiveOrderMode] = useState(false);
 
-  const handleCreateLayout = () => {
-    setLayouts([...layouts, defaultModalLayoutOption]);
+  const handleCreateButton = () => {
+    setButtons([...buttons, defaultModalButtonOption]);
   };
 
   const handleToggleOrderMode = () => {
@@ -48,9 +57,19 @@ export const ModalBodyForm: FC<Props> = ({
 
   return (
     <>
-      <Grid.FoldableTitle span={span} title="여백 설정">
+      <Grid.FoldableTitle span={span} title="레이아웃 설정">
+        <Grid.Column span={span}>
+          <RequireLabel htmlFor="setFooterAlign">정렬</RequireLabel>
+          <CustomSelect
+            activeOption={align}
+            setOption={setAlign}
+            options={justifyContentOptions}
+          />
+        </Grid.Column>
+      </Grid.FoldableTitle>
+      <Grid.FoldableTitle span={span} title="여백 설정" defaultFold={false}>
         <PaddingOption
-          id="ModalBody"
+          id="ModalFooter"
           span={span}
           paddingTop={paddingTop}
           setPaddingTop={setPaddingTop}
@@ -64,11 +83,10 @@ export const ModalBodyForm: FC<Props> = ({
           setCheckAllPaddingOption={setCheckAllPaddingOption}
         />
       </Grid.FoldableTitle>
-
-      <Grid.FoldableTitle span={span} title="레이아웃 관리">
+      <Grid.FoldableTitle span={span} title="버튼 관리" defaultFold={false}>
         <Grid.BorderColumn span={span}>
-          <PrimaryButton type="button" onClick={handleCreateLayout}>
-            레이아웃 추가
+          <PrimaryButton type="button" onClick={handleCreateButton}>
+            버튼 추가
           </PrimaryButton>
         </Grid.BorderColumn>
         <Grid.BorderColumn span={span}>
@@ -76,19 +94,19 @@ export const ModalBodyForm: FC<Props> = ({
             순서 변경 {activeOrderMode && "종료"}
           </WarningButton>
         </Grid.BorderColumn>
-        {layouts.map((layout, index) => (
-          <DragableInputOption
-            key={`layout${index}`}
+        {buttons.map((button, index) => (
+          <DragableButtonOption
+            key={`button${index}`}
             span={span}
             order={index}
-            layouts={layouts}
-            setLayouts={setLayouts}
+            buttons={buttons}
+            setButtons={setButtons}
             draggingOrder={draggingOrder}
             setDraggingOrder={setDraggingOrder}
             hoverOrder={hoverOrder}
             setHoverOrder={setHoverOrder}
             isExpand={!activeOrderMode}
-            {...layout}
+            {...button}
           />
         ))}
       </Grid.FoldableTitle>

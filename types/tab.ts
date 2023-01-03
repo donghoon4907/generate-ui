@@ -22,8 +22,14 @@ export enum ModalBodyLayoutTabType {
   LOAD = "load"
 }
 
+export enum ModalFooterButtonTabType {
+  BUTTON = "button",
+  LOAD = "load"
+}
+
 export type TabType =
   | InputSearchTabType
   | SelectTabType
   | ModalTabType
-  | ModalBodyLayoutTabType;
+  | ModalBodyLayoutTabType
+  | ModalFooterButtonTabType;

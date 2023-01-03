@@ -69,3 +69,11 @@ export enum FontWeightOption {
   LEVEL8 = "800",
   LEVEL9 = "900"
 }
+/**
+ * Select option - justify-content 목록
+ */
+export enum JustifyContentOption {
+  LEFT = "flex-start",
+  CENTER = "center",
+  RIGHT = "flex-end"
+}

@@ -1,10 +1,12 @@
 import type { ISelectOption } from "./select";
+import type { IPaddingOption, IBorderRadiusOption } from "./option";
 import { modalInputTypeOptions } from "../components/options/InputType";
 import { labelPositionOptions } from "../components/options/LabelPosition";
 import { textAlignOptions } from "../components/options/TextAlign";
 import { borderStyleOptions } from "../components/options/BorderStyle";
 import constants from "../constants";
 import { fontWeightOptions } from "../components/options/FontWeight";
+import { textOverflowOptions } from "../components/options/TextOverflow";
 
 export interface IModalLayoutOption {
   label: string;
@@ -35,6 +37,31 @@ export interface IModalLayoutOption {
   inputBgColorAlpha: number;
 }
 
+export interface IModalButtonOption {
+  label: string;
+  width: number;
+  color: string;
+  fontSize: number;
+  lineHeight: number;
+  letterSpacing: number;
+  fontWeight: ISelectOption;
+  textAlign: ISelectOption;
+  textOverflow: ISelectOption;
+  paddingTop: number;
+  paddingRight: number;
+  paddingBottom: number;
+  paddingLeft: number;
+  borderTopLeftRadius: number;
+  borderTopRightRadius: number;
+  borderBottomLeftRadius: number;
+  borderBottomRightRadius: number;
+  borderStyle: ISelectOption;
+  borderColor: string;
+  borderWidth: number;
+  bgColorHex: string;
+  bgColorAlpha: number;
+}
+
 export const defaultModalLayoutOption: IModalLayoutOption = {
   label: "레이블",
   labelPos: labelPositionOptions[0],
@@ -62,4 +89,29 @@ export const defaultModalLayoutOption: IModalLayoutOption = {
   inputBorderWidth: 1,
   inputBgColorHex: constants.color.whiteHex,
   inputBgColorAlpha: 1
+};
+
+export const defaultModalButtonOption: IModalButtonOption = {
+  label: "버튼",
+  width: 100,
+  color: constants.color.blackHex,
+  fontSize: 16,
+  lineHeight: 25,
+  letterSpacing: 0,
+  fontWeight: fontWeightOptions[3],
+  textAlign: textAlignOptions[1],
+  textOverflow: textOverflowOptions[0],
+  paddingTop: 4,
+  paddingRight: 4,
+  paddingBottom: 4,
+  paddingLeft: 4,
+  borderTopLeftRadius: 4,
+  borderTopRightRadius: 4,
+  borderBottomLeftRadius: 4,
+  borderBottomRightRadius: 4,
+  borderStyle: borderStyleOptions[1],
+  borderColor: constants.color.blackHex,
+  borderWidth: 1,
+  bgColorHex: constants.color.whiteHex,
+  bgColorAlpha: 1
 };

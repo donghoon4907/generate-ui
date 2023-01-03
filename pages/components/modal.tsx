@@ -11,7 +11,9 @@ import * as Grid from "../../components/partial/Grid";
 import { ModalTabType } from "../../types/tab";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import {
+  IModalButtonOption,
   IModalLayoutOption,
+  defaultModalButtonOption,
   defaultModalLayoutOption
 } from "../../interfaces/modal";
 import { ModalContainerForm } from "../../components/templates/form/ModalContainer";
@@ -22,6 +24,8 @@ import { fontWeightOptions } from "../../components/options/FontWeight";
 import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
 import { hexToRgb } from "../../lib/calc/rgb";
+import { justifyContentOptions } from "../../components/options/Flex";
+import { ModalFooterForm } from "../../components/templates/form/ModalFooter";
 
 const Layer = styled.div`
   width: 100%;
@@ -65,6 +69,13 @@ const ModalBody = styled.div`
   gap: 5px;
   max-height: 500px;
   overflow-y: auto;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  align-items: center;
+  border-top: 1px solid ${({ theme }) => theme.color.black};
+  gap: 5px;
 `;
 
 const ComponentModal: NextPage = () => {
@@ -126,9 +137,25 @@ const ComponentModal: NextPage = () => {
   const [checkAddHeader, setCheckAddHeader] = useState(true);
   // container - 푸터 설정 활성화 여부
   const [checkAddFooter, setCheckAddFooter] = useState(false);
-  // body - 추가된 레이아웃 수
+  // body - 추가된 레이아웃 목록
   const [layouts, setLayouts] = useState<IModalLayoutOption[]>([
     defaultModalLayoutOption
+  ]);
+  // footer - 정렬
+  const [footerAlign, setFooterAlign] = useState<ISelectOption>(
+    justifyContentOptions[2]
+  );
+  // footer - 여백
+  const [footerPaddingTop, setFooterPaddingTop] = useState(10);
+  const [footerPaddingRight, setFooterPaddingRight] = useState(10);
+  const [footerPaddingBottom, setFooterPaddingBottom] = useState(10);
+  const [footerPaddingLeft, setFooterPaddingLeft] = useState(10);
+  // footer - 여백 모두 보기 여부
+  const [checkAllFooterPadding, setCheckAllFooterPadding] = useState(false);
+  // footer - 추가된 버튼 목록
+  const [buttons, setButtons] = useState<IModalButtonOption[]>([
+    { ...defaultModalButtonOption, label: "취소" },
+    { ...defaultModalButtonOption, label: "확인" }
   ]);
   /* order - variable */
   // preview style
@@ -162,6 +189,14 @@ const ComponentModal: NextPage = () => {
     paddingRight: bodyPaddingRight,
     paddingBottom: bodyPaddingBottom,
     paddingLeft: bodyPaddingLeft
+  };
+
+  const footerWrapperStyle: CSSProperties = {
+    paddingTop: footerPaddingTop,
+    paddingRight: footerPaddingRight,
+    paddingBottom: footerPaddingBottom,
+    paddingLeft: footerPaddingLeft,
+    justifyContent: footerAlign.value
   };
   /* handler */
   const handleExport = () => {};
@@ -318,6 +353,44 @@ const ComponentModal: NextPage = () => {
                   );
                 })}
               </ModalBody>
+              {checkAddFooter && (
+                <ModalFooter style={footerWrapperStyle}>
+                  {buttons.map((button, index) => {
+                    const {
+                      label,
+                      lineHeight,
+                      fontWeight,
+                      textAlign,
+                      textOverflow,
+                      borderStyle,
+                      bgColorHex,
+                      bgColorAlpha,
+                      ...btnStyles
+                    } = button;
+
+                    const rgb = hexToRgb(bgColorHex);
+
+                    const bgColor = rgb
+                      ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${bgColorAlpha})`
+                      : "inherit";
+
+                    const btnStyle: CSSProperties = {
+                      ...btnStyles,
+                      lineHeight: `${lineHeight}px`,
+                      fontWeight: fontWeight.value,
+                      textAlign: textAlign.value as any,
+                      borderStyle: borderStyle.value,
+                      backgroundColor: bgColor
+                    };
+
+                    return (
+                      <button key={`${index}`} style={btnStyle}>
+                        {label}
+                      </button>
+                    );
+                  })}
+                </ModalFooter>
+              )}
             </Modal>
           </Layer>
         </Component.Section>
@@ -426,6 +499,25 @@ const ComponentModal: NextPage = () => {
                   setCheckAllPaddingOption={setCheckAllBodyPadding}
                   layouts={layouts}
                   setLayouts={setLayouts}
+                />
+              )}
+              {activeTab === ModalTabType.FOOTER && (
+                <ModalFooterForm
+                  span={GRID_SPAN}
+                  align={footerAlign}
+                  setAlign={setFooterAlign}
+                  paddingTop={footerPaddingTop}
+                  setPaddingTop={setFooterPaddingTop}
+                  paddingRight={footerPaddingRight}
+                  setPaddingRight={setFooterPaddingRight}
+                  paddingBottom={footerPaddingBottom}
+                  setPaddingBottom={setFooterPaddingBottom}
+                  paddingLeft={footerPaddingLeft}
+                  setPaddingLeft={setFooterPaddingLeft}
+                  checkAllPaddingOption={checkAllFooterPadding}
+                  setCheckAllPaddingOption={setCheckAllFooterPadding}
+                  buttons={buttons}
+                  setButtons={setButtons}
                 />
               )}
             </Grid.ResponsiveContainer>
