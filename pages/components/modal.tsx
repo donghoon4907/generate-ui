@@ -69,6 +69,18 @@ const ModalBody = styled.div`
   gap: 5px;
   max-height: 500px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar,
+  textarea::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb,
+  textarea::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.color.lightDividerColor};
+    border-radius: 5px;
+  }
 `;
 
 const ModalFooter = styled.div`
