@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useState } from "react";
 
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
@@ -14,8 +13,10 @@ import { RequireLabel } from "../../RequireLabel";
 import { CustomSelect } from "../../CustomSelect";
 import { justifyContentOptions } from "../../options/Flex";
 import { PaddingOption } from "../options/Padding";
-import { PrimaryButton, WarningButton } from "../../Button";
-import { DragableButtonOption } from "../options/DragableButton";
+import { PrimaryButton } from "../../Button";
+import { DraggableButtonOption } from "../options/DraggableButton";
+import { ChangeOrderOption } from "../options/ChangeOrder";
+import { InjectUseStateObjectArray } from "../../injections/UseState";
 
 interface Props extends IGridOption, IPaddingOption {
   align: ISelectOption;
@@ -40,19 +41,8 @@ export const ModalFooterForm: FC<Props> = ({
   buttons,
   setButtons
 }) => {
-  // 현재 드래그 중인 레이아웃 순서
-  const [draggingOrder, setDraggingOrder] = useState(-1);
-  // 현재 마우스 오버 중인 레이아웃 순서
-  const [hoverOrder, setHoverOrder] = useState(-1);
-  // 순서 변경 활성화 여부
-  const [activeOrderMode, setActiveOrderMode] = useState(false);
-
   const handleCreateButton = () => {
     setButtons([...buttons, defaultModalButtonOption]);
-  };
-
-  const handleToggleOrderMode = () => {
-    setActiveOrderMode(!activeOrderMode);
   };
 
   return (
@@ -89,26 +79,29 @@ export const ModalFooterForm: FC<Props> = ({
             버튼 추가
           </PrimaryButton>
         </Grid.BorderColumn>
-        <Grid.BorderColumn span={span}>
-          <WarningButton type="button" onClick={handleToggleOrderMode}>
-            순서 변경 {activeOrderMode && "종료"}
-          </WarningButton>
-        </Grid.BorderColumn>
-        {buttons.map((button, index) => (
-          <DragableButtonOption
-            key={`button${index}`}
-            span={span}
-            order={index}
-            buttons={buttons}
-            setButtons={setButtons}
-            draggingOrder={draggingOrder}
-            setDraggingOrder={setDraggingOrder}
-            hoverOrder={hoverOrder}
-            setHoverOrder={setHoverOrder}
-            isExpand={!activeOrderMode}
-            {...button}
-          />
-        ))}
+        <ChangeOrderOption span={span}>
+          {activeOrderMode =>
+            buttons.map((button, index) => (
+              <InjectUseStateObjectArray
+                index={index}
+                setArray={setButtons}
+                key={`button${index}`}
+              >
+                {updateItem => (
+                  <DraggableButtonOption
+                    span={span}
+                    order={index}
+                    buttons={buttons}
+                    setButtons={setButtons}
+                    isExpand={!activeOrderMode}
+                    updateItem={updateItem}
+                    {...button}
+                  />
+                )}
+              </InjectUseStateObjectArray>
+            ))
+          }
+        </ChangeOrderOption>
       </Grid.FoldableTitle>
     </>
   );

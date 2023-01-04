@@ -9,7 +9,6 @@ import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { DangerButton } from "../../Button";
 import { FeedbackInput } from "../../Input";
-import { CustomSelect } from "../../CustomSelect";
 import { FontOption } from "./Font";
 import { ModalFooterButtonTabType } from "../../../types/tab";
 import { BorderRadiusOption } from "./BorderRadius";
@@ -18,19 +17,19 @@ import { BorderOption } from "./Border";
 import { RgbaOption } from "./Rgba";
 import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
+import { GridDraggable } from "../../GridDraggable";
+import { useTab } from "../../../hooks/useTab";
+import { LoadOption } from "./Load";
 
 interface Props extends IGridOption, IModalButtonOption {
   order: number;
   buttons: IModalButtonOption[];
   setButtons: CoreSetState<IModalButtonOption[]>;
-  draggingOrder: number;
-  setDraggingOrder: CoreSetState<number>;
-  hoverOrder: number;
-  setHoverOrder: CoreSetState<number>;
+  updateItem: (option: Record<any, any>) => void;
   isExpand: boolean;
 }
 
-export const DragableButtonOption: FC<Props> = ({
+export const DraggableButtonOption: FC<Props> = ({
   span,
   order,
   buttons,
@@ -57,138 +56,109 @@ export const DragableButtonOption: FC<Props> = ({
   borderWidth,
   bgColorHex,
   bgColorAlpha,
-  draggingOrder,
-  setDraggingOrder,
-  hoverOrder,
-  setHoverOrder,
+  updateItem,
   isExpand
 }) => {
-  const [activeTab, setActiveTab] = useState<ModalFooterButtonTabType>(
-    ModalFooterButtonTabType.BUTTON
-  );
+  const [activeTab, setActiveTab] = useTab(ModalFooterButtonTabType.BUTTON);
 
   const [checkAllPadding, setCheckAllPadding] = useState(false);
 
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
 
-  const updateLayout = useCallback(
-    (newButton: Partial<IModalButtonOption>) => {
-      setButtons(prevButtons =>
-        prevButtons.map((button, index) => {
-          if (order === index) {
-            return {
-              ...button,
-              ...newButton
-            };
-          }
-
-          return button;
-        })
-      );
-    },
-    [order, setButtons]
-  );
-
   const setWidth = (width: number) => {
-    updateLayout({ width });
+    updateItem({ width });
   };
 
   const setColor = useCallback(
     (color: string) => {
-      updateLayout({ color });
+      updateItem({ color });
     },
-    [updateLayout]
+    [updateItem]
   );
 
   const setFontSize = (fontSize: number) => {
-    updateLayout({ fontSize });
+    updateItem({ fontSize });
   };
 
   const setLineHeight = (lineHeight: number) => {
-    updateLayout({ lineHeight });
+    updateItem({ lineHeight });
   };
 
   const setLetterSpacing = (letterSpacing: number) => {
-    updateLayout({ letterSpacing });
+    updateItem({ letterSpacing });
   };
 
   const setFontWeight = (fontWeight: ISelectOption) => {
-    updateLayout({ fontWeight });
+    updateItem({ fontWeight });
   };
 
   const setTextAlign = (textAlign: ISelectOption) => {
-    updateLayout({ textAlign });
+    updateItem({ textAlign });
   };
 
   const setTextOverflow = (textOverflow: ISelectOption) => {
-    updateLayout({ textOverflow });
+    updateItem({ textOverflow });
   };
 
   const setPaddingTop = (paddingTop: number) => {
-    updateLayout({ paddingTop });
+    updateItem({ paddingTop });
   };
 
   const setPaddingRight = (paddingRight: number) => {
-    updateLayout({ paddingRight });
+    updateItem({ paddingRight });
   };
 
   const setPaddingBottom = (paddingBottom: number) => {
-    updateLayout({ paddingBottom });
+    updateItem({ paddingBottom });
   };
 
   const setPaddingLeft = (paddingLeft: number) => {
-    updateLayout({ paddingLeft });
+    updateItem({ paddingLeft });
   };
 
   const setBorderTopLeftRadius = (borderTopLeftRadius: number) => {
-    updateLayout({ borderTopLeftRadius });
+    updateItem({ borderTopLeftRadius });
   };
 
   const setBorderTopRightRadius = (borderTopRightRadius: number) => {
-    updateLayout({ borderTopRightRadius });
+    updateItem({ borderTopRightRadius });
   };
 
   const setBorderBottomLeftRadius = (borderBottomLeftRadius: number) => {
-    updateLayout({ borderBottomLeftRadius });
+    updateItem({ borderBottomLeftRadius });
   };
 
   const setBorderBottomRightRadius = (borderBottomRightRadius: number) => {
-    updateLayout({ borderBottomRightRadius });
+    updateItem({ borderBottomRightRadius });
   };
 
   const setBorderStyle = (borderStyle: ISelectOption) => {
-    updateLayout({ borderStyle });
+    updateItem({ borderStyle });
   };
 
   const setBorderColor = (borderColor: string) => {
-    updateLayout({ borderColor });
+    updateItem({ borderColor });
   };
 
   const setBorderWidth = (borderWidth: number) => {
-    updateLayout({ borderWidth });
+    updateItem({ borderWidth });
   };
 
   const setBgColorHex = useCallback(
     (bgColorHex: string) => {
-      updateLayout({ bgColorHex });
+      updateItem({ bgColorHex });
     },
-    [updateLayout]
+    [updateItem]
   );
 
   const setBgColorAlpha = (bgColorAlpha: number) => {
-    updateLayout({ bgColorAlpha });
+    updateItem({ bgColorAlpha });
   };
 
   const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
     const label = evt.target.value;
 
-    updateLayout({ label });
-  };
-
-  const handleLoadButton = (button: ISelectOption) => {
-    if (confirm("선택한 버튼의 설정을 불러오시겠습니까?")) {
-      updateLayout(buttons[+button.value]);
-    }
+    updateItem({ label });
   };
 
   const handleRemove = () => {
@@ -197,53 +167,12 @@ export const DragableButtonOption: FC<Props> = ({
     );
   };
 
-  const handleDragEnter = () => {
-    if (draggingOrder !== -1) {
-      setHoverOrder(order);
-    }
-  };
-
-  const handleDragStart = () => {
-    setDraggingOrder(order);
-  };
-
-  const handleDragEnd = () => {
-    setDraggingOrder(-1);
-
-    setHoverOrder(-1);
-  };
-
-  const handleDrop = () => {
-    if (draggingOrder !== order) {
-      const cloneButtons = buttons;
-
-      const [dragButton] = cloneButtons.splice(draggingOrder, 1);
-
-      cloneButtons.splice(order, 0, dragButton);
-
-      setButtons([...cloneButtons]);
-    }
-  };
-
-  const handleClickTab = (activeTab: ModalFooterButtonTabType) => {
-    setActiveTab(activeTab);
-  };
-
-  const mapToButtons: ISelectOption[] = buttons.map((_, index) => ({
-    label: `순서 ${index + 1}`,
-    value: index.toString(),
-    preview: null
-  }));
-
   return (
-    <Grid.DragableColumn
+    <GridDraggable
       span={span}
-      onDragOver={evt => evt.preventDefault()}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragEnter={handleDragEnter}
-      onDrop={handleDrop}
-      isDragEnter={hoverOrder === order}
+      order={order}
+      list={buttons}
+      setList={setButtons}
       draggable={!isExpand}
     >
       <Grid.ResponsiveContainer span={span}>
@@ -261,13 +190,13 @@ export const DragableButtonOption: FC<Props> = ({
             <Grid.ResponsiveRow span={span}>
               <Grid.Tab
                 active={activeTab === ModalFooterButtonTabType.BUTTON}
-                onClick={() => handleClickTab(ModalFooterButtonTabType.BUTTON)}
+                onClick={() => setActiveTab(ModalFooterButtonTabType.BUTTON)}
               >
                 버튼설정
               </Grid.Tab>
               <Grid.Tab
                 active={activeTab === ModalFooterButtonTabType.LOAD}
-                onClick={() => handleClickTab(ModalFooterButtonTabType.LOAD)}
+                onClick={() => setActiveTab(ModalFooterButtonTabType.LOAD)}
               >
                 불러오기
               </Grid.Tab>
@@ -402,20 +331,12 @@ export const DragableButtonOption: FC<Props> = ({
             )}
 
             {activeTab === ModalFooterButtonTabType.LOAD && (
-              <>
-                <Grid.FoldableTitle span={span} title="설정 불러오기">
-                  <Grid.Column span={span}>
-                    <div>
-                      <label>버튼 목록</label>
-                    </div>
-                    <CustomSelect
-                      activeOption={mapToButtons[order]}
-                      setOption={handleLoadButton}
-                      options={mapToButtons}
-                    />
-                  </Grid.Column>
-                </Grid.FoldableTitle>
-              </>
+              <LoadOption
+                span={span}
+                order={order}
+                list={buttons}
+                updateItem={updateItem}
+              />
             )}
             <Grid.Column span={span}>
               <DangerButton type="button" onClick={handleRemove}>
@@ -425,6 +346,6 @@ export const DragableButtonOption: FC<Props> = ({
           </>
         )}
       </Grid.ResponsiveContainer>
-    </Grid.DragableColumn>
+    </GridDraggable>
   );
 };

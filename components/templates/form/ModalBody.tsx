@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useState } from "react";
 
 import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
@@ -8,8 +7,10 @@ import type { IModalLayoutOption } from "../../../interfaces/modal";
 import { defaultModalLayoutOption } from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
 import { PaddingOption } from "../options/Padding";
-import { PrimaryButton, WarningButton } from "../../Button";
-import { DragableInputOption } from "../options/DragableInput";
+import { PrimaryButton } from "../../Button";
+import { DraggableInputOption } from "../options/DraggableInput";
+import { ChangeOrderOption } from "../options/ChangeOrder";
+import { InjectUseStateObjectArray } from "../../injections/UseState";
 
 interface Props extends IGridOption, IPaddingOption {
   layouts: IModalLayoutOption[];
@@ -31,19 +32,8 @@ export const ModalBodyForm: FC<Props> = ({
   layouts,
   setLayouts
 }) => {
-  // 현재 드래그 중인 레이아웃 순서
-  const [draggingOrder, setDraggingOrder] = useState(-1);
-  // 현재 마우스 오버 중인 레이아웃 순서
-  const [hoverOrder, setHoverOrder] = useState(-1);
-  // 순서 변경 활성화 여부
-  const [activeOrderMode, setActiveOrderMode] = useState(false);
-
   const handleCreateLayout = () => {
     setLayouts([...layouts, defaultModalLayoutOption]);
-  };
-
-  const handleToggleOrderMode = () => {
-    setActiveOrderMode(!activeOrderMode);
   };
 
   return (
@@ -71,26 +61,30 @@ export const ModalBodyForm: FC<Props> = ({
             레이아웃 추가
           </PrimaryButton>
         </Grid.BorderColumn>
-        <Grid.BorderColumn span={span}>
-          <WarningButton type="button" onClick={handleToggleOrderMode}>
-            순서 변경 {activeOrderMode && "종료"}
-          </WarningButton>
-        </Grid.BorderColumn>
-        {layouts.map((layout, index) => (
-          <DragableInputOption
-            key={`layout${index}`}
-            span={span}
-            order={index}
-            layouts={layouts}
-            setLayouts={setLayouts}
-            draggingOrder={draggingOrder}
-            setDraggingOrder={setDraggingOrder}
-            hoverOrder={hoverOrder}
-            setHoverOrder={setHoverOrder}
-            isExpand={!activeOrderMode}
-            {...layout}
-          />
-        ))}
+
+        <ChangeOrderOption span={span}>
+          {activeOrderMode =>
+            layouts.map((layout, index) => (
+              <InjectUseStateObjectArray
+                index={index}
+                setArray={setLayouts}
+                key={`layout${index}`}
+              >
+                {updateItem => (
+                  <DraggableInputOption
+                    span={span}
+                    order={index}
+                    layouts={layouts}
+                    setLayouts={setLayouts}
+                    isExpand={!activeOrderMode}
+                    updateItem={updateItem}
+                    {...layout}
+                  />
+                )}
+              </InjectUseStateObjectArray>
+            ))
+          }
+        </ChangeOrderOption>
       </Grid.FoldableTitle>
     </>
   );

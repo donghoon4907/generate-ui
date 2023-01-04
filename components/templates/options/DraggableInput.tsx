@@ -18,19 +18,19 @@ import { BorderRadiusOption } from "./BorderRadius";
 import { PaddingOption } from "./Padding";
 import { BorderOption } from "./Border";
 import { RgbaOption } from "./Rgba";
+import { GridDraggable } from "../../GridDraggable";
+import { useTab } from "../../../hooks/useTab";
+import { LoadOption } from "./Load";
 
 interface Props extends IGridOption, IModalLayoutOption {
   order: number;
   layouts: IModalLayoutOption[];
   setLayouts: CoreSetState<IModalLayoutOption[]>;
-  draggingOrder: number;
-  setDraggingOrder: CoreSetState<number>;
-  hoverOrder: number;
-  setHoverOrder: CoreSetState<number>;
+  updateItem: (option: Record<any, any>) => void;
   isExpand: boolean;
 }
 
-export const DragableInputOption: FC<Props> = ({
+export const DraggableInputOption: FC<Props> = ({
   span,
   order,
   label,
@@ -61,161 +61,132 @@ export const DragableInputOption: FC<Props> = ({
   inputBgColorAlpha,
   layouts,
   setLayouts,
-  draggingOrder,
-  setDraggingOrder,
-  hoverOrder,
-  setHoverOrder,
+  updateItem,
   isExpand
 }) => {
-  const [activeTab, setActiveTab] = useState<ModalBodyLayoutTabType>(
-    ModalBodyLayoutTabType.LABEL
-  );
+  const [activeTab, setActiveTab] = useTab(ModalBodyLayoutTabType.LABEL);
 
   const [checkAllPadding, setCheckAllPadding] = useState(false);
 
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
 
-  const updateLayout = useCallback(
-    (newLayout: Partial<IModalLayoutOption>) => {
-      setLayouts(prevLayouts =>
-        prevLayouts.map((layout, index) => {
-          if (order === index) {
-            return {
-              ...layout,
-              ...newLayout
-            };
-          }
-
-          return layout;
-        })
-      );
-    },
-    [order, setLayouts]
-  );
-
   const setLabelPos = (labelPos: ISelectOption) => {
-    updateLayout({ labelPos });
+    updateItem({ labelPos });
   };
 
   const setLabelColor = useCallback(
     (labelColor: string) => {
-      updateLayout({ labelColor });
+      updateItem({ labelColor });
     },
-    [updateLayout]
+    [updateItem]
   );
 
   const setLabelFontSize = (labelFontSize: number) => {
-    updateLayout({ labelFontSize });
+    updateItem({ labelFontSize });
   };
 
   const setLabelLineHeight = (labelLineHeight: number) => {
-    updateLayout({ labelLineHeight });
+    updateItem({ labelLineHeight });
   };
 
   const setLabelLetterSpacing = (labelLetterSpacing: number) => {
-    updateLayout({ labelLetterSpacing });
+    updateItem({ labelLetterSpacing });
   };
 
   const setLabelFontWeight = (labelFontWeight: ISelectOption) => {
-    updateLayout({ labelFontWeight });
+    updateItem({ labelFontWeight });
   };
 
   const setInputType = (inputType: ISelectOption) => {
-    updateLayout({ inputType });
+    updateItem({ inputType });
   };
 
   const setInputColor = useCallback(
     (inputColor: string) => {
-      updateLayout({ inputColor });
+      updateItem({ inputColor });
     },
-    [updateLayout]
+    [updateItem]
   );
 
   const setInputFontSize = (inputFontSize: number) => {
-    updateLayout({ inputFontSize });
+    updateItem({ inputFontSize });
   };
 
   const setInputLineHeight = (inputLineHeight: number) => {
-    updateLayout({ inputLineHeight });
+    updateItem({ inputLineHeight });
   };
 
   const setInputLetterSpacing = (inputLetterSpacing: number) => {
-    updateLayout({ inputLetterSpacing });
+    updateItem({ inputLetterSpacing });
   };
 
   const setInputTextAlign = (inputTextAlign: ISelectOption) => {
-    updateLayout({ inputTextAlign });
+    updateItem({ inputTextAlign });
   };
 
   const setInputPaddingTop = (inputPaddingTop: number) => {
-    updateLayout({ inputPaddingTop });
+    updateItem({ inputPaddingTop });
   };
 
   const setInputPaddingRight = (inputPaddingRight: number) => {
-    updateLayout({ inputPaddingRight });
+    updateItem({ inputPaddingRight });
   };
 
   const setInputPaddingBottom = (inputPaddingBottom: number) => {
-    updateLayout({ inputPaddingBottom });
+    updateItem({ inputPaddingBottom });
   };
 
   const setInputPaddingLeft = (inputPaddingLeft: number) => {
-    updateLayout({ inputPaddingLeft });
+    updateItem({ inputPaddingLeft });
   };
 
   const setInputBorderTopLeftRadius = (inputBorderTopLeftRadius: number) => {
-    updateLayout({ inputBorderTopLeftRadius });
+    updateItem({ inputBorderTopLeftRadius });
   };
 
   const setInputBorderTopRightRadius = (inputBorderTopRightRadius: number) => {
-    updateLayout({ inputBorderTopRightRadius });
+    updateItem({ inputBorderTopRightRadius });
   };
 
   const setInputBorderBottomLeftRadius = (
     inputBorderBottomLeftRadius: number
   ) => {
-    updateLayout({ inputBorderBottomLeftRadius });
+    updateItem({ inputBorderBottomLeftRadius });
   };
 
   const setInputBorderBottomRightRadius = (
     inputBorderBottomRightRadius: number
   ) => {
-    updateLayout({ inputBorderBottomRightRadius });
+    updateItem({ inputBorderBottomRightRadius });
   };
 
   const setInputBorderStyle = (inputBorderStyle: ISelectOption) => {
-    updateLayout({ inputBorderStyle });
+    updateItem({ inputBorderStyle });
   };
 
   const setInputBorderColor = (inputBorderColor: string) => {
-    updateLayout({ inputBorderColor });
+    updateItem({ inputBorderColor });
   };
 
   const setInputBorderWidth = (inputBorderWidth: number) => {
-    updateLayout({ inputBorderWidth });
+    updateItem({ inputBorderWidth });
   };
 
   const setInputBgColorHex = useCallback(
     (inputBgColorHex: string) => {
-      updateLayout({ inputBgColorHex });
+      updateItem({ inputBgColorHex });
     },
-    [updateLayout]
+    [updateItem]
   );
 
   const setInputBgColorAlpha = (inputBgColorAlpha: number) => {
-    updateLayout({ inputBgColorAlpha });
+    updateItem({ inputBgColorAlpha });
   };
 
   const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
     const label = evt.target.value;
 
-    updateLayout({ label });
-  };
-
-  const handleLoadLayout = (layout: ISelectOption) => {
-    if (confirm("선택한 레이아웃의 설정을 불러오시겠습니까?")) {
-      updateLayout(layouts[+layout.value]);
-    }
+    updateItem({ label });
   };
 
   const handleRemove = () => {
@@ -224,53 +195,12 @@ export const DragableInputOption: FC<Props> = ({
     );
   };
 
-  const handleDragEnter = () => {
-    if (draggingOrder !== -1) {
-      setHoverOrder(order);
-    }
-  };
-
-  const handleDragStart = () => {
-    setDraggingOrder(order);
-  };
-
-  const handleDragEnd = () => {
-    setDraggingOrder(-1);
-
-    setHoverOrder(-1);
-  };
-
-  const handleDrop = () => {
-    if (draggingOrder !== order) {
-      const cloneLayout = layouts;
-
-      const [dragLayout] = cloneLayout.splice(draggingOrder, 1);
-
-      cloneLayout.splice(order, 0, dragLayout);
-
-      setLayouts([...cloneLayout]);
-    }
-  };
-
-  const handleClickTab = (activeTab: ModalBodyLayoutTabType) => {
-    setActiveTab(activeTab);
-  };
-
-  const mapToLayout: ISelectOption[] = layouts.map((_, index) => ({
-    label: `순서 ${index + 1}`,
-    value: index.toString(),
-    preview: null
-  }));
-
   return (
-    <Grid.DragableColumn
+    <GridDraggable
       span={span}
-      onDragOver={evt => evt.preventDefault()}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragEnter={handleDragEnter}
-      onDrop={handleDrop}
-      isDragEnter={hoverOrder === order}
+      order={order}
+      list={layouts}
+      setList={setLayouts}
       draggable={!isExpand}
     >
       <Grid.ResponsiveContainer span={span}>
@@ -288,19 +218,19 @@ export const DragableInputOption: FC<Props> = ({
             <Grid.ResponsiveRow span={span}>
               <Grid.Tab
                 active={activeTab === ModalBodyLayoutTabType.LABEL}
-                onClick={() => handleClickTab(ModalBodyLayoutTabType.LABEL)}
+                onClick={() => setActiveTab(ModalBodyLayoutTabType.LABEL)}
               >
                 레이블설정
               </Grid.Tab>
               <Grid.Tab
                 active={activeTab === ModalBodyLayoutTabType.INPUT}
-                onClick={() => handleClickTab(ModalBodyLayoutTabType.INPUT)}
+                onClick={() => setActiveTab(ModalBodyLayoutTabType.INPUT)}
               >
                 입력창설정
               </Grid.Tab>
               <Grid.Tab
                 active={activeTab === ModalBodyLayoutTabType.LOAD}
-                onClick={() => handleClickTab(ModalBodyLayoutTabType.LOAD)}
+                onClick={() => setActiveTab(ModalBodyLayoutTabType.LOAD)}
               >
                 불러오기
               </Grid.Tab>
@@ -460,20 +390,12 @@ export const DragableInputOption: FC<Props> = ({
               </>
             )}
             {activeTab === ModalBodyLayoutTabType.LOAD && (
-              <>
-                <Grid.FoldableTitle span={span} title="설정 불러오기">
-                  <Grid.Column span={span}>
-                    <div>
-                      <label>레이아웃 목록</label>
-                    </div>
-                    <CustomSelect
-                      activeOption={mapToLayout[order]}
-                      setOption={handleLoadLayout}
-                      options={mapToLayout}
-                    />
-                  </Grid.Column>
-                </Grid.FoldableTitle>
-              </>
+              <LoadOption
+                span={span}
+                order={order}
+                list={layouts}
+                updateItem={updateItem}
+              />
             )}
             <Grid.Column span={span}>
               <DangerButton type="button" onClick={handleRemove}>
@@ -483,6 +405,6 @@ export const DragableInputOption: FC<Props> = ({
           </>
         )}
       </Grid.ResponsiveContainer>
-    </Grid.DragableColumn>
+    </GridDraggable>
   );
 };
