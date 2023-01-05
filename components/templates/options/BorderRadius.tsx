@@ -11,7 +11,7 @@ import { WithLabel } from "../../WithLabel";
 import constants from "../../../constants";
 
 interface Props extends IGridOption, IBorderRadiusOption {
-  id: string | number;
+  id: string;
 }
 
 export const BorderRadiusOption: FC<Props> = ({

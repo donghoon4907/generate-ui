@@ -11,7 +11,7 @@ import { WithLabel } from "../../WithLabel";
 import { Switch } from "../../Switch";
 
 interface Props extends IGridOption, IPaddingOption {
-  id: string | number;
+  id: string;
 }
 
 export const PaddingOption: FC<Props> = ({

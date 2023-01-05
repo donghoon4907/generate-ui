@@ -17,6 +17,7 @@ export default {
     whiteHex: "#ffffff",
     blackHex: "#000000",
     whiteRgb: "255,255,255",
-    blackRgb: "0,0,0"
+    blackRgb: "0,0,0",
+    lightDividerHex: "#e1e3e1"
   }
 };

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import type { IPaddingOption } from "../../../interfaces/option";
+import type { IPaddingOption, IScrollOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
@@ -11,14 +11,17 @@ import { PrimaryButton } from "../../Button";
 import { DraggableInputOption } from "../options/DraggableInput";
 import { ChangeOrderOption } from "../options/ChangeOrder";
 import { InjectUseStateObjectArray } from "../../injections/UseState";
+import { ScrollOption } from "../options/Scroll";
 
-interface Props extends IGridOption, IPaddingOption {
+interface Props extends IGridOption, IPaddingOption, IScrollOption {
   layouts: IModalLayoutOption[];
   setLayouts: CoreSetState<IModalLayoutOption[]>;
 }
 
 export const ModalBodyForm: FC<Props> = ({
   span,
+  scrollThumbColor,
+  setScrollThumbColor,
   paddingTop,
   setPaddingTop,
   paddingRight,
@@ -52,6 +55,14 @@ export const ModalBodyForm: FC<Props> = ({
           setPaddingLeft={setPaddingLeft}
           checkAllPaddingOption={checkAllPaddingOption}
           setCheckAllPaddingOption={setCheckAllPaddingOption}
+        />
+      </Grid.FoldableTitle>
+      <Grid.FoldableTitle span={span} title="스크롤 설정">
+        <ScrollOption
+          id="ModalBody"
+          span={span}
+          scrollThumbColor={scrollThumbColor}
+          setScrollThumbColor={setScrollThumbColor}
         />
       </Grid.FoldableTitle>
 

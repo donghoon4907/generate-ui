@@ -33,7 +33,7 @@ const color: Color = {
   white: constants.color.whiteHex,
   lightBlue_lv0: "#f8fafd",
   lightBlue_lv1: "#f3f6fc",
-  lightDividerColor: "#e1e3e1",
+  lightDividerColor: constants.color.lightDividerHex,
   darkDividerColor: "#444746",
   darkTextColor_lv0: "#e3e3e3",
   bootstrapBlue: "#0d6efd",

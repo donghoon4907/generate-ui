@@ -11,7 +11,7 @@ import { CountNumberType } from "../../../types/count";
 import { ColorOption } from "./Color";
 
 interface Props extends IGridOption, IBorderOption {
-  id: string | number;
+  id: string;
 }
 
 export const BorderOption: FC<Props> = ({

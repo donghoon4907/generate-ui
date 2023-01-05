@@ -63,7 +63,7 @@ const CloseIconWrapper = styled.button<{ iconSize: number }>`
   ${mixinBtnDefault}
 `;
 
-const ModalBody = styled.div`
+const ModalBody = styled.div<{ thumbColor: string }>`
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -78,7 +78,7 @@ const ModalBody = styled.div`
 
   &::-webkit-scrollbar-thumb,
   textarea::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.color.lightDividerColor};
+    background-color: ${({ thumbColor }) => thumbColor};
     border-radius: 5px;
   }
 `;
@@ -141,6 +141,10 @@ const ComponentModal: NextPage = () => {
   const [bodyPaddingLeft, setBodyPaddingLeft] = useState(10);
   // body - 여백 모두 보기 여부
   const [checkAllBodyPadding, setCheckAllBodyPadding] = useState(false);
+  // body - scroll color
+  const [bodyScrollThumbColor, setBodyScrollThumbColor] = useState(
+    constants.color.lightDividerHex
+  );
   // header - 닫기 아이콘 크기
   const [closeIconSize, setCloseIconSize] = useState(20);
   // 탭 활성화 관리
@@ -239,7 +243,10 @@ const ComponentModal: NextPage = () => {
                 </ModalHeader>
               )}
 
-              <ModalBody style={bodyWrapperStyle}>
+              <ModalBody
+                style={bodyWrapperStyle}
+                thumbColor={bodyScrollThumbColor}
+              >
                 {layouts.map((layout, index) => {
                   const {
                     label,
@@ -511,6 +518,8 @@ const ComponentModal: NextPage = () => {
                   setCheckAllPaddingOption={setCheckAllBodyPadding}
                   layouts={layouts}
                   setLayouts={setLayouts}
+                  scrollThumbColor={bodyScrollThumbColor}
+                  setScrollThumbColor={setBodyScrollThumbColor}
                 />
               )}
               {activeTab === ModalTabType.FOOTER && (

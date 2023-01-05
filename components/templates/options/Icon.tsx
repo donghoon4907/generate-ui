@@ -12,7 +12,7 @@ import { RequireLabel } from "../../RequireLabel";
 import { CountNumberType } from "../../../types/count";
 
 interface Props extends IGridOption {
-  id: string | number;
+  id: string;
   iconAlign: ISelectOption;
   setIconAlign: CoreSetState<ISelectOption>;
   iconSize: number;

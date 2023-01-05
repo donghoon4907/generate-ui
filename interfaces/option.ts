@@ -36,6 +36,11 @@ export interface IBorderOption {
   setBorderColor: CoreSetState<string>;
 }
 
+export interface IScrollOption {
+  scrollThumbColor: string;
+  setScrollThumbColor: CoreSetState<string>;
+}
+
 export interface IRgbOption {
   hex: string;
   setHex: CoreSetState<string>;
