@@ -22,7 +22,6 @@ export const ColorOption: FC<Props> = ({ id, span, hex, setHex }) => {
   const validate = useCallback(
     (_hex: string) => {
       const rgb = hexToRgb(_hex);
-
       if (rgb === null) {
         setIsColor(false);
       } else {

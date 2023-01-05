@@ -1,5 +1,6 @@
+/* tip - #포함 여부 상관 없는 경우 /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/ */
 export function hexToRgb(hex: string) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const result = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
   return result
     ? {
