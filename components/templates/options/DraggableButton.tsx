@@ -136,9 +136,12 @@ export const DraggableButtonOption: FC<Props> = ({
     updateItem({ borderStyle });
   };
 
-  const setBorderColor = (borderColor: string) => {
-    updateItem({ borderColor });
-  };
+  const setBorderColor = useCallback(
+    (borderColor: string) => {
+      updateItem({ borderColor });
+    },
+    [updateItem]
+  );
 
   const setBorderWidth = (borderWidth: number) => {
     updateItem({ borderWidth });
@@ -155,9 +158,7 @@ export const DraggableButtonOption: FC<Props> = ({
     updateItem({ bgColorAlpha });
   };
 
-  const handleChangeLabel = (evt: ChangeEvent<HTMLInputElement>) => {
-    const label = evt.target.value;
-
+  const handleChangeLabel = (label: string) => {
     updateItem({ label });
   };
 
