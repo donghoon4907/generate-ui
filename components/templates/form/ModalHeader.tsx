@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import type { IPaddingOption } from "../../../interfaces/option";
+import type { IBorderOption, IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { ISelectOption } from "../../../interfaces/select";
@@ -11,8 +11,9 @@ import { CountNumberType } from "../../../types/count";
 import { FeedbackInput } from "../../Input";
 import { FontOption } from "../options/Font";
 import { PaddingOption } from "../options/Padding";
+import { BorderOption } from "../options/Border";
 
-interface Props extends IGridOption, IPaddingOption {
+interface Props extends IGridOption, IPaddingOption, IBorderOption {
   title: string;
   setTitle: CoreSetState<string>;
   titleColor: string;
@@ -53,6 +54,12 @@ export const ModalHeaderForm: FC<Props> = ({
   setPaddingLeft,
   checkAllPaddingOption,
   setCheckAllPaddingOption,
+  borderStyle,
+  setBorderStyle,
+  borderWidth,
+  setBorderWidth,
+  borderColor,
+  setBorderColor,
   closeIconSize,
   setCloseIconSize
 }) => {
@@ -102,6 +109,19 @@ export const ModalHeaderForm: FC<Props> = ({
           setPaddingLeft={setPaddingLeft}
           checkAllPaddingOption={checkAllPaddingOption}
           setCheckAllPaddingOption={setCheckAllPaddingOption}
+        />
+      </Grid.FoldableTitle>
+
+      <Grid.FoldableTitle span={span} title="테두리 설정" defaultFold={false}>
+        <BorderOption
+          id="ModalHeader"
+          span={span}
+          borderStyle={borderStyle}
+          setBorderStyle={setBorderStyle}
+          borderWidth={borderWidth}
+          setBorderWidth={setBorderWidth}
+          borderColor={borderColor}
+          setBorderColor={setBorderColor}
         />
       </Grid.FoldableTitle>
 

@@ -27,6 +27,7 @@ import { hexToRgb } from "../../lib/calc/rgb";
 import { justifyContentOptions } from "../../components/options/Flex";
 import { ModalFooterForm } from "../../components/templates/form/ModalFooter";
 import { generateTextOverflow } from "../../lib/calc/style";
+import { borderStyleOptions } from "../../components/options/BorderStyle";
 
 const Layer = styled.div`
   width: 100%;
@@ -48,7 +49,6 @@ const ModalHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.color.black};
 `;
 
 const CloseIconWrapper = styled.button<{ iconSize: number }>`
@@ -87,7 +87,6 @@ const ModalBody = styled.div<{ thumbColor: string }>`
 const ModalFooter = styled.div`
   display: flex;
   align-items: center;
-  border-top: 1px solid ${({ theme }) => theme.color.black};
   gap: 5px;
 `;
 
@@ -130,6 +129,14 @@ const ComponentModal: NextPage = () => {
   const [headerPaddingRight, setHeaderPaddingRight] = useState(10);
   const [headerPaddingBottom, setHeaderPaddingBottom] = useState(10);
   const [headerPaddingLeft, setHeaderPaddingLeft] = useState(10);
+  // header - 테두리
+  const [headerBorderStyle, setHeaderBorderStyle] = useState<ISelectOption>(
+    borderStyleOptions[1]
+  );
+  const [headerBorderColor, setHeaderBorderColor] = useState(
+    constants.color.blackHex
+  );
+  const [headerBorderWidth, setHeaderBorderWidth] = useState(1);
   // header - 굵기
   const [headerTitleFontWeight, setHeaderTitleFontWeight] =
     useState<ISelectOption>(fontWeightOptions[3]);
@@ -169,6 +176,14 @@ const ComponentModal: NextPage = () => {
   const [footerPaddingLeft, setFooterPaddingLeft] = useState(10);
   // footer - 여백 모두 보기 여부
   const [checkAllFooterPadding, setCheckAllFooterPadding] = useState(false);
+  // footer - 테두리
+  const [footerBorderStyle, setFooterBorderStyle] = useState<ISelectOption>(
+    borderStyleOptions[1]
+  );
+  const [footerBorderColor, setFooterBorderColor] = useState(
+    constants.color.blackHex
+  );
+  const [footerBorderWidth, setFooterBorderWidth] = useState(1);
   // footer - 추가된 버튼 목록
   const [buttons, setButtons] = useState<IModalButtonOption[]>([
     { ...defaultModalButtonOption, label: "취소" },
@@ -190,7 +205,8 @@ const ComponentModal: NextPage = () => {
     paddingTop: headerPaddingTop,
     paddingRight: headerPaddingRight,
     paddingBottom: headerPaddingBottom,
-    paddingLeft: headerPaddingLeft
+    paddingLeft: headerPaddingLeft,
+    borderBottom: `${headerBorderWidth}px ${headerBorderStyle.value} ${headerBorderColor}`
   };
 
   const headerTitleStyle: CSSProperties = {
@@ -213,7 +229,8 @@ const ComponentModal: NextPage = () => {
     paddingRight: footerPaddingRight,
     paddingBottom: footerPaddingBottom,
     paddingLeft: footerPaddingLeft,
-    justifyContent: footerAlign.value
+    justifyContent: footerAlign.value,
+    borderTop: `${footerBorderWidth}px ${footerBorderStyle.value} ${footerBorderColor}`
   };
   /* handler */
   const handleExport = () => {};
@@ -394,7 +411,9 @@ const ComponentModal: NextPage = () => {
                       ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${bgColorAlpha})`
                       : "inherit";
 
-                    const textOverflowStyle = generateTextOverflow(textOverflow.value);
+                    const textOverflowStyle = generateTextOverflow(
+                      textOverflow.value
+                    );
 
                     const btnStyle: CSSProperties = {
                       ...btnStyles,
@@ -403,6 +422,7 @@ const ComponentModal: NextPage = () => {
                       textAlign: textAlign.value as any,
                       borderStyle: borderStyle.value,
                       backgroundColor: bgColor,
+                      overflow: "hidden",
                       ...textOverflowStyle
                     };
 
@@ -503,6 +523,12 @@ const ComponentModal: NextPage = () => {
                   setPaddingLeft={setHeaderPaddingLeft}
                   checkAllPaddingOption={checkAllHeaderPadding}
                   setCheckAllPaddingOption={setCheckAllHeaderPadding}
+                  borderStyle={headerBorderStyle}
+                  setBorderStyle={setHeaderBorderStyle}
+                  borderWidth={headerBorderWidth}
+                  setBorderWidth={setHeaderBorderWidth}
+                  borderColor={headerBorderColor}
+                  setBorderColor={setHeaderBorderColor}
                   closeIconSize={closeIconSize}
                   setCloseIconSize={setCloseIconSize}
                 />
@@ -541,6 +567,12 @@ const ComponentModal: NextPage = () => {
                   setPaddingLeft={setFooterPaddingLeft}
                   checkAllPaddingOption={checkAllFooterPadding}
                   setCheckAllPaddingOption={setCheckAllFooterPadding}
+                  borderStyle={footerBorderStyle}
+                  setBorderStyle={setFooterBorderStyle}
+                  borderWidth={footerBorderWidth}
+                  setBorderWidth={setFooterBorderWidth}
+                  borderColor={footerBorderColor}
+                  setBorderColor={setFooterBorderColor}
                   buttons={buttons}
                   setButtons={setButtons}
                 />
