@@ -26,6 +26,7 @@ import { useRgba } from "../../hooks/useRgba";
 import { hexToRgb } from "../../lib/calc/rgb";
 import { justifyContentOptions } from "../../components/options/Flex";
 import { ModalFooterForm } from "../../components/templates/form/ModalFooter";
+import { generateTextOverflow } from "../../lib/calc/style";
 
 const Layer = styled.div`
   width: 100%;
@@ -393,13 +394,16 @@ const ComponentModal: NextPage = () => {
                       ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${bgColorAlpha})`
                       : "inherit";
 
+                    const textOverflowStyle = generateTextOverflow(textOverflow.value);
+
                     const btnStyle: CSSProperties = {
                       ...btnStyles,
                       lineHeight: `${lineHeight}px`,
                       fontWeight: fontWeight.value,
                       textAlign: textAlign.value as any,
                       borderStyle: borderStyle.value,
-                      backgroundColor: bgColor
+                      backgroundColor: bgColor,
+                      ...textOverflowStyle
                     };
 
                     return (
