@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import type { IBorderOption, IPaddingOption } from "../../../interfaces/option";
+import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { ISelectOption } from "../../../interfaces/select";
@@ -17,9 +17,8 @@ import { PrimaryButton } from "../../Button";
 import { DraggableButtonOption } from "../options/DraggableButton";
 import { ChangeOrderOption } from "../options/ChangeOrder";
 import { InjectUseStateObjectArray } from "../../injections/UseState";
-import { BorderOption } from "../options/Border";
 
-interface Props extends IGridOption, IPaddingOption, IBorderOption {
+interface Props extends IGridOption, IPaddingOption {
   align: ISelectOption;
   setAlign: CoreSetState<ISelectOption>;
   buttons: IModalButtonOption[];
@@ -39,12 +38,6 @@ export const ModalFooterForm: FC<Props> = ({
   setPaddingLeft,
   checkAllPaddingOption,
   setCheckAllPaddingOption,
-  borderStyle,
-  setBorderStyle,
-  borderWidth,
-  setBorderWidth,
-  borderColor,
-  setBorderColor,
   buttons,
   setButtons
 }) => {
@@ -80,18 +73,7 @@ export const ModalFooterForm: FC<Props> = ({
           setCheckAllPaddingOption={setCheckAllPaddingOption}
         />
       </Grid.FoldableTitle>
-      <Grid.FoldableTitle span={span} title="테두리 설정" defaultFold={false}>
-        <BorderOption
-          id="ModalFooter"
-          span={span}
-          borderStyle={borderStyle}
-          setBorderStyle={setBorderStyle}
-          borderWidth={borderWidth}
-          setBorderWidth={setBorderWidth}
-          borderColor={borderColor}
-          setBorderColor={setBorderColor}
-        />
-      </Grid.FoldableTitle>
+
       <Grid.FoldableTitle span={span} title="버튼 관리" defaultFold={false}>
         <Grid.BorderColumn span={span}>
           <PrimaryButton type="button" onClick={handleCreateButton}>

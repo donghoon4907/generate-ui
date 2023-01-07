@@ -1,19 +1,17 @@
 import type { FC } from "react";
 
-import type { IBorderOption, IPaddingOption } from "../../../interfaces/option";
+import type { IPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { ISelectOption } from "../../../interfaces/select";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
-import { CountingInput } from "../../CountingInput";
-import { CountNumberType } from "../../../types/count";
 import { FeedbackInput } from "../../Input";
 import { FontOption } from "../options/Font";
 import { PaddingOption } from "../options/Padding";
-import { BorderOption } from "../options/Border";
+import { IconOption } from "../options/Icon";
 
-interface Props extends IGridOption, IPaddingOption, IBorderOption {
+interface Props extends IGridOption, IPaddingOption {
   title: string;
   setTitle: CoreSetState<string>;
   titleColor: string;
@@ -28,6 +26,8 @@ interface Props extends IGridOption, IPaddingOption, IBorderOption {
   setTitleFontWeight: CoreSetState<ISelectOption>;
   closeIconSize: number;
   setCloseIconSize: CoreSetState<number>;
+  closeIconColor: string;
+  setCloseIconColor: CoreSetState<string>;
 }
 
 export const ModalHeaderForm: FC<Props> = ({
@@ -54,21 +54,17 @@ export const ModalHeaderForm: FC<Props> = ({
   setPaddingLeft,
   checkAllPaddingOption,
   setCheckAllPaddingOption,
-  borderStyle,
-  setBorderStyle,
-  borderWidth,
-  setBorderWidth,
-  borderColor,
-  setBorderColor,
   closeIconSize,
-  setCloseIconSize
+  setCloseIconSize,
+  closeIconColor,
+  setCloseIconColor
 }) => {
   // 제목 글자 수 제한
   const LABEL_LIMIT = 10;
 
   return (
     <>
-      <Grid.FoldableTitle span={span} title="텍스트 설정">
+      <Grid.FoldableTitle span={span} title="기본 설정">
         <Grid.Column span={span}>
           <RequireLabel htmlFor="setHeaderTitle">제목</RequireLabel>
           <FeedbackInput
@@ -79,6 +75,9 @@ export const ModalHeaderForm: FC<Props> = ({
             invalidComment={`제목은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
           />
         </Grid.Column>
+      </Grid.FoldableTitle>
+
+      <Grid.FoldableTitle span={span} title="텍스트 설정" defaultFold={false}>
         <FontOption
           id="HeaderTitle"
           span={span}
@@ -112,38 +111,19 @@ export const ModalHeaderForm: FC<Props> = ({
         />
       </Grid.FoldableTitle>
 
-      <Grid.FoldableTitle span={span} title="테두리 설정" defaultFold={false}>
-        <BorderOption
-          id="ModalHeader"
-          span={span}
-          borderStyle={borderStyle}
-          setBorderStyle={setBorderStyle}
-          borderWidth={borderWidth}
-          setBorderWidth={setBorderWidth}
-          borderColor={borderColor}
-          setBorderColor={setBorderColor}
-        />
-      </Grid.FoldableTitle>
-
       <Grid.FoldableTitle
         span={span}
         title="닫기 아이콘 설정"
         defaultFold={false}
       >
-        <Grid.Column span={span}>
-          <RequireLabel htmlFor="setCloseIconSize">크기</RequireLabel>
-          <CountingInput
-            id="setCloseIconSize"
-            ariaLabel="닫기 아이콘 크기"
-            count={closeIconSize}
-            setCount={setCloseIconSize}
-            limit={50}
-            showIcon={true}
-            showFeedback={true}
-            numberType={CountNumberType.INTEGER}
-            unit="px"
-          />
-        </Grid.Column>
+        <IconOption
+          span={span}
+          id="ModalHeader"
+          iconSize={closeIconSize}
+          setIconSize={setCloseIconSize}
+          iconColor={closeIconColor}
+          setIconColor={setCloseIconColor}
+        />
       </Grid.FoldableTitle>
     </>
   );

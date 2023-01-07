@@ -41,7 +41,6 @@ const Layer = styled.div`
 `;
 
 const Modal = styled.div`
-  border: 1px solid ${({ theme }) => theme.color.black};
   background: ${({ theme }) => theme.color.white};
 `;
 
@@ -51,14 +50,10 @@ const ModalHeader = styled.header`
   align-items: center;
 `;
 
-const CloseIconWrapper = styled.button<{ iconSize: number }>`
-  width: ${({ iconSize }) => iconSize}px;
-  height: ${({ iconSize }) => iconSize}px;
-
+const CloseIconWrapper = styled.button`
   & > svg {
     width: 100%;
     height: 100%;
-    fill: #000;
   }
 
   ${mixinBtnDefault}
@@ -112,6 +107,14 @@ const ComponentModal: NextPage = () => {
   ] = useRgba(constants.color.whiteHex);
   // container - 모서리 각 모두 보기 여부
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
+  // container - 테두리
+  const [borderStyle, setBorderStyle] = useState<ISelectOption>(
+    borderStyleOptions[1]
+  );
+  const [borderColor, setBorderColor] = useState(
+    constants.color.blackHex
+  );
+  const [borderWidth, setBorderWidth] = useState(1);
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
@@ -129,14 +132,6 @@ const ComponentModal: NextPage = () => {
   const [headerPaddingRight, setHeaderPaddingRight] = useState(10);
   const [headerPaddingBottom, setHeaderPaddingBottom] = useState(10);
   const [headerPaddingLeft, setHeaderPaddingLeft] = useState(10);
-  // header - 테두리
-  const [headerBorderStyle, setHeaderBorderStyle] = useState<ISelectOption>(
-    borderStyleOptions[1]
-  );
-  const [headerBorderColor, setHeaderBorderColor] = useState(
-    constants.color.blackHex
-  );
-  const [headerBorderWidth, setHeaderBorderWidth] = useState(1);
   // header - 굵기
   const [headerTitleFontWeight, setHeaderTitleFontWeight] =
     useState<ISelectOption>(fontWeightOptions[3]);
@@ -155,6 +150,8 @@ const ComponentModal: NextPage = () => {
   );
   // header - 닫기 아이콘 크기
   const [closeIconSize, setCloseIconSize] = useState(20);
+  // header - 닫기 아이콘 색상
+  const [closeIconColor, setCloseIconColor] = useState(constants.color.blackHex);
   // 탭 활성화 관리
   const [activeTab, setActiveTab] = useState<ModalTabType>(ModalTabType.MODAL);
   // container - 헤더 설정 활성화 여부
@@ -176,14 +173,6 @@ const ComponentModal: NextPage = () => {
   const [footerPaddingLeft, setFooterPaddingLeft] = useState(10);
   // footer - 여백 모두 보기 여부
   const [checkAllFooterPadding, setCheckAllFooterPadding] = useState(false);
-  // footer - 테두리
-  const [footerBorderStyle, setFooterBorderStyle] = useState<ISelectOption>(
-    borderStyleOptions[1]
-  );
-  const [footerBorderColor, setFooterBorderColor] = useState(
-    constants.color.blackHex
-  );
-  const [footerBorderWidth, setFooterBorderWidth] = useState(1);
   // footer - 추가된 버튼 목록
   const [buttons, setButtons] = useState<IModalButtonOption[]>([
     { ...defaultModalButtonOption, label: "취소" },
@@ -197,6 +186,7 @@ const ComponentModal: NextPage = () => {
     borderTopRightRadius,
     borderBottomLeftRadius,
     borderBottomRightRadius,
+    border: `${borderWidth}px ${borderStyle.value} ${borderColor}`,
     backgroundColor,
     overflow: "hidden"
   };
@@ -206,7 +196,7 @@ const ComponentModal: NextPage = () => {
     paddingRight: headerPaddingRight,
     paddingBottom: headerPaddingBottom,
     paddingLeft: headerPaddingLeft,
-    borderBottom: `${headerBorderWidth}px ${headerBorderStyle.value} ${headerBorderColor}`
+    borderBottom: `${borderWidth}px ${borderStyle.value} ${borderColor}`
   };
 
   const headerTitleStyle: CSSProperties = {
@@ -216,6 +206,12 @@ const ComponentModal: NextPage = () => {
     letterSpacing: headerTitleLetterSpacing,
     fontWeight: headerTitleFontWeight.value
   };
+
+  const closeIconStyle: CSSProperties = {
+    width: closeIconSize,
+    height: closeIconSize,
+    color: closeIconColor
+  }
 
   const bodyWrapperStyle: CSSProperties = {
     paddingTop: bodyPaddingTop,
@@ -230,7 +226,7 @@ const ComponentModal: NextPage = () => {
     paddingBottom: footerPaddingBottom,
     paddingLeft: footerPaddingLeft,
     justifyContent: footerAlign.value,
-    borderTop: `${footerBorderWidth}px ${footerBorderStyle.value} ${footerBorderColor}`
+    borderTop: `${borderWidth}px ${borderStyle.value} ${borderColor}`
   };
   /* handler */
   const handleExport = () => {};
@@ -255,7 +251,7 @@ const ComponentModal: NextPage = () => {
               {checkAddHeader && (
                 <ModalHeader style={headerWrapperStyle}>
                   <span style={headerTitleStyle}>{headerTitle}</span>
-                  <CloseIconWrapper type="button" iconSize={closeIconSize}>
+                  <CloseIconWrapper type="button" style={closeIconStyle}>
                     <AiOutlineClose />
                   </CloseIconWrapper>
                 </ModalHeader>
@@ -491,6 +487,12 @@ const ComponentModal: NextPage = () => {
                   setBorderBottomRightRadius={setBorderBottomRightRadius}
                   checkAllBorderRadiusOption={checkAllBorderRadius}
                   setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
+                  borderStyle={borderStyle}
+                  setBorderStyle={setBorderStyle}
+                  borderWidth={borderWidth}
+                  setBorderWidth={setBorderWidth}
+                  borderColor={borderColor}
+                  setBorderColor={setBorderColor}
                   backgroundColorHex={bgColorHex}
                   setBackgroundColorHex={setBgColorHex}
                   backgroundColorAlpha={bgColorAlpha}
@@ -523,14 +525,10 @@ const ComponentModal: NextPage = () => {
                   setPaddingLeft={setHeaderPaddingLeft}
                   checkAllPaddingOption={checkAllHeaderPadding}
                   setCheckAllPaddingOption={setCheckAllHeaderPadding}
-                  borderStyle={headerBorderStyle}
-                  setBorderStyle={setHeaderBorderStyle}
-                  borderWidth={headerBorderWidth}
-                  setBorderWidth={setHeaderBorderWidth}
-                  borderColor={headerBorderColor}
-                  setBorderColor={setHeaderBorderColor}
                   closeIconSize={closeIconSize}
                   setCloseIconSize={setCloseIconSize}
+                  closeIconColor={closeIconColor}
+                  setCloseIconColor={setCloseIconColor}
                 />
               )}
               {activeTab === ModalTabType.BODY && (
@@ -567,12 +565,6 @@ const ComponentModal: NextPage = () => {
                   setPaddingLeft={setFooterPaddingLeft}
                   checkAllPaddingOption={checkAllFooterPadding}
                   setCheckAllPaddingOption={setCheckAllFooterPadding}
-                  borderStyle={footerBorderStyle}
-                  setBorderStyle={setFooterBorderStyle}
-                  borderWidth={footerBorderWidth}
-                  setBorderWidth={setFooterBorderWidth}
-                  borderColor={footerBorderColor}
-                  setBorderColor={setFooterBorderColor}
                   buttons={buttons}
                   setButtons={setButtons}
                 />

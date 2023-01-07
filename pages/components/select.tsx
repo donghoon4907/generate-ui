@@ -58,7 +58,7 @@ const ComponentSelect: NextPage = () => {
   // option - 자간
   const [optionLetterSpacing, setOptionLetterSpacing] = useState(0);
   // select - 제목
-  const [label, setLabel] = useState("제목");
+  const [label, setLabel] = useState("입력하세요");
   // common - 배경색
   const [
     bgColorHex,
@@ -318,7 +318,7 @@ const ComponentSelect: NextPage = () => {
               )}
               {activeTab === SelectTabType.SELECT && (
                 <>
-                  <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
+                  <Grid.FoldableTitle span={GRID_SPAN} title="기본 설정">
                     <Grid.Column span={1}>
                       <RequireLabel htmlFor="setLabel">제목</RequireLabel>
                       <FeedbackInput
@@ -329,7 +329,9 @@ const ComponentSelect: NextPage = () => {
                         invalidComment={`제목은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
                       />
                     </Grid.Column>
+                  </Grid.FoldableTitle>
 
+                  <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
                     <FontOption
                       id="Select"
                       span={1}

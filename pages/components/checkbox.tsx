@@ -118,6 +118,19 @@ const ComponentCheckbox: NextPage = () => {
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
             <Grid.ResponsiveContainer span={GRID_SPAN}>
+              <Grid.FoldableTitle span={GRID_SPAN} title="기본 설정">
+                <Grid.Column span={1}>
+                  <RequireLabel htmlFor="setLabel">레이블</RequireLabel>
+                  <FeedbackInput
+                    id="setLabel"
+                    value={label}
+                    setValue={setLabel}
+                    condition={label.length < LABEL_LIMIT}
+                    invalidComment={`레이블은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
+                  />
+                </Grid.Column>
+              </Grid.FoldableTitle>
+
               <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setScale">체크박스 크기</RequireLabel>
@@ -136,16 +149,6 @@ const ComponentCheckbox: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                <Grid.Column span={1}>
-                  <RequireLabel htmlFor="setLabel">설명</RequireLabel>
-                  <FeedbackInput
-                    id="setLabel"
-                    value={label}
-                    setValue={setLabel}
-                    condition={label.length < LABEL_LIMIT}
-                    invalidComment={`설명은 ${LABEL_LIMIT}자 미만으로 입력하세요.`}
-                  />
-                </Grid.Column>
                 <FontOption
                   span={1}
                   id="Checkbox"

@@ -303,23 +303,33 @@ const ComponentInput: NextPage = () => {
                     </WithLabel>
                   )}
                 </Grid.Column>
+                <Grid.Column span={1}>
+                  <RequireLabel htmlFor="setPlaceholder">
+                    입력 가이드 문구
+                  </RequireLabel>
+                  <FeedbackInput
+                    id="setPlaceholder"
+                    value={placeholder}
+                    setValue={setPlaceholder}
+                    condition={placeholder.length < PLACEHOLDER_LIMIT}
+                    invalidComment={`문구는 ${PLACEHOLDER_LIMIT}자 미만으로 입력하세요.`}
+                  />
+                </Grid.Column>
               </Grid.FoldableTitle>
 
               {showSetIcon && (
-                <>
-                  <Grid.FoldableTitle span={GRID_SPAN} title="아이콘 설정">
-                    <IconOption
-                      span={1}
-                      id="Input"
-                      iconAlign={iconAlign}
-                      setIconAlign={setIconAlign}
-                      iconSize={iconSize}
-                      setIconSize={setIconSize}
-                      iconColor={iconColor}
-                      setIconColor={setIconColor}
-                    />
-                  </Grid.FoldableTitle>
-                </>
+                <Grid.FoldableTitle span={GRID_SPAN} title="아이콘 설정">
+                  <IconOption
+                    span={1}
+                    id="Input"
+                    iconAlign={iconAlign}
+                    setIconAlign={setIconAlign}
+                    iconSize={iconSize}
+                    setIconSize={setIconSize}
+                    iconColor={iconColor}
+                    setIconColor={setIconColor}
+                  />
+                </Grid.FoldableTitle>
               )}
 
               <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
@@ -340,18 +350,6 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                <Grid.Column span={1}>
-                  <RequireLabel htmlFor="setPlaceholder">
-                    입력 가이드 문구
-                  </RequireLabel>
-                  <FeedbackInput
-                    id="setPlaceholder"
-                    value={placeholder}
-                    setValue={setPlaceholder}
-                    condition={placeholder.length < PLACEHOLDER_LIMIT}
-                    invalidComment={`문구는 ${PLACEHOLDER_LIMIT}자 미만으로 입력하세요.`}
-                  />
-                </Grid.Column>
                 <FontOption
                   id="Input"
                   span={1}

@@ -1,6 +1,9 @@
 import type { FC } from "react";
 
-import type { IBorderRadiusOption } from "../../../interfaces/option";
+import type {
+  IBorderOption,
+  IBorderRadiusOption
+} from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
@@ -11,8 +14,9 @@ import { BorderRadiusOption } from "../options/BorderRadius";
 import { WithLabel } from "../../WithLabel";
 import { Switch } from "../../Switch";
 import { RgbaOption } from "../options/Rgba";
+import { BorderOption } from "../options/Border";
 
-interface Props extends IGridOption, IBorderRadiusOption {
+interface Props extends IGridOption, IBorderRadiusOption, IBorderOption {
   width: number;
   setWidth: CoreSetState<number>;
   checkAddHeader: boolean;
@@ -42,6 +46,12 @@ export const ModalContainerForm: FC<Props> = ({
   setBorderBottomRightRadius,
   checkAllBorderRadiusOption,
   setCheckAllBorderRadiusOption,
+  borderStyle,
+  setBorderStyle,
+  borderWidth,
+  setBorderWidth,
+  borderColor,
+  setBorderColor,
   backgroundColorHex,
   setBackgroundColorHex,
   backgroundColorAlpha,
@@ -102,6 +112,19 @@ export const ModalContainerForm: FC<Props> = ({
           setBorderBottomRightRadius={setBorderBottomRightRadius}
           checkAllBorderRadiusOption={checkAllBorderRadiusOption}
           setCheckAllBorderRadiusOption={setCheckAllBorderRadiusOption}
+        />
+      </Grid.FoldableTitle>
+
+      <Grid.FoldableTitle span={span} title="테두리 설정" defaultFold={false}>
+        <BorderOption
+          id="Modal"
+          span={span}
+          borderStyle={borderStyle}
+          setBorderStyle={setBorderStyle}
+          borderWidth={borderWidth}
+          setBorderWidth={setBorderWidth}
+          borderColor={borderColor}
+          setBorderColor={setBorderColor}
         />
       </Grid.FoldableTitle>
 

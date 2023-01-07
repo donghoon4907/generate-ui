@@ -237,6 +237,18 @@ const ComponentButton: NextPage = () => {
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
             <Grid.ResponsiveContainer span={GRID_SPAN}>
+            <Grid.FoldableTitle span={GRID_SPAN} title="기본 설정">
+                <Grid.Column span={1}>
+                  <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
+                  <FeedbackInput
+                    id="setLabel"
+                    value={label}
+                    setValue={setLabel}
+                    condition={label.length < 10}
+                    invalidComment="버튼명은 10자 미만으로 입력하세요."
+                  />
+                </Grid.Column>
+              </Grid.FoldableTitle>
               <Grid.FoldableTitle span={GRID_SPAN} title="레이아웃 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setWidth">너비</RequireLabel>
@@ -255,16 +267,6 @@ const ComponentButton: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                <Grid.Column span={1}>
-                  <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
-                  <FeedbackInput
-                    id="setLabel"
-                    value={label}
-                    setValue={setLabel}
-                    condition={label.length < 10}
-                    invalidComment="버튼명은 10자 미만으로 입력하세요."
-                  />
-                </Grid.Column>
                 <FontOption
                   id="Button"
                   span={1}

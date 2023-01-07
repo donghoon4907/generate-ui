@@ -23,7 +23,10 @@ interface Props extends IGridOption {
 export const LoadOption: FC<Props> = ({ span, order, list, updateItem }) => {
   const handleLoad = (item: ISelectOption) => {
     if (confirm("선택한 설정을 불러오시겠습니까?")) {
-      updateItem(list[+item.value]);
+      // label과 나머지 설정을 분리
+      const { label, ...another } = list[+item.value];
+
+      updateItem(another);
     }
   };
 

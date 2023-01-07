@@ -57,7 +57,7 @@ export const ModalBodyForm: FC<Props> = ({
           setCheckAllPaddingOption={setCheckAllPaddingOption}
         />
       </Grid.FoldableTitle>
-      <Grid.FoldableTitle span={span} title="스크롤 설정">
+      <Grid.FoldableTitle span={span} title="스크롤 설정" defaultFold={false}>
         <ScrollOption
           id="ModalBody"
           span={span}
@@ -66,7 +66,7 @@ export const ModalBodyForm: FC<Props> = ({
         />
       </Grid.FoldableTitle>
 
-      <Grid.FoldableTitle span={span} title="레이아웃 관리">
+      <Grid.FoldableTitle span={span} title="레이아웃 관리" defaultFold={false}>
         <Grid.BorderColumn span={span}>
           <PrimaryButton type="button" onClick={handleCreateLayout}>
             레이아웃 추가

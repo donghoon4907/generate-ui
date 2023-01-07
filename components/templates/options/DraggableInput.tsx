@@ -209,7 +209,7 @@ export const DraggableInputOption: FC<Props> = ({
         </Grid.ResponsiveRow>
         {!isExpand && (
           <Grid.ResponsiveRow span={span}>
-            {!isExpand && <div>{`- Label: ${label}`}</div>}
+            {!isExpand && <div>{`- 레이블명: ${label}`}</div>}
           </Grid.ResponsiveRow>
         )}
 
@@ -237,7 +237,25 @@ export const DraggableInputOption: FC<Props> = ({
             </Grid.ResponsiveRow>
             {activeTab === ModalBodyLayoutTabType.LABEL && (
               <>
-                <Grid.FoldableTitle span={span} title="레이아웃 설정">
+                <Grid.FoldableTitle span={span} title="기본 설정">
+                  <Grid.Column span={span}>
+                    <RequireLabel htmlFor={`setLabel${order}`}>
+                      레이블
+                    </RequireLabel>
+                    <DefaultInput
+                      id={`setLabel${order}`}
+                      value={label}
+                      onChange={handleChangeLabel}
+                      // draggable={true}
+                      // onDragStart={evt => evt.preventDefault()}
+                    />
+                  </Grid.Column>
+                </Grid.FoldableTitle>
+                <Grid.FoldableTitle
+                  span={span}
+                  title="레이아웃 설정"
+                  defaultFold={false}
+                >
                   <Grid.Column span={span}>
                     <RequireLabel htmlFor={`setLabelPos${order}`}>
                       레이블 위치
@@ -254,18 +272,6 @@ export const DraggableInputOption: FC<Props> = ({
                   title="텍스트 설정"
                   defaultFold={false}
                 >
-                  <Grid.Column span={span}>
-                    <RequireLabel htmlFor={`setLabel${order}`}>
-                      레이블명
-                    </RequireLabel>
-                    <DefaultInput
-                      id={`setLabel${order}`}
-                      value={label}
-                      onChange={handleChangeLabel}
-                      // draggable={true}
-                      // onDragStart={evt => evt.preventDefault()}
-                    />
-                  </Grid.Column>
                   <FontOption
                     id={`LayoutLabel${order}`}
                     span={span}

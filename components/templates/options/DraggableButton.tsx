@@ -182,7 +182,7 @@ export const DraggableButtonOption: FC<Props> = ({
         </Grid.ResponsiveRow>
         {!isExpand && (
           <Grid.ResponsiveRow span={span}>
-            {!isExpand && <div>{`- Button: ${label}`}</div>}
+            {!isExpand && <div>{`- 버튼명: ${label}`}</div>}
           </Grid.ResponsiveRow>
         )}
 
@@ -204,7 +204,25 @@ export const DraggableButtonOption: FC<Props> = ({
             </Grid.ResponsiveRow>
             {activeTab === ModalFooterButtonTabType.BUTTON && (
               <>
-                <Grid.FoldableTitle span={span} title="레이아웃 설정">
+                <Grid.FoldableTitle span={span} title="기본 설정">
+                  <Grid.Column span={span}>
+                    <RequireLabel htmlFor={`setLabel${order}`}>
+                      버튼명
+                    </RequireLabel>
+                    <FeedbackInput
+                      id={`setLabel${order}`}
+                      value={label}
+                      setValue={handleChangeLabel}
+                      condition={label.length < 10}
+                      invalidComment="버튼명은 10자 미만으로 입력하세요."
+                    />
+                  </Grid.Column>
+                </Grid.FoldableTitle>
+                <Grid.FoldableTitle
+                  span={span}
+                  title="레이아웃 설정"
+                  defaultFold={false}
+                >
                   <Grid.Column span={span}>
                     <RequireLabel htmlFor={`setWidth${order}`}>
                       너비
@@ -222,6 +240,7 @@ export const DraggableButtonOption: FC<Props> = ({
                     />
                   </Grid.Column>
                 </Grid.FoldableTitle>
+
                 <Grid.FoldableTitle
                   span={span}
                   title="텍스트 설정"
