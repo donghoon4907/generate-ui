@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useState } from "react";
 
 import type { IPaddingOption, IScrollOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
@@ -8,10 +9,11 @@ import { defaultModalLayoutOption } from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
 import { PaddingOption } from "../options/Padding";
 import { PrimaryButton } from "../../Button";
-import { DraggableInputOption } from "../options/DraggableInput";
+import { ModalLayoutOption } from "../options/ModalLayout";
 import { ChangeOrderOption } from "../options/ChangeOrder";
 import { InjectUseStateObjectArray } from "../../injections/UseState";
 import { ScrollOption } from "../options/Scroll";
+import { GridOrdering } from "../../GridOrdering";
 
 interface Props extends IGridOption, IPaddingOption, IScrollOption {
   layouts: IModalLayoutOption[];
@@ -82,15 +84,23 @@ export const ModalBodyForm: FC<Props> = ({
                 key={`layout${index}`}
               >
                 {updateItem => (
-                  <DraggableInputOption
+                  <GridOrdering
                     span={span}
                     order={index}
-                    layouts={layouts}
-                    setLayouts={setLayouts}
-                    isExpand={!activeOrderMode}
-                    updateItem={updateItem}
-                    {...layout}
-                  />
+                    list={layouts}
+                    setList={setLayouts}
+                    draggable={activeOrderMode}
+                  >
+                    <ModalLayoutOption
+                      span={span}
+                      order={index}
+                      layouts={layouts}
+                      setLayouts={setLayouts}
+                      isExpand={!activeOrderMode}
+                      updateItem={updateItem}
+                      {...layout}
+                    />
+                  </GridOrdering>
                 )}
               </InjectUseStateObjectArray>
             ))

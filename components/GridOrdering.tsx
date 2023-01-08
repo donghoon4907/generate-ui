@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useState } from "react";
 
 import type { CoreProps } from "../interfaces/core";
 import type { IGridOption } from "../interfaces/grid";
@@ -9,6 +8,8 @@ import type {
 } from "../interfaces/modal";
 import type { CoreSetState } from "../types/core";
 import * as Grid from "./partial/Grid";
+import { useDispatch, useSelector } from "../context";
+import { SET_DRAG_ORDER, SET_DROP_ORDER } from "../context/action";
 
 interface Props extends CoreProps, IGridOption {
   // 아이템 순서
@@ -21,7 +22,7 @@ interface Props extends CoreProps, IGridOption {
   draggable: boolean;
 }
 
-export const GridDraggable: FC<Props> = ({
+export const GridOrdering: FC<Props> = ({
   children,
   span,
   order,
@@ -29,34 +30,45 @@ export const GridDraggable: FC<Props> = ({
   setList,
   draggable
 }) => {
-  // 현재 드래그 중인 레이아웃 순서
-  const [draggingOrder, setDraggingOrder] = useState(-1);
-  // 현재 마우스 오버 중인 레이아웃 순서
-  const [hoverOrder, setHoverOrder] = useState(-1);
+  const dispatch = useDispatch();
+
+  const { dragOrder, dropOrder } = useSelector();
 
   const handleDragEnter = () => {
-    if (draggingOrder !== -1) {
-      setHoverOrder(order);
+    if (dragOrder !== -1) {
+      dispatch({
+        type: SET_DROP_ORDER,
+        payload: order
+      });
     }
   };
 
   const handleDragStart = () => {
-    setDraggingOrder(order);
+    dispatch({
+      type: SET_DRAG_ORDER,
+      payload: order
+    });
   };
 
   const handleDragEnd = () => {
-    setDraggingOrder(-1);
+    dispatch({
+      type: SET_DRAG_ORDER,
+      payload: -1
+    });
 
-    setHoverOrder(-1);
+    dispatch({
+      type: SET_DROP_ORDER,
+      payload: -1
+    });
   };
 
   const handleDrop = () => {
-    if (draggingOrder !== order) {
+    if (dragOrder !== dropOrder) {
       const cloneList = list;
 
-      const [draggingItem] = cloneList.splice(draggingOrder, 1);
+      const [dragItem] = cloneList.splice(dragOrder, 1);
 
-      cloneList.splice(order, 0, draggingItem);
+      cloneList.splice(order, 0, dragItem);
 
       setList([...cloneList]);
     }
@@ -70,7 +82,7 @@ export const GridDraggable: FC<Props> = ({
       onDragEnd={handleDragEnd}
       onDragEnter={handleDragEnter}
       onDrop={handleDrop}
-      isDragEnter={hoverOrder === order}
+      isDragEnter={dropOrder === order}
       draggable={draggable}
     >
       {children}

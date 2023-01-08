@@ -14,9 +14,10 @@ import { CustomSelect } from "../../CustomSelect";
 import { justifyContentOptions } from "../../options/Flex";
 import { PaddingOption } from "../options/Padding";
 import { PrimaryButton } from "../../Button";
-import { DraggableButtonOption } from "../options/DraggableButton";
+import { ModalButtonOption } from "../options/ModalButton";
 import { ChangeOrderOption } from "../options/ChangeOrder";
 import { InjectUseStateObjectArray } from "../../injections/UseState";
+import { GridOrdering } from "../../GridOrdering";
 
 interface Props extends IGridOption, IPaddingOption {
   align: ISelectOption;
@@ -89,15 +90,23 @@ export const ModalFooterForm: FC<Props> = ({
                 key={`button${index}`}
               >
                 {updateItem => (
-                  <DraggableButtonOption
+                  <GridOrdering
                     span={span}
                     order={index}
-                    buttons={buttons}
-                    setButtons={setButtons}
-                    isExpand={!activeOrderMode}
-                    updateItem={updateItem}
-                    {...button}
-                  />
+                    list={buttons}
+                    setList={setButtons}
+                    draggable={activeOrderMode}
+                  >
+                    <ModalButtonOption
+                      span={span}
+                      order={index}
+                      buttons={buttons}
+                      setButtons={setButtons}
+                      isExpand={!activeOrderMode}
+                      updateItem={updateItem}
+                      {...button}
+                    />
+                  </GridOrdering>
                 )}
               </InjectUseStateObjectArray>
             ))
