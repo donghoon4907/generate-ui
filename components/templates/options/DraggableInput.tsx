@@ -8,7 +8,7 @@ import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { DangerButton } from "../../Button";
-import { DefaultInput } from "../../Input";
+import { DefaultInput, FeedbackInput } from "../../Input";
 import { labelPositionOptions } from "../../options/LabelPosition";
 import { CustomSelect } from "../../CustomSelect";
 import { modalInputTypeOptions } from "../../options/InputType";
@@ -59,11 +59,16 @@ export const DraggableInputOption: FC<Props> = ({
   inputBorderWidth,
   inputBgColorHex,
   inputBgColorAlpha,
+  inputPlaceholder,
   layouts,
   setLayouts,
   updateItem,
   isExpand
 }) => {
+  /* order - constans */
+  // placeholder 글자 수 제한
+  const PLACEHOLDER_LIMIT = 10;
+
   const [activeTab, setActiveTab] = useTab(ModalBodyLayoutTabType.LABEL);
 
   const [checkAllPadding, setCheckAllPadding] = useState(false);
@@ -178,6 +183,10 @@ export const DraggableInputOption: FC<Props> = ({
     },
     [updateItem]
   );
+
+  const setInputPlaceholder = (inputPlaceholder: string) => {
+    updateItem({ inputPlaceholder });
+  };
 
   const setInputBgColorAlpha = (inputBgColorAlpha: number) => {
     updateItem({ inputBgColorAlpha });
@@ -294,7 +303,7 @@ export const DraggableInputOption: FC<Props> = ({
                 <Grid.FoldableTitle span={span} title="기본 설정">
                   <Grid.Column span={span}>
                     <RequireLabel htmlFor={`setInputType${order}`}>
-                      입력 타입
+                      타입
                     </RequireLabel>
                     <CustomSelect
                       activeOption={inputType}
@@ -302,6 +311,18 @@ export const DraggableInputOption: FC<Props> = ({
                       options={modalInputTypeOptions}
                     />
                   </Grid.Column>
+                  <Grid.Column span={1}>
+                  <RequireLabel htmlFor={`setPlaceholder${order}`}>
+                    입력 가이드 문구
+                  </RequireLabel>
+                  <FeedbackInput
+                    id={`setPlaceholder${order}`}
+                    value={inputPlaceholder}
+                    setValue={setInputPlaceholder}
+                    condition={inputPlaceholder.length < PLACEHOLDER_LIMIT}
+                    invalidComment={`문구는 ${PLACEHOLDER_LIMIT}자 미만으로 입력하세요.`}
+                  />
+                </Grid.Column>
                 </Grid.FoldableTitle>
                 <Grid.FoldableTitle
                   span={span}

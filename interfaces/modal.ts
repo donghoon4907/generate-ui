@@ -35,6 +35,7 @@ export interface IModalLayoutOption {
   inputBorderWidth: number;
   inputBgColorHex: string;
   inputBgColorAlpha: number;
+  inputPlaceholder: string;
 }
 
 export interface IModalButtonOption {
@@ -88,7 +89,8 @@ export const defaultModalLayoutOption: IModalLayoutOption = {
   inputBorderColor: constants.color.blackHex,
   inputBorderWidth: 1,
   inputBgColorHex: constants.color.whiteHex,
-  inputBgColorAlpha: 1
+  inputBgColorAlpha: 1,
+  inputPlaceholder: "입력하세요"
 };
 
 export const defaultModalButtonOption: IModalButtonOption = {

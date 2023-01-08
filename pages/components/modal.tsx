@@ -111,9 +111,7 @@ const ComponentModal: NextPage = () => {
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
   );
-  const [borderColor, setBorderColor] = useState(
-    constants.color.blackHex
-  );
+  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
   const [borderWidth, setBorderWidth] = useState(1);
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
@@ -151,7 +149,9 @@ const ComponentModal: NextPage = () => {
   // header - 닫기 아이콘 크기
   const [closeIconSize, setCloseIconSize] = useState(20);
   // header - 닫기 아이콘 색상
-  const [closeIconColor, setCloseIconColor] = useState(constants.color.blackHex);
+  const [closeIconColor, setCloseIconColor] = useState(
+    constants.color.blackHex
+  );
   // 탭 활성화 관리
   const [activeTab, setActiveTab] = useState<ModalTabType>(ModalTabType.MODAL);
   // container - 헤더 설정 활성화 여부
@@ -211,7 +211,7 @@ const ComponentModal: NextPage = () => {
     width: closeIconSize,
     height: closeIconSize,
     color: closeIconColor
-  }
+  };
 
   const bodyWrapperStyle: CSSProperties = {
     paddingTop: bodyPaddingTop,
@@ -288,7 +288,8 @@ const ComponentModal: NextPage = () => {
                     inputBorderColor,
                     inputBorderWidth,
                     inputBgColorHex,
-                    inputBgColorAlpha
+                    inputBgColorAlpha,
+                    inputPlaceholder
                   } = layout;
 
                   const labelPosValue = labelPos.value;
@@ -378,7 +379,11 @@ const ComponentModal: NextPage = () => {
                           {inputType.value === InputTypeOption.TEXTAREA ? (
                             <textarea style={inputStyle} />
                           ) : (
-                            <input type={inputType.value} style={inputStyle} />
+                            <input
+                              type={inputType.value}
+                              placeholder={inputPlaceholder}
+                              style={inputStyle}
+                            />
                           )}
                         </div>
                       </div>
