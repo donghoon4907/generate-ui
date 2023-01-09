@@ -7,6 +7,7 @@ import { borderStyleOptions } from "../components/options/BorderStyle";
 import constants from "../constants";
 import { fontWeightOptions } from "../components/options/FontWeight";
 import { textOverflowOptions } from "../components/options/TextOverflow";
+import { IGlobalPadding } from "../model/padding";
 
 export interface IModalLayoutOption {
   label: string;
@@ -38,7 +39,7 @@ export interface IModalLayoutOption {
   inputPlaceholder: string;
 }
 
-export interface IModalButtonOption {
+export interface IModalButtonOption extends IGlobalPadding {
   label: string;
   width: number;
   color: string;
@@ -48,10 +49,6 @@ export interface IModalButtonOption {
   fontWeight: ISelectOption;
   textAlign: ISelectOption;
   textOverflow: ISelectOption;
-  paddingTop: number;
-  paddingRight: number;
-  paddingBottom: number;
-  paddingLeft: number;
   borderTopLeftRadius: number;
   borderTopRightRadius: number;
   borderBottomLeftRadius: number;

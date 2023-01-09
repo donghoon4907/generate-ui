@@ -34,6 +34,7 @@ import { PreferenceOption } from "../../components/templates/options/Preference"
 import { fontWeightOptions } from "../../components/options/FontWeight";
 import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
+import { usePadding } from "../../hooks/usePadding";
 
 const ComponentButton: NextPage = () => {
   /* order - constans */
@@ -68,12 +69,7 @@ const ComponentButton: NextPage = () => {
   // 모서리 각 모두 보기 여부
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
   // 여백
-  const [paddingTop, setPaddingTop] = useState(4);
-  const [paddingRight, setPaddingRight] = useState(4);
-  const [paddingBottom, setPaddingBottom] = useState(4);
-  const [paddingLeft, setPaddingLeft] = useState(4);
-  // 여백 모두 보기 여부
-  const [checkAllPadding, setCheckAllPadding] = useState(false);
+  const [padding, setPadding] = usePadding(4);
   // 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -114,10 +110,10 @@ const ComponentButton: NextPage = () => {
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
-    paddingTop,
-    paddingRight,
-    paddingBottom,
-    paddingLeft,
+    paddingTop: padding.top,
+    paddingRight: padding.right,
+    paddingBottom: padding.bottom,
+    paddingLeft: padding.left,
     textAlign: textAlign.value as any,
     overflow: "hidden",
     fontWeight: fontWeight.value,
@@ -128,10 +124,7 @@ const ComponentButton: NextPage = () => {
     setWidth(80);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(6);
-    setPaddingBottom(6);
-    setPaddingLeft(6);
+    setPadding({ top: 6, right: 6, bottom: 6, left: 6 });
     setBgColorHex(theme.color.bootstrapBlue);
     setBgColorAlpha(1);
     setColor(theme.color.white);
@@ -152,10 +145,7 @@ const ComponentButton: NextPage = () => {
     setWidth(80);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(6);
-    setPaddingBottom(6);
-    setPaddingLeft(6);
+    setPadding({ top: 6, right: 6, bottom: 6, left: 6 });
     setBgColorHex(theme.color.white);
     setBgColorAlpha(1);
     setColor(theme.color.bootstrapBlue);
@@ -237,7 +227,7 @@ const ComponentButton: NextPage = () => {
           <Component.Header>Options</Component.Header>
           <Component.Scrollable>
             <Grid.ResponsiveContainer span={GRID_SPAN}>
-            <Grid.FoldableTitle span={GRID_SPAN} title="기본 설정">
+              <Grid.FoldableTitle span={GRID_SPAN} title="기본 설정">
                 <Grid.Column span={1}>
                   <RequireLabel htmlFor="setLabel">버튼명</RequireLabel>
                   <FeedbackInput
@@ -291,16 +281,8 @@ const ComponentButton: NextPage = () => {
                 <PaddingOption
                   id="Button"
                   span={1}
-                  paddingTop={paddingTop}
-                  setPaddingTop={setPaddingTop}
-                  paddingRight={paddingRight}
-                  setPaddingRight={setPaddingRight}
-                  paddingBottom={paddingBottom}
-                  setPaddingBottom={setPaddingBottom}
-                  paddingLeft={paddingLeft}
-                  setPaddingLeft={setPaddingLeft}
-                  checkAllPaddingOption={checkAllPadding}
-                  setCheckAllPaddingOption={setCheckAllPadding}
+                  {...padding}
+                  setPadding={setPadding}
                 />
               </Grid.FoldableTitle>
 

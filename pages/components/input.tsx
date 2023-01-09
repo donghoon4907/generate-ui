@@ -38,6 +38,7 @@ import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
 import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
+import { usePadding } from "../../hooks/usePadding";
 
 const ComponentInput: NextPage = () => {
   /* order - constans */
@@ -78,12 +79,7 @@ const ComponentInput: NextPage = () => {
   // 모서리 각 모두 보기 여부
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
   // 여백
-  const [paddingTop, setPaddingTop] = useState(4);
-  const [paddingRight, setPaddingRight] = useState(4);
-  const [paddingBottom, setPaddingBottom] = useState(4);
-  const [paddingLeft, setPaddingLeft] = useState(4);
-  // 여백 모두 보기 여부
-  const [checkAllPadding, setCheckAllPadding] = useState(false);
+  const [padding, setPadding] = usePadding(4);
   // 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -150,10 +146,10 @@ const ComponentInput: NextPage = () => {
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
-    paddingTop,
-    paddingRight,
-    paddingBottom,
-    paddingLeft,
+    paddingTop: padding.top,
+    paddingRight: padding.right,
+    paddingBottom: padding.bottom,
+    paddingLeft: padding.left,
     textAlign: textAlign.value as any,
     borderTopLeftRadius,
     borderTopRightRadius,
@@ -172,11 +168,7 @@ const ComponentInput: NextPage = () => {
     setWidth(100);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(12);
-    setPaddingBottom(6);
-    setPaddingLeft(12);
-    setCheckAllPadding(true);
+    setPadding({ top: 6, right: 12, bottom: 6, left: 12 });
     setBgColorHex(theme.color.white);
     setBgColorAlpha(1);
     setColor(theme.color.white);
@@ -195,11 +187,7 @@ const ComponentInput: NextPage = () => {
     setWidth(100);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPaddingTop(6);
-    setPaddingRight(12);
-    setPaddingBottom(6);
-    setPaddingLeft(12);
-    setCheckAllPadding(true);
+    setPadding({ top: 6, right: 12, bottom: 6, left: 12 });
     setBgColorHex(theme.color.gray_lv0);
     setBgColorAlpha(1);
     setColor(theme.color.darkTextColor_lv0);
@@ -370,16 +358,8 @@ const ComponentInput: NextPage = () => {
                 <PaddingOption
                   id="Input"
                   span={1}
-                  paddingTop={paddingTop}
-                  setPaddingTop={setPaddingTop}
-                  paddingRight={paddingRight}
-                  setPaddingRight={setPaddingRight}
-                  paddingBottom={paddingBottom}
-                  setPaddingBottom={setPaddingBottom}
-                  paddingLeft={paddingLeft}
-                  setPaddingLeft={setPaddingLeft}
-                  checkAllPaddingOption={checkAllPadding}
-                  setCheckAllPaddingOption={setCheckAllPadding}
+                  {...padding}
+                  setPadding={setPadding}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">

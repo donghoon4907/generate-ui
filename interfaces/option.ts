@@ -1,17 +1,13 @@
+import type { IGlobalPadding, IPadding } from "../model/padding";
 import type { CoreSetState } from "../types/core";
 import { ISelectOption } from "./select";
 
-export interface IPaddingOption {
-  paddingTop: number;
-  setPaddingTop: CoreSetState<number>;
-  paddingRight: number;
-  setPaddingRight: CoreSetState<number>;
-  paddingBottom: number;
-  setPaddingBottom: CoreSetState<number>;
-  paddingLeft: number;
-  setPaddingLeft: CoreSetState<number>;
-  checkAllPaddingOption: boolean;
-  setCheckAllPaddingOption: CoreSetState<boolean>;
+export interface IPaddingOption extends IPadding {
+  setPadding: CoreSetState<Partial<IPadding>>;
+}
+
+export interface IGlobalPaddingOption extends IGlobalPadding {
+  setPadding: CoreSetState<Partial<IPadding>>;
 }
 
 export interface IBorderRadiusOption {

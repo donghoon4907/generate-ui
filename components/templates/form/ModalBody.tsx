@@ -1,7 +1,9 @@
 import type { FC } from "react";
-import { useState } from "react";
 
-import type { IPaddingOption, IScrollOption } from "../../../interfaces/option";
+import type {
+  IGlobalPaddingOption,
+  IScrollOption
+} from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
@@ -15,25 +17,20 @@ import { InjectUseStateObjectArray } from "../../injections/UseState";
 import { ScrollOption } from "../options/Scroll";
 import { GridOrdering } from "../../GridOrdering";
 
-interface Props extends IGridOption, IPaddingOption, IScrollOption {
+interface Props extends IGridOption, IGlobalPaddingOption, IScrollOption {
   layouts: IModalLayoutOption[];
   setLayouts: CoreSetState<IModalLayoutOption[]>;
 }
 
 export const ModalBodyForm: FC<Props> = ({
   span,
+  paddingTop,
+  paddingRight,
+  paddingBottom,
+  paddingLeft,
+  setPadding,
   scrollThumbColor,
   setScrollThumbColor,
-  paddingTop,
-  setPaddingTop,
-  paddingRight,
-  setPaddingRight,
-  paddingBottom,
-  setPaddingBottom,
-  paddingLeft,
-  setPaddingLeft,
-  checkAllPaddingOption,
-  setCheckAllPaddingOption,
   layouts,
   setLayouts
 }) => {
@@ -47,16 +44,11 @@ export const ModalBodyForm: FC<Props> = ({
         <PaddingOption
           id="ModalBody"
           span={span}
-          paddingTop={paddingTop}
-          setPaddingTop={setPaddingTop}
-          paddingRight={paddingRight}
-          setPaddingRight={setPaddingRight}
-          paddingBottom={paddingBottom}
-          setPaddingBottom={setPaddingBottom}
-          paddingLeft={paddingLeft}
-          setPaddingLeft={setPaddingLeft}
-          checkAllPaddingOption={checkAllPaddingOption}
-          setCheckAllPaddingOption={setCheckAllPaddingOption}
+          top={paddingTop}
+          right={paddingRight}
+          bottom={paddingBottom}
+          left={paddingLeft}
+          setPadding={setPadding}
         />
       </Grid.FoldableTitle>
       <Grid.FoldableTitle span={span} title="스크롤 설정" defaultFold={false}>

@@ -5,6 +5,7 @@ import type { IGridOption } from "../../../interfaces/grid";
 import type { IModalButtonOption } from "../../../interfaces/modal";
 import type { ISelectOption } from "../../../interfaces/select";
 import type { CoreSetState } from "../../../types/core";
+import type { IPadding } from "../../../model/padding";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { DangerButton } from "../../Button";
@@ -19,6 +20,7 @@ import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
 import { useTab } from "../../../hooks/useTab";
 import { LoadOption } from "./Load";
+import { isNumber } from "../../../lib/calc/number";
 
 interface Props extends IGridOption, IModalButtonOption {
   order: number;
@@ -60,8 +62,6 @@ export const ModalButtonOption: FC<Props> = ({
 }) => {
   const [activeTab, setActiveTab] = useTab(ModalFooterButtonTabType.BUTTON);
 
-  const [checkAllPadding, setCheckAllPadding] = useState(false);
-
   const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
 
   const setWidth = (width: number) => {
@@ -99,20 +99,24 @@ export const ModalButtonOption: FC<Props> = ({
     updateItem({ textOverflow });
   };
 
-  const setPaddingTop = (paddingTop: number) => {
-    updateItem({ paddingTop });
-  };
+  const setPadding = (padding: Partial<IPadding>) => {
+    const { top, right, bottom, left } = padding;
 
-  const setPaddingRight = (paddingRight: number) => {
-    updateItem({ paddingRight });
-  };
+    if (isNumber(top)) {
+      updateItem({ paddingTop: top as number });
+    }
 
-  const setPaddingBottom = (paddingBottom: number) => {
-    updateItem({ paddingBottom });
-  };
+    if (isNumber(right)) {
+      updateItem({ paddingRight: right as number });
+    }
 
-  const setPaddingLeft = (paddingLeft: number) => {
-    updateItem({ paddingLeft });
+    if (isNumber(bottom)) {
+      updateItem({ paddingBottom: bottom as number });
+    }
+
+    if (isNumber(left)) {
+      updateItem({ paddingLeft: left as number });
+    }
   };
 
   const setBorderTopLeftRadius = (borderTopLeftRadius: number) => {
@@ -275,16 +279,11 @@ export const ModalButtonOption: FC<Props> = ({
                 <PaddingOption
                   id={`ModalFooterButton${order}`}
                   span={span}
-                  paddingTop={paddingTop}
-                  setPaddingTop={setPaddingTop}
-                  paddingRight={paddingRight}
-                  setPaddingRight={setPaddingRight}
-                  paddingBottom={paddingBottom}
-                  setPaddingBottom={setPaddingBottom}
-                  paddingLeft={paddingLeft}
-                  setPaddingLeft={setPaddingLeft}
-                  checkAllPaddingOption={checkAllPadding}
-                  setCheckAllPaddingOption={setCheckAllPadding}
+                  top={paddingTop}
+                  right={paddingRight}
+                  bottom={paddingBottom}
+                  left={paddingLeft}
+                  setPadding={setPadding}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle

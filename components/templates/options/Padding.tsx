@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useState } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { IPaddingOption } from "../../../interfaces/option";
@@ -12,44 +13,53 @@ import { Switch } from "../../Switch";
 
 interface Props extends IGridOption, IPaddingOption {
   id: string;
+  defaultCheckAll?: boolean;
 }
 
 export const PaddingOption: FC<Props> = ({
-  id,
   span,
-  paddingTop,
-  setPaddingTop,
-  paddingRight,
-  setPaddingRight,
-  paddingBottom,
-  setPaddingBottom,
-  paddingLeft,
-  setPaddingLeft,
-  checkAllPaddingOption,
-  setCheckAllPaddingOption
+  top,
+  right,
+  bottom,
+  left,
+  setPadding,
+  id,
+  defaultCheckAll = false
 }) => {
-  const setPadding = (px: number) => {
-    setPaddingTop(px);
-    setPaddingRight(px);
-    setPaddingBottom(px);
-    setPaddingLeft(px);
+  const [checkAll, setCheckAll] = useState(defaultCheckAll);
+
+  const setTop = (count: number) => {
+    setPadding(
+      checkAll
+        ? { top: count }
+        : { top: count, right: count, bottom: count, left: count }
+    );
   };
 
+  const setRight = (right: number) => {
+    setPadding({ right });
+  };
+
+  const setBottom = (bottom: number) => {
+    setPadding({ bottom });
+  };
+
+  const setLeft = (left: number) => {
+    setPadding({ left });
+  };
   return (
     <>
       <Grid.Column span={span}>
         <RequireLabel
-          htmlFor={
-            checkAllPaddingOption ? `setPaddingTop${id}` : `setPadding${id}`
-          }
+          htmlFor={checkAll ? `setPaddingTop${id}` : `setPadding${id}`}
         >
-          {`여백 ${checkAllPaddingOption ? "Top" : ""}`}
+          {checkAll ? "상단" : "전체"}
         </RequireLabel>
         <CountingInput
-          id={checkAllPaddingOption ? `setPaddingTop${id}` : `setPadding${id}`}
-          ariaLabel={checkAllPaddingOption ? "padding-top" : "padding"}
-          count={paddingTop}
-          setCount={checkAllPaddingOption ? setPaddingTop : setPadding}
+          id={checkAll ? `setPaddingTop${id}` : `setPadding${id}`}
+          ariaLabel={checkAll ? "padding-top" : "padding"}
+          count={top}
+          setCount={setTop}
           limit={30}
           showIcon={true}
           showFeedback={true}
@@ -57,26 +67,26 @@ export const PaddingOption: FC<Props> = ({
           unit="px"
         />
         <WithLabel
-          id={`setDetailPadding${id}`}
+          id={`checkAllPadding${id}`}
           label={constants.label.showAllPadding}
         >
           <Switch
-            id={`setDetailPadding${id}`}
+            id={`checkAllPadding${id}`}
             width={40}
-            checked={checkAllPaddingOption}
-            setChecked={setCheckAllPaddingOption}
+            checked={checkAll}
+            setChecked={setCheckAll}
           />
         </WithLabel>
       </Grid.Column>
-      {checkAllPaddingOption && (
+      {checkAll && (
         <>
           <Grid.Column span={span}>
-            <RequireLabel htmlFor="setPaddingRight">여백 Right</RequireLabel>
+            <RequireLabel htmlFor={`setPaddingRight${id}`}>오른쪽</RequireLabel>
             <CountingInput
               id={`setPaddingRight${id}`}
               ariaLabel="padding-right"
-              count={paddingRight}
-              setCount={setPaddingRight}
+              count={right}
+              setCount={setRight}
               limit={30}
               showIcon={true}
               showFeedback={true}
@@ -85,14 +95,12 @@ export const PaddingOption: FC<Props> = ({
             />
           </Grid.Column>
           <Grid.Column span={span}>
-            <RequireLabel htmlFor={`setPaddingBottom${id}`}>
-              여백 Bottom
-            </RequireLabel>
+            <RequireLabel htmlFor={`setPaddingBottom${id}`}>하단</RequireLabel>
             <CountingInput
               id={`setPaddingBottom${id}`}
               ariaLabel="padding-bottom"
-              count={paddingBottom}
-              setCount={setPaddingBottom}
+              count={bottom}
+              setCount={setBottom}
               limit={30}
               showIcon={true}
               showFeedback={true}
@@ -101,14 +109,12 @@ export const PaddingOption: FC<Props> = ({
             />
           </Grid.Column>
           <Grid.Column span={span}>
-            <RequireLabel htmlFor={`setPaddingLeft${id}`}>
-              여백 Left
-            </RequireLabel>
+            <RequireLabel htmlFor={`setPaddingLeft${id}`}>왼쪽</RequireLabel>
             <CountingInput
               id={`setPaddingLeft${id}`}
               ariaLabel="padding-left"
-              count={paddingLeft}
-              setCount={setPaddingLeft}
+              count={left}
+              setCount={setLeft}
               limit={30}
               showIcon={true}
               showFeedback={true}

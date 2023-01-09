@@ -33,6 +33,7 @@ import { PaddingOption } from "../../components/templates/options/Padding";
 import { BorderRadiusOption } from "../../components/templates/options/BorderRadius";
 import { useRgba } from "../../hooks/useRgba";
 import constants from "../../constants";
+import { usePadding } from "../../hooks/usePadding";
 
 const OptionItem = styled.li`
   &:hover {
@@ -80,19 +81,9 @@ const ComponentSelect: NextPage = () => {
   const [checkAllSelectBorderRadius, setCheckAllSelectBorderRadius] =
     useState(false);
   // select - 여백
-  const [selectPaddingTop, setSelectPaddingTop] = useState(4);
-  const [selectPaddingRight, setSelectPaddingRight] = useState(4);
-  const [selectPaddingBottom, setSelectPaddingBottom] = useState(4);
-  const [selectPaddingLeft, setSelectPaddingLeft] = useState(4);
-  // select - 여백 모든 설정 보기 여부
-  const [checkAllSelectPadding, setCheckAllSelectPadding] = useState(false);
+  const [selectPadding, setSelectPadding] = usePadding(4);
   // option - 여백
-  const [optionPaddingTop, setOptionPaddingTop] = useState(4);
-  const [optionPaddingRight, setOptionPaddingRight] = useState(4);
-  const [optionPaddingBottom, setOptionPaddingBottom] = useState(4);
-  const [optionPaddingLeft, setOptionPaddingLeft] = useState(4);
-  // option - 여백 모든 설정 보기 여부
-  const [checkAllOptionPadding, setCheckAllOptionPadding] = useState(false);
+  const [optionPadding, setOptionPadding] = usePadding(4);
   // common - 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -128,7 +119,10 @@ const ComponentSelect: NextPage = () => {
   /* order - variable */
   // select min height
   const minHeight =
-    selectPaddingTop + selectPaddingBottom + selectLineHeight + borderWidth * 2;
+    selectPadding.top +
+    selectPadding.bottom +
+    selectLineHeight +
+    borderWidth * 2;
   // preview style
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
@@ -157,10 +151,10 @@ const ComponentSelect: NextPage = () => {
     lineHeight: `${selectLineHeight}px`,
     letterSpacing: selectLetterSpacing,
     textAlign: selectTextAlign.value as any,
-    paddingTop: selectPaddingTop,
-    paddingRight: selectPaddingRight,
-    paddingBottom: selectPaddingBottom,
-    paddingLeft: selectPaddingLeft,
+    paddingTop: selectPadding.top,
+    paddingRight: selectPadding.right,
+    paddingBottom: selectPadding.bottom,
+    paddingLeft: selectPadding.left,
     overflow: "hidden",
     ...selectTextOverflowOutput
   };
@@ -178,10 +172,10 @@ const ComponentSelect: NextPage = () => {
     userSelect: "none"
   };
   const optionLabelStyle: CSSProperties = {
-    paddingTop: optionPaddingTop,
-    paddingRight: optionPaddingRight,
-    paddingBottom: optionPaddingBottom,
-    paddingLeft: optionPaddingLeft,
+    paddingTop: optionPadding.top,
+    paddingRight: optionPadding.right,
+    paddingBottom: optionPadding.bottom,
+    paddingLeft: optionPadding.left,
     overflow: "hidden",
     ...optionTextOverflowOutput
   };
@@ -354,16 +348,8 @@ const ComponentSelect: NextPage = () => {
                     <PaddingOption
                       id="Select"
                       span={1}
-                      paddingTop={selectPaddingTop}
-                      setPaddingTop={setSelectPaddingTop}
-                      paddingRight={selectPaddingRight}
-                      setPaddingRight={setSelectPaddingRight}
-                      paddingBottom={selectPaddingBottom}
-                      setPaddingBottom={setSelectPaddingBottom}
-                      paddingLeft={selectPaddingLeft}
-                      setPaddingLeft={setSelectPaddingLeft}
-                      checkAllPaddingOption={checkAllSelectPadding}
-                      setCheckAllPaddingOption={setCheckAllSelectPadding}
+                      {...selectPadding}
+                      setPadding={setSelectPadding}
                     />
                   </Grid.FoldableTitle>
 
@@ -412,16 +398,8 @@ const ComponentSelect: NextPage = () => {
                     <PaddingOption
                       id="Option"
                       span={1}
-                      paddingTop={optionPaddingTop}
-                      setPaddingTop={setOptionPaddingTop}
-                      paddingRight={optionPaddingRight}
-                      setPaddingRight={setOptionPaddingRight}
-                      paddingBottom={optionPaddingBottom}
-                      setPaddingBottom={setOptionPaddingBottom}
-                      paddingLeft={optionPaddingLeft}
-                      setPaddingLeft={setOptionPaddingLeft}
-                      checkAllPaddingOption={checkAllOptionPadding}
-                      setCheckAllPaddingOption={setCheckAllOptionPadding}
+                      {...optionPadding}
+                      setPadding={setOptionPadding}
                     />
                   </Grid.FoldableTitle>
                 </>
