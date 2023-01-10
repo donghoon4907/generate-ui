@@ -1,5 +1,6 @@
 import type { ISelectOption } from "./select";
-import type { IPaddingOption, IBorderRadiusOption } from "./option";
+import type { IBorderRadius } from "../model/borderRadius";
+import type { IPadding } from "../model/padding";
 import { modalInputTypeOptions } from "../components/options/InputType";
 import { labelPositionOptions } from "../components/options/LabelPosition";
 import { textAlignOptions } from "../components/options/TextAlign";
@@ -7,7 +8,6 @@ import { borderStyleOptions } from "../components/options/BorderStyle";
 import constants from "../constants";
 import { fontWeightOptions } from "../components/options/FontWeight";
 import { textOverflowOptions } from "../components/options/TextOverflow";
-import { IGlobalPadding } from "../model/padding";
 
 export interface IModalLayoutOption {
   label: string;
@@ -39,7 +39,7 @@ export interface IModalLayoutOption {
   inputPlaceholder: string;
 }
 
-export interface IModalButtonOption extends IGlobalPadding {
+export interface IModalButtonOption extends IPadding, IBorderRadius {
   label: string;
   width: number;
   color: string;
@@ -49,10 +49,6 @@ export interface IModalButtonOption extends IGlobalPadding {
   fontWeight: ISelectOption;
   textAlign: ISelectOption;
   textOverflow: ISelectOption;
-  borderTopLeftRadius: number;
-  borderTopRightRadius: number;
-  borderBottomLeftRadius: number;
-  borderBottomRightRadius: number;
   borderStyle: ISelectOption;
   borderColor: string;
   borderWidth: number;

@@ -34,6 +34,7 @@ import { BorderRadiusOption } from "../../components/templates/options/BorderRad
 import { useRgba } from "../../hooks/useRgba";
 import constants from "../../constants";
 import { usePadding } from "../../hooks/usePadding";
+import { useBorderRadius } from "../../hooks/useBorderRadius";
 
 const OptionItem = styled.li`
   &:hover {
@@ -61,29 +62,17 @@ const ComponentSelect: NextPage = () => {
   // select - 제목
   const [label, setLabel] = useState("입력하세요");
   // common - 배경색
-  const [
-    bgColorHex,
-    setBgColorHex,
-    bgColorAlpha,
-    setBgColorAlpha,
-    backgroundColor
-  ] = useRgba(constants.color.whiteHex);
+  const bgColorRgba = useRgba(constants.color.whiteHex);
   // select - 텍스트 색
   const [selectColor, setSelectColor] = useState(constants.color.blackHex);
   // option - 텍스트 색
   const [optionColor, setOptionColor] = useState(constants.color.blackHex);
   // select - 모서리 각
-  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
-  const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
-  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
-  const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
-  // select - 모서리 각 모든 설정 보기 여부
-  const [checkAllSelectBorderRadius, setCheckAllSelectBorderRadius] =
-    useState(false);
+  const selectBorderRadius = useBorderRadius(4);
   // select - 여백
-  const [selectPadding, setSelectPadding] = usePadding(4);
+  const selectPadding = usePadding(4);
   // option - 여백
-  const [optionPadding, setOptionPadding] = usePadding(4);
+  const optionPadding = usePadding(4);
   // common - 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -119,21 +108,21 @@ const ComponentSelect: NextPage = () => {
   /* order - variable */
   // select min height
   const minHeight =
-    selectPadding.top +
-    selectPadding.bottom +
+    selectPadding.paddingTop +
+    selectPadding.paddingBottom +
     selectLineHeight +
     borderWidth * 2;
   // preview style
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
+    borderTopLeftRadius: selectBorderRadius.borderTopLeftRadius,
+    borderTopRightRadius: selectBorderRadius.borderTopRightRadius,
+    borderBottomLeftRadius: selectBorderRadius.borderBottomLeftRadius,
+    borderBottomRightRadius: selectBorderRadius.borderBottomRightRadius,
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
-    backgroundColor,
+    backgroundColor: bgColorRgba.toString(),
     backgroundImage: `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'%3E%3C/path%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'%3E%3C/path%3E%3C/svg%3E")`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 5px center",
@@ -151,10 +140,10 @@ const ComponentSelect: NextPage = () => {
     lineHeight: `${selectLineHeight}px`,
     letterSpacing: selectLetterSpacing,
     textAlign: selectTextAlign.value as any,
-    paddingTop: selectPadding.top,
-    paddingRight: selectPadding.right,
-    paddingBottom: selectPadding.bottom,
-    paddingLeft: selectPadding.left,
+    paddingTop: selectPadding.paddingTop,
+    paddingRight: selectPadding.paddingRight,
+    paddingBottom: selectPadding.paddingBottom,
+    paddingLeft: selectPadding.paddingLeft,
     overflow: "hidden",
     ...selectTextOverflowOutput
   };
@@ -165,17 +154,17 @@ const ComponentSelect: NextPage = () => {
     lineHeight: `${optionLineHeight}px`,
     letterSpacing: optionLetterSpacing,
     textAlign: optionTextAlign.value as any,
-    backgroundColor,
+    backgroundColor: bgColorRgba.toString(),
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
     userSelect: "none"
   };
   const optionLabelStyle: CSSProperties = {
-    paddingTop: optionPadding.top,
-    paddingRight: optionPadding.right,
-    paddingBottom: optionPadding.bottom,
-    paddingLeft: optionPadding.left,
+    paddingTop: optionPadding.paddingTop,
+    paddingRight: optionPadding.paddingRight,
+    paddingBottom: optionPadding.paddingBottom,
+    paddingLeft: optionPadding.paddingLeft,
     overflow: "hidden",
     ...optionTextOverflowOutput
   };
@@ -289,14 +278,7 @@ const ComponentSelect: NextPage = () => {
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">
-                    <RgbaOption
-                      id="Select"
-                      span={1}
-                      hex={bgColorHex}
-                      setHex={setBgColorHex}
-                      alpha={bgColorAlpha}
-                      setAlpha={setBgColorAlpha}
-                    />
+                    <RgbaOption id="Select" span={1} {...bgColorRgba} />
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">
@@ -345,30 +327,14 @@ const ComponentSelect: NextPage = () => {
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
-                    <PaddingOption
-                      id="Select"
-                      span={1}
-                      {...selectPadding}
-                      setPadding={setSelectPadding}
-                    />
+                    <PaddingOption id="Select" span={1} {...selectPadding} />
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">
                     <BorderRadiusOption
                       id="Select"
                       span={1}
-                      borderTopLeftRadius={borderTopLeftRadius}
-                      setBorderTopLeftRadius={setBorderTopLeftRadius}
-                      borderTopRightRadius={borderTopRightRadius}
-                      setBorderTopRightRadius={setBorderTopRightRadius}
-                      borderBottomLeftRadius={borderBottomLeftRadius}
-                      setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                      borderBottomRightRadius={borderBottomRightRadius}
-                      setBorderBottomRightRadius={setBorderBottomRightRadius}
-                      checkAllBorderRadiusOption={checkAllSelectBorderRadius}
-                      setCheckAllBorderRadiusOption={
-                        setCheckAllSelectBorderRadius
-                      }
+                      {...selectBorderRadius}
                     />
                   </Grid.FoldableTitle>
                 </>
@@ -395,12 +361,7 @@ const ComponentSelect: NextPage = () => {
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
-                    <PaddingOption
-                      id="Option"
-                      span={1}
-                      {...optionPadding}
-                      setPadding={setOptionPadding}
-                    />
+                    <PaddingOption id="Option" span={1} {...optionPadding} />
                   </Grid.FoldableTitle>
                 </>
               )}

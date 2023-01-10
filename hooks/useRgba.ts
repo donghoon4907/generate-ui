@@ -1,24 +1,36 @@
-import type { Dispatch, SetStateAction } from "react";
 import { useState, useMemo } from "react";
 
+import type { CoreSetState } from "../types/core";
 import { hexToRgb } from "../lib/calc/rgb";
+import { IRgba } from "../model/rgba";
+
+export interface ISetStateRgba {
+  setHex: CoreSetState<string>;
+  setAlpha: CoreSetState<number>;
+}
+
+export interface IUseRgba extends IRgba, ISetStateRgba {
+  toString: () => string;
+}
 
 export const useRgba: (
   defaultHex: string,
   defaultAlpha?: number
-) => [
-  string,
-  Dispatch<SetStateAction<string>>,
-  number,
-  Dispatch<SetStateAction<number>>,
-  string
-] = (defaultHex, defaultAlpha = 1) => {
+) => IUseRgba = (defaultHex, defaultAlpha = 1) => {
   const [hex, setHex] = useState(defaultHex);
   const [alpha, setAlpha] = useState(defaultAlpha);
 
   const rgb = useMemo(() => hexToRgb(hex), [hex]);
 
-  const output = rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})` : "";
+  const toString = () => {
+    return rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})` : "";
+  };
 
-  return [hex, setHex, alpha, setAlpha, output];
+  return {
+    hex,
+    alpha,
+    setHex,
+    setAlpha,
+    toString
+  };
 };

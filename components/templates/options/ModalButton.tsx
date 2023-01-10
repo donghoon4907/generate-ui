@@ -1,11 +1,10 @@
 import type { FC } from "react";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { IModalButtonOption } from "../../../interfaces/modal";
 import type { ISelectOption } from "../../../interfaces/select";
 import type { CoreSetState } from "../../../types/core";
-import type { IPadding } from "../../../model/padding";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { DangerButton } from "../../Button";
@@ -20,7 +19,6 @@ import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
 import { useTab } from "../../../hooks/useTab";
 import { LoadOption } from "./Load";
-import { isNumber } from "../../../lib/calc/number";
 
 interface Props extends IGridOption, IModalButtonOption {
   order: number;
@@ -60,9 +58,9 @@ export const ModalButtonOption: FC<Props> = ({
   updateItem,
   isExpand
 }) => {
-  const [activeTab, setActiveTab] = useTab(ModalFooterButtonTabType.BUTTON);
+  const displayName = `ModalButton${order}`;
 
-  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
+  const [activeTab, setActiveTab] = useTab(ModalFooterButtonTabType.BUTTON);
 
   const setWidth = (width: number) => {
     updateItem({ width });
@@ -99,24 +97,20 @@ export const ModalButtonOption: FC<Props> = ({
     updateItem({ textOverflow });
   };
 
-  const setPadding = (padding: Partial<IPadding>) => {
-    const { top, right, bottom, left } = padding;
+  const setPaddingTop = (paddingTop: number) => {
+    updateItem({ paddingTop });
+  };
 
-    if (isNumber(top)) {
-      updateItem({ paddingTop: top as number });
-    }
+  const setPaddingRight = (paddingRight: number) => {
+    updateItem({ paddingRight });
+  };
 
-    if (isNumber(right)) {
-      updateItem({ paddingRight: right as number });
-    }
+  const setPaddingBottom = (paddingBottom: number) => {
+    updateItem({ paddingBottom });
+  };
 
-    if (isNumber(bottom)) {
-      updateItem({ paddingBottom: bottom as number });
-    }
-
-    if (isNumber(left)) {
-      updateItem({ paddingLeft: left as number });
-    }
+  const setPaddingLeft = (paddingLeft: number) => {
+    updateItem({ paddingLeft });
   };
 
   const setBorderTopLeftRadius = (borderTopLeftRadius: number) => {
@@ -253,7 +247,7 @@ export const ModalButtonOption: FC<Props> = ({
                   />
                 </Grid.Column>
                 <FontOption
-                  id={`ModalFooterButton${order}`}
+                  id={displayName}
                   span={span}
                   color={color}
                   setColor={setColor}
@@ -277,13 +271,16 @@ export const ModalButtonOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <PaddingOption
-                  id={`ModalFooterButton${order}`}
+                  id={displayName}
                   span={span}
-                  top={paddingTop}
-                  right={paddingRight}
-                  bottom={paddingBottom}
-                  left={paddingLeft}
-                  setPadding={setPadding}
+                  paddingTop={paddingTop}
+                  paddingRight={paddingRight}
+                  paddingBottom={paddingBottom}
+                  paddingLeft={paddingLeft}
+                  setPaddingTop={setPaddingTop}
+                  setPaddingRight={setPaddingRight}
+                  setPaddingBottom={setPaddingBottom}
+                  setPaddingLeft={setPaddingLeft}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -292,7 +289,7 @@ export const ModalButtonOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <BorderRadiusOption
-                  id={`ModalFooterButton${order}`}
+                  id={displayName}
                   span={span}
                   borderTopLeftRadius={borderTopLeftRadius}
                   setBorderTopLeftRadius={setBorderTopLeftRadius}
@@ -302,8 +299,6 @@ export const ModalButtonOption: FC<Props> = ({
                   setBorderBottomLeftRadius={setBorderBottomLeftRadius}
                   borderBottomRightRadius={borderBottomRightRadius}
                   setBorderBottomRightRadius={setBorderBottomRightRadius}
-                  checkAllBorderRadiusOption={checkAllBorderRadius}
-                  setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -312,7 +307,7 @@ export const ModalButtonOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <BorderOption
-                  id={`ModalFooterButton${order}`}
+                  id={displayName}
                   span={span}
                   borderStyle={borderStyle}
                   setBorderStyle={setBorderStyle}
@@ -328,7 +323,7 @@ export const ModalButtonOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <RgbaOption
-                  id={`ModalFooterButton${order}`}
+                  id={displayName}
                   span={span}
                   hex={bgColorHex}
                   setHex={setBgColorHex}

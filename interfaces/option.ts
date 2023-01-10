@@ -1,27 +1,5 @@
-import type { IGlobalPadding, IPadding } from "../model/padding";
 import type { CoreSetState } from "../types/core";
-import { ISelectOption } from "./select";
-
-export interface IPaddingOption extends IPadding {
-  setPadding: CoreSetState<Partial<IPadding>>;
-}
-
-export interface IGlobalPaddingOption extends IGlobalPadding {
-  setPadding: CoreSetState<Partial<IPadding>>;
-}
-
-export interface IBorderRadiusOption {
-  borderTopLeftRadius: number;
-  setBorderTopLeftRadius: CoreSetState<number>;
-  borderTopRightRadius: number;
-  setBorderTopRightRadius: CoreSetState<number>;
-  borderBottomLeftRadius: number;
-  setBorderBottomLeftRadius: CoreSetState<number>;
-  borderBottomRightRadius: number;
-  setBorderBottomRightRadius: CoreSetState<number>;
-  checkAllBorderRadiusOption: boolean;
-  setCheckAllBorderRadiusOption: CoreSetState<boolean>;
-}
+import type { ISelectOption } from "./select";
 
 export interface IBorderOption {
   borderStyle: ISelectOption;

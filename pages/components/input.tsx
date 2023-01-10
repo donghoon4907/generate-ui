@@ -39,6 +39,7 @@ import { PreferenceOption } from "../../components/templates/options/Preference"
 import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
 import { usePadding } from "../../hooks/usePadding";
+import { useBorderRadius } from "../../hooks/useBorderRadius";
 
 const ComponentInput: NextPage = () => {
   /* order - constans */
@@ -62,24 +63,13 @@ const ComponentInput: NextPage = () => {
     constants.label.defaultPlaceholder
   );
   // 배경색
-  const [
-    bgColorHex,
-    setBgColorHex,
-    bgColorAlpha,
-    setBgColorAlpha,
-    backgroundColor
-  ] = useRgba(constants.color.whiteHex);
+  const bgColorRgba = useRgba(constants.color.whiteHex);
   // 텍스트 색
   const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
-  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
-  const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
-  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
-  const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
-  // 모서리 각 모두 보기 여부
-  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
+  const borderRadius = useBorderRadius(4);
   // 여백
-  const [padding, setPadding] = usePadding(4);
+  const padding = usePadding(4);
   // 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -118,7 +108,7 @@ const ComponentInput: NextPage = () => {
   // preview style
   const inputWrapperStyle: CSSProperties = {
     width,
-    backgroundColor,
+    backgroundColor: bgColorRgba.toString(),
     backgroundImage: showSetIcon
       ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='${encodeURIComponent(
           iconColor
@@ -129,10 +119,10 @@ const ComponentInput: NextPage = () => {
     backgroundSize: iconSize,
     paddingRight: isIconAlignRight ? 25 : 0,
     paddingLeft: isIconAlignLeft ? 25 : 0,
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
+    borderTopRightRadius: borderRadius.borderTopRightRadius,
+    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
+    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
@@ -141,20 +131,20 @@ const ComponentInput: NextPage = () => {
 
   const inputStyle: CSSProperties = {
     width: "100%",
-    backgroundColor,
+    backgroundColor: bgColorRgba.toString(),
     color,
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
-    paddingTop: padding.top,
-    paddingRight: padding.right,
-    paddingBottom: padding.bottom,
-    paddingLeft: padding.left,
+    paddingTop: padding.paddingTop,
+    paddingRight: padding.paddingRight,
+    paddingBottom: padding.paddingBottom,
+    paddingLeft: padding.paddingLeft,
     textAlign: textAlign.value as any,
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
+    borderTopRightRadius: borderRadius.borderTopRightRadius,
+    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
+    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
     border: "none"
   };
   /* handler */
@@ -168,15 +158,14 @@ const ComponentInput: NextPage = () => {
     setWidth(100);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPadding({ top: 6, right: 12, bottom: 6, left: 12 });
-    setBgColorHex(theme.color.white);
-    setBgColorAlpha(1);
+    padding.setPaddingTop(6);
+    padding.setPaddingRight(12);
+    padding.setPaddingBottom(6);
+    padding.setPaddingLeft(12);
+    bgColorRgba.setHex(theme.color.white);
+    bgColorRgba.setAlpha(1);
     setColor(theme.color.white);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setCheckAllBorderRadius(false);
+    borderRadius.setBorderRadius(5);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -187,15 +176,14 @@ const ComponentInput: NextPage = () => {
     setWidth(100);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPadding({ top: 6, right: 12, bottom: 6, left: 12 });
-    setBgColorHex(theme.color.gray_lv0);
-    setBgColorAlpha(1);
+    padding.setPaddingTop(6);
+    padding.setPaddingRight(12);
+    padding.setPaddingBottom(6);
+    padding.setPaddingLeft(12);
+    bgColorRgba.setHex(theme.color.gray_lv0);
+    bgColorRgba.setAlpha(1);
     setColor(theme.color.darkTextColor_lv0);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setCheckAllBorderRadius(false);
+    borderRadius.setBorderRadius(5);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -355,28 +343,10 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
-                <PaddingOption
-                  id="Input"
-                  span={1}
-                  {...padding}
-                  setPadding={setPadding}
-                />
+                <PaddingOption id="Input" span={1} {...padding} />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">
-                <BorderRadiusOption
-                  id="Input"
-                  span={1}
-                  borderTopLeftRadius={borderTopLeftRadius}
-                  setBorderTopLeftRadius={setBorderTopLeftRadius}
-                  borderTopRightRadius={borderTopRightRadius}
-                  setBorderTopRightRadius={setBorderTopRightRadius}
-                  borderBottomLeftRadius={borderBottomLeftRadius}
-                  setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                  borderBottomRightRadius={borderBottomRightRadius}
-                  setBorderBottomRightRadius={setBorderBottomRightRadius}
-                  checkAllBorderRadiusOption={checkAllBorderRadius}
-                  setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
-                />
+                <BorderRadiusOption id="Input" span={1} {...borderRadius} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
@@ -393,14 +363,7 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">
-                <RgbaOption
-                  id="Input"
-                  span={1}
-                  hex={bgColorHex}
-                  setHex={setBgColorHex}
-                  alpha={bgColorAlpha}
-                  setAlpha={setBgColorAlpha}
-                />
+                <RgbaOption id="Input" span={1} {...bgColorRgba} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">

@@ -1,9 +1,8 @@
 import type { FC } from "react";
 
-import type {
-  IGlobalPaddingOption,
-  IScrollOption
-} from "../../../interfaces/option";
+import type { IScrollOption } from "../../../interfaces/option";
+import type { IPadding } from "../../../model/padding";
+import type { ISetStatePadding } from "../../../hooks/usePadding";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
@@ -17,7 +16,7 @@ import { InjectUseStateObjectArray } from "../../injections/UseState";
 import { ScrollOption } from "../options/Scroll";
 import { GridOrdering } from "../../GridOrdering";
 
-interface Props extends IGridOption, IGlobalPaddingOption, IScrollOption {
+interface Props extends IGridOption, IPadding, ISetStatePadding, IScrollOption {
   layouts: IModalLayoutOption[];
   setLayouts: CoreSetState<IModalLayoutOption[]>;
 }
@@ -28,12 +27,17 @@ export const ModalBodyForm: FC<Props> = ({
   paddingRight,
   paddingBottom,
   paddingLeft,
-  setPadding,
+  setPaddingTop,
+  setPaddingRight,
+  setPaddingBottom,
+  setPaddingLeft,
   scrollThumbColor,
   setScrollThumbColor,
   layouts,
   setLayouts
 }) => {
+  const displayName = "ModalBody";
+
   const handleCreateLayout = () => {
     setLayouts([...layouts, defaultModalLayoutOption]);
   };
@@ -42,18 +46,21 @@ export const ModalBodyForm: FC<Props> = ({
     <>
       <Grid.FoldableTitle span={span} title="여백 설정">
         <PaddingOption
-          id="ModalBody"
+          id={displayName}
           span={span}
-          top={paddingTop}
-          right={paddingRight}
-          bottom={paddingBottom}
-          left={paddingLeft}
-          setPadding={setPadding}
+          paddingTop={paddingTop}
+          paddingRight={paddingRight}
+          paddingBottom={paddingBottom}
+          paddingLeft={paddingLeft}
+          setPaddingTop={setPaddingTop}
+          setPaddingRight={setPaddingRight}
+          setPaddingBottom={setPaddingBottom}
+          setPaddingLeft={setPaddingLeft}
         />
       </Grid.FoldableTitle>
       <Grid.FoldableTitle span={span} title="스크롤 설정" defaultFold={false}>
         <ScrollOption
-          id="ModalBody"
+          id={displayName}
           span={span}
           scrollThumbColor={scrollThumbColor}
           setScrollThumbColor={setScrollThumbColor}

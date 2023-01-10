@@ -1,7 +1,9 @@
 import type { FC } from "react";
+import { useState } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IBorderRadiusOption } from "../../../interfaces/option";
+import type { IBorderRadius } from "../../../model/borderRadius";
+import type { ISetStateBorderRadius } from "../../../hooks/useBorderRadius";
 import * as Grid from "../../partial/Grid";
 import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
@@ -10,29 +12,34 @@ import { Switch } from "../../Switch";
 import { WithLabel } from "../../WithLabel";
 import constants from "../../../constants";
 
-interface Props extends IGridOption, IBorderRadiusOption {
+interface Props extends IGridOption, IBorderRadius, ISetStateBorderRadius {
   id: string;
+  defaultCheckAll?: boolean;
 }
 
 export const BorderRadiusOption: FC<Props> = ({
-  id,
   span,
   borderTopLeftRadius,
-  setBorderTopLeftRadius,
   borderTopRightRadius,
-  setBorderTopRightRadius,
   borderBottomLeftRadius,
-  setBorderBottomLeftRadius,
   borderBottomRightRadius,
+  setBorderTopLeftRadius,
+  setBorderTopRightRadius,
+  setBorderBottomLeftRadius,
   setBorderBottomRightRadius,
-  checkAllBorderRadiusOption,
-  setCheckAllBorderRadiusOption
+  id,
+  defaultCheckAll = false
 }) => {
-  const setBorderRadius = (px: number) => {
-    setBorderTopLeftRadius(px);
-    setBorderTopRightRadius(px);
-    setBorderBottomLeftRadius(px);
-    setBorderBottomRightRadius(px);
+  const [checkAll, setCheckAll] = useState(defaultCheckAll);
+
+  const handleBorderTopLeftRadius = (count: number) => {
+    setBorderTopLeftRadius(count);
+
+    if (!checkAll) {
+      setBorderTopRightRadius(count);
+      setBorderBottomLeftRadius(count);
+      setBorderBottomRightRadius(count);
+    }
   };
 
   return (
@@ -40,30 +47,16 @@ export const BorderRadiusOption: FC<Props> = ({
       <Grid.Column span={span}>
         <RequireLabel
           htmlFor={
-            checkAllBorderRadiusOption
-              ? `setBorderTopLeftRadius${id}`
-              : `setBorderRadius${id}`
+            checkAll ? `setBorderTopLeftRadius${id}` : `setBorderRadius${id}`
           }
         >
-          {`모서리 각 ${checkAllBorderRadiusOption ? "Top-Left" : ""}`}
+          {checkAll ? "상단 왼쪽" : "전체"}
         </RequireLabel>
         <CountingInput
-          id={
-            checkAllBorderRadiusOption
-              ? `setBorderTopLeftRadius${id}`
-              : `setBorderRadius${id}`
-          }
-          ariaLabel={
-            checkAllBorderRadiusOption
-              ? "border-top-left-radius"
-              : "border-radius"
-          }
+          id={checkAll ? `setBorderTopLeftRadius${id}` : `setBorderRadius${id}`}
+          ariaLabel={checkAll ? "border-top-left-radius" : "border-radius"}
           count={borderTopLeftRadius}
-          setCount={
-            checkAllBorderRadiusOption
-              ? setBorderTopLeftRadius
-              : setBorderRadius
-          }
+          setCount={handleBorderTopLeftRadius}
           limit={100}
           showIcon={true}
           showFeedback={true}
@@ -71,22 +64,22 @@ export const BorderRadiusOption: FC<Props> = ({
           unit="px"
         />
         <WithLabel
-          id={`setDetailBorderRadius${id}`}
+          id={`checkAllBorderRadius${id}`}
           label={constants.label.showAllBorderRadius}
         >
           <Switch
-            id={`setDetailBorderRadius${id}`}
+            id={`checkAllBorderRadius${id}`}
             width={40}
-            checked={checkAllBorderRadiusOption}
-            setChecked={setCheckAllBorderRadiusOption}
+            checked={checkAll}
+            setChecked={setCheckAll}
           />
         </WithLabel>
       </Grid.Column>
-      {checkAllBorderRadiusOption && (
+      {checkAll && (
         <>
           <Grid.Column span={span}>
             <RequireLabel htmlFor={`setBorderTopRightRadius${id}`}>
-              모서리 각 Top-Right
+              상단 오른쪽
             </RequireLabel>
             <CountingInput
               id={`setBorderTopRightRadius${id}`}
@@ -101,11 +94,11 @@ export const BorderRadiusOption: FC<Props> = ({
             />
           </Grid.Column>
           <Grid.Column span={span}>
-            <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
-              모서리 각 Bottom-Left
+            <RequireLabel htmlFor={`setBorderBottomLeftRadius${id}`}>
+              하단 왼쪽
             </RequireLabel>
             <CountingInput
-              id={`setBorderBottompRightRadius${id}`}
+              id={`setBorderBottomLeftRadius${id}`}
               ariaLabel="border-bottom-left-radius"
               count={borderBottomLeftRadius}
               setCount={setBorderBottomLeftRadius}
@@ -118,7 +111,7 @@ export const BorderRadiusOption: FC<Props> = ({
           </Grid.Column>
           <Grid.Column span={span}>
             <RequireLabel htmlFor={`setBorderBottomRightRadius${id}`}>
-              모서리 각 Bottom-Right
+              하단 오른쪽
             </RequireLabel>
             <CountingInput
               id={`setBorderBottomRightRadius${id}`}

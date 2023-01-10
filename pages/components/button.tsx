@@ -35,6 +35,7 @@ import { fontWeightOptions } from "../../components/options/FontWeight";
 import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
 import { usePadding } from "../../hooks/usePadding";
+import { useBorderRadius } from "../../hooks/useBorderRadius";
 
 const ComponentButton: NextPage = () => {
   /* order - constans */
@@ -52,24 +53,13 @@ const ComponentButton: NextPage = () => {
   // 버튼명
   const [label, setLabel] = useState("버튼명");
   // 배경색
-  const [
-    bgColorHex,
-    setBgColorHex,
-    bgColorAlpha,
-    setBgColorAlpha,
-    backgroundColor
-  ] = useRgba(constants.color.whiteHex);
+  const bgColorRgba = useRgba(constants.color.whiteHex);
   // 텍스트 색
   const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
-  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(4);
-  const [borderTopRightRadius, setBorderTopRightRadius] = useState(4);
-  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(4);
-  const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(4);
-  // 모서리 각 모두 보기 여부
-  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
+  const borderRadius = useBorderRadius(4);
   // 여백
-  const [padding, setPadding] = usePadding(4);
+  const padding = usePadding(4);
   // 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -98,22 +88,22 @@ const ComponentButton: NextPage = () => {
   // preview style
   const buttonStyle: CSSProperties = {
     width,
-    backgroundColor,
+    backgroundColor: bgColorRgba.toString(),
     color,
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
+    borderTopRightRadius: borderRadius.borderTopRightRadius,
+    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
+    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
     borderColor,
     borderWidth,
     borderStyle: borderStyle.value,
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
-    paddingTop: padding.top,
-    paddingRight: padding.right,
-    paddingBottom: padding.bottom,
-    paddingLeft: padding.left,
+    paddingTop: padding.paddingTop,
+    paddingRight: padding.paddingRight,
+    paddingBottom: padding.paddingBottom,
+    paddingLeft: padding.paddingLeft,
     textAlign: textAlign.value as any,
     overflow: "hidden",
     fontWeight: fontWeight.value,
@@ -124,15 +114,11 @@ const ComponentButton: NextPage = () => {
     setWidth(80);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPadding({ top: 6, right: 6, bottom: 6, left: 6 });
-    setBgColorHex(theme.color.bootstrapBlue);
-    setBgColorAlpha(1);
+    padding.setPadding(6);
+    bgColorRgba.setHex(theme.color.bootstrapBlue);
+    bgColorRgba.setAlpha(1);
     setColor(theme.color.white);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setCheckAllBorderRadius(false);
+    borderRadius.setBorderRadius(5);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -145,15 +131,11 @@ const ComponentButton: NextPage = () => {
     setWidth(80);
     setLineHeight(25);
     setLetterSpacing(0);
-    setPadding({ top: 6, right: 6, bottom: 6, left: 6 });
-    setBgColorHex(theme.color.white);
-    setBgColorAlpha(1);
+    padding.setPadding(6);
+    bgColorRgba.setHex(theme.color.white);
+    bgColorRgba.setAlpha(1);
     setColor(theme.color.bootstrapBlue);
-    setBorderTopLeftRadius(5);
-    setBorderTopRightRadius(5);
-    setBorderBottomLeftRadius(5);
-    setBorderBottomRightRadius(5);
-    setCheckAllBorderRadius(false);
+    borderRadius.setBorderRadius(5);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -278,29 +260,11 @@ const ComponentButton: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
-                <PaddingOption
-                  id="Button"
-                  span={1}
-                  {...padding}
-                  setPadding={setPadding}
-                />
+                <PaddingOption id="Button" span={1} {...padding} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="모서리각 설정">
-                <BorderRadiusOption
-                  id="Button"
-                  span={1}
-                  borderTopLeftRadius={borderTopLeftRadius}
-                  setBorderTopLeftRadius={setBorderTopLeftRadius}
-                  borderTopRightRadius={borderTopRightRadius}
-                  setBorderTopRightRadius={setBorderTopRightRadius}
-                  borderBottomLeftRadius={borderBottomLeftRadius}
-                  setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                  borderBottomRightRadius={borderBottomRightRadius}
-                  setBorderBottomRightRadius={setBorderBottomRightRadius}
-                  checkAllBorderRadiusOption={checkAllBorderRadius}
-                  setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
-                />
+                <BorderRadiusOption id="Button" span={1} {...borderRadius} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
@@ -317,14 +281,7 @@ const ComponentButton: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">
-                <RgbaOption
-                  id="Button"
-                  span={1}
-                  hex={bgColorHex}
-                  setHex={setBgColorHex}
-                  alpha={bgColorAlpha}
-                  setAlpha={setBgColorAlpha}
-                />
+                <RgbaOption id="Button" span={1} {...bgColorRgba} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">

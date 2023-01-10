@@ -1,13 +1,12 @@
 import type { FC } from "react";
 
-import type { IGlobalPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { ISelectOption } from "../../../interfaces/select";
-import {
-  IModalButtonOption,
-  defaultModalButtonOption
-} from "../../../interfaces/modal";
+import type { IPadding } from "../../../model/padding";
+import type { ISetStatePadding } from "../../../hooks/usePadding";
+import type { IModalButtonOption } from "../../../interfaces/modal";
+import { defaultModalButtonOption } from "../../../interfaces/modal";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CustomSelect } from "../../CustomSelect";
@@ -19,7 +18,7 @@ import { ChangeOrderOption } from "../options/ChangeOrder";
 import { InjectUseStateObjectArray } from "../../injections/UseState";
 import { GridOrdering } from "../../GridOrdering";
 
-interface Props extends IGridOption, IGlobalPaddingOption {
+interface Props extends IGridOption, IPadding, ISetStatePadding {
   align: ISelectOption;
   setAlign: CoreSetState<ISelectOption>;
   buttons: IModalButtonOption[];
@@ -31,7 +30,10 @@ export const ModalFooterForm: FC<Props> = ({
   paddingRight,
   paddingBottom,
   paddingLeft,
-  setPadding,
+  setPaddingTop,
+  setPaddingRight,
+  setPaddingBottom,
+  setPaddingLeft,
   align,
   setAlign,
   buttons,
@@ -57,11 +59,14 @@ export const ModalFooterForm: FC<Props> = ({
         <PaddingOption
           id="ModalFooter"
           span={span}
-          top={paddingTop}
-          right={paddingRight}
-          bottom={paddingBottom}
-          left={paddingLeft}
-          setPadding={setPadding}
+          paddingTop={paddingTop}
+          paddingRight={paddingRight}
+          paddingBottom={paddingBottom}
+          paddingLeft={paddingLeft}
+          setPaddingTop={setPaddingTop}
+          setPaddingRight={setPaddingRight}
+          setPaddingBottom={setPaddingBottom}
+          setPaddingLeft={setPaddingLeft}
         />
       </Grid.FoldableTitle>
 

@@ -29,6 +29,7 @@ import { ModalFooterForm } from "../../components/templates/form/ModalFooter";
 import { generateTextOverflow } from "../../lib/calc/style";
 import { borderStyleOptions } from "../../components/options/BorderStyle";
 import { usePadding } from "../../hooks/usePadding";
+import { useBorderRadius } from "../../hooks/useBorderRadius";
 
 const Layer = styled.div`
   width: 100%;
@@ -93,21 +94,10 @@ const ComponentModal: NextPage = () => {
   /* order - state */
   // container - 너비
   const [width, setWidth] = useState(500);
-  // container - 모서리 각
-  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState(10);
-  const [borderTopRightRadius, setBorderTopRightRadius] = useState(10);
-  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState(10);
-  const [borderBottomRightRadius, setBorderBottomRightRadius] = useState(10);
   // container - 배경색
-  const [
-    bgColorHex,
-    setBgColorHex,
-    bgColorAlpha,
-    setBgColorAlpha,
-    backgroundColor
-  ] = useRgba(constants.color.whiteHex);
-  // container - 모서리 각 모두 보기 여부
-  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
+  const bgColorRgba = useRgba(constants.color.whiteHex);
+  // container - 모서리 각
+  const borderRadius = useBorderRadius(10);
   // container - 테두리
   const [borderStyle, setBorderStyle] = useState<ISelectOption>(
     borderStyleOptions[1]
@@ -130,9 +120,9 @@ const ComponentModal: NextPage = () => {
   const [headerTitleFontWeight, setHeaderTitleFontWeight] =
     useState<ISelectOption>(fontWeightOptions[3]);
   // header - 여백
-  const [headerPadding, setHeaderPadding] = usePadding(10);
+  const headerPadding = usePadding(10);
   // body - 여백
-  const [bodyPadding, setBodyPadding] = usePadding(10);
+  const bodyPadding = usePadding(10);
   // body - scroll color
   const [bodyScrollThumbColor, setBodyScrollThumbColor] = useState(
     constants.color.lightDividerHex
@@ -157,8 +147,8 @@ const ComponentModal: NextPage = () => {
   const [footerAlign, setFooterAlign] = useState<ISelectOption>(
     justifyContentOptions[2]
   );
-  const [footerPadding, setFooterPadding] = usePadding(10);
-  // footer - 여백 
+  const footerPadding = usePadding(10);
+  // footer - 여백
   // footer - 추가된 버튼 목록
   const [buttons, setButtons] = useState<IModalButtonOption[]>([
     { ...defaultModalButtonOption, label: "취소" },
@@ -168,20 +158,20 @@ const ComponentModal: NextPage = () => {
   // preview style
   const modalStyle: CSSProperties = {
     width,
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
+    borderTopRightRadius: borderRadius.borderTopRightRadius,
+    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
+    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
     border: `${borderWidth}px ${borderStyle.value} ${borderColor}`,
-    backgroundColor,
+    backgroundColor: bgColorRgba.toString(),
     overflow: "hidden"
   };
 
   const headerWrapperStyle: CSSProperties = {
-    paddingTop: headerPadding.top,
-    paddingRight: headerPadding.right,
-    paddingBottom: headerPadding.bottom,
-    paddingLeft: headerPadding.left,
+    paddingTop: headerPadding.paddingTop,
+    paddingRight: headerPadding.paddingRight,
+    paddingBottom: headerPadding.paddingBottom,
+    paddingLeft: headerPadding.paddingLeft,
     borderBottom: `${borderWidth}px ${borderStyle.value} ${borderColor}`
   };
 
@@ -200,17 +190,17 @@ const ComponentModal: NextPage = () => {
   };
 
   const bodyWrapperStyle: CSSProperties = {
-    paddingTop: bodyPadding.top,
-    paddingRight: bodyPadding.right,
-    paddingBottom: bodyPadding.bottom,
-    paddingLeft: bodyPadding.left
+    paddingTop: bodyPadding.paddingTop,
+    paddingRight: bodyPadding.paddingRight,
+    paddingBottom: bodyPadding.paddingBottom,
+    paddingLeft: bodyPadding.paddingLeft
   };
 
   const footerWrapperStyle: CSSProperties = {
-    paddingTop: footerPadding.top,
-    paddingRight: footerPadding.right,
-    paddingBottom: footerPadding.bottom,
-    paddingLeft: footerPadding.left,
+    paddingTop: footerPadding.paddingTop,
+    paddingRight: footerPadding.paddingRight,
+    paddingBottom: footerPadding.paddingBottom,
+    paddingLeft: footerPadding.paddingLeft,
     justifyContent: footerAlign.value,
     borderTop: `${borderWidth}px ${borderStyle.value} ${borderColor}`
   };
@@ -468,37 +458,24 @@ const ComponentModal: NextPage = () => {
                   setCheckAddHeader={setCheckAddHeader}
                   checkAddFooter={checkAddFooter}
                   setCheckAddFooter={setCheckAddFooter}
-                  borderTopLeftRadius={borderTopLeftRadius}
-                  setBorderTopLeftRadius={setBorderTopLeftRadius}
-                  borderTopRightRadius={borderTopRightRadius}
-                  setBorderTopRightRadius={setBorderTopRightRadius}
-                  borderBottomLeftRadius={borderBottomLeftRadius}
-                  setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                  borderBottomRightRadius={borderBottomRightRadius}
-                  setBorderBottomRightRadius={setBorderBottomRightRadius}
-                  checkAllBorderRadiusOption={checkAllBorderRadius}
-                  setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
+                  {...borderRadius}
                   borderStyle={borderStyle}
                   setBorderStyle={setBorderStyle}
                   borderWidth={borderWidth}
                   setBorderWidth={setBorderWidth}
                   borderColor={borderColor}
                   setBorderColor={setBorderColor}
-                  backgroundColorHex={bgColorHex}
-                  setBackgroundColorHex={setBgColorHex}
-                  backgroundColorAlpha={bgColorAlpha}
-                  setBackgroundColorAlpha={setBgColorAlpha}
+                  backgroundColorHex={bgColorRgba.hex}
+                  setBackgroundColorHex={bgColorRgba.setHex}
+                  backgroundColorAlpha={bgColorRgba.alpha}
+                  setBackgroundColorAlpha={bgColorRgba.setAlpha}
                 />
               )}
 
               {activeTab === ModalTabType.HEADER && (
                 <ModalHeaderForm
                   span={GRID_SPAN}
-                  paddingTop={headerPadding.top}
-                  paddingRight={headerPadding.right}
-                  paddingBottom={headerPadding.bottom}
-                  paddingLeft={headerPadding.left}
-                  setPadding={setHeaderPadding}
+                  {...headerPadding}
                   title={headerTitle}
                   setTitle={setHeaderTitle}
                   titleColor={headerTitleColor}
@@ -520,11 +497,7 @@ const ComponentModal: NextPage = () => {
               {activeTab === ModalTabType.BODY && (
                 <ModalBodyForm
                   span={GRID_SPAN}
-                  paddingTop={bodyPadding.top}
-                  paddingRight={bodyPadding.right}
-                  paddingBottom={bodyPadding.bottom}
-                  paddingLeft={bodyPadding.left}
-                  setPadding={setBodyPadding}
+                  {...bodyPadding}
                   layouts={layouts}
                   setLayouts={setLayouts}
                   scrollThumbColor={bodyScrollThumbColor}
@@ -536,11 +509,7 @@ const ComponentModal: NextPage = () => {
                   span={GRID_SPAN}
                   align={footerAlign}
                   setAlign={setFooterAlign}
-                  paddingTop={footerPadding.top}
-                  paddingRight={footerPadding.right}
-                  paddingBottom={footerPadding.bottom}
-                  paddingLeft={footerPadding.left}
-                  setPadding={setFooterPadding}
+                  {...footerPadding}
                   buttons={buttons}
                   setButtons={setButtons}
                 />

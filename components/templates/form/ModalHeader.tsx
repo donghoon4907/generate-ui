@@ -1,7 +1,8 @@
 import type { FC } from "react";
 
-import type { IGlobalPaddingOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
+import type { IPadding } from "../../../model/padding";
+import type { ISetStatePadding } from "../../../hooks/usePadding";
 import type { CoreSetState } from "../../../types/core";
 import type { ISelectOption } from "../../../interfaces/select";
 import * as Grid from "../../partial/Grid";
@@ -11,7 +12,7 @@ import { FontOption } from "../options/Font";
 import { PaddingOption } from "../options/Padding";
 import { IconOption } from "../options/Icon";
 
-interface Props extends IGridOption, IGlobalPaddingOption {
+interface Props extends IGridOption, IPadding, ISetStatePadding {
   title: string;
   setTitle: CoreSetState<string>;
   titleColor: string;
@@ -36,7 +37,10 @@ export const ModalHeaderForm: FC<Props> = ({
   paddingRight,
   paddingBottom,
   paddingLeft,
-  setPadding,
+  setPaddingTop,
+  setPaddingRight,
+  setPaddingBottom,
+  setPaddingLeft,
   title,
   setTitle,
   titleColor,
@@ -93,11 +97,14 @@ export const ModalHeaderForm: FC<Props> = ({
         <PaddingOption
           id="ModalHeader"
           span={span}
-          top={paddingTop}
-          right={paddingRight}
-          bottom={paddingBottom}
-          left={paddingLeft}
-          setPadding={setPadding}
+          paddingTop={paddingTop}
+          paddingRight={paddingRight}
+          paddingBottom={paddingBottom}
+          paddingLeft={paddingLeft}
+          setPaddingTop={setPaddingTop}
+          setPaddingRight={setPaddingRight}
+          setPaddingBottom={setPaddingBottom}
+          setPaddingLeft={setPaddingLeft}
         />
       </Grid.FoldableTitle>
 

@@ -1,14 +1,15 @@
 import type { FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IRgbaOption } from "../../../interfaces/option";
+import type { IRgba } from "../../../model/rgba";
+import type { ISetStateRgba } from "../../../hooks/useRgba";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
 import { ColorOption } from "./Color";
 
-interface Props extends IGridOption, IRgbaOption {
+interface Props extends IGridOption, IRgba, ISetStateRgba {
   id: string;
 }
 
@@ -16,8 +17,8 @@ export const RgbaOption: FC<Props> = ({
   id,
   span,
   hex,
-  setHex,
   alpha,
+  setHex,
   setAlpha
 }) => {
   return (

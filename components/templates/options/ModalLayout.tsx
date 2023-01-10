@@ -1,11 +1,10 @@
 import type { ChangeEvent, FC } from "react";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
 import type { ISelectOption } from "../../../interfaces/select";
 import type { CoreSetState } from "../../../types/core";
-import type { IPadding } from "../../../model/padding";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { DangerButton } from "../../Button";
@@ -21,7 +20,6 @@ import { BorderOption } from "./Border";
 import { RgbaOption } from "./Rgba";
 import { useTab } from "../../../hooks/useTab";
 import { LoadOption } from "./Load";
-import { isNumber } from "../../../lib/calc/number";
 
 interface Props extends IGridOption, IModalLayoutOption {
   order: number;
@@ -66,13 +64,13 @@ export const ModalLayoutOption: FC<Props> = ({
   updateItem,
   isExpand
 }) => {
-  /* order - constans */
+  const labelDisplayName = `ModalLabel${order}`;
+
+  const inputDisplayName = `ModalInput${order}`;
   // placeholder 글자 수 제한
   const PLACEHOLDER_LIMIT = 10;
 
   const [activeTab, setActiveTab] = useTab(ModalBodyLayoutTabType.LABEL);
-
-  const [checkAllBorderRadius, setCheckAllBorderRadius] = useState(false);
 
   const setLabelPos = (labelPos: ISelectOption) => {
     updateItem({ labelPos });
@@ -128,24 +126,20 @@ export const ModalLayoutOption: FC<Props> = ({
     updateItem({ inputTextAlign });
   };
 
-  const setInputPadding = (padding: Partial<IPadding>) => {
-    const { top, right, bottom, left } = padding;
+  const setInputPaddingTop = (inputPaddingTop: number) => {
+    updateItem({ inputPaddingTop });
+  };
 
-    if (isNumber(top)) {
-      updateItem({ inputPaddingTop: top as number });
-    }
+  const setInputPaddingRight = (inputPaddingRight: number) => {
+    updateItem({ inputPaddingRight });
+  };
 
-    if (isNumber(right)) {
-      updateItem({ inputPaddingRight: right as number });
-    }
+  const setInputPaddingBottom = (inputPaddingBottom: number) => {
+    updateItem({ inputPaddingBottom });
+  };
 
-    if (isNumber(bottom)) {
-      updateItem({ inputPaddingBottom: bottom as number });
-    }
-
-    if (isNumber(left)) {
-      updateItem({ inputPaddingLeft: left as number });
-    }
+  const setInputPaddingLeft = (inputPaddingLeft: number) => {
+    updateItem({ inputPaddingLeft });
   };
 
   const setInputBorderTopLeftRadius = (inputBorderTopLeftRadius: number) => {
@@ -278,7 +272,7 @@ export const ModalLayoutOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <FontOption
-                  id={`LayoutLabel${order}`}
+                  id={labelDisplayName}
                   span={span}
                   color={labelColor}
                   setColor={setLabelColor}
@@ -326,7 +320,7 @@ export const ModalLayoutOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <FontOption
-                  id={`LayoutInput${order}`}
+                  id={inputDisplayName}
                   span={span}
                   color={inputColor}
                   setColor={setInputColor}
@@ -346,13 +340,16 @@ export const ModalLayoutOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <PaddingOption
-                  id={`LayoutInput${order}`}
+                  id={inputDisplayName}
                   span={span}
-                  top={inputPaddingTop}
-                  right={inputPaddingRight}
-                  bottom={inputPaddingBottom}
-                  left={inputPaddingLeft}
-                  setPadding={setInputPadding}
+                  paddingTop={inputPaddingTop}
+                  paddingRight={inputPaddingRight}
+                  paddingBottom={inputPaddingBottom}
+                  paddingLeft={inputPaddingLeft}
+                  setPaddingTop={setInputPaddingTop}
+                  setPaddingRight={setInputPaddingRight}
+                  setPaddingBottom={setInputPaddingBottom}
+                  setPaddingLeft={setInputPaddingLeft}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -361,7 +358,7 @@ export const ModalLayoutOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <BorderRadiusOption
-                  id={`LayoutInput${order}`}
+                  id={inputDisplayName}
                   span={span}
                   borderTopLeftRadius={inputBorderTopLeftRadius}
                   setBorderTopLeftRadius={setInputBorderTopLeftRadius}
@@ -371,8 +368,6 @@ export const ModalLayoutOption: FC<Props> = ({
                   setBorderBottomLeftRadius={setInputBorderBottomLeftRadius}
                   borderBottomRightRadius={inputBorderBottomRightRadius}
                   setBorderBottomRightRadius={setInputBorderBottomRightRadius}
-                  checkAllBorderRadiusOption={checkAllBorderRadius}
-                  setCheckAllBorderRadiusOption={setCheckAllBorderRadius}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -381,7 +376,7 @@ export const ModalLayoutOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <BorderOption
-                  id={`LayoutInput${order}`}
+                  id={inputDisplayName}
                   span={span}
                   borderStyle={inputBorderStyle}
                   setBorderStyle={setInputBorderStyle}
@@ -397,7 +392,7 @@ export const ModalLayoutOption: FC<Props> = ({
                 defaultFold={false}
               >
                 <RgbaOption
-                  id={`LayoutInput${order}`}
+                  id={inputDisplayName}
                   span={span}
                   hex={inputBgColorHex}
                   setHex={setInputBgColorHex}
