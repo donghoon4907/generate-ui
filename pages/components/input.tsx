@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import type { ChangeEvent, CSSProperties } from "react";
+import Head from "next/head";
 import { useState } from "react";
 
 import type { ISelectOption } from "../../interfaces/select";
@@ -41,6 +41,7 @@ import {
   BootstrapDarkInputButton,
   BootstrapLightInputButton
 } from "../../components/Button";
+import { useFont } from "../../hooks/useFont";
 
 const ComponentInput: NextPage = () => {
   /* order - constans */
@@ -55,18 +56,12 @@ const ComponentInput: NextPage = () => {
   );
   // 너비
   const [width, setWidth] = useState(200);
-  // 텍스트 높이
-  const [lineHeight, setLineHeight] = useState(25);
-  // 자간
-  const [letterSpacing, setLetterSpacing] = useState(0);
   // 지시자
   const [placeholder, setPlaceholder] = useState(
     constants.label.defaultPlaceholder
   );
   // 배경색
   const bgColorRgba = useRgba(constants.color.whiteHex);
-  // 텍스트 색
-  const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
   const borderRadius = useBorderRadius(4);
   // 여백
@@ -77,18 +72,20 @@ const ComponentInput: NextPage = () => {
     color: constants.color.blackHex,
     width: 1
   });
+  // 텍스트 설정
+  const font = useFont({
+    color: constants.color.blackHex,
+    fontSize: 16,
+    lineHeight: 25,
+    letterSpacing: 0,
+    textAlign: textAlignOptions[0]
+  });
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-  // 텍스트 크기
-  const [fontSize, setFontSize] = useState(16);
   // 아이콘 추가 여부
   const [checkIcon, setCheckIcon] = useState(false);
-  // 텍스트 정렬
-  const [textAlign, setTextAlign] = useState<ISelectOption>(
-    textAlignOptions[0]
-  );
   // 아이콘 사이즈
   const [iconSize, setIconSize] = useState(16);
   // 아이콘 정렬
@@ -133,15 +130,15 @@ const ComponentInput: NextPage = () => {
   const inputStyle: CSSProperties = {
     width: "100%",
     backgroundColor: bgColorRgba.toString(),
-    color,
-    fontSize,
-    lineHeight: `${lineHeight}px`,
-    letterSpacing,
+    color: font.color,
+    fontSize: font.fontSize,
+    lineHeight: `${font.lineHeight}px`,
+    letterSpacing: font.letterSpacing,
     paddingTop: padding.top,
     paddingRight: padding.right,
     paddingBottom: padding.bottom,
     paddingLeft: padding.left,
-    textAlign: textAlign.value as any,
+    textAlign: font.textAlign?.value as any,
     borderTopLeftRadius: borderRadius.topLeft,
     borderTopRightRadius: borderRadius.topRight,
     borderBottomLeftRadius: borderRadius.bottomLeft,
@@ -157,15 +154,16 @@ const ComponentInput: NextPage = () => {
 
   const handleClickPresetBootstrapLightButton = () => {
     setWidth(100);
-    setLineHeight(25);
-    setLetterSpacing(0);
+    font.setColor(theme.color.white);
+    font.setFontSize(16);
+    font.setLineHeight(25);
+    font.setLetterSpacing(0);
     padding.setTop(6);
     padding.setRight(12);
     padding.setBottom(6);
     padding.setLeft(12);
     bgColorRgba.setHex(theme.color.white);
     bgColorRgba.setAlpha(1);
-    setColor(theme.color.white);
     borderRadius.setTopLeft(5);
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
@@ -173,20 +171,20 @@ const ComponentInput: NextPage = () => {
     border.setStyle(borderStyleOptions[1]);
     border.setColor(theme.color.lightDividerColor);
     border.setWidth(1);
-    setFontSize(16);
   };
 
   const handleClickPresetBootstrapDarkButton = () => {
     setWidth(100);
-    setLineHeight(25);
-    setLetterSpacing(0);
+    font.setColor(theme.color.darkTextColor_lv0);
+    font.setFontSize(16);
+    font.setLineHeight(25);
+    font.setLetterSpacing(0);
     padding.setTop(6);
     padding.setRight(12);
     padding.setBottom(6);
     padding.setLeft(12);
     bgColorRgba.setHex(theme.color.gray_lv0);
     bgColorRgba.setAlpha(1);
-    setColor(theme.color.darkTextColor_lv0);
     borderRadius.setTopLeft(5);
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
@@ -194,7 +192,6 @@ const ComponentInput: NextPage = () => {
     border.setColor(theme.color.darkDividerColor);
     border.setWidth(1);
     border.setStyle(borderStyleOptions[1]);
-    setFontSize(16);
   };
 
   const handleExport = () => {
@@ -333,20 +330,7 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                <FontOption
-                  id="Input"
-                  span={1}
-                  color={color}
-                  setColor={setColor}
-                  fontSize={fontSize}
-                  setFontSize={setFontSize}
-                  lineHeight={lineHeight}
-                  setLineHeight={setLineHeight}
-                  letterSpacing={letterSpacing}
-                  setLetterSpacing={setLetterSpacing}
-                  textAlign={textAlign}
-                  setTextAlign={setTextAlign}
-                />
+                <FontOption id="Input" span={1} {...font} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">

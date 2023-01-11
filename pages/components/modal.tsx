@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import type { CSSProperties } from "react";
+import Head from "next/head";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
@@ -33,6 +33,8 @@ import { borderStyleOptions } from "../../components/options/BorderStyle";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
 import { useBorder } from "../../hooks/useBorder";
+import { useFont } from "../../hooks/useFont";
+import { useTab } from "../../hooks/useTab";
 
 const Layer = styled.div`
   width: 100%;
@@ -110,18 +112,13 @@ const ComponentModal: NextPage = () => {
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
-  const [headerTitleColor, setHeaderTitleColor] = useState(
-    constants.color.blackHex
-  );
-  // header - 텍스트 크기
-  const [headerTitleFontSize, setHeaderTitleFontSize] = useState(16);
-  // header - 텍스트 높이
-  const [headerTitleLineHeight, setHeaderTitleLineHeight] = useState(25);
-  // header - 자간
-  const [headerTitleLetterSpacing, setHeaderTitleLetterSpacing] = useState(0);
-  // header - 굵기
-  const [headerTitleFontWeight, setHeaderTitleFontWeight] =
-    useState<ISelectOption>(fontWeightOptions[3]);
+  const headerTitleFont = useFont({
+    color: constants.color.blackHex,
+    fontSize: 16,
+    lineHeight: 25,
+    letterSpacing: 0,
+    fontWeight: fontWeightOptions[3]
+  });
   // header - 여백
   const headerPadding = usePadding(10);
   // body - 여백
@@ -137,7 +134,7 @@ const ComponentModal: NextPage = () => {
     constants.color.blackHex
   );
   // 탭 활성화 관리
-  const [activeTab, setActiveTab] = useState<ModalTabType>(ModalTabType.MODAL);
+  const [activeTab, setActiveTab] = useTab(ModalTabType.MODAL);
   // container - 헤더 설정 활성화 여부
   const [checkAddHeader, setCheckAddHeader] = useState(true);
   // container - 푸터 설정 활성화 여부
@@ -181,11 +178,11 @@ const ComponentModal: NextPage = () => {
   };
 
   const headerTitleStyle: CSSProperties = {
-    color: headerTitleColor,
-    fontSize: headerTitleFontSize,
-    lineHeight: `${headerTitleLineHeight}px`,
-    letterSpacing: headerTitleLetterSpacing,
-    fontWeight: headerTitleFontWeight.value
+    color: headerTitleFont.color,
+    fontSize: headerTitleFont.fontSize,
+    lineHeight: `${headerTitleFont.lineHeight}px`,
+    letterSpacing: headerTitleFont.letterSpacing,
+    fontWeight: headerTitleFont.fontWeight?.value
   };
 
   const closeIconStyle: CSSProperties = {
@@ -211,10 +208,6 @@ const ComponentModal: NextPage = () => {
   };
   /* handler */
   const handleExport = () => {};
-
-  const handleClickTab = (activeTab: ModalTabType) => {
-    setActiveTab(activeTab);
-  };
 
   return (
     <>
@@ -426,14 +419,14 @@ const ComponentModal: NextPage = () => {
               <Grid.ResponsiveRow span={GRID_SPAN}>
                 <Grid.Tab
                   active={activeTab === ModalTabType.MODAL}
-                  onClick={() => handleClickTab(ModalTabType.MODAL)}
+                  onClick={() => setActiveTab(ModalTabType.MODAL)}
                 >
                   Container
                 </Grid.Tab>
                 {checkAddHeader && (
                   <Grid.Tab
                     active={activeTab === ModalTabType.HEADER}
-                    onClick={() => handleClickTab(ModalTabType.HEADER)}
+                    onClick={() => setActiveTab(ModalTabType.HEADER)}
                   >
                     Header
                   </Grid.Tab>
@@ -441,14 +434,14 @@ const ComponentModal: NextPage = () => {
 
                 <Grid.Tab
                   active={activeTab === ModalTabType.BODY}
-                  onClick={() => handleClickTab(ModalTabType.BODY)}
+                  onClick={() => setActiveTab(ModalTabType.BODY)}
                 >
                   Body
                 </Grid.Tab>
                 {checkAddFooter && (
                   <Grid.Tab
                     active={activeTab === ModalTabType.FOOTER}
-                    onClick={() => handleClickTab(ModalTabType.FOOTER)}
+                    onClick={() => setActiveTab(ModalTabType.FOOTER)}
                   >
                     Footer
                   </Grid.Tab>
@@ -492,11 +485,11 @@ const ComponentModal: NextPage = () => {
                   paddingBottom={headerPadding.bottom}
                   paddingLeft={headerPadding.left}
                   title={headerTitle}
-                  titleColor={headerTitleColor}
-                  titleFontSize={headerTitleFontSize}
-                  titleLineHeight={headerTitleLineHeight}
-                  titleLetterSpacing={headerTitleLetterSpacing}
-                  titleFontWeight={headerTitleFontWeight}
+                  titleColor={headerTitleFont.color!}
+                  titleFontSize={headerTitleFont.fontSize!}
+                  titleLineHeight={headerTitleFont.lineHeight!}
+                  titleLetterSpacing={headerTitleFont.letterSpacing!}
+                  titleFontWeight={headerTitleFont.fontWeight!}
                   closeIconSize={closeIconSize}
                   closeIconColor={closeIconColor}
                   setPaddingTop={headerPadding.setTop}
@@ -504,11 +497,11 @@ const ComponentModal: NextPage = () => {
                   setPaddingBottom={headerPadding.setBottom}
                   setPaddingLeft={headerPadding.setLeft}
                   setTitle={setHeaderTitle}
-                  setTitleColor={setHeaderTitleColor}
-                  setTitleFontSize={setHeaderTitleFontSize}
-                  setTitleLineHeight={setHeaderTitleLineHeight}
-                  setTitleLetterSpacing={setHeaderTitleLetterSpacing}
-                  setTitleFontWeight={setHeaderTitleFontWeight}
+                  setTitleColor={headerTitleFont.setColor}
+                  setTitleFontSize={headerTitleFont.setFontSize}
+                  setTitleLineHeight={headerTitleFont.setLineHeight}
+                  setTitleLetterSpacing={headerTitleFont.setLetterSpacing}
+                  setTitleFontWeight={headerTitleFont.setFontWeight}
                   setCloseIconSize={setCloseIconSize}
                   setCloseIconColor={setCloseIconColor}
                 />

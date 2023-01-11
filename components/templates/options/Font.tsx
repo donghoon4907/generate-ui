@@ -1,8 +1,8 @@
 import type { FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { ISelectOption } from "../../../interfaces/select";
-import type { CoreSetState } from "../../../types/core";
+import type { ISetFont } from "../../../hooks/useFont";
+import type { IFont } from "../../../model/font";
 import * as Grid from "../../partial/Grid";
 import { isNumber } from "../../../lib/calc/number";
 import { RequireLabel } from "../../RequireLabel";
@@ -14,55 +14,41 @@ import { textOverflowOptions } from "../../options/TextOverflow";
 import { ColorOption } from "./Color";
 import { fontWeightOptions } from "../../options/FontWeight";
 
-interface Props extends IGridOption {
+interface Props extends IGridOption, Partial<IFont>, Partial<ISetFont> {
   id: string;
-  color?: string;
-  setColor?: CoreSetState<string>;
-  fontSize?: number;
-  setFontSize?: CoreSetState<number>;
-  lineHeight?: number;
-  setLineHeight?: CoreSetState<number>;
-  letterSpacing?: number;
-  setLetterSpacing?: CoreSetState<number>;
-  textAlign?: ISelectOption;
-  setTextAlign?: CoreSetState<ISelectOption>;
-  textOverflow?: ISelectOption;
-  setTextOverflow?: CoreSetState<ISelectOption>;
-  fontWeight?: ISelectOption;
-  setFontWeight?: CoreSetState<ISelectOption>;
 }
 
 export const FontOption: FC<Props> = ({
-  id,
   span,
   color,
-  setColor,
   fontSize,
-  setFontSize,
   lineHeight,
-  setLineHeight,
   letterSpacing,
-  setLetterSpacing,
   textAlign,
-  setTextAlign,
   textOverflow,
-  setTextOverflow,
   fontWeight,
-  setFontWeight
+  setColor,
+  setFontSize,
+  setLineHeight,
+  setLetterSpacing,
+  setTextAlign,
+  setTextOverflow,
+  setFontWeight,
+  id
 }) => {
-  const isShowColor = color && setColor;
+  const isShowColor = !!color && !!setColor;
 
-  const isShowFontSize = isNumber(fontSize) && setFontSize;
+  const isShowFontSize = isNumber(fontSize) && !!setFontSize;
 
-  const isShowLineHeight = isNumber(lineHeight) && setLineHeight;
+  const isShowLineHeight = isNumber(lineHeight) && !!setLineHeight;
 
-  const isShowLetterSpacing = isNumber(letterSpacing) && setLetterSpacing;
+  const isShowLetterSpacing = isNumber(letterSpacing) && !!setLetterSpacing;
 
-  const isShowTextAlign = textAlign && setTextAlign;
+  const isShowTextAlign = !!textAlign && !!setTextAlign;
 
-  const isShowTextOverflow = textOverflow && setTextOverflow;
+  const isShowTextOverflow = !!textOverflow && !!setTextOverflow;
 
-  const isShowFontWeight = fontWeight && setFontWeight;
+  const isShowFontWeight = !!fontWeight && !!setFontWeight;
 
   return (
     <>

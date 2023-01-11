@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import type { CSSProperties } from "react";
+import Head from "next/head";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -22,7 +22,6 @@ import { copyToClipboard } from "../../lib/copy/clipboard";
 import { ConvertSelect } from "../../lib/style/select";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
 import { LangOption } from "../../types/select-option";
-import { useTextOverflow } from "../../hooks/useTextOverflow";
 import { SelectTabType } from "../../types/tab";
 import { CountingInput } from "../../components/CountingInput";
 import { BorderOption } from "../../components/templates/options/Border";
@@ -36,6 +35,8 @@ import constants from "../../constants";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
 import { useBorder } from "../../hooks/useBorder";
+import { useFont } from "../../hooks/useFont";
+import { useTab } from "../../hooks/useTab";
 
 const OptionItem = styled.li`
   &:hover {
@@ -52,22 +53,10 @@ const ComponentSelect: NextPage = () => {
   /* order - state */
   // 너비
   const [width, setWidth] = useState(200);
-  // select - 텍스트 높이
-  const [selectLineHeight, setSelectLineHeight] = useState(25);
-  // option - 텍스트 높이
-  const [optionLineHeight, setOptionLineHeight] = useState(25);
-  // select - 자간
-  const [selectLetterSpacing, setSelectLetterSpacing] = useState(0);
-  // option - 자간
-  const [optionLetterSpacing, setOptionLetterSpacing] = useState(0);
   // select - 제목
   const [label, setLabel] = useState("입력하세요");
   // common - 배경색
   const bgColorRgba = useRgba(constants.color.whiteHex);
-  // select - 텍스트 색
-  const [selectColor, setSelectColor] = useState(constants.color.blackHex);
-  // option - 텍스트 색
-  const [optionColor, setOptionColor] = useState(constants.color.blackHex);
   // select - 모서리 각
   const selectBorderRadius = useBorderRadius(4);
   // select - 여백
@@ -80,38 +69,36 @@ const ComponentSelect: NextPage = () => {
     color: constants.color.blackHex,
     width: 1
   });
+  // select - 텍스트 설정
+  const selectFont = useFont({
+    color: constants.color.blackHex,
+    fontSize: 16,
+    lineHeight: 25,
+    letterSpacing: 0,
+    textAlign: textAlignOptions[0],
+    textOverflow: textOverflowOptions[0]
+  });
+  // option - 텍스트 설정
+  const optionFont = useFont({
+    color: constants.color.blackHex,
+    fontSize: 16,
+    lineHeight: 25,
+    letterSpacing: 0,
+    textAlign: textAlignOptions[0],
+    textOverflow: textOverflowOptions[0]
+  });
   // common - 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // common - html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-  // select - 텍스트 크기
-  const [selectFontSize, setSelectFontSize] = useState(16);
-  // option - 텍스트 크기
-  const [optionFontSize, setOptionFontSize] = useState(16);
-  // select - 텍스트 정렬 기본값: 가운데 정렬
-  const [selectTextAlign, setSelectTextAlign] = useState<ISelectOption>(
-    textAlignOptions[0]
-  );
-  // option - 텍스트 정렬 기본값: 가운데 정렬
-  const [optionTextAlign, setOptionTextAlign] = useState<ISelectOption>(
-    textAlignOptions[0]
-  );
-  // select - 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const [selectTextOverflow, setSelectTextOverflow, selectTextOverflowOutput] =
-    useTextOverflow(textOverflowOptions[0]);
-  // option - 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const [optionTextOverflow, setOptionTextOverflow, optionTextOverflowOutput] =
-    useTextOverflow(textOverflowOptions[0]);
   // 탭 활성화 관리
-  const [activeTab, setActiveTab] = useState<SelectTabType>(
-    SelectTabType.COMMON
-  );
+  const [activeTab, setActiveTab] = useTab(SelectTabType.COMMON);
   /* order - variable */
   // select min height
   const minHeight =
     selectPadding.top +
     selectPadding.bottom +
-    selectLineHeight +
+    selectFont.lineHeight! +
     border.width * 2;
   // preview style
   const selectWrapperStyle: CSSProperties = {
@@ -136,25 +123,25 @@ const ComponentSelect: NextPage = () => {
   const selectLabelStyle: CSSProperties = {
     width: "100%",
     display: "block",
-    color: selectColor,
-    fontSize: selectFontSize,
-    lineHeight: `${selectLineHeight}px`,
-    letterSpacing: selectLetterSpacing,
-    textAlign: selectTextAlign.value as any,
+    color: selectFont.color,
+    fontSize: selectFont.fontSize,
+    lineHeight: `${selectFont.lineHeight}px`,
+    letterSpacing: selectFont.letterSpacing,
+    textAlign: selectFont.textAlign?.value as any,
     paddingTop: selectPadding.top,
     paddingRight: selectPadding.right,
     paddingBottom: selectPadding.bottom,
     paddingLeft: selectPadding.left,
     overflow: "hidden",
-    ...selectTextOverflowOutput
+    ...selectFont.getTextOverflowStyle()
   };
   const optionWrapperStyle: CSSProperties = {
     width: "100%",
-    color: optionColor,
-    fontSize: optionFontSize,
-    lineHeight: `${optionLineHeight}px`,
-    letterSpacing: optionLetterSpacing,
-    textAlign: optionTextAlign.value as any,
+    color: optionFont.color,
+    fontSize: optionFont.fontSize,
+    lineHeight: `${optionFont.lineHeight}px`,
+    letterSpacing: optionFont.letterSpacing,
+    textAlign: optionFont.textAlign?.value as any,
     backgroundColor: bgColorRgba.toString(),
     borderStyle: border.style.value,
     borderColor: border.color,
@@ -167,7 +154,7 @@ const ComponentSelect: NextPage = () => {
     paddingBottom: optionPadding.bottom,
     paddingLeft: optionPadding.left,
     overflow: "hidden",
-    ...optionTextOverflowOutput
+    ...optionFont.getTextOverflowStyle()
   };
   /* handler */
   const handleExport = () => {
@@ -192,10 +179,6 @@ const ComponentSelect: NextPage = () => {
     }
 
     copyToClipboard(exportToSelect.getHtml);
-  };
-
-  const handleClickTab = (activeTab: SelectTabType) => {
-    setActiveTab(activeTab);
   };
 
   return (
@@ -229,19 +212,19 @@ const ComponentSelect: NextPage = () => {
               <Grid.ResponsiveRow span={GRID_SPAN}>
                 <Grid.Tab
                   active={activeTab === SelectTabType.COMMON}
-                  onClick={() => handleClickTab(SelectTabType.COMMON)}
+                  onClick={() => setActiveTab(SelectTabType.COMMON)}
                 >
                   공통
                 </Grid.Tab>
                 <Grid.Tab
                   active={activeTab === SelectTabType.SELECT}
-                  onClick={() => handleClickTab(SelectTabType.SELECT)}
+                  onClick={() => setActiveTab(SelectTabType.SELECT)}
                 >
                   Select
                 </Grid.Tab>
                 <Grid.Tab
                   active={activeTab === SelectTabType.OPTION}
-                  onClick={() => handleClickTab(SelectTabType.OPTION)}
+                  onClick={() => setActiveTab(SelectTabType.OPTION)}
                 >
                   Option
                 </Grid.Tab>
@@ -300,22 +283,7 @@ const ComponentSelect: NextPage = () => {
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                    <FontOption
-                      id="Select"
-                      span={1}
-                      color={selectColor}
-                      fontSize={selectFontSize}
-                      lineHeight={selectLineHeight}
-                      letterSpacing={selectLetterSpacing}
-                      textAlign={selectTextAlign}
-                      textOverflow={selectTextOverflow}
-                      setColor={setSelectColor}
-                      setFontSize={setSelectFontSize}
-                      setLineHeight={setSelectLineHeight}
-                      setLetterSpacing={setSelectLetterSpacing}
-                      setTextAlign={setSelectTextAlign}
-                      setTextOverflow={setSelectTextOverflow}
-                    />
+                    <FontOption id="Select" span={1} {...selectFont} />
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">
@@ -334,22 +302,7 @@ const ComponentSelect: NextPage = () => {
               {activeTab === SelectTabType.OPTION && (
                 <>
                   <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                    <FontOption
-                      id="Option"
-                      span={1}
-                      color={optionColor}
-                      fontSize={optionFontSize}
-                      lineHeight={optionLineHeight}
-                      letterSpacing={optionLetterSpacing}
-                      textAlign={optionTextAlign}
-                      textOverflow={optionTextOverflow}
-                      setColor={setOptionColor}
-                      setFontSize={setOptionFontSize}
-                      setLineHeight={setOptionLineHeight}
-                      setLetterSpacing={setOptionLetterSpacing}
-                      setTextAlign={setOptionTextAlign}
-                      setTextOverflow={setOptionTextOverflow}
-                    />
+                    <FontOption id="Option" span={1} {...optionFont} />
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">

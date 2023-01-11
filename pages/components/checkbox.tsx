@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import type { CSSProperties } from "react";
+import Head from "next/head";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -20,6 +20,7 @@ import { copyToClipboard } from "../../lib/copy/clipboard";
 import { useTheme } from "../../hooks/useTheme";
 import { FontOption } from "../../components/templates/options/Font";
 import { PreferenceOption } from "../../components/templates/options/Preference";
+import { useFont } from "../../hooks/useFont";
 
 const PreviewCheckbox = styled.input<{
   label: string;
@@ -57,10 +58,11 @@ const ComponentCheckbox: NextPage = () => {
   const [label, setLabel] = useState("Checkbox");
   // 크기
   const [scale, setScale] = useState(1.2);
-  // 텍스트 색
-  const [color, setColor] = useState(theme.textColor_lv0);
-  // 텍스트 크기
-  const [fontSize, setFontSize] = useState(16);
+  // 텍스트 설정
+  const font = useFont({
+    color: theme.textColor_lv0,
+    fontSize: 16
+  });
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
@@ -73,8 +75,8 @@ const ComponentCheckbox: NextPage = () => {
   };
 
   const labelStyle: CSSProperties = {
-    color,
-    fontSize
+    color: font.color,
+    fontSize: font.fontSize
   };
   /* handler */
   const handleExport = () => {
@@ -108,8 +110,8 @@ const ComponentCheckbox: NextPage = () => {
             <PreviewCheckbox
               type="checkbox"
               label={label.substring(0, LABEL_LIMIT - 1)}
-              color={color}
-              fontSize={fontSize}
+              color={font.color!}
+              fontSize={font.fontSize!}
               scale={scale}
             />
           </Preview>
@@ -149,14 +151,7 @@ const ComponentCheckbox: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                <FontOption
-                  span={1}
-                  id="Checkbox"
-                  color={color}
-                  fontSize={fontSize}
-                  setColor={setColor}
-                  setFontSize={setFontSize}
-                />
+                <FontOption span={1} id="Checkbox" {...font} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="환경 설정">

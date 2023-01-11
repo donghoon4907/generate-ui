@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import type { CSSProperties } from "react";
+import Head from "next/head";
 import { useState } from "react";
 
 import * as Component from "../../components/partial/Component";
@@ -20,7 +20,6 @@ import { ConvertButton } from "../../lib/style/button";
 import { copyToClipboard } from "../../lib/copy/clipboard";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
 import { LangOption } from "../../types/select-option";
-import { useTextOverflow } from "../../hooks/useTextOverflow";
 import { FontOption } from "../../components/templates/options/Font";
 import { PaddingOption } from "../../components/templates/options/Padding";
 import { BorderRadiusOption } from "../../components/templates/options/BorderRadius";
@@ -37,6 +36,7 @@ import {
   BootstrapOutlineButton,
   BootstrapPrimaryButton
 } from "../../components/Button";
+import { useFont } from "../../hooks/useFont";
 
 const ComponentButton: NextPage = () => {
   /* order - constans */
@@ -47,16 +47,10 @@ const ComponentButton: NextPage = () => {
   /* order - state */
   // 너비
   const [width, setWidth] = useState(100);
-  // 텍스트 높이
-  const [lineHeight, setLineHeight] = useState(25);
-  // 자간
-  const [letterSpacing, setLetterSpacing] = useState(0);
   // 버튼명
   const [label, setLabel] = useState("버튼명");
   // 배경색
   const bgColorRgba = useRgba(constants.color.whiteHex);
-  // 텍스트 색
-  const [color, setColor] = useState(constants.color.blackHex);
   // 모서리 각
   const borderRadius = useBorderRadius(4);
   // 여백
@@ -67,30 +61,26 @@ const ComponentButton: NextPage = () => {
     color: constants.color.blackHex,
     width: 1
   });
+  // 텍스트 설정
+  const font = useFont({
+    color: constants.color.blackHex,
+    fontSize: 16,
+    lineHeight: 25,
+    letterSpacing: 0,
+    textAlign: textAlignOptions[1],
+    textOverflow: textOverflowOptions[0],
+    fontWeight: fontWeightOptions[3]
+  });
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
   const [html, setHtml] = useState(false);
-  // 텍스트 크기
-  const [fontSize, setFontSize] = useState(16);
-  // 텍스트 정렬 기본값: 가운데 정렬
-  const [textAlign, setTextAlign] = useState<ISelectOption>(
-    textAlignOptions[1]
-  );
-  // 텍스트 줄바꿈 기본값: 줄바꿈 허용
-  const [textOverflow, setTextOverflow, textOverflowOutput] = useTextOverflow(
-    textOverflowOptions[0]
-  );
-  // 굵기
-  const [fontWeight, setFontWeight] = useState<ISelectOption>(
-    fontWeightOptions[3]
-  );
+
   /* order - variable */
   // preview style
   const buttonStyle: CSSProperties = {
     width,
     backgroundColor: bgColorRgba.toString(),
-    color,
     borderTopLeftRadius: borderRadius.topLeft,
     borderTopRightRadius: borderRadius.topRight,
     borderBottomLeftRadius: borderRadius.bottomLeft,
@@ -98,30 +88,34 @@ const ComponentButton: NextPage = () => {
     borderColor: border.color,
     borderWidth: border.width,
     borderStyle: border.style.value,
-    fontSize,
-    lineHeight: `${lineHeight}px`,
-    letterSpacing,
+    color: font.color,
+    fontSize: font.fontSize,
+    lineHeight: `${font.lineHeight}px`,
+    letterSpacing: font.letterSpacing,
     paddingTop: padding.top,
     paddingRight: padding.right,
     paddingBottom: padding.bottom,
     paddingLeft: padding.left,
-    textAlign: textAlign.value as any,
+    textAlign: font.textAlign?.value as any,
     overflow: "hidden",
-    fontWeight: fontWeight.value,
-    ...textOverflowOutput
+    fontWeight: font.fontWeight?.value,
+    ...font.getTextOverflowStyle()
   };
   /* handler */
   const handleClickPresetBootstrapButton = () => {
     setWidth(80);
-    setLineHeight(25);
-    setLetterSpacing(0);
+    font.setColor(theme.color.white);
+    font.setFontSize(16);
+    font.setLineHeight(25);
+    font.setLetterSpacing(0);
+    font.setTextAlign(textAlignOptions[1]);
+    font.setFontWeight(fontWeightOptions[3]);
     padding.setTop(6);
     padding.setRight(6);
     padding.setBottom(6);
     padding.setLeft(6);
     bgColorRgba.setHex(theme.color.bootstrapBlue);
     bgColorRgba.setAlpha(1);
-    setColor(theme.color.white);
     borderRadius.setTopLeft(5);
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
@@ -129,22 +123,23 @@ const ComponentButton: NextPage = () => {
     border.setStyle(borderStyleOptions[1]);
     border.setColor(theme.color.bootstrapBlue);
     border.setWidth(1);
-    setFontSize(16);
     setLabel("Primary");
-    setFontWeight(fontWeightOptions[3]);
   };
 
   const handleClickPresetBootstrapOutlineButton = () => {
     setWidth(80);
-    setLineHeight(25);
-    setLetterSpacing(0);
+    font.setColor(theme.color.bootstrapBlue);
+    font.setFontSize(16);
+    font.setLineHeight(25);
+    font.setLetterSpacing(0);
+    font.setTextAlign(textAlignOptions[1]);
+    font.setFontWeight(fontWeightOptions[3]);
     padding.setTop(6);
     padding.setRight(6);
     padding.setBottom(6);
     padding.setLeft(6);
     bgColorRgba.setHex(theme.color.white);
     bgColorRgba.setAlpha(1);
-    setColor(theme.color.bootstrapBlue);
     borderRadius.setTopLeft(5);
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
@@ -152,9 +147,7 @@ const ComponentButton: NextPage = () => {
     border.setStyle(borderStyleOptions[1]);
     border.setColor(theme.color.bootstrapBlue);
     border.setWidth(1);
-    setFontSize(16);
     setLabel("Primary");
-    setFontWeight(fontWeightOptions[3]);
   };
 
   const handleExport = () => {
@@ -252,24 +245,7 @@ const ComponentButton: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="텍스트 설정">
-                <FontOption
-                  id="Button"
-                  span={1}
-                  color={color}
-                  fontSize={fontSize}
-                  lineHeight={lineHeight}
-                  letterSpacing={letterSpacing}
-                  textAlign={textAlign}
-                  textOverflow={textOverflow}
-                  fontWeight={fontWeight}
-                  setColor={setColor}
-                  setFontSize={setFontSize}
-                  setLineHeight={setLineHeight}
-                  setLetterSpacing={setLetterSpacing}
-                  setTextAlign={setTextAlign}
-                  setTextOverflow={setTextOverflow}
-                  setFontWeight={setFontWeight}
-                />
+                <FontOption id="Button" span={1} {...font} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="여백 설정">

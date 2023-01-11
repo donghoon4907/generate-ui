@@ -1,8 +1,7 @@
 import type { FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IBorder } from "../../../model/border";
-import type { ISetBorder } from "../../../hooks/useBorder";
+import type { IUseBorder } from "../../../hooks/useBorder";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CustomSelect } from "../../CustomSelect";
@@ -11,7 +10,7 @@ import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
 import { ColorOption } from "./Color";
 
-interface Props extends IGridOption, IBorder, ISetBorder {
+interface Props extends IGridOption, IUseBorder {
   id: string;
 }
 
