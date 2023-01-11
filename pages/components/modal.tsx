@@ -6,13 +6,15 @@ import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
 import type { ISelectOption } from "../../interfaces/select";
+import type {
+  IModalButtonOption,
+  IModalLayoutOption
+} from "../../interfaces/modal";
 import * as Component from "../../components/partial/Component";
 import * as Grid from "../../components/partial/Grid";
 import { ModalTabType } from "../../types/tab";
 import { mixinBtnDefault } from "../../theme/mixins/button";
 import {
-  IModalButtonOption,
-  IModalLayoutOption,
   defaultModalButtonOption,
   defaultModalLayoutOption
 } from "../../interfaces/modal";
@@ -30,6 +32,7 @@ import { generateTextOverflow } from "../../lib/calc/style";
 import { borderStyleOptions } from "../../components/options/BorderStyle";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
+import { useBorder } from "../../hooks/useBorder";
 
 const Layer = styled.div`
   width: 100%;
@@ -99,11 +102,11 @@ const ComponentModal: NextPage = () => {
   // container - 모서리 각
   const borderRadius = useBorderRadius(10);
   // container - 테두리
-  const [borderStyle, setBorderStyle] = useState<ISelectOption>(
-    borderStyleOptions[1]
-  );
-  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
-  const [borderWidth, setBorderWidth] = useState(1);
+  const border = useBorder({
+    style: borderStyleOptions[1],
+    color: constants.color.blackHex,
+    width: 1
+  });
   // header - 제목
   const [headerTitle, setHeaderTitle] = useState("모달 제목");
   // header - 텍스트 색
@@ -162,7 +165,9 @@ const ComponentModal: NextPage = () => {
     borderTopRightRadius: borderRadius.topRight,
     borderBottomLeftRadius: borderRadius.bottomLeft,
     borderBottomRightRadius: borderRadius.bottomRight,
-    border: `${borderWidth}px ${borderStyle.value} ${borderColor}`,
+    borderStyle: border.style.value,
+    borderWidth: border.width,
+    borderColor: border.color,
     backgroundColor: bgColorRgba.toString(),
     overflow: "hidden"
   };
@@ -172,7 +177,7 @@ const ComponentModal: NextPage = () => {
     paddingRight: headerPadding.right,
     paddingBottom: headerPadding.bottom,
     paddingLeft: headerPadding.left,
-    borderBottom: `${borderWidth}px ${borderStyle.value} ${borderColor}`
+    borderBottom: `${border.width}px ${border.style.value} ${border.color}`
   };
 
   const headerTitleStyle: CSSProperties = {
@@ -202,7 +207,7 @@ const ComponentModal: NextPage = () => {
     paddingBottom: footerPadding.bottom,
     paddingLeft: footerPadding.left,
     justifyContent: footerAlign.value,
-    borderTop: `${borderWidth}px ${borderStyle.value} ${borderColor}`
+    borderTop: `${border.width}px ${border.style.value} ${border.color}`
   };
   /* handler */
   const handleExport = () => {};
@@ -459,9 +464,9 @@ const ComponentModal: NextPage = () => {
                   borderTopRightRadius={borderRadius.topRight}
                   borderBottomLeftRadius={borderRadius.bottomLeft}
                   borderBottomRightRadius={borderRadius.bottomRight}
-                  borderStyle={borderStyle}
-                  borderWidth={borderWidth}
-                  borderColor={borderColor}
+                  borderStyle={border.style}
+                  borderWidth={border.width}
+                  borderColor={border.color}
                   backgroundColorHex={bgColorRgba.hex}
                   backgroundColorAlpha={bgColorRgba.alpha}
                   setWidth={setWidth}
@@ -471,9 +476,9 @@ const ComponentModal: NextPage = () => {
                   setBorderTopRightRadius={borderRadius.setTopRight}
                   setBorderBottomLeftRadius={borderRadius.setBottomLeft}
                   setBorderBottomRightRadius={borderRadius.setBottomRight}
-                  setBorderStyle={setBorderStyle}
-                  setBorderWidth={setBorderWidth}
-                  setBorderColor={setBorderColor}
+                  setBorderStyle={border.setStyle}
+                  setBorderColor={border.setColor}
+                  setBorderWidth={border.setWidth}
                   setBackgroundColorHex={bgColorRgba.setHex}
                   setBackgroundColorAlpha={bgColorRgba.setAlpha}
                 />

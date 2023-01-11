@@ -17,10 +17,6 @@ import { RequireLabel } from "../../components/RequireLabel";
 import { langOptions } from "../../components/options/Template";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { ConvertButton } from "../../lib/style/button";
-import {
-  BootstrapOutlineButton,
-  BootstrapPrimaryButton
-} from "../../components/Button";
 import { copyToClipboard } from "../../lib/copy/clipboard";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
 import { LangOption } from "../../types/select-option";
@@ -36,6 +32,11 @@ import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
+import { useBorder } from "../../hooks/useBorder";
+import {
+  BootstrapOutlineButton,
+  BootstrapPrimaryButton
+} from "../../components/Button";
 
 const ComponentButton: NextPage = () => {
   /* order - constans */
@@ -61,11 +62,11 @@ const ComponentButton: NextPage = () => {
   // 여백
   const padding = usePadding(4);
   // 테두리
-  const [borderStyle, setBorderStyle] = useState<ISelectOption>(
-    borderStyleOptions[1]
-  );
-  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
-  const [borderWidth, setBorderWidth] = useState(1);
+  const border = useBorder({
+    style: borderStyleOptions[1],
+    color: constants.color.blackHex,
+    width: 1
+  });
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
@@ -94,9 +95,9 @@ const ComponentButton: NextPage = () => {
     borderTopRightRadius: borderRadius.topRight,
     borderBottomLeftRadius: borderRadius.bottomLeft,
     borderBottomRightRadius: borderRadius.bottomRight,
-    borderColor,
-    borderWidth,
-    borderStyle: borderStyle.value,
+    borderColor: border.color,
+    borderWidth: border.width,
+    borderStyle: border.style.value,
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
@@ -125,9 +126,9 @@ const ComponentButton: NextPage = () => {
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
     borderRadius.setBottomRight(5);
-    setBorderColor(theme.color.bootstrapBlue);
-    setBorderWidth(1);
-    setBorderStyle(borderStyleOptions[1]);
+    border.setStyle(borderStyleOptions[1]);
+    border.setColor(theme.color.bootstrapBlue);
+    border.setWidth(1);
     setFontSize(16);
     setLabel("Primary");
     setFontWeight(fontWeightOptions[3]);
@@ -148,9 +149,9 @@ const ComponentButton: NextPage = () => {
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
     borderRadius.setBottomRight(5);
-    setBorderColor(theme.color.bootstrapBlue);
-    setBorderWidth(1);
-    setBorderStyle(borderStyleOptions[1]);
+    border.setStyle(borderStyleOptions[1]);
+    border.setColor(theme.color.bootstrapBlue);
+    border.setWidth(1);
     setFontSize(16);
     setLabel("Primary");
     setFontWeight(fontWeightOptions[3]);
@@ -280,16 +281,7 @@ const ComponentButton: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
-                <BorderOption
-                  id="Button"
-                  span={1}
-                  borderStyle={borderStyle}
-                  borderWidth={borderWidth}
-                  borderColor={borderColor}
-                  setBorderStyle={setBorderStyle}
-                  setBorderWidth={setBorderWidth}
-                  setBorderColor={setBorderColor}
-                />
+                <BorderOption id="Button" span={1} {...border} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">

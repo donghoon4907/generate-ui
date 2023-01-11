@@ -250,18 +250,18 @@ export const ModalButtonOption: FC<Props> = ({
                   id={displayName}
                   span={span}
                   color={color}
-                  setColor={setColor}
                   fontSize={fontSize}
-                  setFontSize={setFontSize}
                   lineHeight={lineHeight}
-                  setLineHeight={setLineHeight}
                   letterSpacing={letterSpacing}
-                  setLetterSpacing={setLetterSpacing}
                   textAlign={textAlign}
-                  setTextAlign={setTextAlign}
                   textOverflow={textOverflow}
-                  setTextOverflow={setTextOverflow}
                   fontWeight={fontWeight}
+                  setColor={setColor}
+                  setFontSize={setFontSize}
+                  setLineHeight={setLineHeight}
+                  setLetterSpacing={setLetterSpacing}
+                  setTextAlign={setTextAlign}
+                  setTextOverflow={setTextOverflow}
                   setFontWeight={setFontWeight}
                 />
               </Grid.FoldableTitle>
@@ -292,12 +292,12 @@ export const ModalButtonOption: FC<Props> = ({
                   id={displayName}
                   span={span}
                   topLeft={borderTopLeftRadius}
-                  setTopLeft={setBorderTopLeftRadius}
                   topRight={borderTopRightRadius}
-                  setTopRight={setBorderTopRightRadius}
                   bottomLeft={borderBottomLeftRadius}
-                  setBottomLeft={setBorderBottomLeftRadius}
                   bottomRight={borderBottomRightRadius}
+                  setTopLeft={setBorderTopLeftRadius}
+                  setTopRight={setBorderTopRightRadius}
+                  setBottomLeft={setBorderBottomLeftRadius}
                   setBottomRight={setBorderBottomRightRadius}
                 />
               </Grid.FoldableTitle>
@@ -309,12 +309,12 @@ export const ModalButtonOption: FC<Props> = ({
                 <BorderOption
                   id={displayName}
                   span={span}
-                  borderStyle={borderStyle}
-                  setBorderStyle={setBorderStyle}
-                  borderWidth={borderWidth}
-                  setBorderWidth={setBorderWidth}
-                  borderColor={borderColor}
-                  setBorderColor={setBorderColor}
+                  style={borderStyle}
+                  color={borderColor}
+                  width={borderWidth}
+                  setStyle={setBorderStyle}
+                  setColor={setBorderColor}
+                  setWidth={setBorderWidth}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle

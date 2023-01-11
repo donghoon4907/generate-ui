@@ -23,10 +23,6 @@ import { InputTypeOption, LangOption } from "../../types/select-option";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { ConvertInput } from "../../lib/style/input";
 import { copyToClipboard } from "../../lib/copy/clipboard";
-import {
-  BootstrapDarkInputButton,
-  BootstrapLightInputButton
-} from "../../components/Button";
 import { IconAlignOption } from "../../types/select-option";
 import { iconAlignOptions } from "../../components/options/IconAlign";
 import { IconOption } from "../../components/templates/options/Icon";
@@ -40,6 +36,11 @@ import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
+import { useBorder } from "../../hooks/useBorder";
+import {
+  BootstrapDarkInputButton,
+  BootstrapLightInputButton
+} from "../../components/Button";
 
 const ComponentInput: NextPage = () => {
   /* order - constans */
@@ -71,11 +72,11 @@ const ComponentInput: NextPage = () => {
   // 여백
   const padding = usePadding(4);
   // 테두리
-  const [borderStyle, setBorderStyle] = useState<ISelectOption>(
-    borderStyleOptions[1]
-  );
-  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
-  const [borderWidth, setBorderWidth] = useState(1);
+  const border = useBorder({
+    style: borderStyleOptions[1],
+    color: constants.color.blackHex,
+    width: 1
+  });
   // 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // html 템플릿 추가 여부
@@ -123,9 +124,9 @@ const ComponentInput: NextPage = () => {
     borderTopRightRadius: borderRadius.topRight,
     borderBottomLeftRadius: borderRadius.bottomLeft,
     borderBottomRightRadius: borderRadius.bottomRight,
-    borderStyle: borderStyle.value,
-    borderWidth,
-    borderColor,
+    borderStyle: border.style.value,
+    borderColor: border.color,
+    borderWidth: border.width,
     overflow: "hidden"
   };
 
@@ -169,9 +170,9 @@ const ComponentInput: NextPage = () => {
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
     borderRadius.setBottomRight(5);
-    setBorderColor(theme.color.lightDividerColor);
-    setBorderWidth(1);
-    setBorderStyle(borderStyleOptions[1]);
+    border.setStyle(borderStyleOptions[1]);
+    border.setColor(theme.color.lightDividerColor);
+    border.setWidth(1);
     setFontSize(16);
   };
 
@@ -190,9 +191,9 @@ const ComponentInput: NextPage = () => {
     borderRadius.setTopRight(5);
     borderRadius.setBottomLeft(5);
     borderRadius.setBottomRight(5);
-    setBorderColor(theme.color.darkDividerColor);
-    setBorderWidth(1);
-    setBorderStyle(borderStyleOptions[1]);
+    border.setColor(theme.color.darkDividerColor);
+    border.setWidth(1);
+    border.setStyle(borderStyleOptions[1]);
     setFontSize(16);
   };
 
@@ -356,16 +357,7 @@ const ComponentInput: NextPage = () => {
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
-                <BorderOption
-                  id="Input"
-                  span={1}
-                  borderStyle={borderStyle}
-                  setBorderStyle={setBorderStyle}
-                  borderWidth={borderWidth}
-                  setBorderWidth={setBorderWidth}
-                  borderColor={borderColor}
-                  setBorderColor={setBorderColor}
-                />
+                <BorderOption id="Input" span={1} {...border} />
               </Grid.FoldableTitle>
 
               <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">

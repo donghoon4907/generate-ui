@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import type { IBorderOption } from "../../../interfaces/option";
+import type { ISelectOption } from "../../../interfaces/select";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import * as Grid from "../../partial/Grid";
@@ -13,7 +13,7 @@ import { Switch } from "../../Switch";
 import { RgbaOption } from "../options/Rgba";
 import { BorderOption } from "../options/Border";
 
-interface Props extends IGridOption, IBorderOption {
+interface Props extends IGridOption {
   width: number;
   checkAddHeader: boolean;
   checkAddFooter: boolean;
@@ -23,6 +23,9 @@ interface Props extends IGridOption, IBorderOption {
   borderTopRightRadius: number;
   borderBottomLeftRadius: number;
   borderBottomRightRadius: number;
+  borderStyle: ISelectOption;
+  borderColor: string;
+  borderWidth: number;
   setWidth: CoreSetState<number>;
   setCheckAddHeader: CoreSetState<boolean>;
   setCheckAddFooter: CoreSetState<boolean>;
@@ -32,33 +35,36 @@ interface Props extends IGridOption, IBorderOption {
   setBorderTopRightRadius: CoreSetState<number>;
   setBorderBottomLeftRadius: CoreSetState<number>;
   setBorderBottomRightRadius: CoreSetState<number>;
+  setBorderStyle: CoreSetState<ISelectOption>;
+  setBorderColor: CoreSetState<string>;
+  setBorderWidth: CoreSetState<number>;
 }
 export const ModalContainerForm: FC<Props> = ({
   span,
   width,
   checkAddHeader,
   checkAddFooter,
-  borderStyle,
-  borderWidth,
-  borderColor,
   backgroundColorHex,
   backgroundColorAlpha,
   borderTopLeftRadius,
   borderTopRightRadius,
   borderBottomLeftRadius,
   borderBottomRightRadius,
+  borderStyle,
+  borderWidth,
+  borderColor,
   setWidth,
   setCheckAddHeader,
   setCheckAddFooter,
-  setBorderStyle,
-  setBorderWidth,
-  setBorderColor,
   setBackgroundColorHex,
   setBackgroundColorAlpha,
   setBorderTopLeftRadius,
   setBorderTopRightRadius,
   setBorderBottomLeftRadius,
-  setBorderBottomRightRadius
+  setBorderBottomRightRadius,
+  setBorderStyle,
+  setBorderWidth,
+  setBorderColor
 }) => {
   const displayName = "ModalContainer";
 
@@ -122,12 +128,12 @@ export const ModalContainerForm: FC<Props> = ({
         <BorderOption
           id={displayName}
           span={span}
-          borderStyle={borderStyle}
-          setBorderStyle={setBorderStyle}
-          borderWidth={borderWidth}
-          setBorderWidth={setBorderWidth}
-          borderColor={borderColor}
-          setBorderColor={setBorderColor}
+          style={borderStyle}
+          color={borderColor}
+          width={borderWidth}
+          setStyle={setBorderStyle}
+          setWidth={setBorderWidth}
+          setColor={setBorderColor}
         />
       </Grid.FoldableTitle>
 

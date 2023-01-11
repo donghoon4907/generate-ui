@@ -4,6 +4,11 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
+import type { ISelectOption } from "../../interfaces/select";
+import type {
+  SelectButtonOption,
+  SelectListOption
+} from "../../lib/style/select";
 import * as Component from "../../components/partial/Component";
 import * as Grid from "../../components/partial/Grid";
 import { FeedbackInput } from "../../components/Input";
@@ -14,17 +19,12 @@ import { RequireLabel } from "../../components/RequireLabel";
 import { langOptions } from "../../components/options/Template";
 import { textAlignOptions } from "../../components/options/TextAlign";
 import { copyToClipboard } from "../../lib/copy/clipboard";
-import type {
-  SelectButtonOption,
-  SelectListOption
-} from "../../lib/style/select";
 import { ConvertSelect } from "../../lib/style/select";
 import { textOverflowOptions } from "../../components/options/TextOverflow";
 import { LangOption } from "../../types/select-option";
 import { useTextOverflow } from "../../hooks/useTextOverflow";
 import { SelectTabType } from "../../types/tab";
 import { CountingInput } from "../../components/CountingInput";
-import { ISelectOption } from "../../interfaces/select";
 import { BorderOption } from "../../components/templates/options/Border";
 import { RgbaOption } from "../../components/templates/options/Rgba";
 import { PreferenceOption } from "../../components/templates/options/Preference";
@@ -35,6 +35,7 @@ import { useRgba } from "../../hooks/useRgba";
 import constants from "../../constants";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
+import { useBorder } from "../../hooks/useBorder";
 
 const OptionItem = styled.li`
   &:hover {
@@ -74,11 +75,11 @@ const ComponentSelect: NextPage = () => {
   // option - 여백
   const optionPadding = usePadding(4);
   // common - 테두리
-  const [borderStyle, setBorderStyle] = useState<ISelectOption>(
-    borderStyleOptions[1]
-  );
-  const [borderWidth, setBorderWidth] = useState(1);
-  const [borderColor, setBorderColor] = useState(constants.color.blackHex);
+  const border = useBorder({
+    style: borderStyleOptions[1],
+    color: constants.color.blackHex,
+    width: 1
+  });
   // common - 언어
   const [lang, setLang] = useState<ISelectOption>(langOptions[0]);
   // common - html 템플릿 추가 여부
@@ -111,7 +112,7 @@ const ComponentSelect: NextPage = () => {
     selectPadding.top +
     selectPadding.bottom +
     selectLineHeight +
-    borderWidth * 2;
+    border.width * 2;
   // preview style
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
@@ -119,9 +120,9 @@ const ComponentSelect: NextPage = () => {
     borderTopRightRadius: selectBorderRadius.topRight,
     borderBottomLeftRadius: selectBorderRadius.bottomLeft,
     borderBottomRightRadius: selectBorderRadius.bottomRight,
-    borderStyle: borderStyle.value,
-    borderWidth,
-    borderColor,
+    borderStyle: border.style.value,
+    borderColor: border.color,
+    borderWidth: border.width,
     backgroundColor: bgColorRgba.toString(),
     backgroundImage: `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'%3E%3C/path%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'%3E%3C/path%3E%3C/svg%3E")`,
     backgroundRepeat: "no-repeat",
@@ -155,9 +156,9 @@ const ComponentSelect: NextPage = () => {
     letterSpacing: optionLetterSpacing,
     textAlign: optionTextAlign.value as any,
     backgroundColor: bgColorRgba.toString(),
-    borderStyle: borderStyle.value,
-    borderWidth,
-    borderColor,
+    borderStyle: border.style.value,
+    borderColor: border.color,
+    borderWidth: border.width,
     userSelect: "none"
   };
   const optionLabelStyle: CSSProperties = {
@@ -265,16 +266,7 @@ const ComponentSelect: NextPage = () => {
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="테두리 설정">
-                    <BorderOption
-                      id="Select"
-                      span={1}
-                      borderStyle={borderStyle}
-                      borderWidth={borderWidth}
-                      borderColor={borderColor}
-                      setBorderStyle={setBorderStyle}
-                      setBorderWidth={setBorderWidth}
-                      setBorderColor={setBorderColor}
-                    />
+                    <BorderOption id="Select" span={1} {...border} />
                   </Grid.FoldableTitle>
 
                   <Grid.FoldableTitle span={GRID_SPAN} title="배경색 설정">

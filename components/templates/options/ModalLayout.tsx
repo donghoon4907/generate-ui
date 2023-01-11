@@ -275,14 +275,14 @@ export const ModalLayoutOption: FC<Props> = ({
                   id={labelDisplayName}
                   span={span}
                   color={labelColor}
-                  setColor={setLabelColor}
                   fontSize={labelFontSize}
-                  setFontSize={setLabelFontSize}
                   lineHeight={labelLineHeight}
-                  setLineHeight={setLabelLineHeight}
                   letterSpacing={labelLetterSpacing}
-                  setLetterSpacing={setLabelLetterSpacing}
                   fontWeight={labelFontWeight}
+                  setColor={setLabelColor}
+                  setFontSize={setLabelFontSize}
+                  setLineHeight={setLabelLineHeight}
+                  setLetterSpacing={setLabelLetterSpacing}
                   setFontWeight={setLabelFontWeight}
                 />
               </Grid.FoldableTitle>
@@ -323,14 +323,14 @@ export const ModalLayoutOption: FC<Props> = ({
                   id={inputDisplayName}
                   span={span}
                   color={inputColor}
-                  setColor={setInputColor}
                   fontSize={inputFontSize}
-                  setFontSize={setInputFontSize}
                   lineHeight={inputLineHeight}
-                  setLineHeight={setInputLineHeight}
                   letterSpacing={inputLetterSpacing}
-                  setLetterSpacing={setInputLetterSpacing}
                   textAlign={inputTextAlign}
+                  setColor={setInputColor}
+                  setFontSize={setInputFontSize}
+                  setLineHeight={setInputLineHeight}
+                  setLetterSpacing={setInputLetterSpacing}
                   setTextAlign={setInputTextAlign}
                 />
               </Grid.FoldableTitle>
@@ -378,12 +378,12 @@ export const ModalLayoutOption: FC<Props> = ({
                 <BorderOption
                   id={inputDisplayName}
                   span={span}
-                  borderStyle={inputBorderStyle}
-                  setBorderStyle={setInputBorderStyle}
-                  borderWidth={inputBorderWidth}
-                  setBorderWidth={setInputBorderWidth}
-                  borderColor={inputBorderColor}
-                  setBorderColor={setInputBorderColor}
+                  style={inputBorderStyle}
+                  color={inputBorderColor}
+                  width={inputBorderWidth}
+                  setStyle={setInputBorderStyle}
+                  setColor={setInputBorderColor}
+                  setWidth={setInputBorderWidth}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -395,8 +395,8 @@ export const ModalLayoutOption: FC<Props> = ({
                   id={inputDisplayName}
                   span={span}
                   hex={inputBgColorHex}
-                  setHex={setInputBgColorHex}
                   alpha={inputBgColorAlpha}
+                  setHex={setInputBgColorHex}
                   setAlpha={setInputBgColorAlpha}
                 />
               </Grid.FoldableTitle>

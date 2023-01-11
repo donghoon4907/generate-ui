@@ -1,7 +1,8 @@
 import type { FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IBorderOption } from "../../../interfaces/option";
+import type { IBorder } from "../../../model/border";
+import type { ISetBorder } from "../../../hooks/useBorder";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CustomSelect } from "../../CustomSelect";
@@ -10,27 +11,27 @@ import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
 import { ColorOption } from "./Color";
 
-interface Props extends IGridOption, IBorderOption {
+interface Props extends IGridOption, IBorder, ISetBorder {
   id: string;
 }
 
 export const BorderOption: FC<Props> = ({
   id,
   span,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  setBorderStyle,
-  setBorderWidth,
-  setBorderColor
+  style,
+  color,
+  width,
+  setStyle,
+  setColor,
+  setWidth
 }) => {
   return (
     <>
       <Grid.Column span={span}>
         <RequireLabel>스타일</RequireLabel>
         <CustomSelect
-          activeOption={borderStyle}
-          setOption={setBorderStyle}
+          activeOption={style}
+          setOption={setStyle}
           options={borderStyleOptions}
         />
       </Grid.Column>
@@ -39,8 +40,8 @@ export const BorderOption: FC<Props> = ({
         <CountingInput
           id={`setBorderWidth${id}`}
           ariaLabel="테두리 굵기"
-          count={borderWidth}
-          setCount={setBorderWidth}
+          count={width}
+          setCount={setWidth}
           limit={10}
           showIcon={true}
           showFeedback={true}
@@ -51,8 +52,8 @@ export const BorderOption: FC<Props> = ({
       <ColorOption
         id={`setBorderColor${id}`}
         span={span}
-        hex={borderColor}
-        setHex={setBorderColor}
+        hex={color}
+        setHex={setColor}
       />
     </>
   );
