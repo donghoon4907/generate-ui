@@ -108,17 +108,17 @@ const ComponentSelect: NextPage = () => {
   /* order - variable */
   // select min height
   const minHeight =
-    selectPadding.paddingTop +
-    selectPadding.paddingBottom +
+    selectPadding.top +
+    selectPadding.bottom +
     selectLineHeight +
     borderWidth * 2;
   // preview style
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
-    borderTopLeftRadius: selectBorderRadius.borderTopLeftRadius,
-    borderTopRightRadius: selectBorderRadius.borderTopRightRadius,
-    borderBottomLeftRadius: selectBorderRadius.borderBottomLeftRadius,
-    borderBottomRightRadius: selectBorderRadius.borderBottomRightRadius,
+    borderTopLeftRadius: selectBorderRadius.topLeft,
+    borderTopRightRadius: selectBorderRadius.topRight,
+    borderBottomLeftRadius: selectBorderRadius.bottomLeft,
+    borderBottomRightRadius: selectBorderRadius.bottomRight,
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
@@ -140,10 +140,10 @@ const ComponentSelect: NextPage = () => {
     lineHeight: `${selectLineHeight}px`,
     letterSpacing: selectLetterSpacing,
     textAlign: selectTextAlign.value as any,
-    paddingTop: selectPadding.paddingTop,
-    paddingRight: selectPadding.paddingRight,
-    paddingBottom: selectPadding.paddingBottom,
-    paddingLeft: selectPadding.paddingLeft,
+    paddingTop: selectPadding.top,
+    paddingRight: selectPadding.right,
+    paddingBottom: selectPadding.bottom,
+    paddingLeft: selectPadding.left,
     overflow: "hidden",
     ...selectTextOverflowOutput
   };
@@ -161,10 +161,10 @@ const ComponentSelect: NextPage = () => {
     userSelect: "none"
   };
   const optionLabelStyle: CSSProperties = {
-    paddingTop: optionPadding.paddingTop,
-    paddingRight: optionPadding.paddingRight,
-    paddingBottom: optionPadding.paddingBottom,
-    paddingLeft: optionPadding.paddingLeft,
+    paddingTop: optionPadding.top,
+    paddingRight: optionPadding.right,
+    paddingBottom: optionPadding.bottom,
+    paddingLeft: optionPadding.left,
     overflow: "hidden",
     ...optionTextOverflowOutput
   };
@@ -269,10 +269,10 @@ const ComponentSelect: NextPage = () => {
                       id="Select"
                       span={1}
                       borderStyle={borderStyle}
-                      setBorderStyle={setBorderStyle}
                       borderWidth={borderWidth}
-                      setBorderWidth={setBorderWidth}
                       borderColor={borderColor}
+                      setBorderStyle={setBorderStyle}
+                      setBorderWidth={setBorderWidth}
                       setBorderColor={setBorderColor}
                     />
                   </Grid.FoldableTitle>
@@ -285,8 +285,8 @@ const ComponentSelect: NextPage = () => {
                     <PreferenceOption
                       span={1}
                       lang={lang}
-                      setLang={setLang}
                       html={html}
+                      setLang={setLang}
                       setHtml={setHtml}
                     />
                   </Grid.FoldableTitle>
@@ -312,16 +312,16 @@ const ComponentSelect: NextPage = () => {
                       id="Select"
                       span={1}
                       color={selectColor}
-                      setColor={setSelectColor}
                       fontSize={selectFontSize}
-                      setFontSize={setSelectFontSize}
                       lineHeight={selectLineHeight}
-                      setLineHeight={setSelectLineHeight}
                       letterSpacing={selectLetterSpacing}
-                      setLetterSpacing={setSelectLetterSpacing}
                       textAlign={selectTextAlign}
-                      setTextAlign={setSelectTextAlign}
                       textOverflow={selectTextOverflow}
+                      setColor={setSelectColor}
+                      setFontSize={setSelectFontSize}
+                      setLineHeight={setSelectLineHeight}
+                      setLetterSpacing={setSelectLetterSpacing}
+                      setTextAlign={setSelectTextAlign}
                       setTextOverflow={setSelectTextOverflow}
                     />
                   </Grid.FoldableTitle>
@@ -346,16 +346,16 @@ const ComponentSelect: NextPage = () => {
                       id="Option"
                       span={1}
                       color={optionColor}
-                      setColor={setOptionColor}
                       fontSize={optionFontSize}
-                      setFontSize={setOptionFontSize}
                       lineHeight={optionLineHeight}
-                      setLineHeight={setOptionLineHeight}
                       letterSpacing={optionLetterSpacing}
-                      setLetterSpacing={setOptionLetterSpacing}
                       textAlign={optionTextAlign}
-                      setTextAlign={setOptionTextAlign}
                       textOverflow={optionTextOverflow}
+                      setColor={setOptionColor}
+                      setFontSize={setOptionFontSize}
+                      setLineHeight={setOptionLineHeight}
+                      setLetterSpacing={setOptionLetterSpacing}
+                      setTextAlign={setOptionTextAlign}
                       setTextOverflow={setOptionTextOverflow}
                     />
                   </Grid.FoldableTitle>

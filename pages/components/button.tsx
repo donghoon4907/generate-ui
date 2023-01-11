@@ -90,20 +90,20 @@ const ComponentButton: NextPage = () => {
     width,
     backgroundColor: bgColorRgba.toString(),
     color,
-    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
-    borderTopRightRadius: borderRadius.borderTopRightRadius,
-    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
-    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.topLeft,
+    borderTopRightRadius: borderRadius.topRight,
+    borderBottomLeftRadius: borderRadius.bottomLeft,
+    borderBottomRightRadius: borderRadius.bottomRight,
     borderColor,
     borderWidth,
     borderStyle: borderStyle.value,
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
-    paddingTop: padding.paddingTop,
-    paddingRight: padding.paddingRight,
-    paddingBottom: padding.paddingBottom,
-    paddingLeft: padding.paddingLeft,
+    paddingTop: padding.top,
+    paddingRight: padding.right,
+    paddingBottom: padding.bottom,
+    paddingLeft: padding.left,
     textAlign: textAlign.value as any,
     overflow: "hidden",
     fontWeight: fontWeight.value,
@@ -114,11 +114,17 @@ const ComponentButton: NextPage = () => {
     setWidth(80);
     setLineHeight(25);
     setLetterSpacing(0);
-    padding.setPadding(6);
+    padding.setTop(6);
+    padding.setRight(6);
+    padding.setBottom(6);
+    padding.setLeft(6);
     bgColorRgba.setHex(theme.color.bootstrapBlue);
     bgColorRgba.setAlpha(1);
     setColor(theme.color.white);
-    borderRadius.setBorderRadius(5);
+    borderRadius.setTopLeft(5);
+    borderRadius.setTopRight(5);
+    borderRadius.setBottomLeft(5);
+    borderRadius.setBottomRight(5);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -131,11 +137,17 @@ const ComponentButton: NextPage = () => {
     setWidth(80);
     setLineHeight(25);
     setLetterSpacing(0);
-    padding.setPadding(6);
+    padding.setTop(6);
+    padding.setRight(6);
+    padding.setBottom(6);
+    padding.setLeft(6);
     bgColorRgba.setHex(theme.color.white);
     bgColorRgba.setAlpha(1);
     setColor(theme.color.bootstrapBlue);
-    borderRadius.setBorderRadius(5);
+    borderRadius.setTopLeft(5);
+    borderRadius.setTopRight(5);
+    borderRadius.setBottomLeft(5);
+    borderRadius.setBottomRight(5);
     setBorderColor(theme.color.bootstrapBlue);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -243,18 +255,18 @@ const ComponentButton: NextPage = () => {
                   id="Button"
                   span={1}
                   color={color}
-                  setColor={setColor}
                   fontSize={fontSize}
-                  setFontSize={setFontSize}
                   lineHeight={lineHeight}
-                  setLineHeight={setLineHeight}
                   letterSpacing={letterSpacing}
-                  setLetterSpacing={setLetterSpacing}
                   textAlign={textAlign}
-                  setTextAlign={setTextAlign}
                   textOverflow={textOverflow}
-                  setTextOverflow={setTextOverflow}
                   fontWeight={fontWeight}
+                  setColor={setColor}
+                  setFontSize={setFontSize}
+                  setLineHeight={setLineHeight}
+                  setLetterSpacing={setLetterSpacing}
+                  setTextAlign={setTextAlign}
+                  setTextOverflow={setTextOverflow}
                   setFontWeight={setFontWeight}
                 />
               </Grid.FoldableTitle>
@@ -272,10 +284,10 @@ const ComponentButton: NextPage = () => {
                   id="Button"
                   span={1}
                   borderStyle={borderStyle}
-                  setBorderStyle={setBorderStyle}
                   borderWidth={borderWidth}
-                  setBorderWidth={setBorderWidth}
                   borderColor={borderColor}
+                  setBorderStyle={setBorderStyle}
+                  setBorderWidth={setBorderWidth}
                   setBorderColor={setBorderColor}
                 />
               </Grid.FoldableTitle>
@@ -288,8 +300,8 @@ const ComponentButton: NextPage = () => {
                 <PreferenceOption
                   span={1}
                   lang={lang}
-                  setLang={setLang}
                   html={html}
+                  setLang={setLang}
                   setHtml={setHtml}
                 />
               </Grid.FoldableTitle>

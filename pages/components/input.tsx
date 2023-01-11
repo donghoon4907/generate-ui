@@ -119,10 +119,10 @@ const ComponentInput: NextPage = () => {
     backgroundSize: iconSize,
     paddingRight: isIconAlignRight ? 25 : 0,
     paddingLeft: isIconAlignLeft ? 25 : 0,
-    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
-    borderTopRightRadius: borderRadius.borderTopRightRadius,
-    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
-    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.topLeft,
+    borderTopRightRadius: borderRadius.topRight,
+    borderBottomLeftRadius: borderRadius.bottomLeft,
+    borderBottomRightRadius: borderRadius.bottomRight,
     borderStyle: borderStyle.value,
     borderWidth,
     borderColor,
@@ -136,15 +136,15 @@ const ComponentInput: NextPage = () => {
     fontSize,
     lineHeight: `${lineHeight}px`,
     letterSpacing,
-    paddingTop: padding.paddingTop,
-    paddingRight: padding.paddingRight,
-    paddingBottom: padding.paddingBottom,
-    paddingLeft: padding.paddingLeft,
+    paddingTop: padding.top,
+    paddingRight: padding.right,
+    paddingBottom: padding.bottom,
+    paddingLeft: padding.left,
     textAlign: textAlign.value as any,
-    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
-    borderTopRightRadius: borderRadius.borderTopRightRadius,
-    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
-    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.topLeft,
+    borderTopRightRadius: borderRadius.topRight,
+    borderBottomLeftRadius: borderRadius.bottomLeft,
+    borderBottomRightRadius: borderRadius.bottomRight,
     border: "none"
   };
   /* handler */
@@ -158,14 +158,17 @@ const ComponentInput: NextPage = () => {
     setWidth(100);
     setLineHeight(25);
     setLetterSpacing(0);
-    padding.setPaddingTop(6);
-    padding.setPaddingRight(12);
-    padding.setPaddingBottom(6);
-    padding.setPaddingLeft(12);
+    padding.setTop(6);
+    padding.setRight(12);
+    padding.setBottom(6);
+    padding.setLeft(12);
     bgColorRgba.setHex(theme.color.white);
     bgColorRgba.setAlpha(1);
     setColor(theme.color.white);
-    borderRadius.setBorderRadius(5);
+    borderRadius.setTopLeft(5);
+    borderRadius.setTopRight(5);
+    borderRadius.setBottomLeft(5);
+    borderRadius.setBottomRight(5);
     setBorderColor(theme.color.lightDividerColor);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);
@@ -176,14 +179,17 @@ const ComponentInput: NextPage = () => {
     setWidth(100);
     setLineHeight(25);
     setLetterSpacing(0);
-    padding.setPaddingTop(6);
-    padding.setPaddingRight(12);
-    padding.setPaddingBottom(6);
-    padding.setPaddingLeft(12);
+    padding.setTop(6);
+    padding.setRight(12);
+    padding.setBottom(6);
+    padding.setLeft(12);
     bgColorRgba.setHex(theme.color.gray_lv0);
     bgColorRgba.setAlpha(1);
     setColor(theme.color.darkTextColor_lv0);
-    borderRadius.setBorderRadius(5);
+    borderRadius.setTopLeft(5);
+    borderRadius.setTopRight(5);
+    borderRadius.setBottomLeft(5);
+    borderRadius.setBottomRight(5);
     setBorderColor(theme.color.darkDividerColor);
     setBorderWidth(1);
     setBorderStyle(borderStyleOptions[1]);

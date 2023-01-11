@@ -18,10 +18,10 @@ export const BorderOption: FC<Props> = ({
   id,
   span,
   borderStyle,
-  setBorderStyle,
   borderWidth,
-  setBorderWidth,
   borderColor,
+  setBorderStyle,
+  setBorderWidth,
   setBorderColor
 }) => {
   return (

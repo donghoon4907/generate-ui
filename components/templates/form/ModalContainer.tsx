@@ -3,7 +3,6 @@ import type { FC } from "react";
 import type { IBorderOption } from "../../../interfaces/option";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
-import type { IUseBorderRadius } from "../../../hooks/useBorderRadius";
 import * as Grid from "../../partial/Grid";
 import { RequireLabel } from "../../RequireLabel";
 import { CountingInput } from "../../CountingInput";
@@ -14,44 +13,52 @@ import { Switch } from "../../Switch";
 import { RgbaOption } from "../options/Rgba";
 import { BorderOption } from "../options/Border";
 
-interface Props extends IGridOption, IUseBorderRadius, IBorderOption {
+interface Props extends IGridOption, IBorderOption {
   width: number;
-  setWidth: CoreSetState<number>;
   checkAddHeader: boolean;
-  setCheckAddHeader: CoreSetState<boolean>;
   checkAddFooter: boolean;
-  setCheckAddFooter: CoreSetState<boolean>;
   backgroundColorHex: string;
-  setBackgroundColorHex: CoreSetState<string>;
   backgroundColorAlpha: number;
+  borderTopLeftRadius: number;
+  borderTopRightRadius: number;
+  borderBottomLeftRadius: number;
+  borderBottomRightRadius: number;
+  setWidth: CoreSetState<number>;
+  setCheckAddHeader: CoreSetState<boolean>;
+  setCheckAddFooter: CoreSetState<boolean>;
+  setBackgroundColorHex: CoreSetState<string>;
   setBackgroundColorAlpha: CoreSetState<number>;
+  setBorderTopLeftRadius: CoreSetState<number>;
+  setBorderTopRightRadius: CoreSetState<number>;
+  setBorderBottomLeftRadius: CoreSetState<number>;
+  setBorderBottomRightRadius: CoreSetState<number>;
 }
 export const ModalContainerForm: FC<Props> = ({
   span,
   width,
-  setWidth,
   checkAddHeader,
-  setCheckAddHeader,
   checkAddFooter,
-  setCheckAddFooter,
-  borderTopLeftRadius,
-  setBorderTopLeftRadius,
-  borderTopRightRadius,
-  setBorderTopRightRadius,
-  borderBottomLeftRadius,
-  setBorderBottomLeftRadius,
-  borderBottomRightRadius,
-  setBorderBottomRightRadius,
   borderStyle,
-  setBorderStyle,
   borderWidth,
-  setBorderWidth,
   borderColor,
-  setBorderColor,
   backgroundColorHex,
-  setBackgroundColorHex,
   backgroundColorAlpha,
-  setBackgroundColorAlpha
+  borderTopLeftRadius,
+  borderTopRightRadius,
+  borderBottomLeftRadius,
+  borderBottomRightRadius,
+  setWidth,
+  setCheckAddHeader,
+  setCheckAddFooter,
+  setBorderStyle,
+  setBorderWidth,
+  setBorderColor,
+  setBackgroundColorHex,
+  setBackgroundColorAlpha,
+  setBorderTopLeftRadius,
+  setBorderTopRightRadius,
+  setBorderBottomLeftRadius,
+  setBorderBottomRightRadius
 }) => {
   const displayName = "ModalContainer";
 
@@ -100,14 +107,14 @@ export const ModalContainerForm: FC<Props> = ({
         <BorderRadiusOption
           id={displayName}
           span={span}
-          borderTopLeftRadius={borderTopLeftRadius}
-          setBorderTopLeftRadius={setBorderTopLeftRadius}
-          borderTopRightRadius={borderTopRightRadius}
-          setBorderTopRightRadius={setBorderTopRightRadius}
-          borderBottomLeftRadius={borderBottomLeftRadius}
-          setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-          borderBottomRightRadius={borderBottomRightRadius}
-          setBorderBottomRightRadius={setBorderBottomRightRadius}
+          topLeft={borderTopLeftRadius}
+          setTopLeft={setBorderTopLeftRadius}
+          topRight={borderTopRightRadius}
+          setTopRight={setBorderTopRightRadius}
+          bottomLeft={borderBottomLeftRadius}
+          setBottomLeft={setBorderBottomLeftRadius}
+          bottomRight={borderBottomRightRadius}
+          setBottomRight={setBorderBottomRightRadius}
         />
       </Grid.FoldableTitle>
 

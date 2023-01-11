@@ -1,8 +1,6 @@
 import type { FC } from "react";
 
 import type { IScrollOption } from "../../../interfaces/option";
-import type { IPadding } from "../../../model/padding";
-import type { ISetStatePadding } from "../../../hooks/usePadding";
 import type { IGridOption } from "../../../interfaces/grid";
 import type { CoreSetState } from "../../../types/core";
 import type { IModalLayoutOption } from "../../../interfaces/modal";
@@ -16,13 +14,25 @@ import { InjectUseStateObjectArray } from "../../injections/UseState";
 import { ScrollOption } from "../options/Scroll";
 import { GridOrdering } from "../../GridOrdering";
 
-interface Props extends IGridOption, IPadding, ISetStatePadding, IScrollOption {
+interface Props extends IGridOption, IScrollOption {
   layouts: IModalLayoutOption[];
+  paddingTop: number;
+  paddingRight: number;
+  paddingBottom: number;
+  paddingLeft: number;
   setLayouts: CoreSetState<IModalLayoutOption[]>;
+  setPaddingTop: CoreSetState<number>;
+  setPaddingRight: CoreSetState<number>;
+  setPaddingBottom: CoreSetState<number>;
+  setPaddingLeft: CoreSetState<number>;
 }
 
 export const ModalBodyForm: FC<Props> = ({
   span,
+  scrollThumbColor,
+  setScrollThumbColor,
+  layouts,
+  setLayouts,
   paddingTop,
   paddingRight,
   paddingBottom,
@@ -30,11 +40,7 @@ export const ModalBodyForm: FC<Props> = ({
   setPaddingTop,
   setPaddingRight,
   setPaddingBottom,
-  setPaddingLeft,
-  scrollThumbColor,
-  setScrollThumbColor,
-  layouts,
-  setLayouts
+  setPaddingLeft
 }) => {
   const displayName = "ModalBody";
 
@@ -48,14 +54,14 @@ export const ModalBodyForm: FC<Props> = ({
         <PaddingOption
           id={displayName}
           span={span}
-          paddingTop={paddingTop}
-          paddingRight={paddingRight}
-          paddingBottom={paddingBottom}
-          paddingLeft={paddingLeft}
-          setPaddingTop={setPaddingTop}
-          setPaddingRight={setPaddingRight}
-          setPaddingBottom={setPaddingBottom}
-          setPaddingLeft={setPaddingLeft}
+          top={paddingTop}
+          right={paddingRight}
+          bottom={paddingBottom}
+          left={paddingLeft}
+          setTop={setPaddingTop}
+          setRight={setPaddingRight}
+          setBottom={setPaddingBottom}
+          setLeft={setPaddingLeft}
         />
       </Grid.FoldableTitle>
       <Grid.FoldableTitle span={span} title="스크롤 설정" defaultFold={false}>

@@ -2,8 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { ISetStatePadding } from "../../../hooks/usePadding";
-import type { IPadding } from "../../../model/padding";
+import type { IUsePadding } from "../../../hooks/usePadding";
 import * as Grid from "../../partial/Grid";
 import constants from "../../../constants";
 import { RequireLabel } from "../../RequireLabel";
@@ -12,33 +11,34 @@ import { CountNumberType } from "../../../types/count";
 import { WithLabel } from "../../WithLabel";
 import { Switch } from "../../Switch";
 
-interface Props extends IGridOption, IPadding, ISetStatePadding {
+interface Props extends IGridOption, IUsePadding {
   id: string;
   defaultCheckAll?: boolean;
 }
 
 export const PaddingOption: FC<Props> = ({
   span,
-  paddingTop,
-  paddingRight,
-  paddingBottom,
-  paddingLeft,
-  setPaddingTop,
-  setPaddingRight,
-  setPaddingBottom,
-  setPaddingLeft,
+  top,
+  right,
+  bottom,
+  left,
+  setTop,
+  setRight,
+  setBottom,
+  setLeft,
   id,
   defaultCheckAll = false
 }) => {
+  // 분리 설정 여부 체크
   const [checkAll, setCheckAll] = useState(defaultCheckAll);
 
-  const handlePaddingTop = (count: number) => {
-    setPaddingTop(count);
+  const setPaddingTop = (count: number) => {
+    setTop(count);
 
     if (!checkAll) {
-      setPaddingRight(count);
-      setPaddingBottom(count);
-      setPaddingLeft(count);
+      setRight(count);
+      setBottom(count);
+      setLeft(count);
     }
   };
 
@@ -53,8 +53,8 @@ export const PaddingOption: FC<Props> = ({
         <CountingInput
           id={checkAll ? `setPaddingTop${id}` : `setPadding${id}`}
           ariaLabel={checkAll ? "padding-top" : "padding"}
-          count={paddingTop}
-          setCount={handlePaddingTop}
+          count={top}
+          setCount={setPaddingTop}
           limit={30}
           showIcon={true}
           showFeedback={true}
@@ -80,8 +80,8 @@ export const PaddingOption: FC<Props> = ({
             <CountingInput
               id={`setPaddingRight${id}`}
               ariaLabel="padding-right"
-              count={paddingRight}
-              setCount={setPaddingRight}
+              count={right}
+              setCount={setRight}
               limit={30}
               showIcon={true}
               showFeedback={true}
@@ -94,8 +94,8 @@ export const PaddingOption: FC<Props> = ({
             <CountingInput
               id={`setPaddingBottom${id}`}
               ariaLabel="padding-bottom"
-              count={paddingBottom}
-              setCount={setPaddingBottom}
+              count={bottom}
+              setCount={setBottom}
               limit={30}
               showIcon={true}
               showFeedback={true}
@@ -108,8 +108,8 @@ export const PaddingOption: FC<Props> = ({
             <CountingInput
               id={`setPaddingLeft${id}`}
               ariaLabel="padding-left"
-              count={paddingLeft}
-              setCount={setPaddingLeft}
+              count={left}
+              setCount={setLeft}
               limit={30}
               showIcon={true}
               showFeedback={true}

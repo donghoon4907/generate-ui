@@ -153,8 +153,8 @@ const ComponentCheckbox: NextPage = () => {
                   span={1}
                   id="Checkbox"
                   color={color}
-                  setColor={setColor}
                   fontSize={fontSize}
+                  setColor={setColor}
                   setFontSize={setFontSize}
                 />
               </Grid.FoldableTitle>
@@ -163,8 +163,8 @@ const ComponentCheckbox: NextPage = () => {
                 <PreferenceOption
                   span={1}
                   lang={lang}
-                  setLang={setLang}
                   html={html}
+                  setLang={setLang}
                   setHtml={setHtml}
                 />
               </Grid.FoldableTitle>

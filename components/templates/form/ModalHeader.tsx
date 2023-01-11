@@ -1,8 +1,6 @@
 import type { FC } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IPadding } from "../../../model/padding";
-import type { ISetStatePadding } from "../../../hooks/usePadding";
 import type { CoreSetState } from "../../../types/core";
 import type { ISelectOption } from "../../../interfaces/select";
 import * as Grid from "../../partial/Grid";
@@ -12,7 +10,7 @@ import { FontOption } from "../options/Font";
 import { PaddingOption } from "../options/Padding";
 import { IconOption } from "../options/Icon";
 
-interface Props extends IGridOption, IPadding, ISetStatePadding {
+interface Props extends IGridOption {
   title: string;
   setTitle: CoreSetState<string>;
   titleColor: string;
@@ -29,18 +27,18 @@ interface Props extends IGridOption, IPadding, ISetStatePadding {
   setCloseIconSize: CoreSetState<number>;
   closeIconColor: string;
   setCloseIconColor: CoreSetState<string>;
+  paddingTop: number;
+  paddingRight: number;
+  paddingBottom: number;
+  paddingLeft: number;
+  setPaddingTop: CoreSetState<number>;
+  setPaddingRight: CoreSetState<number>;
+  setPaddingBottom: CoreSetState<number>;
+  setPaddingLeft: CoreSetState<number>;
 }
 
 export const ModalHeaderForm: FC<Props> = ({
   span,
-  paddingTop,
-  paddingRight,
-  paddingBottom,
-  paddingLeft,
-  setPaddingTop,
-  setPaddingRight,
-  setPaddingBottom,
-  setPaddingLeft,
   title,
   setTitle,
   titleColor,
@@ -56,8 +54,17 @@ export const ModalHeaderForm: FC<Props> = ({
   closeIconSize,
   setCloseIconSize,
   closeIconColor,
-  setCloseIconColor
+  setCloseIconColor,
+  paddingTop,
+  paddingRight,
+  paddingBottom,
+  paddingLeft,
+  setPaddingTop,
+  setPaddingRight,
+  setPaddingBottom,
+  setPaddingLeft
 }) => {
+  const displayName = "ModalHeader";
   // 제목 글자 수 제한
   const LABEL_LIMIT = 10;
 
@@ -78,33 +85,33 @@ export const ModalHeaderForm: FC<Props> = ({
 
       <Grid.FoldableTitle span={span} title="텍스트 설정" defaultFold={false}>
         <FontOption
-          id="HeaderTitle"
+          id={displayName}
           span={span}
           color={titleColor}
-          setColor={setTitleColor}
           fontSize={titleFontSize}
-          setFontSize={setTitleFontSize}
           lineHeight={titleLineHeight}
-          setLineHeight={setTitleLineHeight}
           letterSpacing={titleLetterSpacing}
-          setLetterSpacing={setTitleLetterSpacing}
           fontWeight={titleFontWeight}
+          setColor={setTitleColor}
+          setFontSize={setTitleFontSize}
+          setLineHeight={setTitleLineHeight}
+          setLetterSpacing={setTitleLetterSpacing}
           setFontWeight={setTitleFontWeight}
         />
       </Grid.FoldableTitle>
 
       <Grid.FoldableTitle span={span} title="여백 설정" defaultFold={false}>
         <PaddingOption
-          id="ModalHeader"
+          id={displayName}
           span={span}
-          paddingTop={paddingTop}
-          paddingRight={paddingRight}
-          paddingBottom={paddingBottom}
-          paddingLeft={paddingLeft}
-          setPaddingTop={setPaddingTop}
-          setPaddingRight={setPaddingRight}
-          setPaddingBottom={setPaddingBottom}
-          setPaddingLeft={setPaddingLeft}
+          top={paddingTop}
+          right={paddingRight}
+          bottom={paddingBottom}
+          left={paddingLeft}
+          setTop={setPaddingTop}
+          setRight={setPaddingRight}
+          setBottom={setPaddingBottom}
+          setLeft={setPaddingLeft}
         />
       </Grid.FoldableTitle>
 
@@ -115,10 +122,10 @@ export const ModalHeaderForm: FC<Props> = ({
       >
         <IconOption
           span={span}
-          id="ModalHeader"
+          id={displayName}
           iconSize={closeIconSize}
-          setIconSize={setCloseIconSize}
           iconColor={closeIconColor}
+          setIconSize={setCloseIconSize}
           setIconColor={setCloseIconColor}
         />
       </Grid.FoldableTitle>

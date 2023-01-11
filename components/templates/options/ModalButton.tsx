@@ -23,16 +23,15 @@ import { LoadOption } from "./Load";
 interface Props extends IGridOption, IModalButtonOption {
   order: number;
   buttons: IModalButtonOption[];
+  isExpand: boolean;
   setButtons: CoreSetState<IModalButtonOption[]>;
   updateItem: (option: Record<any, any>) => void;
-  isExpand: boolean;
 }
 
 export const ModalButtonOption: FC<Props> = ({
   span,
   order,
   buttons,
-  setButtons,
   label,
   width,
   color,
@@ -55,8 +54,9 @@ export const ModalButtonOption: FC<Props> = ({
   borderWidth,
   bgColorHex,
   bgColorAlpha,
-  updateItem,
-  isExpand
+  isExpand,
+  setButtons,
+  updateItem
 }) => {
   const displayName = `ModalButton${order}`;
 
@@ -273,14 +273,14 @@ export const ModalButtonOption: FC<Props> = ({
                 <PaddingOption
                   id={displayName}
                   span={span}
-                  paddingTop={paddingTop}
-                  paddingRight={paddingRight}
-                  paddingBottom={paddingBottom}
-                  paddingLeft={paddingLeft}
-                  setPaddingTop={setPaddingTop}
-                  setPaddingRight={setPaddingRight}
-                  setPaddingBottom={setPaddingBottom}
-                  setPaddingLeft={setPaddingLeft}
+                  top={paddingTop}
+                  right={paddingRight}
+                  bottom={paddingBottom}
+                  left={paddingLeft}
+                  setTop={setPaddingTop}
+                  setRight={setPaddingRight}
+                  setBottom={setPaddingBottom}
+                  setLeft={setPaddingLeft}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -291,14 +291,14 @@ export const ModalButtonOption: FC<Props> = ({
                 <BorderRadiusOption
                   id={displayName}
                   span={span}
-                  borderTopLeftRadius={borderTopLeftRadius}
-                  setBorderTopLeftRadius={setBorderTopLeftRadius}
-                  borderTopRightRadius={borderTopRightRadius}
-                  setBorderTopRightRadius={setBorderTopRightRadius}
-                  borderBottomLeftRadius={borderBottomLeftRadius}
-                  setBorderBottomLeftRadius={setBorderBottomLeftRadius}
-                  borderBottomRightRadius={borderBottomRightRadius}
-                  setBorderBottomRightRadius={setBorderBottomRightRadius}
+                  topLeft={borderTopLeftRadius}
+                  setTopLeft={setBorderTopLeftRadius}
+                  topRight={borderTopRightRadius}
+                  setTopRight={setBorderTopRightRadius}
+                  bottomLeft={borderBottomLeftRadius}
+                  setBottomLeft={setBorderBottomLeftRadius}
+                  bottomRight={borderBottomRightRadius}
+                  setBottomRight={setBorderBottomRightRadius}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle

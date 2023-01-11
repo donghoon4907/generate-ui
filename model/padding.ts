@@ -1,6 +1,6 @@
 export interface IPadding {
-  paddingTop: number;
-  paddingRight: number;
-  paddingBottom: number;
-  paddingLeft: number;
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
 }

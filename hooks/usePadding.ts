@@ -3,51 +3,41 @@ import { useState } from "react";
 import type { IPadding } from "../model/padding";
 import type { CoreSetState } from "../types/core";
 
-export interface ISetStatePadding {
-  setPaddingTop: CoreSetState<number>;
-  setPaddingRight: CoreSetState<number>;
-  setPaddingBottom: CoreSetState<number>;
-  setPaddingLeft: CoreSetState<number>;
+export interface ISetPadding {
+  setTop: CoreSetState<number>;
+  setRight: CoreSetState<number>;
+  setBottom: CoreSetState<number>;
+  setLeft: CoreSetState<number>;
 }
 
-export interface IUsePadding extends IPadding, ISetStatePadding {
-  setPadding: CoreSetState<number>;
-}
+export interface IUsePadding extends IPadding, ISetPadding {}
 
 export const usePadding: (
   defaultPadding: number | IPadding
 ) => IUsePadding = defaultPadding => {
   const isNumber = typeof defaultPadding === "number";
 
-  const [paddingTop, setPaddingTop] = useState<number>(
-    isNumber ? defaultPadding : defaultPadding.paddingTop
+  const [top, setTop] = useState<number>(
+    isNumber ? defaultPadding : defaultPadding.top
   );
-  const [paddingRight, setPaddingRight] = useState<number>(
-    isNumber ? defaultPadding : defaultPadding.paddingRight
+  const [right, setRight] = useState<number>(
+    isNumber ? defaultPadding : defaultPadding.right
   );
-  const [paddingBottom, setPaddingBottom] = useState<number>(
-    isNumber ? defaultPadding : defaultPadding.paddingBottom
+  const [bottom, setBottom] = useState<number>(
+    isNumber ? defaultPadding : defaultPadding.bottom
   );
-  const [paddingLeft, setPaddingLeft] = useState<number>(
-    isNumber ? defaultPadding : defaultPadding.paddingLeft
+  const [left, setLeft] = useState<number>(
+    isNumber ? defaultPadding : defaultPadding.left
   );
-
-  const setPadding = (padding: number) => {
-    setPaddingTop(padding);
-    setPaddingRight(padding);
-    setPaddingBottom(padding);
-    setPaddingLeft(padding);
-  };
 
   return {
-    paddingTop,
-    paddingRight,
-    paddingBottom,
-    paddingLeft,
-    setPadding,
-    setPaddingTop,
-    setPaddingRight,
-    setPaddingBottom,
-    setPaddingLeft
+    top,
+    right,
+    bottom,
+    left,
+    setTop,
+    setRight,
+    setBottom,
+    setLeft
   };
 };

@@ -342,14 +342,14 @@ export const ModalLayoutOption: FC<Props> = ({
                 <PaddingOption
                   id={inputDisplayName}
                   span={span}
-                  paddingTop={inputPaddingTop}
-                  paddingRight={inputPaddingRight}
-                  paddingBottom={inputPaddingBottom}
-                  paddingLeft={inputPaddingLeft}
-                  setPaddingTop={setInputPaddingTop}
-                  setPaddingRight={setInputPaddingRight}
-                  setPaddingBottom={setInputPaddingBottom}
-                  setPaddingLeft={setInputPaddingLeft}
+                  top={inputPaddingTop}
+                  right={inputPaddingRight}
+                  bottom={inputPaddingBottom}
+                  left={inputPaddingLeft}
+                  setTop={setInputPaddingTop}
+                  setRight={setInputPaddingRight}
+                  setBottom={setInputPaddingBottom}
+                  setLeft={setInputPaddingLeft}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle
@@ -360,14 +360,14 @@ export const ModalLayoutOption: FC<Props> = ({
                 <BorderRadiusOption
                   id={inputDisplayName}
                   span={span}
-                  borderTopLeftRadius={inputBorderTopLeftRadius}
-                  setBorderTopLeftRadius={setInputBorderTopLeftRadius}
-                  borderTopRightRadius={inputBorderTopRightRadius}
-                  setBorderTopRightRadius={setInputBorderTopRightRadius}
-                  borderBottomLeftRadius={inputBorderBottomLeftRadius}
-                  setBorderBottomLeftRadius={setInputBorderBottomLeftRadius}
-                  borderBottomRightRadius={inputBorderBottomRightRadius}
-                  setBorderBottomRightRadius={setInputBorderBottomRightRadius}
+                  topLeft={inputBorderTopLeftRadius}
+                  topRight={inputBorderTopRightRadius}
+                  bottomLeft={inputBorderBottomLeftRadius}
+                  bottomRight={inputBorderBottomRightRadius}
+                  setTopLeft={setInputBorderTopLeftRadius}
+                  setTopRight={setInputBorderTopRightRadius}
+                  setBottomLeft={setInputBorderBottomLeftRadius}
+                  setBottomRight={setInputBorderBottomRightRadius}
                 />
               </Grid.FoldableTitle>
               <Grid.FoldableTitle

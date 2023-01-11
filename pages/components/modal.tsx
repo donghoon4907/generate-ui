@@ -158,20 +158,20 @@ const ComponentModal: NextPage = () => {
   // preview style
   const modalStyle: CSSProperties = {
     width,
-    borderTopLeftRadius: borderRadius.borderTopLeftRadius,
-    borderTopRightRadius: borderRadius.borderTopRightRadius,
-    borderBottomLeftRadius: borderRadius.borderBottomLeftRadius,
-    borderBottomRightRadius: borderRadius.borderBottomRightRadius,
+    borderTopLeftRadius: borderRadius.topLeft,
+    borderTopRightRadius: borderRadius.topRight,
+    borderBottomLeftRadius: borderRadius.bottomLeft,
+    borderBottomRightRadius: borderRadius.bottomRight,
     border: `${borderWidth}px ${borderStyle.value} ${borderColor}`,
     backgroundColor: bgColorRgba.toString(),
     overflow: "hidden"
   };
 
   const headerWrapperStyle: CSSProperties = {
-    paddingTop: headerPadding.paddingTop,
-    paddingRight: headerPadding.paddingRight,
-    paddingBottom: headerPadding.paddingBottom,
-    paddingLeft: headerPadding.paddingLeft,
+    paddingTop: headerPadding.top,
+    paddingRight: headerPadding.right,
+    paddingBottom: headerPadding.bottom,
+    paddingLeft: headerPadding.left,
     borderBottom: `${borderWidth}px ${borderStyle.value} ${borderColor}`
   };
 
@@ -190,17 +190,17 @@ const ComponentModal: NextPage = () => {
   };
 
   const bodyWrapperStyle: CSSProperties = {
-    paddingTop: bodyPadding.paddingTop,
-    paddingRight: bodyPadding.paddingRight,
-    paddingBottom: bodyPadding.paddingBottom,
-    paddingLeft: bodyPadding.paddingLeft
+    paddingTop: bodyPadding.top,
+    paddingRight: bodyPadding.right,
+    paddingBottom: bodyPadding.bottom,
+    paddingLeft: bodyPadding.left
   };
 
   const footerWrapperStyle: CSSProperties = {
-    paddingTop: footerPadding.paddingTop,
-    paddingRight: footerPadding.paddingRight,
-    paddingBottom: footerPadding.paddingBottom,
-    paddingLeft: footerPadding.paddingLeft,
+    paddingTop: footerPadding.top,
+    paddingRight: footerPadding.right,
+    paddingBottom: footerPadding.bottom,
+    paddingLeft: footerPadding.left,
     justifyContent: footerAlign.value,
     borderTop: `${borderWidth}px ${borderStyle.value} ${borderColor}`
   };
@@ -453,21 +453,28 @@ const ComponentModal: NextPage = () => {
                 <ModalContainerForm
                   span={GRID_SPAN}
                   width={width}
-                  setWidth={setWidth}
                   checkAddHeader={checkAddHeader}
-                  setCheckAddHeader={setCheckAddHeader}
                   checkAddFooter={checkAddFooter}
-                  setCheckAddFooter={setCheckAddFooter}
-                  {...borderRadius}
+                  borderTopLeftRadius={borderRadius.topLeft}
+                  borderTopRightRadius={borderRadius.topRight}
+                  borderBottomLeftRadius={borderRadius.bottomLeft}
+                  borderBottomRightRadius={borderRadius.bottomRight}
                   borderStyle={borderStyle}
-                  setBorderStyle={setBorderStyle}
                   borderWidth={borderWidth}
-                  setBorderWidth={setBorderWidth}
                   borderColor={borderColor}
-                  setBorderColor={setBorderColor}
                   backgroundColorHex={bgColorRgba.hex}
-                  setBackgroundColorHex={bgColorRgba.setHex}
                   backgroundColorAlpha={bgColorRgba.alpha}
+                  setWidth={setWidth}
+                  setCheckAddHeader={setCheckAddHeader}
+                  setCheckAddFooter={setCheckAddFooter}
+                  setBorderTopLeftRadius={borderRadius.setTopLeft}
+                  setBorderTopRightRadius={borderRadius.setTopRight}
+                  setBorderBottomLeftRadius={borderRadius.setBottomLeft}
+                  setBorderBottomRightRadius={borderRadius.setBottomRight}
+                  setBorderStyle={setBorderStyle}
+                  setBorderWidth={setBorderWidth}
+                  setBorderColor={setBorderColor}
+                  setBackgroundColorHex={bgColorRgba.setHex}
                   setBackgroundColorAlpha={bgColorRgba.setAlpha}
                 />
               )}
@@ -475,43 +482,64 @@ const ComponentModal: NextPage = () => {
               {activeTab === ModalTabType.HEADER && (
                 <ModalHeaderForm
                   span={GRID_SPAN}
-                  {...headerPadding}
+                  paddingTop={headerPadding.top}
+                  paddingRight={headerPadding.right}
+                  paddingBottom={headerPadding.bottom}
+                  paddingLeft={headerPadding.left}
                   title={headerTitle}
-                  setTitle={setHeaderTitle}
                   titleColor={headerTitleColor}
-                  setTitleColor={setHeaderTitleColor}
                   titleFontSize={headerTitleFontSize}
-                  setTitleFontSize={setHeaderTitleFontSize}
                   titleLineHeight={headerTitleLineHeight}
-                  setTitleLineHeight={setHeaderTitleLineHeight}
                   titleLetterSpacing={headerTitleLetterSpacing}
-                  setTitleLetterSpacing={setHeaderTitleLetterSpacing}
                   titleFontWeight={headerTitleFontWeight}
-                  setTitleFontWeight={setHeaderTitleFontWeight}
                   closeIconSize={closeIconSize}
-                  setCloseIconSize={setCloseIconSize}
                   closeIconColor={closeIconColor}
+                  setPaddingTop={headerPadding.setTop}
+                  setPaddingRight={headerPadding.setRight}
+                  setPaddingBottom={headerPadding.setBottom}
+                  setPaddingLeft={headerPadding.setLeft}
+                  setTitle={setHeaderTitle}
+                  setTitleColor={setHeaderTitleColor}
+                  setTitleFontSize={setHeaderTitleFontSize}
+                  setTitleLineHeight={setHeaderTitleLineHeight}
+                  setTitleLetterSpacing={setHeaderTitleLetterSpacing}
+                  setTitleFontWeight={setHeaderTitleFontWeight}
+                  setCloseIconSize={setCloseIconSize}
                   setCloseIconColor={setCloseIconColor}
                 />
               )}
               {activeTab === ModalTabType.BODY && (
                 <ModalBodyForm
                   span={GRID_SPAN}
-                  {...bodyPadding}
-                  layouts={layouts}
-                  setLayouts={setLayouts}
                   scrollThumbColor={bodyScrollThumbColor}
+                  layouts={layouts}
+                  paddingTop={bodyPadding.top}
+                  paddingRight={bodyPadding.right}
+                  paddingBottom={bodyPadding.bottom}
+                  paddingLeft={bodyPadding.left}
                   setScrollThumbColor={setBodyScrollThumbColor}
+                  setLayouts={setLayouts}
+                  setPaddingTop={bodyPadding.setTop}
+                  setPaddingRight={bodyPadding.setRight}
+                  setPaddingBottom={bodyPadding.setBottom}
+                  setPaddingLeft={bodyPadding.setLeft}
                 />
               )}
               {activeTab === ModalTabType.FOOTER && (
                 <ModalFooterForm
                   span={GRID_SPAN}
                   align={footerAlign}
-                  setAlign={setFooterAlign}
-                  {...footerPadding}
                   buttons={buttons}
+                  paddingTop={footerPadding.top}
+                  paddingRight={footerPadding.right}
+                  paddingBottom={footerPadding.bottom}
+                  paddingLeft={footerPadding.left}
+                  setAlign={setFooterAlign}
                   setButtons={setButtons}
+                  setPaddingTop={footerPadding.setTop}
+                  setPaddingRight={footerPadding.setRight}
+                  setPaddingBottom={footerPadding.setBottom}
+                  setPaddingLeft={footerPadding.setLeft}
                 />
               )}
             </Grid.ResponsiveContainer>

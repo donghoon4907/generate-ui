@@ -3,54 +3,41 @@ import { useState } from "react";
 import type { IBorderRadius } from "../model/borderRadius";
 import type { CoreSetState } from "../types/core";
 
-export interface ISetStateBorderRadius {
-  setBorderTopLeftRadius: CoreSetState<number>;
-  setBorderTopRightRadius: CoreSetState<number>;
-  setBorderBottomLeftRadius: CoreSetState<number>;
-  setBorderBottomRightRadius: CoreSetState<number>;
+export interface ISetBorderRadius {
+  setTopLeft: CoreSetState<number>;
+  setTopRight: CoreSetState<number>;
+  setBottomLeft: CoreSetState<number>;
+  setBottomRight: CoreSetState<number>;
 }
 
-export interface IUseBorderRadius extends IBorderRadius, ISetStateBorderRadius {
-  setBorderRadius: CoreSetState<number>;
-}
+export interface IUseBorderRadius extends IBorderRadius, ISetBorderRadius {}
 
 export const useBorderRadius: (
   defaultBorderRadius: number | IBorderRadius
 ) => IUseBorderRadius = defaultBorderRadius => {
   const isNumber = typeof defaultBorderRadius === "number";
 
-  const [borderTopLeftRadius, setBorderTopLeftRadius] = useState<number>(
-    isNumber ? defaultBorderRadius : defaultBorderRadius.borderTopLeftRadius
+  const [topLeft, setTopLeft] = useState<number>(
+    isNumber ? defaultBorderRadius : defaultBorderRadius.topLeft
   );
-  const [borderTopRightRadius, setBorderTopRightRadius] = useState<number>(
-    isNumber ? defaultBorderRadius : defaultBorderRadius.borderTopRightRadius
+  const [topRight, setTopRight] = useState<number>(
+    isNumber ? defaultBorderRadius : defaultBorderRadius.topRight
   );
-  const [borderBottomLeftRadius, setBorderBottomLeftRadius] = useState<number>(
-    isNumber ? defaultBorderRadius : defaultBorderRadius.borderBottomLeftRadius
+  const [bottomLeft, setBottomLeft] = useState<number>(
+    isNumber ? defaultBorderRadius : defaultBorderRadius.bottomLeft
   );
-  const [borderBottomRightRadius, setBorderBottomRightRadius] =
-    useState<number>(
-      isNumber
-        ? defaultBorderRadius
-        : defaultBorderRadius.borderBottomRightRadius
-    );
-
-  const setBorderRadius = (borderRadius: number) => {
-    setBorderTopLeftRadius(borderRadius);
-    setBorderTopRightRadius(borderRadius);
-    setBorderBottomLeftRadius(borderRadius);
-    setBorderBottomRightRadius(borderRadius);
-  };
+  const [bottomRight, setBottomRight] = useState<number>(
+    isNumber ? defaultBorderRadius : defaultBorderRadius.bottomRight
+  );
 
   return {
-    borderTopLeftRadius,
-    borderTopRightRadius,
-    borderBottomLeftRadius,
-    borderBottomRightRadius,
-    setBorderRadius,
-    setBorderTopLeftRadius,
-    setBorderTopRightRadius,
-    setBorderBottomLeftRadius,
-    setBorderBottomRightRadius
+    topLeft,
+    topRight,
+    bottomLeft,
+    bottomRight,
+    setTopLeft,
+    setTopRight,
+    setBottomLeft,
+    setBottomRight
   };
 };

@@ -1,6 +1,6 @@
 export interface IBorderRadius {
-  borderTopLeftRadius: number;
-  borderTopRightRadius: number;
-  borderBottomLeftRadius: number;
-  borderBottomRightRadius: number;
+  topLeft: number;
+  topRight: number;
+  bottomLeft: number;
+  bottomRight: number;
 }

@@ -2,8 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 
 import type { IGridOption } from "../../../interfaces/grid";
-import type { IBorderRadius } from "../../../model/borderRadius";
-import type { ISetStateBorderRadius } from "../../../hooks/useBorderRadius";
+import type { IUseBorderRadius } from "../../../hooks/useBorderRadius";
 import * as Grid from "../../partial/Grid";
 import { CountingInput } from "../../CountingInput";
 import { CountNumberType } from "../../../types/count";
@@ -12,33 +11,34 @@ import { Switch } from "../../Switch";
 import { WithLabel } from "../../WithLabel";
 import constants from "../../../constants";
 
-interface Props extends IGridOption, IBorderRadius, ISetStateBorderRadius {
+interface Props extends IGridOption, IUseBorderRadius {
   id: string;
   defaultCheckAll?: boolean;
 }
 
 export const BorderRadiusOption: FC<Props> = ({
   span,
-  borderTopLeftRadius,
-  borderTopRightRadius,
-  borderBottomLeftRadius,
-  borderBottomRightRadius,
-  setBorderTopLeftRadius,
-  setBorderTopRightRadius,
-  setBorderBottomLeftRadius,
-  setBorderBottomRightRadius,
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+  setTopLeft,
+  setTopRight,
+  setBottomLeft,
+  setBottomRight,
   id,
   defaultCheckAll = false
 }) => {
+  // 분리 설정 여부
   const [checkAll, setCheckAll] = useState(defaultCheckAll);
 
-  const handleBorderTopLeftRadius = (count: number) => {
-    setBorderTopLeftRadius(count);
+  const setBorderTopLeftRadius = (count: number) => {
+    setTopLeft(count);
 
     if (!checkAll) {
-      setBorderTopRightRadius(count);
-      setBorderBottomLeftRadius(count);
-      setBorderBottomRightRadius(count);
+      setTopRight(count);
+      setBottomLeft(count);
+      setBottomRight(count);
     }
   };
 
@@ -55,8 +55,8 @@ export const BorderRadiusOption: FC<Props> = ({
         <CountingInput
           id={checkAll ? `setBorderTopLeftRadius${id}` : `setBorderRadius${id}`}
           ariaLabel={checkAll ? "border-top-left-radius" : "border-radius"}
-          count={borderTopLeftRadius}
-          setCount={handleBorderTopLeftRadius}
+          count={topLeft}
+          setCount={setBorderTopLeftRadius}
           limit={100}
           showIcon={true}
           showFeedback={true}
@@ -84,8 +84,8 @@ export const BorderRadiusOption: FC<Props> = ({
             <CountingInput
               id={`setBorderTopRightRadius${id}`}
               ariaLabel="border-top-right-radius"
-              count={borderTopRightRadius}
-              setCount={setBorderTopRightRadius}
+              count={topRight}
+              setCount={setTopRight}
               limit={100}
               showIcon={true}
               showFeedback={true}
@@ -100,8 +100,8 @@ export const BorderRadiusOption: FC<Props> = ({
             <CountingInput
               id={`setBorderBottomLeftRadius${id}`}
               ariaLabel="border-bottom-left-radius"
-              count={borderBottomLeftRadius}
-              setCount={setBorderBottomLeftRadius}
+              count={bottomLeft}
+              setCount={setBottomLeft}
               limit={100}
               showIcon={true}
               showFeedback={true}
@@ -116,8 +116,8 @@ export const BorderRadiusOption: FC<Props> = ({
             <CountingInput
               id={`setBorderBottomRightRadius${id}`}
               ariaLabel="border-bottom-right-radius"
-              count={borderBottomRightRadius}
-              setCount={setBorderBottomRightRadius}
+              count={bottomRight}
+              setCount={setBottomRight}
               limit={100}
               showIcon={true}
               showFeedback={true}
