@@ -52,7 +52,8 @@ export function makeLayoutStyle({
   };
 
   const inputWrapperStyle: CSSProperties = {
-    flex: 1,
+    width: "100%",
+    height: "100%",
     borderTopLeftRadius: inputBorderTopLeftRadius,
     borderTopRightRadius: inputBorderTopRightRadius,
     borderBottomLeftRadius: inputBorderBottomLeftRadius,

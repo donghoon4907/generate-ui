@@ -82,3 +82,29 @@ export const Header: FC<HeaderProps> = ({ children }) => (
     <span>{children}</span>
   </HeaderWrapper>
 );
+
+const FooterWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+
+  padding: 0 10px;
+  border-top: 1px solid ${({ theme }) => theme.dividerColor};
+  font-size: 18px;
+  font-weight: 500;
+  height: 40px;
+  user-select: none;
+
+  ${mixinBgLv1}
+`;
+
+interface FooterProps extends CoreProps {}
+
+export const Footer: FC<FooterProps> = ({ children }) => (
+  <FooterWrapper>{children}</FooterWrapper>
+);

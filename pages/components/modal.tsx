@@ -34,6 +34,7 @@ import { makeLayoutStyle } from "../../lib/style/modal-layout";
 import { makeButtonStyle } from "../../lib/style/modal-button";
 import { ConvertModal } from "../../lib/style/modal";
 import { copyToClipboard } from "../../lib/copy/clipboard";
+import { PrimaryButton } from "../../components/Button";
 
 const Layer = styled.div`
   width: 100%;
@@ -50,12 +51,6 @@ const Modal = styled.div`
   background: ${({ theme }) => theme.color.white};
 `;
 
-const ModalHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const CloseIconWrapper = styled.button`
   & > svg {
     width: 100%;
@@ -66,12 +61,6 @@ const CloseIconWrapper = styled.button`
 `;
 
 const ModalBody = styled.div<{ thumbColor: string }>`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  max-height: 500px;
-  overflow-y: auto;
-
   &::-webkit-scrollbar,
   textarea::-webkit-scrollbar {
     width: 8px;
@@ -85,10 +74,8 @@ const ModalBody = styled.div<{ thumbColor: string }>`
   }
 `;
 
-const ModalFooter = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
+const ButtonWrapper = styled.div`
+  width: 100px;
 `;
 
 const ComponentModal: NextPage = () => {
@@ -173,7 +160,10 @@ const ComponentModal: NextPage = () => {
     paddingRight: headerPadding.right,
     paddingBottom: headerPadding.bottom,
     paddingLeft: headerPadding.left,
-    borderBottom: `${border.width}px ${border.style.value} ${border.color}`
+    borderBottom: `${border.width}px ${border.style.value} ${border.color}`,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
   };
 
   const headerTitleStyle: CSSProperties = {
@@ -187,17 +177,26 @@ const ComponentModal: NextPage = () => {
   const closeIconStyle: CSSProperties = {
     width: closeIconSize,
     height: closeIconSize,
-    color: closeIconColor
+    color: closeIconColor,
+    cursor: "pointer"
   };
 
   const bodyWrapperStyle: CSSProperties = {
     paddingTop: bodyPadding.top,
     paddingRight: bodyPadding.right,
     paddingBottom: bodyPadding.bottom,
-    paddingLeft: bodyPadding.left
+    paddingLeft: bodyPadding.left,
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    maxHeight: 500,
+    overflowY: "auto"
   };
 
   const footerWrapperStyle: CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: 5,
     paddingTop: footerPadding.top,
     paddingRight: footerPadding.right,
     paddingBottom: footerPadding.bottom,
@@ -209,11 +208,11 @@ const ComponentModal: NextPage = () => {
   const handleExport = () => {
     const exportToModal = new ConvertModal({
       container: modalStyle,
-      header: headerWrapperStyle,
-      headerTitle: headerTitleStyle,
-      headerIcon: closeIconStyle,
+      header: checkAddHeader ? headerWrapperStyle : null,
+      headerTitle: checkAddHeader ? headerTitleStyle : null,
+      headerIcon: checkAddHeader ? closeIconStyle : null,
       body: bodyWrapperStyle,
-      footer: footerWrapperStyle
+      footer: checkAddFooter ? footerWrapperStyle : null
     });
 
     exportToModal.generateModal({
@@ -243,12 +242,12 @@ const ComponentModal: NextPage = () => {
           <Layer>
             <Modal style={modalStyle}>
               {checkAddHeader && (
-                <ModalHeader style={headerWrapperStyle}>
+                <div style={headerWrapperStyle}>
                   <span style={headerTitleStyle}>{headerTitle}</span>
                   <CloseIconWrapper type="button" style={closeIconStyle}>
                     <AiOutlineClose />
                   </CloseIconWrapper>
-                </ModalHeader>
+                </div>
               )}
 
               <ModalBody
@@ -285,7 +284,7 @@ const ComponentModal: NextPage = () => {
                 })}
               </ModalBody>
               {checkAddFooter && (
-                <ModalFooter style={footerWrapperStyle}>
+                <div style={footerWrapperStyle}>
                   {buttons.map((button, index) => {
                     const { btnStyle } = makeButtonStyle(button);
 
@@ -295,7 +294,7 @@ const ComponentModal: NextPage = () => {
                       </button>
                     );
                   })}
-                </ModalFooter>
+                </div>
               )}
             </Modal>
           </Layer>
@@ -430,6 +429,13 @@ const ComponentModal: NextPage = () => {
               )}
             </Grid.ResponsiveContainer>
           </Component.Scrollable>
+          <Component.Footer>
+            <ButtonWrapper>
+              <PrimaryButton type="button" onClick={handleExport}>
+                Export
+              </PrimaryButton>
+            </ButtonWrapper>
+          </Component.Footer>
         </Component.RightAside>
       </Component.Container>
     </>

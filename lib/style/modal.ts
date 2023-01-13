@@ -9,11 +9,11 @@ import { makeButtonStyle } from "./modal-button";
 
 export interface ConverModalOption {
   container: CSSProperties;
-  header: CSSProperties;
-  headerTitle: CSSProperties;
-  headerIcon: CSSProperties;
+  header: CSSProperties | null;
+  headerTitle: CSSProperties | null;
+  headerIcon: CSSProperties | null;
   body: CSSProperties;
-  footer: CSSProperties;
+  footer: CSSProperties | null;
 }
 
 interface GenerateModalOption {
@@ -24,26 +24,30 @@ interface GenerateModalOption {
 
 export class ConvertModal extends ConvertElement {
   private strContainerStyle: string;
-  private strHeaderStyle: string;
-  private strHeaderTitleStyle: string;
-  private strHeaderIconStyle: string;
+  private strHeaderStyle: string | null;
+  private strHeaderTitleStyle: string | null;
+  private strHeaderIconStyle: string | null;
   private strBodyStyle: string;
-  private strFooterStyle: string;
+  private strFooterStyle: string | null;
 
   constructor(option: ConverModalOption) {
     super();
 
     this.strContainerStyle = styleToString(option.container);
 
-    this.strHeaderStyle = styleToString(option.header);
+    this.strHeaderStyle = option.header ? styleToString(option.header) : null;
 
-    this.strHeaderTitleStyle = styleToString(option.headerTitle);
+    this.strHeaderTitleStyle = option.headerTitle
+      ? styleToString(option.headerTitle)
+      : null;
 
-    this.strHeaderIconStyle = styleToString(option.headerIcon);
+    this.strHeaderIconStyle = option.headerIcon
+      ? styleToString(option.headerIcon)
+      : null;
 
     this.strBodyStyle = styleToString(option.body);
 
-    this.strFooterStyle = styleToString(option.footer);
+    this.strFooterStyle = option.footer ? styleToString(option.footer) : null;
   }
 
   private generateClass() {
@@ -80,25 +84,26 @@ export class ConvertModal extends ConvertElement {
         ${this.strContainerStyle}
       }
 
-      .modal-header {
-        ${this.strHeaderStyle}
-      }
-
-      .modal-header__title {
-        ${this.strHeaderTitleStyle}
-      }
-
-      .modal-header__icon {
-        ${this.strHeaderIconStyle}
-      }
-
       .modal-body {
         ${this.strBodyStyle}
       }
 
-      .modal-footer {
-        ${this.strFooterStyle}
+      ${this.strHeaderStyle ? `.modal-header { ${this.strHeaderStyle} }` : ""}
+
+      ${
+        this.strHeaderTitleStyle
+          ? `.modal-header__title { ${this.strHeaderTitleStyle} }`
+          : ""
       }
+
+      ${
+        this.strHeaderIconStyle
+          ? `.modal-header__icon { ${this.strHeaderIconStyle} }`
+          : ""
+      }
+
+      ${this.strFooterStyle ? `.modal-footer { ${this.strFooterStyle} }` : ""}
+      
     </style>
     `;
   }
@@ -116,7 +121,7 @@ export class ConvertModal extends ConvertElement {
   }
 
   private generateLayouts(layouts: IModalLayout[]) {
-    return layouts.map(layout => {
+    return layouts.reduce((acc, layout) => {
       const { containerStyle, labelStyle, inputWrapperStyle, inputStyle } =
         makeLayoutStyle(layout);
 
@@ -135,7 +140,9 @@ export class ConvertModal extends ConvertElement {
         `;
       }
 
-      return `
+      return (
+        acc +
+        `
       <div style="${styleToString(containerStyle)}">
         <label style="${styleToString(labelStyle)}">
           ${layout.label}
@@ -144,20 +151,24 @@ export class ConvertModal extends ConvertElement {
           ${input}
         </div>
       </div>
-      `;
-    });
+      `
+      );
+    }, "");
   }
 
   private generateButtons(buttons: IModalButton[]) {
-    return buttons.map(button => {
+    return buttons.reduce((acc, button) => {
       const { btnStyle } = makeButtonStyle(button);
 
-      return `
+      return (
+        acc +
+        `
       <button type="button" style="${styleToString(btnStyle)}">
         <span>${button.label}</span>
       </button>
-      `;
-    });
+      `
+      );
+    }, "");
   }
 
   public generateModal(option: GenerateModalOption) {
@@ -166,23 +177,49 @@ export class ConvertModal extends ConvertElement {
     <div class="generate-modal">
       <div class="modal-layer">
         <div class="modal-container">
-          <div class="modal-header">
-            <div class="modal-header__title">
-              ${option.title}
+          ${
+            this.strHeaderStyle
+              ? `
+            <div class="modal-header">
+              ${
+                this.strHeaderTitleStyle
+                  ? `
+                <div class="modal-header__title">
+                  ${option.title}
+                </div>
+              `
+                  : ""
+              }
+              ${
+                this.strHeaderIconStyle
+                  ? `
+                <div class="modal-header__icon">
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z">
+                    </path>
+                  </svg>
+                </div>
+              `
+                  : ""
+              }
             </div>
-            <button type="button" class="modal-header__icon">
-              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z">
-                </path>
-              </svg>
-            </button>
-          </div>
+          `
+              : ""
+          }
+          
           <div class="modal-body">
             ${this.generateLayouts(option.layouts)}
           </div>
-          <div class="modal-footer">
-            ${this.generateButtons(option.buttons)}
-          </div>
+          ${
+            this.strFooterStyle
+              ? `
+            <div class="modal-footer">
+              ${this.generateButtons(option.buttons)}
+            </div>
+            `
+              : ""
+          }
+         
         </div>
       </div>
     </div>
