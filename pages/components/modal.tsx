@@ -6,10 +6,7 @@ import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 
 import type { ISelectOption } from "../../interfaces/select";
-import type {
-  IModalButtonOption,
-  IModalLayoutOption
-} from "../../interfaces/modal";
+import type { IModalButton, IModalLayout } from "../../model/modal";
 import * as Component from "../../components/partial/Component";
 import * as Grid from "../../components/partial/Grid";
 import { ModalTabType } from "../../types/tab";
@@ -21,20 +18,22 @@ import {
 import { ModalContainerForm } from "../../components/templates/form/ModalContainer";
 import { ModalHeaderForm } from "../../components/templates/form/ModalHeader";
 import { ModalBodyForm } from "../../components/templates/form/ModalBody";
-import { InputTypeOption, PositionOption } from "../../types/select-option";
+import { InputTypeOption } from "../../types/select-option";
 import { fontWeightOptions } from "../../components/options/FontWeight";
 import constants from "../../constants";
 import { useRgba } from "../../hooks/useRgba";
-import { hexToRgb } from "../../lib/calc/rgb";
 import { justifyContentOptions } from "../../components/options/Flex";
 import { ModalFooterForm } from "../../components/templates/form/ModalFooter";
-import { generateTextOverflow } from "../../lib/calc/style";
 import { borderStyleOptions } from "../../components/options/BorderStyle";
 import { usePadding } from "../../hooks/usePadding";
 import { useBorderRadius } from "../../hooks/useBorderRadius";
 import { useBorder } from "../../hooks/useBorder";
 import { useFont } from "../../hooks/useFont";
 import { useTab } from "../../hooks/useTab";
+import { makeLayoutStyle } from "../../lib/style/modal-layout";
+import { makeButtonStyle } from "../../lib/style/modal-button";
+import { ConvertModal } from "../../lib/style/modal";
+import { copyToClipboard } from "../../lib/copy/clipboard";
 
 const Layer = styled.div`
   width: 100%;
@@ -140,7 +139,7 @@ const ComponentModal: NextPage = () => {
   // container - 푸터 설정 활성화 여부
   const [checkAddFooter, setCheckAddFooter] = useState(false);
   // body - 추가된 레이아웃 목록
-  const [layouts, setLayouts] = useState<IModalLayoutOption[]>([
+  const [layouts, setLayouts] = useState<IModalLayout[]>([
     defaultModalLayoutOption
   ]);
   // footer - 정렬
@@ -150,7 +149,7 @@ const ComponentModal: NextPage = () => {
   const footerPadding = usePadding(10);
   // footer - 여백
   // footer - 추가된 버튼 목록
-  const [buttons, setButtons] = useState<IModalButtonOption[]>([
+  const [buttons, setButtons] = useState<IModalButton[]>([
     { ...defaultModalButtonOption, label: "취소" },
     { ...defaultModalButtonOption, label: "확인" }
   ]);
@@ -207,7 +206,28 @@ const ComponentModal: NextPage = () => {
     borderTop: `${border.width}px ${border.style.value} ${border.color}`
   };
   /* handler */
-  const handleExport = () => {};
+  const handleExport = () => {
+    const exportToModal = new ConvertModal({
+      container: modalStyle,
+      header: headerWrapperStyle,
+      headerTitle: headerTitleStyle,
+      headerIcon: closeIconStyle,
+      body: bodyWrapperStyle,
+      footer: footerWrapperStyle
+    });
+
+    exportToModal.generateModal({
+      title: headerTitle,
+      layouts,
+      buttons
+    });
+
+    // if (html) {
+    //   exportToSelect.addTemplate();
+    // }
+
+    copyToClipboard(exportToModal.getHtml);
+  };
 
   return (
     <>
@@ -237,125 +257,24 @@ const ComponentModal: NextPage = () => {
               >
                 {layouts.map((layout, index) => {
                   const {
-                    label,
-                    labelPos,
-                    labelColor,
-                    labelFontSize,
-                    labelLineHeight,
-                    labelLetterSpacing,
-                    labelFontWeight,
-                    inputType,
-                    inputColor,
-                    inputFontSize,
-                    inputLineHeight,
-                    inputLetterSpacing,
-                    inputTextAlign,
-                    inputPaddingTop,
-                    inputPaddingRight,
-                    inputPaddingBottom,
-                    inputPaddingLeft,
-                    inputBorderTopLeftRadius,
-                    inputBorderTopRightRadius,
-                    inputBorderBottomLeftRadius,
-                    inputBorderBottomRightRadius,
-                    inputBorderStyle,
-                    inputBorderColor,
-                    inputBorderWidth,
-                    inputBgColorHex,
-                    inputBgColorAlpha,
-                    inputPlaceholder
-                  } = layout;
-
-                  const labelPosValue = labelPos.value;
-
-                  const rgb = hexToRgb(inputBgColorHex);
-
-                  const inputBgColor = rgb
-                    ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${inputBgColorAlpha})`
-                    : "inherit";
-
-                  const containerStyle: CSSProperties = {
-                    display: "flex"
-                  };
-
-                  const labelStyle: CSSProperties = {
-                    color: labelColor,
-                    fontSize: labelFontSize,
-                    lineHeight: `${labelLineHeight}px`,
-                    letterSpacing: labelLetterSpacing,
-                    fontWeight: labelFontWeight.value
-                  };
-
-                  const inputWrapperStyle: CSSProperties = {
-                    flex: 1,
-                    borderTopLeftRadius: inputBorderTopLeftRadius,
-                    borderTopRightRadius: inputBorderTopRightRadius,
-                    borderBottomLeftRadius: inputBorderBottomLeftRadius,
-                    borderBottomRightRadius: inputBorderBottomRightRadius,
-                    borderStyle: inputBorderStyle.value,
-                    borderWidth: inputBorderWidth,
-                    borderColor: inputBorderColor,
-                    backgroundColor: inputBgColor,
-                    overflow: "hidden"
-                  };
-
-                  const inputStyle: CSSProperties = {
-                    color: inputColor,
-                    fontSize: inputFontSize,
-                    lineHeight: `${inputLineHeight}px`,
-                    letterSpacing: inputLetterSpacing,
-                    textAlign: inputTextAlign.value as any,
-                    width: "100%",
-                    paddingTop: inputPaddingTop,
-                    paddingRight: inputPaddingRight,
-                    paddingBottom: inputPaddingBottom,
-                    paddingLeft: inputPaddingLeft,
-                    borderTopLeftRadius: inputBorderTopLeftRadius,
-                    borderTopRightRadius: inputBorderTopRightRadius,
-                    borderBottomLeftRadius: inputBorderBottomLeftRadius,
-                    borderBottomRightRadius: inputBorderBottomRightRadius,
-                    border: "none",
-                    backgroundColor: inputBgColor,
-                    verticalAlign: "middle"
-                  };
-
-                  if (inputType.value === InputTypeOption.TEXTAREA) {
-                    inputStyle.resize = "none";
-                    inputWrapperStyle.height = "100px";
-                    inputStyle.height = "100px";
-                  }
-
-                  if (labelPosValue === PositionOption.TOP) {
-                    containerStyle.flexDirection = "column";
-                  } else {
-                    containerStyle.justifyContent = "space-between";
-                    containerStyle.alignItems = "center";
-                    containerStyle.gap = 5;
-
-                    if (labelPosValue === PositionOption.RIGHT) {
-                      inputWrapperStyle.order = 1;
-                      labelStyle.order = 2;
-                    } else if (labelPosValue === PositionOption.LEFT) {
-                      inputWrapperStyle.order = 2;
-                      labelStyle.order = 1;
-                    }
-
-                    if (inputType.value === InputTypeOption.TEXTAREA) {
-                      labelStyle.height = "100px";
-                    }
-                  }
+                    containerStyle,
+                    labelStyle,
+                    inputWrapperStyle,
+                    inputStyle
+                  } = makeLayoutStyle(layout);
 
                   return (
                     <Fragment key={`PreviewLayout${index}`}>
                       <div style={containerStyle}>
-                        <div style={labelStyle}>{label}</div>
+                        <div style={labelStyle}>{layout.label}</div>
                         <div style={inputWrapperStyle}>
-                          {inputType.value === InputTypeOption.TEXTAREA ? (
+                          {layout.inputType.value ===
+                          InputTypeOption.TEXTAREA ? (
                             <textarea style={inputStyle} />
                           ) : (
                             <input
-                              type={inputType.value}
-                              placeholder={inputPlaceholder}
+                              type={layout.inputType.value}
+                              placeholder={layout.inputPlaceholder}
                               style={inputStyle}
                             />
                           )}
@@ -368,42 +287,11 @@ const ComponentModal: NextPage = () => {
               {checkAddFooter && (
                 <ModalFooter style={footerWrapperStyle}>
                   {buttons.map((button, index) => {
-                    const {
-                      label,
-                      lineHeight,
-                      fontWeight,
-                      textAlign,
-                      textOverflow,
-                      borderStyle,
-                      bgColorHex,
-                      bgColorAlpha,
-                      ...btnStyles
-                    } = button;
-
-                    const rgb = hexToRgb(bgColorHex);
-
-                    const bgColor = rgb
-                      ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${bgColorAlpha})`
-                      : "inherit";
-
-                    const textOverflowStyle = generateTextOverflow(
-                      textOverflow.value
-                    );
-
-                    const btnStyle: CSSProperties = {
-                      ...btnStyles,
-                      lineHeight: `${lineHeight}px`,
-                      fontWeight: fontWeight.value,
-                      textAlign: textAlign.value as any,
-                      borderStyle: borderStyle.value,
-                      backgroundColor: bgColor,
-                      overflow: "hidden",
-                      ...textOverflowStyle
-                    };
+                    const { btnStyle } = makeButtonStyle(button);
 
                     return (
                       <button key={`${index}`} style={btnStyle}>
-                        {label}
+                        {button.label}
                       </button>
                     );
                   })}
