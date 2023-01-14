@@ -1,6 +1,6 @@
 // 숫자인지 체크
 export const isNumber = (value: any) => {
-  // 타입 검사
+  // // 타입 검사
   // if (typeof isNumber !== "number") {
   //   return false;
   // }

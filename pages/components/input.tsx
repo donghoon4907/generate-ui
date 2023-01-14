@@ -105,7 +105,7 @@ const ComponentInput: NextPage = () => {
     iconAlign.value === IconAlignOption.LEFT && showSetIcon;
   // preview style
   const inputWrapperStyle: CSSProperties = {
-    width,
+    width: `${width}px`,
     backgroundColor: bgColorRgba.toString(),
     backgroundImage: showSetIcon
       ? `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='${encodeURIComponent(
@@ -115,15 +115,15 @@ const ComponentInput: NextPage = () => {
     backgroundRepeat: "no-repeat",
     backgroundPosition: `${iconAlign.value} 5px center`,
     backgroundSize: iconSize,
-    paddingRight: isIconAlignRight ? 25 : 0,
-    paddingLeft: isIconAlignLeft ? 25 : 0,
-    borderTopLeftRadius: borderRadius.topLeft,
-    borderTopRightRadius: borderRadius.topRight,
-    borderBottomLeftRadius: borderRadius.bottomLeft,
-    borderBottomRightRadius: borderRadius.bottomRight,
+    paddingRight: isIconAlignRight ? "25px" : 0,
+    paddingLeft: isIconAlignLeft ? "25px" : 0,
+    borderTopLeftRadius: `${borderRadius.topLeft}px`,
+    borderTopRightRadius: `${borderRadius.topRight}px`,
+    borderBottomLeftRadius: `${borderRadius.bottomLeft}px`,
+    borderBottomRightRadius: `${borderRadius.bottomRight}px`,
     borderStyle: border.style.value,
     borderColor: border.color,
-    borderWidth: border.width,
+    borderWidth: `${border.width}px`,
     overflow: "hidden"
   };
 
@@ -131,18 +131,18 @@ const ComponentInput: NextPage = () => {
     width: "100%",
     backgroundColor: bgColorRgba.toString(),
     color: font.color,
-    fontSize: font.fontSize,
+    fontSize: `${font.fontSize}px`,
     lineHeight: `${font.lineHeight}px`,
-    letterSpacing: font.letterSpacing,
-    paddingTop: padding.top,
-    paddingRight: padding.right,
-    paddingBottom: padding.bottom,
-    paddingLeft: padding.left,
+    letterSpacing: `${font.letterSpacing}px`,
+    paddingTop: `${padding.top}px`,
+    paddingRight: `${padding.right}px`,
+    paddingBottom: `${padding.bottom}px`,
+    paddingLeft: `${padding.left}px`,
     textAlign: font.textAlign?.value as any,
-    borderTopLeftRadius: borderRadius.topLeft,
-    borderTopRightRadius: borderRadius.topRight,
-    borderBottomLeftRadius: borderRadius.bottomLeft,
-    borderBottomRightRadius: borderRadius.bottomRight,
+    borderTopLeftRadius: `${borderRadius.topLeft}px`,
+    borderTopRightRadius: `${borderRadius.topRight}px`,
+    borderBottomLeftRadius: `${borderRadius.bottomLeft}px`,
+    borderBottomRightRadius: `${borderRadius.bottomRight}px`,
     border: "none"
   };
   /* handler */

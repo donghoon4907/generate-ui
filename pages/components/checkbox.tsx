@@ -76,7 +76,7 @@ const ComponentCheckbox: NextPage = () => {
 
   const labelStyle: CSSProperties = {
     color: font.color,
-    fontSize: font.fontSize
+    fontSize: `${font.fontSize}px`
   };
   /* handler */
   const handleExport = () => {

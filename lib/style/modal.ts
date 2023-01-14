@@ -4,8 +4,7 @@ import type { IModalButton, IModalLayout } from "../../model/modal";
 import { styleToString } from "./to-string";
 import { ConvertElement } from "./core";
 import { InputTypeOption } from "../../types/select-option";
-import { makeLayoutStyle } from "./modal-layout";
-import { makeButtonStyle } from "./modal-button";
+import { makeLayoutStyle, makeButtonStyle } from "./modal-extension";
 
 export interface ConverModalOption {
   container: CSSProperties;
@@ -24,33 +23,63 @@ interface GenerateModalOption {
 
 export class ConvertModal extends ConvertElement {
   private strContainerStyle: string;
-  private strHeaderStyle: string | null;
-  private strHeaderTitleStyle: string | null;
-  private strHeaderIconStyle: string | null;
+  private strHeaderStyle: string | null = null;
+  private strHeaderTitleStyle: string | null = null;
+  private strHeaderIconStyle: string | null = null;
   private strBodyStyle: string;
-  private strFooterStyle: string | null;
+  private strFooterStyle: string | null = null;
+  private additionalClass: string[] = [];
 
   constructor(option: ConverModalOption) {
     super();
 
     this.strContainerStyle = styleToString(option.container);
 
-    this.strHeaderStyle = option.header ? styleToString(option.header) : null;
+    if (option.header) {
+      this.strHeaderStyle = styleToString(option.header);
+    }
 
-    this.strHeaderTitleStyle = option.headerTitle
-      ? styleToString(option.headerTitle)
-      : null;
+    if (option.headerTitle) {
+      this.strHeaderTitleStyle = styleToString(option.headerTitle);
+    }
 
-    this.strHeaderIconStyle = option.headerIcon
-      ? styleToString(option.headerIcon)
-      : null;
+    if (option.headerIcon) {
+      this.strHeaderIconStyle = styleToString(option.headerIcon);
+    }
 
     this.strBodyStyle = styleToString(option.body);
 
-    this.strFooterStyle = option.footer ? styleToString(option.footer) : null;
+    if (option.footer) {
+      this.strFooterStyle = styleToString(option.footer);
+    }
   }
 
   private generateClass() {
+    let headerClass = "";
+    if (this.strHeaderStyle) {
+      headerClass = `.modal-header { ${this.strHeaderStyle} }`;
+    }
+
+    let headerTitleClass = "";
+    if (this.strHeaderTitleStyle) {
+      headerTitleClass = `.modal-header__title { ${this.strHeaderTitleStyle} }`;
+    }
+
+    let headerIconClass = "";
+    if (this.strHeaderIconStyle) {
+      headerIconClass = `.modal-header__icon { ${this.strHeaderIconStyle} }`;
+    }
+
+    let footerClass = "";
+    if (this.strFooterStyle) {
+      footerClass = `.modal-footer { ${this.strFooterStyle} }`;
+    }
+
+    let addtionalClass = "";
+    if (this.additionalClass.length > 0) {
+      addtionalClass = this.additionalClass.reduce((acc, cur) => acc + cur, "");
+    }
+
     return `
     <style>
       * {
@@ -88,22 +117,11 @@ export class ConvertModal extends ConvertElement {
         ${this.strBodyStyle}
       }
 
-      ${this.strHeaderStyle ? `.modal-header { ${this.strHeaderStyle} }` : ""}
-
-      ${
-        this.strHeaderTitleStyle
-          ? `.modal-header__title { ${this.strHeaderTitleStyle} }`
-          : ""
-      }
-
-      ${
-        this.strHeaderIconStyle
-          ? `.modal-header__icon { ${this.strHeaderIconStyle} }`
-          : ""
-      }
-
-      ${this.strFooterStyle ? `.modal-footer { ${this.strFooterStyle} }` : ""}
-      
+      ${headerClass}
+      ${headerTitleClass}
+      ${headerIconClass}
+      ${footerClass}
+      ${addtionalClass}
     </style>
     `;
   }
@@ -111,43 +129,48 @@ export class ConvertModal extends ConvertElement {
   private generateEvent() {
     return `
     <script>
+      var $container = document.querySelector(".generate-modal");
       var $icon = document.querySelector(".modal-header__icon");
       
       $icon.onclick = function(evt) {
-        
+        $container.classList.add("generate-modal--hide");
       }
       </script>
     `;
   }
 
   private generateLayouts(layouts: IModalLayout[]) {
-    return layouts.reduce((acc, layout) => {
+    return layouts.reduce((acc, layout, index) => {
+      const containerClassName = `modal-layout${index + 1}`;
+
       const { containerStyle, labelStyle, inputWrapperStyle, inputStyle } =
         makeLayoutStyle(layout);
 
+      this.additionalClass.push(`
+      .${containerClassName} { ${styleToString(containerStyle)} }
+
+      .${containerClassName}__label { ${styleToString(labelStyle)} }
+
+      .${containerClassName}__input { ${styleToString(inputWrapperStyle)} }
+
+      .${containerClassName}__input > * { ${styleToString(inputStyle)} }
+      `);
+
       let input;
       if (layout.inputType.value === InputTypeOption.TEXTAREA) {
-        input = `
-        <textarea placeholder="${
-          layout.inputPlaceholder
-        }" style="${styleToString(inputStyle)}" />
-        `;
+        input = `<textarea placeholder="${layout.inputPlaceholder}" />`;
       } else {
-        input = `
-        <input type="${layout.inputType.value}" placeholder="${
-          layout.inputPlaceholder
-        }" style="${styleToString(inputStyle)}" />
-        `;
+        input = `<input type="${layout.inputType.value}" placeholder="${layout.inputPlaceholder}" />`;
       }
 
       return (
         acc +
         `
-      <div style="${styleToString(containerStyle)}">
-        <label style="${styleToString(labelStyle)}">
+      <div class="${containerClassName}">
+        <label class="${containerClassName}__label">
           ${layout.label}
         </label>
-        <div style="${styleToString(inputWrapperStyle)}">
+        <div class="${containerClassName}__input">
           ${input}
         </div>
       </div>
@@ -157,13 +180,19 @@ export class ConvertModal extends ConvertElement {
   }
 
   private generateButtons(buttons: IModalButton[]) {
-    return buttons.reduce((acc, button) => {
+    return buttons.reduce((acc, button, index) => {
+      const btnClassName = `modal-button${index + 1}`;
+
       const { btnStyle } = makeButtonStyle(button);
+
+      this.additionalClass.push(`
+      .${btnClassName} { ${styleToString(btnStyle)} }
+      `);
 
       return (
         acc +
         `
-      <button type="button" style="${styleToString(btnStyle)}">
+      <button type="button" class="${btnClassName}">
         <span>${button.label}</span>
       </button>
       `
@@ -172,54 +201,53 @@ export class ConvertModal extends ConvertElement {
   }
 
   public generateModal(option: GenerateModalOption) {
+    const layouts = this.generateLayouts(option.layouts);
+
+    const buttons = this.generateButtons(option.buttons);
+
+    let closeIcon = "";
+    if (this.strHeaderIconStyle) {
+      closeIcon = `
+      <div class="modal-header__icon">
+        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z">
+          </path>
+        </svg>
+      </div>
+      `;
+    }
+
+    let header = "";
+    if (this.strHeaderTitleStyle) {
+      header = `
+      <div class="modal-header">
+        <div class="modal-header__title">
+        ${option.title}
+        </div>
+        ${closeIcon}
+      </div>
+        `;
+    }
+
+    let footer = "";
+    if (this.strFooterStyle) {
+      footer = `
+      <div class="modal-footer">
+        ${buttons}
+      </div>
+      `;
+    }
+
     this.convertedHtml = `
     ${this.generateClass()}
     <div class="generate-modal">
       <div class="modal-layer">
         <div class="modal-container">
-          ${
-            this.strHeaderStyle
-              ? `
-            <div class="modal-header">
-              ${
-                this.strHeaderTitleStyle
-                  ? `
-                <div class="modal-header__title">
-                  ${option.title}
-                </div>
-              `
-                  : ""
-              }
-              ${
-                this.strHeaderIconStyle
-                  ? `
-                <div class="modal-header__icon">
-                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z">
-                    </path>
-                  </svg>
-                </div>
-              `
-                  : ""
-              }
-            </div>
-          `
-              : ""
-          }
-          
+          ${header}
           <div class="modal-body">
-            ${this.generateLayouts(option.layouts)}
+            ${layouts}
           </div>
-          ${
-            this.strFooterStyle
-              ? `
-            <div class="modal-footer">
-              ${this.generateButtons(option.buttons)}
-            </div>
-            `
-              : ""
-          }
-         
+          ${footer}
         </div>
       </div>
     </div>

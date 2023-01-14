@@ -30,8 +30,10 @@ import { useBorderRadius } from "../../hooks/useBorderRadius";
 import { useBorder } from "../../hooks/useBorder";
 import { useFont } from "../../hooks/useFont";
 import { useTab } from "../../hooks/useTab";
-import { makeLayoutStyle } from "../../lib/style/modal-layout";
-import { makeButtonStyle } from "../../lib/style/modal-button";
+import {
+  makeLayoutStyle,
+  makeButtonStyle
+} from "../../lib/style/modal-extension";
 import { ConvertModal } from "../../lib/style/modal";
 import { copyToClipboard } from "../../lib/copy/clipboard";
 import { PrimaryButton } from "../../components/Button";
@@ -143,23 +145,23 @@ const ComponentModal: NextPage = () => {
   /* order - variable */
   // preview style
   const modalStyle: CSSProperties = {
-    width,
-    borderTopLeftRadius: borderRadius.topLeft,
-    borderTopRightRadius: borderRadius.topRight,
-    borderBottomLeftRadius: borderRadius.bottomLeft,
-    borderBottomRightRadius: borderRadius.bottomRight,
+    width: `${width}px`,
+    borderTopLeftRadius: `${borderRadius.topLeft}px`,
+    borderTopRightRadius: `${borderRadius.topRight}px`,
+    borderBottomLeftRadius: `${borderRadius.bottomLeft}px`,
+    borderBottomRightRadius: `${borderRadius.bottomRight}px`,
     borderStyle: border.style.value,
-    borderWidth: border.width,
+    borderWidth: `${border.width}px`,
     borderColor: border.color,
     backgroundColor: bgColorRgba.toString(),
     overflow: "hidden"
   };
 
   const headerWrapperStyle: CSSProperties = {
-    paddingTop: headerPadding.top,
-    paddingRight: headerPadding.right,
-    paddingBottom: headerPadding.bottom,
-    paddingLeft: headerPadding.left,
+    paddingTop: `${headerPadding.top}px`,
+    paddingRight: `${headerPadding.right}px`,
+    paddingBottom: `${headerPadding.bottom}px`,
+    paddingLeft: `${headerPadding.left}px`,
     borderBottom: `${border.width}px ${border.style.value} ${border.color}`,
     display: "flex",
     justifyContent: "space-between",
@@ -168,39 +170,39 @@ const ComponentModal: NextPage = () => {
 
   const headerTitleStyle: CSSProperties = {
     color: headerTitleFont.color,
-    fontSize: headerTitleFont.fontSize,
+    fontSize: `${headerTitleFont.fontSize}px`,
     lineHeight: `${headerTitleFont.lineHeight}px`,
-    letterSpacing: headerTitleFont.letterSpacing,
+    letterSpacing: `${headerTitleFont.letterSpacing}px`,
     fontWeight: headerTitleFont.fontWeight?.value
   };
 
   const closeIconStyle: CSSProperties = {
-    width: closeIconSize,
-    height: closeIconSize,
+    width: `${closeIconSize}px`,
+    height: `${closeIconSize}px`,
     color: closeIconColor,
     cursor: "pointer"
   };
 
   const bodyWrapperStyle: CSSProperties = {
-    paddingTop: bodyPadding.top,
-    paddingRight: bodyPadding.right,
-    paddingBottom: bodyPadding.bottom,
-    paddingLeft: bodyPadding.left,
+    paddingTop: `${bodyPadding.top}px`,
+    paddingRight: `${bodyPadding.right}px`,
+    paddingBottom: `${bodyPadding.bottom}px`,
+    paddingLeft: `${bodyPadding.left}px`,
     display: "flex",
     flexDirection: "column",
-    gap: 5,
-    maxHeight: 500,
+    gap: "5px",
+    maxHeight: "500px",
     overflowY: "auto"
   };
 
   const footerWrapperStyle: CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: 5,
-    paddingTop: footerPadding.top,
-    paddingRight: footerPadding.right,
-    paddingBottom: footerPadding.bottom,
-    paddingLeft: footerPadding.left,
+    gap: "5px",
+    paddingTop: `${footerPadding.top}px`,
+    paddingRight: `${footerPadding.right}px`,
+    paddingBottom: `${footerPadding.bottom}px`,
+    paddingLeft: `${footerPadding.left}px`,
     justifyContent: footerAlign.value,
     borderTop: `${border.width}px ${border.style.value} ${border.color}`
   };
@@ -218,7 +220,7 @@ const ComponentModal: NextPage = () => {
     exportToModal.generateModal({
       title: headerTitle,
       layouts,
-      buttons
+      buttons: checkAddFooter ? buttons : []
     });
 
     // if (html) {

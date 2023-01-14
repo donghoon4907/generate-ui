@@ -7,19 +7,9 @@ import { isNumber } from "../calc/number";
  *
  * @param style 오브젝트형 스타일
  */
-export const styleToString = (style: CSSProperties) => {
-  let result = "";
-
-  for (const [key, value] of Object.entries(style)) {
-    // 대문자 -> 소문자
+export const styleToString = (style: CSSProperties) =>
+  Object.entries(style).reduce((acc, [key, value]) => {
     let cssKey = key.replace(/[A-Z]/g, char => `-${char.toLowerCase()}`);
 
-    if (isNumber(value)) {
-      result += `${cssKey}: ${value}px;`;
-    } else {
-      result += `${cssKey}: ${value};`;
-    }
-  }
-
-  return result;
-};
+    return acc + `${cssKey}: ${value};`;
+  }, "");

@@ -95,21 +95,22 @@ const ComponentSelect: NextPage = () => {
   const [activeTab, setActiveTab] = useTab(SelectTabType.COMMON);
   /* order - variable */
   // select min height
-  const minHeight =
+  const minHeight = `${
     selectPadding.top +
     selectPadding.bottom +
     selectFont.lineHeight! +
-    border.width * 2;
+    border.width * 2
+  }px`;
   // preview style
   const selectWrapperStyle: CSSProperties = {
     width: "100%",
-    borderTopLeftRadius: selectBorderRadius.topLeft,
-    borderTopRightRadius: selectBorderRadius.topRight,
-    borderBottomLeftRadius: selectBorderRadius.bottomLeft,
-    borderBottomRightRadius: selectBorderRadius.bottomRight,
+    borderTopLeftRadius: `${selectBorderRadius.topLeft}px`,
+    borderTopRightRadius: `${selectBorderRadius.topRight}px`,
+    borderBottomLeftRadius: `${selectBorderRadius.bottomLeft}px`,
+    borderBottomRightRadius: `${selectBorderRadius.bottomRight}px`,
     borderStyle: border.style.value,
     borderColor: border.color,
-    borderWidth: border.width,
+    borderWidth: `${border.width}px`,
     backgroundColor: bgColorRgba.toString(),
     backgroundImage: `url("data:image/svg+xml, %3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'%3E%3C/path%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'%3E%3C/path%3E%3C/svg%3E")`,
     backgroundRepeat: "no-repeat",
@@ -124,35 +125,35 @@ const ComponentSelect: NextPage = () => {
     width: "100%",
     display: "block",
     color: selectFont.color,
-    fontSize: selectFont.fontSize,
+    fontSize: `${selectFont.fontSize}px`,
     lineHeight: `${selectFont.lineHeight}px`,
-    letterSpacing: selectFont.letterSpacing,
+    letterSpacing: `${selectFont.letterSpacing}px`,
     textAlign: selectFont.textAlign?.value as any,
-    paddingTop: selectPadding.top,
-    paddingRight: selectPadding.right,
-    paddingBottom: selectPadding.bottom,
-    paddingLeft: selectPadding.left,
+    paddingTop: `${selectPadding.top}px`,
+    paddingRight: `${selectPadding.right}px`,
+    paddingBottom: `${selectPadding.bottom}px`,
+    paddingLeft: `${selectPadding.left}px`,
     overflow: "hidden",
     ...selectFont.getTextOverflowStyle()
   };
   const optionWrapperStyle: CSSProperties = {
     width: "100%",
     color: optionFont.color,
-    fontSize: optionFont.fontSize,
+    fontSize: `${optionFont.fontSize}px`,
     lineHeight: `${optionFont.lineHeight}px`,
-    letterSpacing: optionFont.letterSpacing,
+    letterSpacing: `${optionFont.letterSpacing}px`,
     textAlign: optionFont.textAlign?.value as any,
     backgroundColor: bgColorRgba.toString(),
     borderStyle: border.style.value,
     borderColor: border.color,
-    borderWidth: border.width,
+    borderWidth: `${border.width}px`,
     userSelect: "none"
   };
   const optionLabelStyle: CSSProperties = {
-    paddingTop: optionPadding.top,
-    paddingRight: optionPadding.right,
-    paddingBottom: optionPadding.bottom,
-    paddingLeft: optionPadding.left,
+    paddingTop: `${optionPadding.top}px`,
+    paddingRight: `${optionPadding.right}px`,
+    paddingBottom: `${optionPadding.bottom}px`,
+    paddingLeft: `${optionPadding.left}px`,
     overflow: "hidden",
     ...optionFont.getTextOverflowStyle()
   };
