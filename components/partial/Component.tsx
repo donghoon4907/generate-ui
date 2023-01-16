@@ -35,6 +35,7 @@ export const Aside = styled.aside`
 `;
 
 export const RightAside = styled(Aside)`
+  justify-content: space-between;
   border: 1px solid ${({ theme }) => theme.dividerColor};
 
   ${mixinBgLv1}
@@ -84,10 +85,6 @@ export const Header: FC<HeaderProps> = ({ children }) => (
 );
 
 const FooterWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
